@@ -20,6 +20,7 @@
   <div class="tabs" role="tablist" aria-label="Zakładki">
     <button class="tab" role="tab" id="tb-map" aria-selected="true" aria-controls="tab-map" type="button">Mapa gospodarcza</button>
     <button class="tab" role="tab" id="tb-emo" aria-selected="false" aria-controls="tab-emo" type="button">Newsy bez nerwów</button>
+    <button class="tab" role="tab" id="tb-pl" aria-selected="false" aria-controls="tab-pl" type="button">Z czym zmaga się Polska</button>
   </div>
 
   <div id="tab-map" role="tabpanel" aria-labelledby="tb-map" style="display:flex;flex-direction:column;gap:20px">
@@ -232,6 +233,20 @@
       <li><a href="https://www.rmf24.pl/fakty/ekonomia/news-dobre-wiesci-ws-polskiej-gospodarki-w-tle-kryzys-na-bliskim-,nId,8089250">RMF24/PAP: PIE o odporności polskiej gospodarki</a>, <a href="https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/">Africanews: rozmowy w listopadzie</a></li>
       <li><a href="https://mediabiasfactcheck.com/">Media Bias/Fact Check</a> i <a href="https://www.newsguardtech.com/">NewsGuard</a>: zagraniczne oceny wiarygodności serwisów. To oceny redakcyjne, więc traktuj je jak jedną z opinii.</li>
     </ul>
+  </div>
+  <div id="tab-pl" role="tabpanel" aria-labelledby="tb-pl" hidden>
+    <div class="card note"><span class="ic">⚖️</span><div><b>Nie ma jednego rankingu</b><p>Ekonomiści i badania opinii wskazują trochę co innego. Poniżej zestawiamy to, co Polacy mówią w sondażu, z tym, co pokazują dane. Każda liczba ma link do źródła.</p></div></div>
+    <section>
+      <h2 class="sech">Co mówią Polacy</h2>
+      <p class="secp">Sondaż o tym, co najbardziej zagraża stabilności kraju, obok danych o deficycie, czyli problemu, który przewija się w obu zestawieniach.</p>
+    </section>
+    <div class="chs" id="plch"></div>
+    <section>
+      <h2 class="sech">Co mówią dane</h2>
+      <p class="secp">Sześć problemów, które najczęściej wracają w analizach. Ciemny tekst to fakty, wniosek na dole to interpretacja.</p>
+    </section>
+    <div class="pls" id="pls"></div>
+    <div class="interp"><h3>Interpretacja</h3><p id="plint"></p></div>
   </div>
 </main>
 

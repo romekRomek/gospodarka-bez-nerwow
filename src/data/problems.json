@@ -1,0 +1,27 @@
+{
+ "charts": [
+  {"t": "Największe zagrożenia dla stabilności Polski w ciągu 5 lat", "sub": "Sondaż CBOS dla PAP, % wskazań. Każdy mógł wybrać dwie kwestie, więc wyniki nie sumują się do 100.", "type": "bar", "dec": 0, "unit": "%", "ymin": 0, "labels": ["Spór polityczny i polaryzacja", "Stan finansów publicznych", "Kryzys demograficzny"], "ds": [{"n": "Wskazania", "d": [46, 24, 24], "c": 1}], "note": "Osoby o poglądach prawicowych częściej niż inni wskazywały finanse publiczne i demografię.", "src": "CBOS dla PAP", "u": "https://www.pap.pl/aktualnosci/cbos-dla-pap-46-proc-badanych-uwaza-spor-polityczny-i-polaryzacje-za-najwieksze"},
+  {"t": "Deficyt a unijny limit 3% PKB", "sub": "Deficyt sektora finansów publicznych, % PKB. 2026: plan rządu.", "type": "bar", "dec": 1, "unit": "%", "ymin": 0, "labels": ["2022", "2023", "2024", "2025", "2026 (plan)"], "ds": [{"n": "Deficyt", "d": [3.4, 5.2, 6.4, 7.3, 7.1], "c": 1}], "note": "Do 2028 r. deficyt ma spaść poniżej 3% PKB.", "src": "GUS, MF, Eurostat", "u": "https://stat.gov.pl/en/topics/national-accounts/general-government-statistics/general-government-deficit-and-debt-in-the-years-2022-2025,5,43.html"}
+ ],
+ "cards": [
+  {"t": "Finanse publiczne", "m": "7,3% PKB", "mc": "deficyt sektora finansów publicznych w 2025 r.",
+   "f": ["Dług wyniósł 59,7% PKB w 2025 r., wobec 54,8% rok wcześniej.", "Od 2024 r. Polska jest objęta unijną procedurą nadmiernego deficytu i ma zejść z deficytem poniżej 3% PKB do 2028 r.", "Jesienią 2025 r. Komisja Europejska uznała, że Polska wypełnia zalecenia. Procedura jest zawieszona, ale pozostaje otwarta."],
+   "src": [{"l": "GUS: deficyt i dług 2022–2025", "u": "https://stat.gov.pl/en/topics/national-accounts/general-government-statistics/general-government-deficit-and-debt-in-the-years-2022-2025,5,43.html"}, {"l": "PAP: termin 2028", "u": "https://biznes.pap.pl/wiadomosci/gospodarka/eu-finance-ministers-urge-poland-eliminate-excessive-deficit-2028"}, {"l": "KE: Semestr Europejski, jesień", "u": "https://poland.representation.ec.europa.eu/news/semestr-europejski-jesien-2026-2025-11-27_pl"}]},
+  {"t": "Kurcząca się ludność", "m": "37,24 mln", "mc": "mieszkańców pod koniec czerwca 2026 r. (wstępne dane GUS).",
+   "f": ["To o 159 tys. mniej niż rok wcześniej.", "W porównaniu z końcem 2025 r. ubyło 90 tys. osób."],
+   "src": [{"l": "Interia: dane GUS o liczbie ludności", "u": "https://biznes.interia.pl/gospodarka/news-w-rok-ubylo-159-tys-osob-w-polsce-zmiany-demograficzne-juz-p,nId,23518504"}]},
+  {"t": "Ceny energii i inflacja", "m": "4,1%", "mc": "inflacja CPI we wrześniu. Brent ok. 114 USD (27.10).",
+   "f": ["To wątek z zakładki „Mapa gospodarcza”: droga ropa podbija ceny paliw, a te inflację.", "Ekonomiści zakładają, że saldo obrotów bieżących pogorszy się do ok. −2,1% PKB na koniec 2026 r., bo ropa i gaz kosztują więcej."],
+   "src": [{"l": "Finwire: inflacja, wrzesień", "u": "https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus"}, {"l": "Comparic: prognozy i obroty bieżące", "u": "https://comparic.pl/ceny-paliw-zbiora-swoje-zniwo-analitycy-obnizaja-prognozy-wzrostu-pkb-polski-w-2026-r-14-04-2026/"}]},
+  {"t": "Obronność kontra deficyt", "m": "4,81% PKB", "mc": "zaplanowane wydatki na obronność w 2026 r. (200,1 mld zł).",
+   "f": ["To najwyższy udział wydatków na obronę w PKB w NATO.", "Polska musi godzić rekordowe wydatki na obronność z koniecznością ograniczania deficytu."],
+   "src": [{"l": "FZZ: Agenda polityczna i gospodarcza 2026", "u": "https://fzz.org.pl/wp-content/uploads/2026/01/Agenda-polityczna-i-gospodarcza-2026.pdf"}]},
+  {"t": "Ochrona zdrowia", "m": "ok. 6% PKB", "mc": "realne publiczne wydatki na zdrowie w 2026 r. Średnia UE: ok. 10,4%.",
+   "f": ["Ustawowo zaplanowano 6,81% PKB, ale liczone według PKB sprzed dwóch lat. W ujęciu realnym to ok. 5,97%.", "Polska pozostaje jednym z krajów o najniższym udziale publicznych wydatków na zdrowie w PKB."],
+   "src": [{"l": "FZZ: Agenda polityczna i gospodarcza 2026", "u": "https://fzz.org.pl/wp-content/uploads/2026/01/Agenda-polityczna-i-gospodarcza-2026.pdf"}]},
+  {"t": "Konkurencyjność", "m": null, "mc": null,
+   "f": ["Komisja Europejska ocenia ryzyka makrofinansowe jako ograniczone, ale pisze, że utrzymują się wyzwania w zakresie konkurencyjności.", "Realny efektywny kurs złotego wyraźnie wzrósł, a jednostkowe koszty pracy wciąż rosną szybko, choć nieco wolniej."],
+   "src": [{"l": "Rada UE / KE: sprawozdanie o Polsce, czerwiec 2026", "u": "https://data.consilium.europa.eu/doc/document/ST-10138-2026-ADD-1/pl/pdf"}]}
+ ],
+ "interp": "Te problemy się łączą. Rosnące wydatki na obronę i odsetki od długu zawężają pole manewru w budżecie, więc trudniej o pieniądze na zdrowie. Kurcząca się ludność w dłuższym czasie obciąża finanse publiczne i rynek pracy. Ranking zależy od tego, kogo pytasz: w sondażu na pierwszym miejscu jest polityka, w danych finanse publiczne."
+}

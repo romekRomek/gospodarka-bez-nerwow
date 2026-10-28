@@ -1,6 +1,6 @@
 # Gospodarka bez nerwów
 
-Interaktywna strona edukacyjna o gospodarce Polski i Europy: mapa z łańcuchem cen (ropa → paliwa → ceny → stopy → pensje), węzłami Ukraina / USA / Chiny, oknami szczegółów z wykresami z kilku lat oraz zakładką „Newsy bez nerwów” (tłumacz nagłówków, koszt emocji, dobre wiadomości, skaner nagłówków).
+Interaktywna strona edukacyjna o gospodarce Polski i Europy: mapa z łańcuchem cen (ropa → paliwa → ceny → stopy → pensje), węzłami Ukraina / USA / Chiny, oknami szczegółów z wykresami z kilku lat oraz zakładką „Newsy bez nerwów” (tłumacz nagłówków, koszt emocji, dobre wiadomości, skaner nagłówków) oraz zakładką „Z czym zmaga się Polska” (sondaż CBOS i dane o głównych problemach).
 
 Wynik to jeden samodzielny plik `dist/index.html`, który można wrzucić na dowolny hosting statyczny albo opublikować jako artefakt.
 
@@ -32,6 +32,8 @@ python3 -m http.server -d dist 8080 # podgląd na http://localhost:8080
 - `charts.json` – wykresy w oknie szczegółów, klucz = id węzła.
 - `headlines.json` – nagłówki w tłumaczu („co napisano” / „co naprawdę znaczy”).
 - `cost.json`, `good.json`, `techniques.json` – karty kosztów emocji, dobrych wiadomości i technik.
+- `news.json` – nagłówki w oknie szczegółów każdego węzła: `pos` (z haczykiem uczciwości `hk`), `neu`, `neg` (przerysowane, z faktem `f`).
+- `problems.json` – zakładka „Z czym zmaga się Polska”: wykresy (`charts`), karty problemów (`cards`, każda z linkami w `src`) i interpretacja (`interp`).
 - W `app.js` zostały elementy związane z wyglądem i logiką: ikony (`ICON`), emoji i cytaty węzłów (`EMO`, `Q`), reguły skanera (`RULES`).
 - Liczby z daty 28.10.2026. Zaktualizuj `Dane z …` w `template.html` po odświeżeniu danych.
 

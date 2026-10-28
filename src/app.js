@@ -91,7 +91,7 @@ var VL={id:'vl',afterDatasetsDraw:function(ch){
     if(bar){m.data.forEach(function(el,j){var v=ds.data[j];if(v==null)return;ctx.textAlign='center';ctx.textBaseline=v>=0?'bottom':'top';ctx.fillText(fm(v,s)+(s.unit&&!multi?s.unit:''),el.x,el.y+(v>=0?-4:4));});}
     else if(!multi){var k=ds.data.length-1,el=m.data[k],v=typeof ds.data[k]==='object'?ds.data[k].y:ds.data[k];ctx.textAlign='right';ctx.textBaseline='bottom';ctx.fillText(fm(v,s)+(s.unit||''),el.x-2,el.y-6);}
   });ctx.restore();}};
-function mdChart(cv,s,cat){
+function mdChart(cv,s,cat,into){
   var ink=cvr('--ink'),mut=cvr('--mut'),line=cvr('--line');
   Chart.defaults.font.family='Geist, system-ui, sans-serif';Chart.defaults.font.size=11.5;Chart.defaults.color=mut;
   var cols=[cvr('--'+cat),cvr('--s2'),cvr('--ext')];
@@ -103,7 +103,7 @@ function mdChart(cv,s,cat){
   var y={grid:{color:line},border:{display:false},ticks:{color:mut,callback:function(v){return v.toLocaleString('pl-PL')+(s.unit||'');}}};if(s.ymin!=null)y.min=s.ymin;if(s.ymax!=null)y.max=s.ymax;
   var xa={grid:{display:false},border:{color:line},ticks:{color:mut,maxRotation:0,autoSkip:true}};
   if(x)xa={type:'linear',min:1,max:305,grid:{display:false},border:{color:line},ticks:{color:mut,callback:function(v){var i=MS.indexOf(v);return i>=0?MN[i]:'';}},afterBuildTicks:function(a){a.ticks=MS.map(function(v){return {value:v};});}};
-  charts.push(new Chart(cv,{type:isLine?'line':'bar',data:{labels:x?undefined:s.labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:20,right:12}},
+  (into||charts).push(new Chart(cv,{type:isLine?'line':'bar',data:{labels:x?undefined:s.labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:20,right:12}},
     interaction:{mode:x?'nearest':'index',intersect:false},
     plugins:{legend:{display:s.ds.length>1,position:'top',align:'start',labels:{color:ink,usePointStyle:true,pointStyle:'rectRounded',boxWidth:9,boxHeight:9}},
       tooltip:{callbacks:{title:function(it){var r=it[0].raw;return r&&r.l?r.l:it[0].label;},label:function(c){var v=c.raw&&typeof c.raw==='object'?c.raw.y:c.raw;return ' '+c.dataset.label+': '+fm(v,s)+(s.unit||'');}}},vl:{spec:s}},
@@ -167,16 +167,31 @@ document.getElementById('more').addEventListener('click',function(){openModal(cu
 
 
 /* zakładki */
-var tbs={map:document.getElementById('tb-map'),emo:document.getElementById('tb-emo')};
+var tbs={map:document.getElementById('tb-map'),emo:document.getElementById('tb-emo'),pl:document.getElementById('tb-pl')},TO=['map','emo','pl'];
 var lead=document.querySelector('.lead'),leadMap=lead.textContent;
 function tab(n){
-  document.getElementById('tab-map').hidden=n!=='map';document.getElementById('tab-emo').hidden=n!=='emo';
+  TO.forEach(function(k){document.getElementById('tab-'+k).hidden=k!==n;});
   for(var k in tbs){tbs[k].setAttribute('aria-selected',k===n?'true':'false');}
-  lead.textContent=n==='map'?leadMap:'Nagłówki potrafią sterować tym, co czujesz, zanim zdążysz pomyśleć. Tu zobaczysz, jak to działa, i nauczysz się to widzieć.';
+  lead.textContent=n==='map'?leadMap:n==='emo'?'Nagłówki potrafią sterować tym, co czujesz, zanim zdążysz pomyśleć. Tu zobaczysz, jak to działa, i nauczysz się to widzieć.':'Spór polityczny, deficyt, malejąca liczba ludności, ceny energii. Zobacz, co Polacy uważają za największe zagrożenia i co na to dane.';
+  if(n==='pl')plCharts();
   if(md.open)md.close();
 }
-tbs.map.addEventListener('click',function(){tab('map');});tbs.emo.addEventListener('click',function(){tab('emo');});
-document.querySelector('.tabs').addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var n=document.activeElement===tbs.map?'emo':'map';tab(n);tbs[n].focus();e.stopPropagation();}});
+TO.forEach(function(k){tbs[k].addEventListener('click',function(){tab(k);});});
+document.querySelector('.tabs').addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var c=TO.filter(function(k){return document.activeElement===tbs[k];})[0]||'map',n=TO[(TO.indexOf(c)+(e.key==='ArrowRight'?1:-1)+TO.length)%TO.length];tab(n);tbs[n].focus();e.stopPropagation();}});
+/* z czym zmaga się Polska */
+var PL=DATA.problems,plc=null;
+function plCharts(){if(plc)return;plc=[];var g=document.getElementById('plch');
+  PL.charts.forEach(function(c){var d=document.createElement('div');d.className='ch';d.innerHTML='<h3></h3><div class="sub"></div><div class="cv"><canvas role="img"></canvas></div><div class="nt"></div><details><summary>Pokaż dane</summary></details><div class="nt"><a target="_blank" rel="noopener"></a></div>';
+    var q=d.querySelectorAll('.nt');d.querySelector('h3').textContent=c.t;d.querySelector('.sub').textContent=c.sub;q[0].textContent=c.note;
+    var a=q[1].querySelector('a');a.href=c.u;a.textContent='Źródło: '+c.src;d.querySelector('details').insertAdjacentHTML('beforeend',chartTable(c));
+    d.querySelector('canvas').setAttribute('aria-label',c.t);g.appendChild(d);mdChart(d.querySelector('canvas'),c,'ind',plc);});}
+var pls=document.getElementById('pls');
+PL.cards.forEach(function(c){var d=document.createElement('article');d.className='card plc';d.innerHTML='<h3></h3><div class="metric"><b></b><span></span></div><ul></ul><p class="src"></p>';
+  d.querySelector('h3').textContent=c.t;if(c.m){d.querySelector('.metric b').textContent=c.m;d.querySelector('.metric span').textContent=c.mc;}else d.querySelector('.metric').remove();
+  c.f.forEach(function(x){var li=document.createElement('li');li.textContent=x;d.querySelector('ul').appendChild(li);});
+  var p=d.querySelector('.src');p.textContent='Źródła: ';c.src.forEach(function(s,i){var a=document.createElement('a');a.href=s.u;a.target='_blank';a.rel='noopener';a.textContent=s.l;if(i)p.appendChild(document.createTextNode(', '));p.appendChild(a);});
+  pls.appendChild(d);});
+document.getElementById('plint').textContent=PL.interp;
 /* tłumacz nagłówków */
 var CMP=DATA.headlines;
 function nfo(h){var n=(h.match(/\d+/g)||[]).length+(/(jeden|dwa|trzy|cztery|pięć)\b/i.test(h)?1:0);var s=/(według|wg |dane |GUS|NBP|raport|badanie)/i.test(h)?'tak':'brak';var o=/(20\d\d|r\/r|w \w+ rok|miesiąc|kwartał)/i.test(h)?'tak':'brak';return 'Liczby: '+n+' · Źródło: '+s+' · Okres: '+o;}

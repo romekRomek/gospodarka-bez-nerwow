@@ -163,6 +163,14 @@ dialog.md[open]{display:flex;flex-direction:column;animation:mdin .22s cubic-bez
 .nwp.neg .nwi{border-left:4px solid var(--ext);background:color-mix(in srgb,var(--ext) 6%,var(--bg))}
 .nwp.neg .hl{font:700 21px/1.2 var(--hand);color:var(--ext)}
 .nws .nt{font-size:12.5px;color:var(--mut)}
+/* zakładka: z czym zmaga się Polska */
+#tab-pl{display:flex;flex-direction:column;gap:22px}
+.pls{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.plc{padding:18px;display:flex;flex-direction:column;gap:10px}
+.plc h3{font:800 19px/1.2 var(--head);letter-spacing:-.01em}
+.plc ul{padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14.5px}
+.plc .src{font-size:12.5px;color:var(--mut);margin-top:auto}
+.ch .nt a,.plc .src a{color:inherit}
 /* bez przewijania strony pod otwartym oknem */
 html:has(dialog.md[open]){overflow:hidden}
 .mb{overscroll-behavior:contain}
