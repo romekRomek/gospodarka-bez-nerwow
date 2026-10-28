@@ -14,62 +14,8 @@ var ICON={
  box:'M3 8 L12 3 L21 8 V16 L12 21 L3 16 Z M3 8 L12 13 L21 8 M12 13 V21'
 };
 /* węzły: id, kategoria, ikona, pozycja, podpis, położenie podpisu */
-var NODES=[
- {id:'derrick',cat:'oil',ic:'oil',x:770,y:600,lb:'Ropa',lp:'l'},
- {id:'gate',cat:'oil',ic:'gate',x:862,y:556,lb:'Ormuz',lp:'t'},
- {id:'pump',cat:'chain',ic:'pump',x:745,y:75,lb:'Stacja',lp:'r'},
- {id:'shop',cat:'chain',ic:'shop',x:745,y:185,lb:'Sklep',lp:'r'},
- {id:'bank',cat:'chain',ic:'bank',x:640,y:185,lb:'Bank',lp:'b'},
- {id:'worker',cat:'chain',ic:'wallet',x:745,y:295,lb:'Pensje',lp:'r'},
- {id:'debt',cat:'ind',ic:'debt',x:900,y:305,lb:'Dług',lp:'b'},
- {id:'tree',cat:'ind',ic:'chart',x:900,y:205,lb:'Giełda',lp:'b'},
- {id:'sun',cat:'ind',ic:'sun',x:900,y:105,lb:'PKB',lp:'b'},
- {id:'west',cat:'ext',ic:'cloud',x:322,y:352,lb:'Zachód Europy',lp:'b'},
- {id:'ukraine',cat:'ext',ic:'shield',x:566,y:388,lb:'Ukraina',lp:'b'},
- {id:'usa',cat:'ext',ic:'star',x:72,y:132,lb:'USA',lp:'b'},
- {id:'china',cat:'ext',ic:'box',x:946,y:482,lb:'Chiny',lp:'b'}
-];
-var STEPS=[
- {id:'derrick',cat:'oil',tag:'Energia',t:'Studnia ropy',m:'114 USD',mc:'Brent, 27.10. Ok. 90% więcej niż na początku roku.',
-  f:['Brent kosztuje ok. 114 USD za baryłkę, prawie dwa razy tyle co na początku roku.','Powodem jest wojna wokół Iranu oraz ataki na szlaki i instalacje w regionie.'],
-  i:'Dzisiejsza cena zawiera premię za ryzyko wokół Iranu, więc porozumienie mogłoby ją szybko obniżyć, a eskalacja podbić.'},
- {id:'gate',cat:'oil',tag:'Energia',t:'Cieśnina Ormuz',m:'ok. 60%',mc:'normalnego ruchu tankowców przez cieśninę.',
-  f:['Prawie cała ropa z Zatoki płynie przez jedną wąską cieśninę.','Liczba ataków na statki w okolicy była w październiku najwyższa od początku rejestrów.'],
-  i:'Im dłużej ruch jest ograniczony, tym mniejsza szansa na szybki spadek cen paliw w Polsce.'},
- {id:'pump',cat:'chain',tag:'Łańcuch cen',t:'Stacja paliw',m:'+24%',mc:'ceny paliw r/r (sierpień).',
-  f:['Paliwa drożeją najszybciej, bo to pierwsze ogniwo łańcucha ropa → ceny.','Rząd ogranicza maksymalne ceny na stacjach do końca roku (program „Ceny Paliwa Niżej”), a diesel kosztuje ok. 8 zł za litr.','Trasa na mapie jest schematyczna. Polska sprowadza ropę m.in. przez Gdańsk.'],
-  i:'Limit cen łagodzi skok na stacjach, ale nie usuwa przyczyny. Po wygaśnięciu programu pod koniec roku ceny mogą wyraźniej odczuć wzrost ropy.'},
- {id:'shop',cat:'chain',tag:'Łańcuch cen',t:'Sklep i ceny',m:'4,1%',mc:'inflacja CPI, wrzesień. Cel NBP: 2,5% ±1 pp.',
-  f:['Usługi drożeją o 5,6%, towary o 2,5%, a żywność tanieje o 0,9% (sierpień).','Paliwa podbiły wrześniowy odczyt.'],
-  i:'Skoro usługi drożeją szybciej niż towary, inflacja może okazać się trwalsza niż sam szok paliwowy, bo ceny usług wolniej spadają. Banki oczekują 4–5% na przełomie roku.'},
- {id:'bank',cat:'chain',tag:'Łańcuch cen',t:'Bank i stopy procentowe',m:'3,75%',mc:'stopa referencyjna NBP. Fed: 3,75–4,00%, EBC: 2,50%.',
-  f:['Fed i EBC podnosiły stopy w tym roku, a NBP trzyma 3,75% od marca.','Realna stopa w Polsce wynosi ok. −0,4 pp. Decyzja RPP zapada 3–4 listopada, a część banków spodziewa się podwyżki w IV kwartale.'],
-  i:'Ujemna realna stopa daje RPP argument za podwyżką, ale słabnący konsument i spadające zatrudnienie przemawiają za cierpliwością. Dlatego decyzja nie jest oczywista.'},
- {id:'worker',cat:'chain',tag:'Łańcuch cen',t:'Pensje i portfel',m:'+1,6%',mc:'realny wzrost płac (nominalnie +5,9%).',
-  f:['Płace rosną o 5,9%, a ceny o 4,1%.','Bezrobocie rejestrowane wynosi 5,8%, a zatrudnienie w firmach spada o 0,8% r/r.'],
-  i:'Jeśli zatrudnienie dalej będzie spadać, a płace rosnąć wolniej niż ceny, konsumpcja może hamować. Sprzedaż detaliczna w sierpniu już zwolniła.'},
- {id:'debt',cat:'ind',tag:'Osobny wskaźnik',t:'Dług publiczny',m:'7,1% PKB',mc:'deficyt sektora finansów publicznych (plan 2026 i 2027).',
-  f:['Dług rośnie do ok. 67,6% PKB w 2026 r., a według MFW do ok. 82% w 2031 r.','Obsługa długu kosztuje ok. 90 mld zł rocznie, o 19% więcej niż rok wcześniej.','Ta miara opisuje finanse państwa, a nie ceny ani pensje.'],
-  i:'Rentowności powyżej 6% i droższa obsługa długu utrudniają ograniczanie deficytu, bo coraz więcej budżetu idzie na odsetki.'},
- {id:'tree',cat:'ind',tag:'Osobny wskaźnik',t:'Giełda',m:'4 267 pkt',mc:'WIG20, rekord z 21.10. WIG: +29,7% od początku roku (stan na 3.09).',
-  f:['Rekord ciągną głównie banki i spółki energetyczne.','Małe spółki (sWIG80) zyskały tylko ok. 5%.','W zebranych danych nie ma bezpośredniego związku z pensjami ani cenami w sklepach.'],
-  i:'Rekord WIG20 odzwierciedla oczekiwania co do zysków banków i energetyki, a nie nastroje przeciętnego konsumenta. Wyższe stopy mogą pośrednio sprzyjać zyskom banków.'},
- {id:'sun',cat:'ind',tag:'Osobny wskaźnik',t:'Wzrost gospodarczy (PKB)',m:'+3,9%',mc:'PKB Polski w II kwartale, r/r.',
-  f:['Inwestycje rosną o 8,4%, a konsumpcja prywatna o 2,8%.','MFW prognozuje 3,4% w 2026 r. i 2,5% w 2027 r.','PKB mierzy produkcję całej gospodarki, więc to inna miara niż ceny i pensje.'],
-  i:'Jeśli energia pozostanie droga, wzrost w Polsce może okazać się niższy niż w prognozach, które powstawały przy tańszej ropie.'},
- {id:'west',cat:'ext',tag:'Otoczenie',t:'Zachód Europy',m:'1,1%',mc:'wzrost strefy euro w 2026 (MFW). Niemcy 1,3%, Francja 0,4%.',
-  f:['Inflacja w strefie euro wynosi 3,8% (wrzesień).','EBC podniósł stopy w czerwcu i we wrześniu. Kolejna decyzja zapada 29.10.'],
-  i:'Słabszy wzrost strefy euro może ograniczać popyt na polski eksport. To ryzyko dla przemysłu, który ma PMI poniżej 50.'},
- {id:'ukraine',cat:'ext',tag:'Wojna za wschodnią granicą',t:'Ukraina',m:'4,8% PKB',mc:'wydatki obronne Polski w 2026 r. (201 mld zł).',
-  f:['Wojna trwa piąty rok. Rozmowy USA–Ukraina–Rosja są planowane na początek listopada w Abu Dhabi.','Pożyczka SAFE z UE wynosi 43,7 mld euro, a rząd szacuje, że ok. 89% zamówień trafi do polskiego przemysłu.','Uchodźcy z Ukrainy wytworzyli w 2025 r. 2,4% polskiego PKB (94 mld zł).','Eksport do Ukrainy wyniósł w 2025 r. ok. 56,9 mld zł.'],
-  i:'Zbrojenia i SAFE wspierają inwestycje w 2026 r., ale w 2027 r. impuls będzie słabszy, a deficyt pozostaje wysoki. Uchodźcy łagodzą braki pracowników. To, czy polskie firmy zyskają na odbudowie Ukrainy, jest otwarte.'},
- {id:'usa',cat:'ext',tag:'Otoczenie i wpływy zewnętrzne',t:'USA',m:'10%',mc:'nowe cło USA na towary z UE od 24.07 (bez stali, aluminium i aut).',
-  f:['Wyrok Sądu Najwyższego USA z 20.02 unieważnił dotychczasowe cła, a od lipca obowiązuje nowa struktura ceł.','Według PIE ok. 49% polskich eksporterów do USA nie odczuło skutków ceł, a 24% odczuło je bezpośrednio lub pośrednio.','W Polsce stacjonuje ok. 10 tys. żołnierzy USA, a Polska zabiega o stałą bazę.'],
-  i:'Bezpośrednio USA kupują niewielką część polskiego eksportu, więc cła uderzają głównie pośrednio, przez Niemcy i podzespoły, zwłaszcza w motoryzacji. Dla Polski ważniejsza jest rola USA w bezpieczeństwie niż w handlu. Wysokie rentowności USA i silny dolar zwiększają presję na złotego i obligacje.'},
- {id:'china',cat:'ext',tag:'Otoczenie i wpływy zewnętrzne',t:'Chiny',m:'nr 1',mc:'dostawca towarów do Polski w lipcu. W ujęciu 12-miesięcznym Niemcy wciąż prowadzą.',
-  f:['Import z Chin i Wietnamu to 67 mld euro w 12 miesiącach, z Niemiec 71,4 mld euro.','Import aut z Chin wzrósł z 40 mln euro w 2019 r. do 1,74 mld euro rocznie, czyli ok. 40% wartości aut z Niemiec.','Deficyt obrotów bieżących ma sięgnąć ok. 2% PKB na koniec roku.'],
-  i:'Tani import może hamować ceny towarów, ale jest konkurencją dla polskiego przemysłu. Rosnący deficyt handlowy zwiększa zależność od zagranicznego finansowania. Słaby popyt w Chinach może też uderzać pośrednio w niemieckich odbiorców polskich podzespołów.'}
-];
+var NODES=DATA.nodes;
+var STEPS=DATA.steps;
 var EMO={derrick:'🛢️',gate:'🚢',pump:'⛽',shop:'🛒',bank:'🏦',worker:'👛',debt:'⛰️',tree:'📈',sun:'☀️',west:'🌦️',ukraine:'🛡️',usa:'🦅',china:'🐉'};
 var Q=['Wszystko zaczyna się od baryłki.','Jedne wąskie drzwi i mnóstwo tankowców.','Tu ropa spotyka Twój portfel.','Koszyk zakupowy wie pierwszy.','Bank trzyma rękę na pokrętle.','Pensja goni ceny, na razie z lekką przewagą.','Rachunek państwa to osobna historia.','Giełda żyje własnym życiem.','Cała gospodarka w jednym wskaźniku.','Kiedy sąsiedzi za Odrą kichają, my słuchamy uważnie.','Sąsiad, o którym warto wiedzieć wszystko.','Daleko za oceanem, ale blisko w sprawach bezpieczeństwa.','Daleki wschód, krótka dostawa.'];
 var NS='http://www.w3.org/2000/svg';
@@ -134,25 +80,7 @@ btn.addEventListener('click',function(){timer?stop():start();});
 
 /* wykresy w oknie szczegółów; ds[i].c: 1 = kolor kategorii, 2 = złoty */
 var MS=[1,32,60,91,121,152,182,213,244,274,305],MN=['sty','lut','mar','kwi','maj','cze','lip','sie','wrz','paź','lis'];
-var CH={
- derrick:[{t:'Ropa Brent w ostatnich latach',sub:'USD za baryłkę. 2021–2024: średnie roczne, ostatni słupek to cena z jednego dnia.',type:'bar',dec:1,labels:['2021','2022','2023','2024','27.10.2026'],ds:[{n:'Brent',d:[70.9,100.9,82.5,80.5,113.9],c:1}],note:'W 2022 r. średnia przekroczyła 100 USD po napaści Rosji na Ukrainę. Roku 2025 nie pokazuję, bo nie sprawdziłem jego średniej w źródle.',src:'Macrotrends/EIA (2021–2024), Reuters i inne (27.10.2026)'}],
- gate:[{t:'Brent w 2026 roku',sub:'USD za baryłkę, punkty z wybranych dni.',type:'xline',dec:1,ymin:50,ymax:130,pts:[[44,67.6,'13.02'],[51,71.8,'20.02'],[68,88.4,'9.03'],[86,112.6,'27.03'],[120,110.5,'30.04'],[193,76.6,'12.07 (ok.)'],[222,86.4,'10.08'],[237,89,'25.08'],[245,95.6,'2.09'],[280,100.2,'7.10'],[296,116.7,'23.10'],[300,113.9,'27.10']],ds:[{n:'Brent',c:1}],note:'W kwietniu cena na krótko przekroczyła 126 USD w trakcie sesji. Najniższe zamknięcie października to 100,2 USD.',src:'Reuters, Trading Economics, Oil & Gas Middle East'}],
- pump:[{t:'Z czego bierze się inflacja',sub:'Sierpień 2026, CPI r/r według grup.',type:'bar',dec:1,unit:'%',sign:true,labels:['Paliwa','Usługi','CPI ogółem','Towary','Żywność'],ds:[{n:'r/r',d:[24.2,5.6,3.4,2.5,-0.9],c:1}],note:'Paliwa to jedyna grupa, która drożeje w tempie dwucyfrowym.',src:'GUS'}],
- shop:[{t:'Inflacja w Polsce, średnio w roku',sub:'CPI. 2026: prognoza MFW z października.',type:'bar',dec:1,unit:'%',labels:['2021','2022','2023','2024','2025','2026 (prog.)'],ds:[{n:'CPI',d:[5.1,14.4,11.4,3.6,3.6,3.2],c:1}],note:'Rok 2022 był rekordowy od 1997 r.',src:'GUS, MFW'},
-        {t:'Inflacja a stopa NBP w ostatnim roku',sub:'Miesięcznie, wrzesień 2025 do wrzesień 2026.',type:'line',dec:2,unit:'%',ymin:1,ymax:5,labels:['IX 25','X','XI','XII','I 26','II','III','IV','V','VI','VII','VIII','IX'],ds:[{n:'CPI r/r',d:[2.9,2.8,2.5,2.4,2.1,2.1,3.0,3.2,3.1,2.5,3.0,3.4,4.1],c:1},{n:'Stopa referencyjna',d:[4.75,4.5,4.25,4.0,4.0,4.0,3.75,3.75,3.75,3.75,3.75,3.75,3.75],c:2,step:true}],note:'We wrześniu inflacja po raz pierwszy od dawna przekroczyła stopę NBP.',src:'GUS, NBP'}],
- bank:[{t:'Stopa referencyjna NBP, koniec roku',sub:'Do 28.10.2026.',type:'line',step:true,dec:2,unit:'%',ymin:0,labels:['2020','2021','2022','2023','2024','2025','28.10.26'],ds:[{n:'Stopa',d:[0.10,1.75,6.75,5.75,5.75,4.00,3.75],c:1}],note:'Podwyżki zaczęły się w październiku 2021 r., szczyt 6,75% trwał od września 2022 r., a obniżki w 2025 r. zeszły do 4,00%.',src:'NBP'}],
- worker:[{t:'Płace w firmach a inflacja',sub:'Średnioroczny wzrost przeciętnego wynagrodzenia w sektorze przedsiębiorstw i CPI.',type:'bar',dec:1,unit:'%',labels:['2021','2022','2023','2024','2025'],ds:[{n:'Płace (nominalnie)',d:[8.8,13.0,11.9,11.0,8.1],c:1},{n:'Inflacja CPI',d:[5.1,14.4,11.4,3.6,3.6],c:2}],note:'W 2022 r. ceny rosły szybciej niż pensje, więc realnie pensje spadły. Wzrost za 2024 i 2025 wyliczyłem z podanych przez GUS kwot (8 266 zł i 8 935 zł).',src:'GUS'}],
- debt:[{t:'Dług sektora finansów publicznych',sub:'% PKB (metodologia UE). 2026: notyfikacja EDP.',type:'bar',dec:1,unit:'%',ymin:0,labels:['2022','2023','2024','2025','2026'],ds:[{n:'Dług',d:[48.8,49.5,54.8,59.7,67.6],c:1}],note:'Od 2023 r. Polska notuje jeden z najszybszych wzrostów zadłużenia w UE.',src:'GUS, Eurostat, MF'},
-        {t:'Deficyt sektora finansów publicznych',sub:'% PKB. 2026: plan rządu.',type:'bar',dec:1,unit:'%',ymin:0,labels:['2022','2023','2024','2025','2026 (plan)'],ds:[{n:'Deficyt',d:[3.4,5.2,6.4,7.3,7.1],c:2}],note:'Deficyt ponad dwukrotnie wzrósł w ciągu trzech lat.',src:'GUS, MF'}],
- tree:[{t:'WIG20 na koniec roku',sub:'Punkty indeksu. Ostatni słupek: rekord z 21.10.2026.',type:'bar',dec:0,labels:['2020','2021','2022','2023','2024','2025','21.10.26'],ds:[{n:'WIG20',d:[1984,2267,1792,2343,2192,3184,4267],c:1}],note:'Zmiany roczne: 2021 +14,3%, 2022 −21,0%, 2023 +30,8%, 2024 −6,4%, 2025 +45,3%.',src:'GPW, PAP'}],
- sun:[{t:'Wzrost PKB w Polsce',sub:'Realnie, średnio w roku. 2026: prognoza MFW.',type:'bar',dec:1,unit:'%',sign:true,labels:['2021','2022','2023','2024','2025','2026 (prog.)'],ds:[{n:'PKB',d:[6.9,5.3,0.1,3.2,3.8,3.4],c:1}],note:'Rok 2023 był niemal zerowy, bo inflacja ścięła popyt. PKB 2024 i 2025 po rewizji GUS.',src:'GUS, MFW'}],
- west:[{t:'Strefa euro: PKB kwartalnie',sub:'Zmiana k/k.',type:'bar',dec:1,unit:'%',sign:true,labels:['I 25','II 25','III 25','IV 25','I 26','II 26'],ds:[{n:'PKB k/k',d:[0.6,0.1,0.2,0.2,0.0,0.4],c:1}],note:'Odczyt za III kwartał 2026 pojawi się 30.10.',src:'Eurostat'}],
- ukraine:[{t:'Wydatki obronne Polski',sub:'% PKB wg NATO. 2026: plan.',type:'bar',dec:1,unit:'%',ymin:0,labels:['2021','2022','2023','2024','2025','2026 (plan)'],ds:[{n:'Obrona',d:[2.2,2.2,3.3,3.8,4.3,4.8],c:1}],note:'Skok zaczął się po napaści Rosji na Ukrainę w 2022 r. Dziś Polska wydaje najwięcej w NATO w relacji do PKB.',src:'NATO, defence24'}],
- usa:[{t:'Stopy banków centralnych',sub:'Fed (górna granica), NBP (referencyjna) i EBC (depozytowa), koniec kwartału.',type:'line',step:true,dec:2,unit:'%',ymin:1.5,ymax:4.5,labels:['XII 2025','III 2026','VI 2026','IX 2026'],ds:[{n:'Fed',d:[3.75,3.75,3.75,4.00],c:1},{n:'NBP',d:[4.00,3.75,3.75,3.75],c:2},{n:'EBC',d:[2.00,2.00,2.25,2.50],c:3}],note:'Fed podniósł stopy 16.09 po raz pierwszy od lipca 2023.',src:'Fed, EBC, NBP'}],
- china:[{t:'Import towarów z Chin do Polski',sub:'Mld euro.',type:'bar',dec:1,ymin:0,labels:['2024','2025'],ds:[{n:'Import z Chin',d:[51.1,57.9],c:1}],note:'Wzrost o 13,3%, najszybszy spośród dziesięciu największych partnerów.',src:'GUS'},
-        {t:'Auta z Chin',sub:'Mld euro. Drugi słupek: 12 miesięcy do maja 2026.',type:'bar',dec:2,ymin:0,labels:['2019','VI 2025–V 2026'],ds:[{n:'Import aut',d:[0.04,1.74],c:1}],note:'Ponad 40 razy więcej niż w 2019 r., choć wciąż ok. 40% wartości aut z Niemiec.',src:'xyz.pl na podstawie GUS'},
-        {t:'Chiny: PKB kwartalnie',sub:'Wzrost r/r.',type:'bar',dec:1,unit:'%',ymin:0,labels:['I 25','II 25','III 25','IV 25','I 26','II 26','III 26'],ds:[{n:'PKB',d:[5.4,5.2,4.8,4.5,5.0,4.3,4.5],c:1}],note:'Wzrost napędza eksport, a popyt krajowy jest słaby.',src:'NBS Chin'}]
-};
+var CH=DATA.charts;
 var charts=[];
 function cvr(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
 function fm(v,s){return v==null?'':v.toLocaleString('pl-PL',{minimumFractionDigits:s.dec,maximumFractionDigits:s.dec});}
@@ -207,10 +135,27 @@ function openModal(i){
     if(!md.open)md.showModal();
     cs.forEach(function(c,k){mdChart(g.children[k].querySelector('canvas'),c,s.cat==='ext'?'ext':s.cat);});
   }else{var p=document.createElement('p');p.className='foot';p.textContent='Dla tego tematu nie mam w źródłach serii z kilku lat, więc nie pokazuję wykresu zamiast zgadywać.';b.appendChild(p);}
+  if(NEWS[s.id])b.appendChild(newsBlock(NEWS[s.id]));
   document.getElementById('mct').textContent=(i+1)+' z '+STEPS.length;
   if(!md.open)md.showModal();
   b.scrollTop=0;show(i);
 }
+/* nagłówki w oknie szczegółów: pozytywne, neutralne, negatywne (od razu przerysowane) */
+var NEWS=DATA.news,NT=[['pos','Pozytywne'],['neu','Neutralne'],['neg','Negatywne, na wesoło']],nsel='pos';
+function newsBlock(n){var w=document.createElement('section');w.className='nws';
+  w.innerHTML='<h3 class="lab">Nagłówki z ostatnich wiadomości</h3><div class="tabs" role="tablist" aria-label="Rodzaj nagłówków"></div><div class="nwp" role="tabpanel"></div><p class="nt">Przykładowe nagłówki napisane na podstawie danych z tej karty (stan na 28.10.2026). Nie cytujemy żadnej redakcji.</p>';
+  var tl=w.querySelector('.tabs'),pn=w.querySelector('.nwp'),bs=[];
+  function pick(k){nsel=k;bs.forEach(function(x){x.setAttribute('aria-selected',x.dataset.k===k?'true':'false');x.tabIndex=x.dataset.k===k?0:-1;});
+    pn.innerHTML='';pn.className='nwp '+k;pn.setAttribute('aria-label',NT.filter(function(t){return t[0]===k;})[0][1]);
+    (n[k]||[]).forEach(function(x){var d=document.createElement('article');d.className='nwi';d.innerHTML='<p class="hl"></p><p class="nf"></p>';
+      d.querySelector('.hl').textContent='„'+x.h+'”';var f=d.querySelector('.nf');
+      if(x.f)f.textContent='Naprawdę: '+x.f;else if(x.hk)f.textContent='Haczyk uczciwości: '+x.hk;else f.remove();
+      pn.appendChild(d);});}
+  NT.forEach(function(t){var b=document.createElement('button');b.className='tab';b.type='button';b.setAttribute('role','tab');b.dataset.k=t[0];b.textContent=t[1];
+    b.addEventListener('click',function(){pick(t[0]);});tl.appendChild(b);bs.push(b);});
+  tl.addEventListener('keydown',function(e){if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.stopPropagation();
+    var k=NT.map(function(t){return t[0];}),j=(k.indexOf(nsel)+(e.key==='ArrowRight'?1:-1)+k.length)%k.length;pick(k[j]);bs[j].focus();});
+  pick(nsel);return w;}
 function mdNav(d){openModal((mi+d+STEPS.length)%STEPS.length);}
 document.getElementById('mx').addEventListener('click',function(){md.close();});
 document.getElementById('mprev').addEventListener('click',function(){mdNav(-1);});
@@ -233,48 +178,7 @@ function tab(n){
 tbs.map.addEventListener('click',function(){tab('map');});tbs.emo.addEventListener('click',function(){tab('emo');});
 document.querySelector('.tabs').addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var n=document.activeElement===tbs.map?'emo':'map';tab(n);tbs[n].focus();e.stopPropagation();}});
 /* tłumacz nagłówków */
-var CMP=[
- {h:'SZOK! Ceny paliw eksplodują. Zobacz, ile zapłacisz!',t:['Hiperbola','Luka ciekawości'],e:'Strach',
-  f:['Paliwa drożały o 24,2% r/r w sierpniu (GUS), a diesel kosztuje ok. 8 zł za litr.','Rząd ogranicza ceny maksymalne na stacjach do końca roku.'],
-  i:'„Eksplodują” opisuje obawę, nie stan obecny. Po wygaśnięciu limitu ceny mogą wzrosnąć, ale nagłówek nie podaje ani kwoty, ani terminu.',
-  calm:'Paliwa są droższe o 24,2% r/r, a limit cen obowiązuje do końca roku.',q:'Ile dokładnie i do kiedy?',
-  abs:'SZOK!!! Ceny paliw eksplodują, a dystrybutory same chodzą po stacji! Zobacz, ile zapłacisz, zanim ktoś Ci to powie w ostatnim akapicie!',lol:'Eksplozji nie zgłoszono. Stacja stoi tam, gdzie stała, a portfel nadal się zamyka.'},
- {h:'Rekord na giełdzie! Wszyscy zarabiają, a Ty?',t:['Porównanie społeczne','Uogólnienie'],e:'Zazdrość, FOMO',
-  f:['WIG20 pobił rekord 21.10 (4 267 pkt), ale ciągną go głównie banki i spółki energetyczne.','Małe spółki (sWIG80) zyskały od początku roku tylko ok. 5%.'],
-  i:'„Wszyscy” nie jest prawdą. Rekord jednego indeksu nie mówi, czy zarabia przeciętny inwestor, a tym bardziej czy rosną Twoje pensje.',
-  calm:'Indeks WIG20 pobił rekord, głównie dzięki bankom i energetyce. Małe spółki zyskały mniej.',q:'Który indeks i w jakim okresie?',
-  abs:'WSZYSCY zarabiają! Nawet Twój kot ma już konto maklerskie, a Ty wciąż czytasz nagłówki!',lol:'Kot nie zgłosił zysków. Indeks rośnie, ale kot zostaje przy karmie.'},
- {h:'Polska tonie w długach. Dzieci będą spłacać to do końca życia',t:['Katastrofizacja','Metafora'],e:'Lęk, poczucie winy',
-  f:['Dług sektora finansów publicznych wynosił 59,7% PKB w 2025 r., wobec 54,8% rok wcześniej (GUS). Planowane jest ok. 67,6% w 2026 r.','Średnia UE to ok. 82% PKB. Polska jest poniżej niej, ale zadłuża się szybciej niż większość krajów.'],
-  i:'Poziom długu nie jest rekordowy na tle UE, a tempo wzrostu i deficyt (7,3% PKB w 2025) są realnym problemem. „Tonie” i „do końca życia” to obrazy, nie dane.',
-  calm:'Dług rośnie szybko (59,7% PKB w 2025 r.), ale wciąż jest poniżej średniej UE. Problemem jest wysoki deficyt.',q:'Jaki poziom i jak szybko rośnie?',
-  abs:'Polska tonie w długach, a dzieci Twoich dzieci spłacą je na Marsie, w ratach, z odsetkami od odsetek!',lol:'Na Marsie nie ma jeszcze oddziału banku. Na razie warto pilnować deficytu, a nie kupować skafander.'},
- {h:'Inflacja znów w górę! Twoje oszczędności topnieją',t:['Zwrot do „Ciebie”','Alarmistyczny czasownik'],e:'Strach o pieniądze',
-  f:['Inflacja CPI wyniosła 4,1% we wrześniu, wobec 2,1% w lutym.','Towary drożeją o 2,5%, usługi o 5,6%, a żywność tanieje o 0,9% (sierpień).'],
-  i:'Oszczędności tracą realnie tylko wtedy, gdy ich oprocentowanie jest niższe niż inflacja. Stopa NBP wynosi 3,75%, więc realnie jest lekko ujemna (ok. −0,4 pp). To zależy od Twojej lokaty, nie od samej inflacji.',
-  calm:'Inflacja wynosi 4,1%. Sprawdź, ile procent daje Twoja lokata.',q:'A ile Ty dostajesz na koncie?',
-  abs:'Twoje oszczędności topnieją! Skarbonka ma już kałużę pod sobą, a świnka płacze w rogu!',lol:'Skarbonki nie topnieją. Sprawdź oprocentowanie, a świnkę możesz pocieszyć.'},
- {h:'Chińskie towary zalewają Polskę. Co z naszymi miejscami pracy?',t:['Metafora żywiołu','Pytanie retoryczne'],e:'Strach, wrogość',
-  f:['Import z Chin wyniósł 57,9 mld euro w 2025 r. (+13,3%), czyli ok. 15,5% polskiego importu. Z Niemiec to ok. 19,1%.','Rośnie też import aut z Chin: z 40 mln euro w 2019 r. do 1,74 mld euro rocznie.'],
-  i:'Import rzeczywiście szybko rośnie i to konkurencja dla części przemysłu. Nagłówek nie podaje jednak żadnych danych o miejscach pracy i sugeruje zagrożenie, którego nie mierzy.',
-  calm:'Import z Chin rośnie najszybciej spośród największych partnerów, ale Niemcy wciąż mają większy udział.',q:'Jakie dane o zatrudnieniu?',
-  abs:'Chińskie towary zalewają Polskę! Fala paczek dotarła już do trzeciego piętra, a listonosz prosi o kapok!',lol:'Statystyki nie zgłaszają powodzi. Zgłaszają wzrost importu o 13%.'},
- {h:'Kto zarabia na wojnie? Odpowiedź Cię zaskoczy',t:['Luka ciekawości','Obietnica sekretu'],e:'Ciekawość, oburzenie',
-  f:['Polska planuje na 2026 r. wydatki obronne rzędu 4,8% PKB (201 mld zł).','Z pożyczki SAFE (43,7 mld euro) rząd szacuje, że ok. 89% zamówień trafi do polskiego przemysłu.'],
-  i:'Odpowiedź to zwykle przemysł zbrojeniowy i budżet państwa, czyli nic tajemniczego. Nagłówek obiecuje sekret, żeby wymusić kliknięcie.',
-  calm:'Wydatki obronne to 4,8% PKB, a większość zamówień z pożyczki SAFE ma trafić do polskich firm (szacunek rządu).',q:'Jaką konkretną odpowiedź obiecuje?',
-  abs:'Kto zarabia na tym nagłówku? Odpowiedź Cię zaskoczy: ten, kto go napisał!',lol:'Tajemnica rozwiązana: reklamodawca. Wojna jest zbyt poważna na żarty, więc śmiejemy się z nagłówka.'},
- {h:'Eksperci biją na alarm: stopy w górę!',t:['Anonimowi eksperci','Alarm'],e:'Pilność, niepokój',
-  f:['Stopa referencyjna NBP wynosi 3,75% od marca. Decyzja RPP zapada 3–4 listopada.','Część banków spodziewa się podwyżki w IV kwartale, ale nie wszystkie.'],
-  i:'„Eksperci” to tu „część analityków”. Podwyżka jest jednym ze scenariuszy, a nie przesądzonym faktem. Hamująca konsumpcja przemawia za cierpliwością.',
-  calm:'Stopy bez zmian od marca (3,75%). Decyzja RPP 3–4 listopada, część banków widzi podwyżkę.',q:'Ilu ekspertów i kim są?',
-  abs:'Trzej eksperci, jeden stażysta i pan z kiosku biją na alarm! Alarm wyłączono po trzech sekundach, bo przeszkadzał kotu!',lol:'Alarm nie zadzwonił, ale nagłówek tak. Warto policzyć, ilu tych ekspertów.'},
- {h:'Polska rośnie trzy razy szybciej niż strefa euro!',t:['Prawdziwy, ale wybrany fakt','Pozytywny wykrzyknik'],e:'Duma, euforia',
-  f:['MFW prognozuje dla Polski 3,4% wzrostu w 2026 r., a dla strefy euro 1,1%.','Deficyt sektora finansów publicznych to ok. 7,1% PKB, a realne pensje rosną o ok. 1,6%.'],
-  i:'Liczba jest prawdziwa, ale PKB nie jest tym samym co Twoje zarobki. Nagłówek pomija koszty (deficyt, dług), więc wywołuje dumę bez pełnego obrazu. Manipulacja działa też „na plus”.',
-  calm:'Prognozowany wzrost to 3,4% wobec 1,1% w strefie euro. Deficyt jest jednak wysoki (7,1% PKB).',q:'Czego nagłówek nie mówi?',
-  abs:'Polska rośnie trzy razy szybciej! Ekonomiści mierzą już linijką, a PKB wyrósł z domu i nie odbiera telefonu!',lol:'Mierzyć warto też to, czego nagłówek nie mierzy: dług i realne pensje.'}
-];
+var CMP=DATA.headlines;
 function nfo(h){var n=(h.match(/\d+/g)||[]).length+(/(jeden|dwa|trzy|cztery|pięć)\b/i.test(h)?1:0);var s=/(według|wg |dane |GUS|NBP|raport|badanie)/i.test(h)?'tak':'brak';var o=/(20\d\d|r\/r|w \w+ rok|miesiąc|kwartał)/i.test(h)?'tak':'brak';return 'Liczby: '+n+' · Źródło: '+s+' · Okres: '+o;}
 var cm=document.getElementById('cmps');
 CMP.forEach(function(c,i){var d=document.createElement('article');d.className='card cmp';
@@ -289,12 +193,7 @@ CMP.forEach(function(c,i){var d=document.createElement('article');d.className='c
   d.querySelector('.cover').addEventListener('click',function(){d.classList.add('open');});
   cm.appendChild(d);});
 /* koszt emocji */
-var COST=[
- {b:'Nastrój po 14 minutach',v:'więcej lęku i smutku',p:'Grupa oglądająca negatywny serwis po 14 minutach była bardziej niespokojna i smutna, a własne zmartwienia widziała jako większe niż grupy oglądające serwis pozytywny lub neutralny.',c:'Eksperyment z trzema grupami z 1997 r., telewizja, nie nagłówki.',u:'https://pubmed.ncbi.nlm.nih.gov/9061893/',l:'Johnston i Davey 1997'},
- {b:'Stres po wielu godzinach newsów',v:'9 razy częściej',p:'Po zamachu w Bostonie osoby, które oglądały relacje po 6 lub więcej godzin dziennie, 9 razy częściej niż oglądające poniżej godziny zgłaszały wysoki ostry stres.',c:'Zależność, nie dowód przyczyny. Zdarzenie ekstremalne, nie clickbait.',u:'https://www.pnas.org/doi/10.1073/pnas.1316265110',l:'Holman i in., PNAS 2014'},
- {b:'Koszt uwagi',v:'dziesiątki minut',p:'Powrót do przerwanego zadania zajmował średnio ok. 23 minut (w badaniu opublikowanym 25 min). Przerywani zgłaszali większy stres, frustrację i wysiłek.',c:'Mała próbka z pracy biurowej. Czas obejmuje też inne zadania, więc to rząd wielkości, nie stała.',u:'https://news.gallup.com/businessjournal/23146/Too-Many-Interruptions-Work.aspx',l:'Gloria Mark, wywiad dla Gallupa'},
- {b:'Doomscrolling',v:'związek, nie dowód',p:'Przeglądy badań łączą kompulsywne czytanie negatywnych treści z lękiem, stresem i objawami depresji.',c:'Dane głównie przekrojowe i z ankiet. Nie wiadomo, co jest przyczyną, a co skutkiem.',u:'https://www.emerald.com/mhdt/article/doi/10.1108/MHDT-10-2025-0068/1338079/The-influence-of-doomscrolling-on-mental-health-a',l:'Przegląd badań (Emerald)'}
-];
+var COST=DATA.cost;
 var cs=document.getElementById('cost');
 COST.forEach(function(c){var d=document.createElement('article');d.className='card cc';d.innerHTML='<b></b><span class="cv2"></span><p></p><p class="cav"></p><a target="_blank" rel="noopener"></a>';
   d.querySelector('b').textContent=c.b;d.querySelector('.cv2').textContent=c.v;d.querySelectorAll('p')[0].textContent=c.p;d.querySelector('.cav').textContent='Zastrzeżenie: '+c.c;
@@ -307,28 +206,14 @@ function calc(){var k=+document.getElementById('i1').value,m=+document.getElemen
   document.getElementById('r3').textContent=h<20?'Całkiem rozsądnie. Tak trzymać.':h<150?'To mniej więcej weekend urlopu oddany nagłówkom.':'To już prawie tydzień bez snu poświęcony cudzym przynętom. Książka i spacer wyglądają lepiej.';}
 ['i1','i2','i3'].forEach(function(id){document.getElementById(id).addEventListener('input',calc);});calc();
 /* dobre wiadomości */
-var GOOD=[
- {d:'5 października 2026',b:'Nobel z medycyny za optogenetykę',f:['Nagrodę otrzymali Karl Deisseroth, Peter Hegemann i Georg Nagel za odkrycia dotyczące kanałów jonowych sterowanych światłem i optogenetyki.'],h:'Nagrody Nobla honorują odkrycia sprzed lat. To nie jest nowy lek dostępny od jutra.',u:'https://nobelprize.org/prizes/medicine/2026/summary',l:'nobelprize.org'},
- {d:'2026, dane za 2025 r.',b:'Kolejny rekord odnawialnych źródeł energii',f:['IEA: 2025 był 23. z rzędu rokiem rekordów w przyroście mocy odnawialnych. Słońce dało ponad trzy czwarte nowych mocy.','UE dodała w 2025 r. rekordowe ok. 85 GW, a wiatr na świecie ok. 160 GW. IRENA podaje rekordowe 692 GW odnawialnych mocy na świecie.'],h:'Rekordy nie oznaczają, że to wystarczy. IRENA zaznacza, że potrzebne jest jeszcze szybsze tempo.',u:'https://iea.org/reports/global-energy-review-2026/technology-solar-pv-and-wind',l:'IEA Global Energy Review 2026'},
- {d:'kwiecień i maj 2026',b:'Coraz więcej krajów bez malarii',f:['WHO: 47 krajów ma certyfikat wolnych od malarii, a 37 krajów zgłosiło poniżej 1000 przypadków w 2024 r.','Timor Wschodni odebrał certyfikat 19 maja 2026 r.'],h:'Zgonów z malarii wciąż było 610 tys. w 2024 r., nieco więcej niż rok wcześniej.',u:'https://www.who.int/campaigns/world-malaria-day/2026',l:'WHO'},
- {d:'5 czerwca 2026',b:'Polska gospodarka wytrzymała szok naftowy',f:['Według PIE Komisja Europejska nie obniżyła prognozy dla Polski (3,5%) i była to jedna z trzech takich gospodarek w UE.','Niemcy straciły w tej prognozie 0,6 pkt proc.'],h:'To prognoza z wiosny. Analizy wskazują też presję na finanse publiczne.',u:'https://www.rmf24.pl/fakty/ekonomia/news-dobre-wiesci-ws-polskiej-gospodarki-w-tle-kryzys-na-bliskim-,nId,8089250',l:'RMF24/PAP'},
- {d:'wrzesień i sierpień 2026',b:'Pensje wyprzedzają ceny, a żywność tanieje',f:['Realny wzrost płac wynosi ok. 1,6%, PKB w II kwartale wzrósł o 3,9% r/r.','Ceny żywności spadają o 0,9% r/r (sierpień).'],h:'Inflacja wynosi 4,1%, a zatrudnienie w firmach spada o 0,8% r/r.',u:'https://finwire.pl/artykuly/przecietne-wynagrodzenie-wrzesien-2026-sektor-przedsiebiorstw-gus',l:'finwire, dane GUS'},
- {d:'23 października 2026',b:'Zaplanowane rozmowy USA, Ukrainy i Rosji',f:['Rozmowy pokojowe mają się odbyć na początku listopada w Abu Dhabi. Zgłoszono też lokalne zawieszenie broni.'],h:'Plan rozmów to nie porozumienie. Wynik jest niepewny.',u:'https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/',l:'Africanews'}
-];
+var GOOD=DATA.good;
 var gd=document.getElementById('good');
 GOOD.forEach(function(g){var d=document.createElement('article');d.className='card gc';d.innerHTML='<span class="dt"></span><b></b><ul></ul><p class="hk"></p><a target="_blank" rel="noopener"></a>';
   d.querySelector('.dt').textContent=g.d;d.querySelector('b').textContent=g.b;g.f.forEach(function(x){var li=document.createElement('li');li.textContent=x;d.querySelector('ul').appendChild(li);});
   d.querySelector('.hk').textContent='Haczyk uczciwości: '+g.h;var a=d.querySelector('a');a.href=g.u;a.textContent='Źródło: '+g.l;gd.appendChild(d);});
 var qb=document.getElementById('quizb');
 qb.addEventListener('click',function(){var on=!cm.classList.contains('quiz');cm.classList.toggle('quiz',on);qb.setAttribute('aria-pressed',on?'true':'false');qb.textContent=on?'Pokaż wszystko':'Tryb zgadywania';if(!on)cm.querySelectorAll('.cmp').forEach(function(x){x.classList.remove('open');});});
-var TE=[['Luka ciekawości','Nagłówek zostawia pytanie bez odpowiedzi, żebyś kliknął.','„Zobacz”, „odpowiedź Cię zaskoczy”, „ten jeden trik”.'],
- ['Hiperbola','Zwykłe zjawisko opisane jak katastrofa albo cud.','„Eksploduje”, „szok”, „sensacja”.'],
- ['Strach i katastrofizacja','Najgorszy scenariusz podany jak stan obecny.','„Tonie”, „krach”, „koniec”.'],
- ['Oburzenie i „my kontra oni”','Wskazanie winnych wzmacnia emocje i udostępnienia.','„Oni nam to robią”, „kto na tym zarabia”.'],
- ['Pilność i FOMO','Wrażenie, że coś Cię omija albo trzeba działać teraz.','„Wszyscy już wiedzą”, „zanim będzie za późno”.'],
- ['Anonimowe autorytety','Powołanie się na kogoś, kogo nie da się sprawdzić.','„Eksperci biją na alarm”, „naukowcy ostrzegają”.'],
- ['Zwrot do „Ciebie”','Osobisty ton sprawia, że wiadomość wydaje się o Tobie.','„Ile zapłacisz”, „Twoje oszczędności”.'],
- ['Prawdziwy, ale wybrany fakt','Liczba się zgadza, ale pominięto to, co psuje obraz.','„Rośnie 3 razy szybciej”, bez słowa o kosztach.']];
+var TE=DATA.techniques;
 var tx=document.getElementById('techs');TE.forEach(function(x){var d=document.createElement('div');d.className='card tc';d.innerHTML='<b></b><p></p><span class="sg"></span>';d.querySelector('b').textContent=x[0];d.querySelector('p').textContent=x[1];d.querySelector('.sg').textContent=x[2];tx.appendChild(d);});
 /* skaner */
 var RULES=[

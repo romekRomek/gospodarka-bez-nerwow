@@ -1,0 +1,174 @@
+{
+ "derrick": {
+  "pos": [
+   {"h": "Porozumienie wokół Iranu mogłoby szybko obniżyć ceny ropy", "hk": "To scenariusz, nie prognoza. Eskalacja podbiłaby ceny w drugą stronę."},
+   {"h": "Brent wyraźnie poniżej kwietniowego szczytu", "hk": "W kwietniu cena na krótko przekroczyła 126 USD, dziś to ok. 114 USD, ale wciąż ok. 90% więcej niż na początku roku."}
+  ],
+  "neu": [
+   {"h": "Brent po ok. 114 USD za baryłkę, ok. 90% więcej niż na początku roku"},
+   {"h": "Ropa droższa niż średnio w 2022 r., gdy przekroczyła 100 USD"}
+  ],
+  "neg": [
+   {"h": "Baryłka ropy droższa niż mieszkanie! Naftowcy liczą na liczydłach, bo kalkulatorom zabrakło zer!", "f": "Brent kosztuje ok. 114 USD za baryłkę. Drogo, ale do ceny mieszkania sporo brakuje."},
+   {"h": "Ropa prawie dwa razy droższa! Wkrótce baryłka zatrudni ochroniarza i założy konto na Instagramie!", "f": "Brent jest ok. 90% droższy niż na początku roku. Konta baryłki nie znaleziono."}
+  ]
+ },
+ "gate": {
+  "pos": [
+   {"h": "Przez Ormuz wciąż płynie ok. 60% normalnego ruchu tankowców", "hk": "To nadal o ok. 40% mniej niż zwykle, a ataków na statki w październiku było najwięcej od początku rejestrów."}
+  ],
+  "neu": [
+   {"h": "Prawie cała ropa z Zatoki płynie przez jedną wąską cieśninę"},
+   {"h": "Ruch tankowców w Ormuzie na poziomie ok. 60% normy"}
+  ],
+  "neg": [
+   {"h": "Cieśnina Ormuz zakorkowana! Tankowce stoją w kolejce jak w piątek na zakopiance!", "f": "Ruch jest ograniczony do ok. 60% normy. Trąbienia nie odnotowano."},
+   {"h": "Wąskie gardło świata! Ropa przeciska się przez cieśninę jak pasta z pustej tubki!", "f": "Prawie cała ropa z Zatoki płynie przez jedną cieśninę, a ruch wynosi ok. 60% normy."}
+  ]
+ },
+ "pump": {
+  "pos": [
+   {"h": "Limit cen na stacjach obowiązuje do końca roku", "hk": "Limit łagodzi skok cen, ale nie usuwa przyczyny. Po jego wygaśnięciu ceny mogą wzrosnąć."}
+  ],
+  "neu": [
+   {"h": "Paliwa droższe o 24,2% r/r (sierpień, GUS)"},
+   {"h": "Diesel po ok. 8 zł za litr"}
+  ],
+  "neg": [
+   {"h": "Paliwa drożeją o 24%! Kierowcy przesiadają się na hulajnogi, a hulajnogi na rowery!", "f": "Paliwa podrożały o 24,2% r/r w sierpniu (GUS). Hulajnóg na stacjach nikt nie tankuje."},
+   {"h": "Diesel po 8 zł! Przy tankowaniu do pełna bank proponuje kredyt hipoteczny!", "f": "Diesel kosztuje ok. 8 zł za litr, a ceny maksymalne są ograniczone do końca roku."}
+  ]
+ },
+ "shop": {
+  "pos": [
+   {"h": "Żywność tanieje: ceny spadają o 0,9% r/r", "hk": "Inflacja ogółem wynosi 4,1%, a usługi drożeją o 5,6% (sierpień)."},
+   {"h": "Towary drożeją tylko o 2,5%", "hk": "Usługi drożeją ponad dwa razy szybciej, o 5,6%."}
+  ],
+  "neu": [
+   {"h": "Inflacja we wrześniu: 4,1%. Cel NBP to 2,5% ±1 pp."},
+   {"h": "Usługi drożeją szybciej niż towary"}
+  ],
+  "neg": [
+   {"h": "Inflacja szaleje! Ceny zmieniają się, zanim dojdziesz do kasy!", "f": "Inflacja wynosi 4,1% w skali roku. Ceny zmieniają się w ciągu miesięcy, nie w drodze do kasy."},
+   {"h": "Fryzjer droższy niż złoto! Grzywki rosną z oszczędności!", "f": "Usługi drożeją o 5,6% r/r (sierpień). Złota i grzywek w danych GUS nie ma."}
+  ]
+ },
+ "bank": {
+  "pos": [
+   {"h": "Stopa NBP o punkt procentowy niżej niż rok temu", "hk": "Inflacja wzrosła w tym czasie do 4,1%, więc realnie stopa jest lekko ujemna i RPP może ją podnieść."}
+  ],
+  "neu": [
+   {"h": "Stopa referencyjna NBP bez zmian: 3,75%"},
+   {"h": "RPP zdecyduje o stopach 3–4 listopada"}
+  ],
+  "neg": [
+   {"h": "Stopy procentowe zaraz wystrzelą w kosmos! NASA prosi RPP o rozkład lotów!", "f": "Stopa wynosi 3,75% od marca. Część banków spodziewa się podwyżki w IV kwartale, decyzja RPP 3–4 listopada."},
+   {"h": "Realna stopa ujemna! Bank będzie Ci dopłacał za to, że masz konto!", "f": "Realna stopa to ok. −0,4 pp, bo inflacja (4,1%) jest wyższa niż stopa NBP (3,75%). Nikt nie dopłaca, oszczędności realnie lekko tracą."}
+  ]
+ },
+ "worker": {
+  "pos": [
+   {"h": "Pensje rosną szybciej niż ceny: realnie +1,6%", "hk": "Zatrudnienie w firmach spada o 0,8% r/r."}
+  ],
+  "neu": [
+   {"h": "Płace nominalnie +5,9%, inflacja 4,1%"},
+   {"h": "Bezrobocie rejestrowane: 5,8%"}
+  ],
+  "neg": [
+   {"h": "Zatrudnienie spada! Biura pustoszeją, a ksero samo chodzi na spotkania!", "f": "Zatrudnienie w firmach spada o 0,8% r/r, a bezrobocie rejestrowane wynosi 5,8%."},
+   {"h": "Pensja goni ceny! Kibice zasnęli, nikt nie wie, kto prowadzi!", "f": "Prowadzi pensja: płace rosną o 5,9%, ceny o 4,1%, czyli realnie ok. +1,6%."}
+  ]
+ },
+ "debt": {
+  "pos": [
+   {"h": "Dług Polski wciąż poniżej średniej UE", "hk": "Średnia UE to ok. 82% PKB, Polska 59,7% w 2025 r., ale zadłuża się szybciej niż większość krajów."}
+  ],
+  "neu": [
+   {"h": "Deficyt w 2026 r.: 7,1% PKB według planu"},
+   {"h": "Obsługa długu kosztuje ok. 90 mld zł rocznie"}
+  ],
+  "neg": [
+   {"h": "Dług rośnie tak szybko, że wykres wyszedł poza ekran i dzwoni do sąsiadów!", "f": "Dług ma wzrosnąć z 59,7% PKB w 2025 r. do ok. 67,6% w 2026 r. Wykres mieści się na ekranie, sprawdź wyżej."},
+   {"h": "Odsetki zjadają budżet! Ministerstwo Finansów przechodzi na dietę z makaronu!", "f": "Obsługa długu kosztuje ok. 90 mld zł rocznie, o 19% więcej niż rok wcześniej."}
+  ]
+ },
+ "tree": {
+  "pos": [
+   {"h": "WIG20 na rekordzie: 4 267 pkt", "hk": "Rekord ciągną głównie banki i energetyka. Małe spółki (sWIG80) zyskały ok. 5%."},
+   {"h": "WIG od początku roku +29,7%", "hk": "Stan na 3.09. Wzrost giełdy nie oznacza wyższych pensji."}
+  ],
+  "neu": [
+   {"h": "Banki i energetyka ciągną indeks, małe spółki zostają w tyle"}
+  ],
+  "neg": [
+   {"h": "Małe spółki w tyle! sWIG80 płacze w kącie, a WIG20 nawet tego nie zauważył!", "f": "sWIG80 zyskał od początku roku ok. 5%, a WIG20 pobił rekord 21.10. Płaczu nie odnotowano."},
+   {"h": "Rekord na giełdzie, a lodówka pusta! Byk z GPW nie odbiera telefonów od zwykłych ludzi!", "f": "W zebranych danych nie ma bezpośredniego związku rekordu WIG20 z pensjami. Pensje rosną realnie o ok. 1,6%."}
+  ]
+ },
+ "sun": {
+  "pos": [
+   {"h": "PKB Polski +3,9% r/r w II kwartale", "hk": "Prognozy powstawały przy tańszej ropie, więc wzrost może okazać się niższy."},
+   {"h": "Inwestycje rosną o 8,4%", "hk": "Konsumpcja prywatna rośnie wolniej, o 2,8%."}
+  ],
+  "neu": [
+   {"h": "MFW: 3,4% wzrostu w 2026 r. i 2,5% w 2027 r."}
+  ],
+  "neg": [
+   {"h": "Wzrost zwalnia! Gospodarka zjeżdża z autostrady na polną drogę!", "f": "MFW prognozuje 3,4% w 2026 r. i 2,5% w 2027 r. To wolniej, ale wciąż wzrost, nie cofanie się."},
+   {"h": "Konsumpcja ledwo dyszy! Polacy kupują już tylko powietrze, i to na raty!", "f": "Konsumpcja prywatna rośnie o 2,8% (II kwartał), wolniej niż inwestycje (8,4%)."}
+  ]
+ },
+ "west": {
+  "pos": [
+   {"h": "Strefa euro rośnie o 0,4% k/k w II kwartale", "hk": "W I kwartale było 0,0%, a na cały 2026 r. MFW prognozuje ok. 1,1%."}
+  ],
+  "neu": [
+   {"h": "Inflacja w strefie euro: 3,8% (wrzesień)"},
+   {"h": "EBC decyduje o stopach 29.10"}
+  ],
+  "neg": [
+   {"h": "Niemcy kichają, Polska bierze chorobowe! Apteki wykupione od Odry po Bug!", "f": "Wzrost strefy euro to ok. 1,1% w 2026 r. (MFW), co może ograniczać popyt na polski eksport. Zwolnień lekarskich nie zgłoszono."},
+   {"h": "Francja rośnie o 0,4%! Ekonomiści szukają wzrostu z lupą, a lupa też się poddała!", "f": "MFW prognozuje Francji 0,4%, a Niemcom 1,3% w 2026 r."}
+  ]
+ },
+ "ukraine": {
+  "pos": [
+   {"h": "Zaplanowano rozmowy USA, Ukrainy i Rosji w Abu Dhabi", "hk": "Plan rozmów to nie porozumienie. Wynik jest niepewny."},
+   {"h": "Ok. 89% zamówień z pożyczki SAFE ma trafić do polskiego przemysłu", "hk": "To szacunek rządu, nie gwarancja."}
+  ],
+  "neu": [
+   {"h": "Polska wyda na obronę 4,8% PKB w 2026 r."},
+   {"h": "Uchodźcy z Ukrainy wytworzyli 2,4% polskiego PKB w 2025 r."}
+  ],
+  "neg": [
+   {"h": "Wydatki na obronę rosną tak szybko, że kalkulator w ministerstwie poprosił o urlop!", "f": "Wydatki obronne mają wynieść 4,8% PKB (201 mld zł) w 2026 r. Wojna nie jest tematem do żartów, więc śmiejemy się tylko z nagłówka."},
+   {"h": "Deficyt rośnie jak na drożdżach! Piekarze żądają tantiem za porównanie!", "f": "Zbrojenia wspierają inwestycje, ale deficyt pozostaje wysoki: ok. 7,1% PKB w 2026 r. według planu."}
+  ]
+ },
+ "usa": {
+  "pos": [
+   {"h": "Prawie połowa eksporterów do USA nie odczuła ceł", "hk": "Według PIE ok. 49% nie odczuło skutków, ale 24% odczuło je bezpośrednio lub pośrednio."}
+  ],
+  "neu": [
+   {"h": "Cło USA na towary z UE: 10% od 24.07"},
+   {"h": "Fed podniósł stopy po raz pierwszy od lipca 2023"}
+  ],
+  "neg": [
+   {"h": "Cła na wszystko! Wkrótce Amerykanie oclą pierogi wysłane do cioci w Chicago!", "f": "Nowe cło USA na towary z UE to 10%, bez stali, aluminium i aut. Pierogów w danych nie ma."},
+   {"h": "Fed podnosi stopy! Dolar jest tak silny, że sam nosi zakupy!", "f": "Fed podniósł stopy 16.09 do 3,75–4,00%. Silny dolar zwiększa presję na złotego."}
+  ]
+ },
+ "china": {
+  "pos": [
+   {"h": "Tani import z Chin może hamować ceny towarów", "hk": "To jednocześnie konkurencja dla części polskiego przemysłu."}
+  ],
+  "neu": [
+   {"h": "Chiny dostawcą nr 1 do Polski w lipcu"},
+   {"h": "Import z Chin: 57,9 mld euro w 2025 r. (+13,3%)"}
+  ],
+  "neg": [
+   {"h": "Chińskie auta zalewają Polskę! Wkrótce będziemy parkować na dachach!", "f": "Import aut z Chin wzrósł do 1,74 mld euro rocznie, czyli ok. 40% wartości aut z Niemiec."},
+   {"h": "Deficyt handlowy rośnie! Kontenery przypływają pełne, a wracają z pamiątkami!", "f": "Deficyt obrotów bieżących ma sięgnąć ok. 2% PKB na koniec roku."}
+  ]
+ }
+}

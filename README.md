@@ -17,17 +17,22 @@ python3 -m http.server -d dist 8080 # podgląd na http://localhost:8080
 |---|---|
 | `src/template.html` | szkielet strony (nagłówek, SVG mapy, zakładki, okno szczegółów) |
 | `src/styles.css` | cały wygląd: motyw jasny/ciemny, tokeny w `:root` |
-| `src/app.js` | dane i logika (patrz niżej) |
+| `src/data/*.json` | dane: węzły, wykresy, nagłówki, karty (patrz niżej) |
+| `src/app.js` | logika strony; dane czyta z obiektu `DATA` |
 | `src/geo.json` | kształty krajów (Natural Earth) już zrzutowane na układ 1000×900 |
 | `scripts/build.py` | składanie plików w `dist/index.html` |
 | `scripts/gen-geo.mjs` | generator `geo.json` (wymaga `npm i world-atlas topojson-client d3-geo`) |
 
-## Gdzie są dane (wszystko w `src/app.js`)
+## Gdzie są dane (`src/data/`)
 
-- `STEPS` – 13 węzłów mapy: fakty (`f`), interpretacja (`i`), metryka (`m`, `mc`).
-- `CH` – wykresy w oknie szczegółów, klucz = id węzła.
-- `CMP` – nagłówki w tłumaczu („co napisano” / „co naprawdę znaczy”).
-- `COST`, `GOOD`, `TE` – karty kosztów emocji, dobrych wiadomości i technik.
+`build.py` wczytuje każdy plik `src/data/*.json` do obiektu `DATA` (klucz = nazwa pliku) i wkleja go przed `app.js`, więc wynik nadal jest jednym plikiem.
+
+- `nodes.json` – położenie i ikony 13 węzłów na mapie.
+- `steps.json` – treść węzłów: fakty (`f`), interpretacja (`i`), metryka (`m`, `mc`).
+- `charts.json` – wykresy w oknie szczegółów, klucz = id węzła.
+- `headlines.json` – nagłówki w tłumaczu („co napisano” / „co naprawdę znaczy”).
+- `cost.json`, `good.json`, `techniques.json` – karty kosztów emocji, dobrych wiadomości i technik.
+- W `app.js` zostały elementy związane z wyglądem i logiką: ikony (`ICON`), emoji i cytaty węzłów (`EMO`, `Q`), reguły skanera (`RULES`).
 - Liczby z daty 28.10.2026. Zaktualizuj `Dane z …` w `template.html` po odświeżeniu danych.
 
 ## Zasady redakcyjne (ważne przy rozwoju)
@@ -40,7 +45,6 @@ python3 -m http.server -d dist 8080 # podgląd na http://localhost:8080
 
 ## Pomysły na dalszy rozwój
 
-- Podział `app.js` na `data/*.json` + moduły i wczytywanie danych z plików.
 - Aktualizacja danych z GUS/NBP/Eurostat skryptem (zamiast ręcznie).
 - Zapisywanie quizu/wyników, wersja dla młodzieży i dorosłych, tryb nauczyciela.
 - Testy wizualne (Playwright) na desktopie i telefonie.

@@ -1,0 +1,15 @@
+[
+ {"id":"derrick","cat":"oil","ic":"oil","x":770,"y":600,"lb":"Ropa","lp":"l"},
+ {"id":"gate","cat":"oil","ic":"gate","x":862,"y":556,"lb":"Ormuz","lp":"t"},
+ {"id":"pump","cat":"chain","ic":"pump","x":745,"y":75,"lb":"Stacja","lp":"r"},
+ {"id":"shop","cat":"chain","ic":"shop","x":745,"y":185,"lb":"Sklep","lp":"r"},
+ {"id":"bank","cat":"chain","ic":"bank","x":640,"y":185,"lb":"Bank","lp":"b"},
+ {"id":"worker","cat":"chain","ic":"wallet","x":745,"y":295,"lb":"Pensje","lp":"r"},
+ {"id":"debt","cat":"ind","ic":"debt","x":900,"y":305,"lb":"Dług","lp":"b"},
+ {"id":"tree","cat":"ind","ic":"chart","x":900,"y":205,"lb":"Giełda","lp":"b"},
+ {"id":"sun","cat":"ind","ic":"sun","x":900,"y":105,"lb":"PKB","lp":"b"},
+ {"id":"west","cat":"ext","ic":"cloud","x":322,"y":352,"lb":"Zachód Europy","lp":"b"},
+ {"id":"ukraine","cat":"ext","ic":"shield","x":566,"y":388,"lb":"Ukraina","lp":"b"},
+ {"id":"usa","cat":"ext","ic":"star","x":72,"y":132,"lb":"USA","lp":"b"},
+ {"id":"china","cat":"ext","ic":"box","x":946,"y":482,"lb":"Chiny","lp":"b"}
+]

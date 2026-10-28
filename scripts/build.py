@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Składa dist/index.html z src/: template.html + styles.css + app.js + geo.json (kształty map)."""
+"""Składa dist/index.html z src/: template.html + styles.css + data/*.json + app.js + geo.json (kształty map)."""
 import json, math, pathlib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC, DIST = ROOT / 'src', ROOT / 'dist'
@@ -9,6 +9,9 @@ g = json.loads((SRC / 'geo.json').read_text(encoding='utf-8'))
 tpl = (SRC / 'template.html').read_text(encoding='utf-8')
 css = (SRC / 'styles.css').read_text(encoding='utf-8').rstrip('\n')
 js = (SRC / 'app.js').read_text(encoding='utf-8').rstrip('\n')
+# dane z src/data/*.json trafiają do obiektu DATA (klucz = nazwa pliku), z którego czyta app.js
+data = {f.stem: json.loads(f.read_text(encoding='utf-8')) for f in sorted((SRC / 'data').glob('*.json'))}
+js = 'var DATA=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + ';\n' + js
 
 cls = {'pl': 'land pl', 'west': 'land west', 'me': 'land me', 'oth': 'land oth'}
 main = ''.join(f'<path class="{cls[x["c"]]}" d="{x["d"]}"/>' for x in g['main'] if x['n'] != 'Antarctica')
