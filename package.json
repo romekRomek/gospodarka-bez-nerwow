@@ -1,0 +1,8 @@
+{
+  "name": "gospodarka-bez-nerwow",
+  "private": true,
+  "scripts": {
+    "build": "python3 scripts/build.py",
+    "start": "python3 -m http.server -d dist 8080"
+  }
+}

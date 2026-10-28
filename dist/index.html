@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gospodarka bez nerwów</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Bricolage+Grotesque:wght@600;700;800&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Układ: lewa kolumna to mapa (Europa, Bliski Wschód, powiększenie Polski), prawa to panel szczegółów z faktami i interpretacją. Kategorie węzłów mają własne kolory i podpisy. */
+:root{
+  --bg:#fbf6ee; --surface:#fffdf9; --surface-2:#f6eee2; --ink:#1f2430; --mut:#6a6559; --line:#eadfce; --line-strong:#d9cbb6;
+  --accent:#2f5bea; --oil:#d9480f; --chain:#2f5bea; --ind:#6f42c1; --ext:#c2255c; --interp:#0b7285;
+  --sea:#dff0f3; --land:#f1e7d3; --land-west:#ecdfc6; --land-me:#f5d9b0; --land-pl:#ffd3dc; --land-pl-line:#e5446d; --cloud:#ffffff; --shadow:rgba(80,50,10,.14);
+  --head:'Bricolage Grotesque','Geist',system-ui,sans-serif;
+  --hand:'Caveat','Bricolage Grotesque',cursive;
+  --sans:'Geist',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --s2:#e0a100; --oil2:#ffc9a3; --chain2:#b9ccff; --ind2:#d9c8ff; --ext2:#ffc2d4;
+  --o1:#fff4ea; --o2:#ffe0c7; --c1:#eef3ff; --c2t:#d9e4ff; --i1:#f5efff; --i2:#e6dbff; --e1:#fff0f4; --e2:#ffd9e4;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1015; --surface:#151b23; --surface-2:#1b222c; --ink:#eef1f5; --mut:#9aa5b4; --line:#252d38; --line-strong:#394453;
+  --accent:#6f93ff; --oil:#ff8a4c; --chain:#6f93ff; --ind:#a78bfa; --ext:#f06595; --interp:#3bc9db;
+  --sea:#101821; --land:#1c2531; --land-west:#222d3b; --land-me:#2b2822; --land-pl:#1d3a80; --land-pl-line:#6f93ff; --cloud:#d7deea; --shadow:rgba(0,0,0,.5);
+  --s2:#ffc53d; --oil2:#ffb27d; --chain2:#9db6ff; --ind2:#c7b2ff; --ext2:#ff9db9; --o1:#3a2619; --o2:#2b1b12; --c1:#1c2640; --c2t:#141c30; --i1:#2a2142; --i2:#1e1731; --e1:#3b1d2a; --e2:#2a1420;
+  color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0c1015; --surface:#151b23; --surface-2:#1b222c; --ink:#eef1f5; --mut:#9aa5b4; --line:#252d38; --line-strong:#394453;
+  --accent:#6f93ff; --oil:#ff8a4c; --chain:#6f93ff; --ind:#a78bfa; --ext:#f06595; --interp:#3bc9db;
+  --sea:#101821; --land:#1c2531; --land-west:#222d3b; --land-me:#2b2822; --land-pl:#1d3a80; --land-pl-line:#6f93ff; --cloud:#d7deea; --shadow:rgba(0,0,0,.5);
+  --s2:#ffc53d; --oil2:#ffb27d; --chain2:#9db6ff; --ind2:#c7b2ff; --ext2:#ff9db9; --o1:#3a2619; --o2:#2b1b12; --c1:#1c2640; --c2t:#141c30; --i1:#2a2142; --i2:#1e1731; --e1:#3b1d2a; --e2:#2a1420;
+  color-scheme:dark;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased;padding:28px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
+main{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font:800 34px/1.1 var(--head);letter-spacing:-.025em;margin:0;text-wrap:balance}
+h2,h3,p,ul{margin:0}
+.top{display:flex;flex-direction:column;gap:10px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:700 19px var(--hand);color:var(--mut)}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:#2f9e44;display:block}
+.lead{color:var(--mut);max-width:70ch}
+.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.9fr);gap:20px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:28px;box-shadow:0 1px 2px var(--shadow)}
+.scene{overflow:hidden}
+.scroller{overflow-x:auto}
+svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;padding:12px 18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:10px;height:10px;border-radius:50%;display:block}
+.left{display:flex;flex-direction:column;gap:20px;min-width:0}
+.steps ol{}
+.side{position:sticky;top:16px;display:flex;flex-direction:column;gap:14px}
+.panel{padding:20px;display:flex;flex-direction:column;gap:14px}
+.tag{align-self:flex-start;font-size:12px;font-weight:600;letter-spacing:.02em;padding:4px 12px;border-radius:999px;background:color-mix(in srgb,currentColor 12%,transparent)}
+.tag.oil{color:var(--oil)}.tag.chain{color:var(--chain)}.tag.ind{color:var(--ind)}.tag.ext{color:var(--ext)}
+.panel h2{font:800 26px/1.15 var(--head);letter-spacing:-.02em;text-wrap:balance}
+.metric{display:flex;flex-direction:column;gap:2px;padding:14px 16px;background:var(--surface-2);border-radius:20px}
+.quip{font:700 22px/1.1 var(--hand);color:var(--mut);margin-top:-6px}
+.metric b{font:800 36px/1.05 var(--head);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.metric span{font-size:13px;color:var(--mut)}
+.sec h3{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-bottom:6px}
+.sec ul{padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.interp{border-left:3px solid var(--interp);padding:2px 0 2px 14px;display:flex;flex-direction:column;gap:4px;color:var(--interp)}
+.interp h3{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.interp p{font-size:14.5px}
+.nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{font:600 14px var(--sans);display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:focus-visible,.step:focus-visible,.node:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.prog{height:3px;background:var(--line);border-radius:3px;overflow:hidden;flex:1;min-width:60px}
+.prog i{display:block;height:100%;width:0;background:var(--accent)}
+.steps{padding:12px}
+.steps h3{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding:8px 8px 4px}
+.steps ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2px}
+.step{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:500 14px var(--sans);color:var(--ink);background:none;border:0;border-radius:999px;padding:7px 8px;cursor:pointer}
+.step:hover{background:var(--surface-2)}
+.step b{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:#fff}
+.step.oil b{background:var(--oil)}.step.chain b{background:var(--chain)}.step.ind b{background:var(--ind)}.step.ext b{background:var(--ext)}
+.step.on{background:var(--surface-2);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.foot{font-size:13px;color:var(--mut);max-width:90ch}
+details{font-size:13px;color:var(--mut)}
+summary{cursor:pointer;color:var(--accent);width:max-content;font-weight:500}
+details ul{margin:8px 0 0;padding-left:18px;columns:2 320px;column-gap:28px}
+details li{margin-bottom:4px;break-inside:avoid}
+details a{color:var(--accent)}
+
+/* mapa */
+.sea{fill:var(--sea)}
+.land{stroke:var(--surface);stroke-width:1;stroke-linejoin:round;fill:var(--land)}
+.land.west{fill:var(--land-west)}.land.me{fill:var(--land-me)}
+.land.pl{fill:var(--land-pl);stroke:var(--land-pl-line);stroke-width:1.5}
+.ins .land{stroke-width:1.4}
+.ins .land.pl{stroke-width:2.2}
+.cloud{fill:var(--cloud);opacity:.6;animation:drift 18s ease-in-out infinite alternate}
+.cloud.b{animation-duration:26s;animation-direction:alternate-reverse}
+@keyframes drift{from{transform:translateX(-12px)}to{transform:translateX(14px)}}
+.rt{fill:none;stroke:var(--oil);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.rtflow{fill:none;stroke:var(--surface);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:2 14;opacity:.9;animation:flow 1.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-32}}
+.ship{fill:var(--oil);stroke:var(--surface);stroke-width:2}
+.queue{fill:var(--oil);animation:pulse 1.8s ease-in-out infinite}
+.queue:nth-of-type(2){animation-delay:.3s}.queue:nth-of-type(3){animation-delay:.6s}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+.ext-arc{fill:none;stroke:var(--ext);stroke-width:2;stroke-dasharray:3 8;stroke-linecap:round;opacity:.85;animation:flow 2.2s linear infinite}
+.link{fill:none;stroke:var(--chain);stroke-width:2.4;stroke-linecap:round;marker-end:url(#arr)}
+.div{stroke:var(--line-strong);stroke-width:2;stroke-dasharray:5 6}
+.shade{fill:var(--surface);opacity:.35}
+.ringp{fill:none;stroke:var(--land-pl-line);stroke-width:2.5}
+.conn{fill:var(--surface);fill-opacity:.4;stroke:var(--line-strong);stroke-width:1.5;stroke-dasharray:5 6}
+.insring{fill:none;stroke:var(--line-strong);stroke-width:2.5}
+
+.node{cursor:pointer;outline:none;--c:var(--ink)}
+.node.oil{--c:var(--oil);--c2:var(--oil2)}.node.chain{--c:var(--chain);--c2:var(--chain2)}.node.ind{--c:var(--ind);--c2:var(--ind2)}.node.ext{--c:var(--ext);--c2:var(--ext2)}
+.ey{fill:#fff;stroke:var(--ink);stroke-width:1;stroke-opacity:.8}.ie{fill:var(--ink)}.im{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:.85}
+.ia,.ib,.iw{stroke:var(--ink);stroke-width:1.7;stroke-linejoin:round;stroke-opacity:.8}.ia{fill:var(--c)}.ib{fill:var(--c2)}.iw{fill:#fff}
+.node .pop{filter:url(#rough)}.node .tile{stroke:var(--ink);stroke-opacity:.75;stroke-width:1.8}.sb{fill:none;stroke:var(--c2);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}.sw{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.node .tile{filter:drop-shadow(0 3px 6px var(--shadow))}
+.node .ico{fill:none;stroke:var(--c);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.node .bn{fill:var(--c)}
+.node .bt{font:600 12px var(--sans);fill:#fff;text-anchor:middle}
+.node .lbbg{fill:var(--surface);stroke:var(--line-strong);stroke-width:1.2}
+.node .lbt{font:700 18px var(--hand);fill:var(--ink)}
+.node .ring{fill:none;stroke:var(--accent);stroke-width:3;opacity:0}
+.node .em{font-size:28px;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.node .pop{transition:transform .25s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box;transform-origin:center}
+.node:hover .pop{transform:rotate(-6deg) scale(1.1)}
+.node.on .pop{transform:scale(1.12)}
+
+.node.on .tile{stroke-width:2.6}
+.node.on .ring{opacity:1;animation:ringp 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes ringp{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.18);opacity:0}}
+.cap{font:700 19px var(--hand);fill:var(--mut);text-anchor:middle}
+
+/* modal */
+dialog.md{width:min(920px,calc(100vw - 24px));max-height:calc(100vh - 24px);padding:0;border:1px solid var(--line-strong);border-radius:28px;background:var(--surface);color:var(--ink);box-shadow:0 24px 80px rgba(20,12,0,.35);overflow:hidden}
+dialog.md::backdrop{background:rgba(25,18,8,.5);backdrop-filter:blur(3px)}
+dialog.md[open]{display:flex;flex-direction:column;animation:mdin .22s cubic-bezier(.2,1.2,.4,1)}
+@keyframes mdin{from{transform:translateY(14px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+.mh{display:flex;gap:16px;align-items:center;padding:20px 24px 14px;border-bottom:1px solid var(--line)}
+.mh .big{flex:none;width:76px;height:76px}
+.mh .big svg{width:100%;height:100%;overflow:visible}
+.mh .big rect{rx:24}
+.mh .tt{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.mh h2{font:800 28px/1.1 var(--head);letter-spacing:-.02em}
+.mh .quip{margin:0}
+.mx{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font-size:20px;cursor:pointer;display:grid;place-items:center}
+.mx:hover{background:var(--surface-2)}
+.mb{overflow-y:auto;padding:18px 24px 8px;display:flex;flex-direction:column;gap:18px}
+.mgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px}
+.chs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.ch{border:1px solid var(--line);border-radius:20px;padding:14px 14px 10px;background:var(--bg);display:flex;flex-direction:column;gap:6px}
+.ch h3{font:700 15px/1.25 var(--sans)}
+.ch .sub{font-size:12.5px;color:var(--mut)}
+.ch .cv{position:relative;height:210px}
+.ch .nt{font-size:12.5px;color:var(--mut)}
+.ch details{font-size:12px}
+.ch table{border-collapse:collapse;margin-top:6px;width:100%}
+.ch td,.ch th{padding:3px 8px;border-bottom:1px solid var(--line);text-align:left;font-weight:500;font-variant-numeric:tabular-nums}
+.mf{display:flex;align-items:center;gap:10px;padding:12px 24px;border-top:1px solid var(--line);background:var(--surface)}
+.mf .ct{margin-left:auto;font-size:13px;color:var(--mut)}
+.more{align-self:flex-start}
+@media (max-width:760px){.mgrid{grid-template-columns:1fr}.mh{padding:16px}.mb{padding:14px 16px 6px}.mh .big{width:56px;height:56px}.mh h2{font-size:22px}.chs{grid-template-columns:1fr}}
+
+/* zakładki */
+.tabs{display:flex;gap:6px;padding:5px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;width:max-content;max-width:100%;overflow-x:auto}
+.tab{font:600 14px var(--sans);color:var(--mut);background:none;border:0;border-radius:999px;padding:9px 18px;cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+/* zakładka emocji */
+#tab-emo{display:flex;flex-direction:column;gap:22px}
+.sech{font:800 24px/1.15 var(--head);letter-spacing:-.02em}
+.secp{color:var(--mut);max-width:75ch;margin-top:4px}
+.note{padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
+.note b{font:700 15px var(--sans)}
+.note p{color:var(--mut);font-size:14px;margin-top:2px}
+.note .ic{flex:none;width:34px;height:34px;border-radius:12px;background:color-mix(in srgb,var(--ext) 16%,transparent);display:grid;place-items:center;font-size:18px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.cmps{display:flex;flex-direction:column;gap:14px}
+.cmp{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);overflow:hidden;padding:0}
+.cmp .w{padding:18px 20px;background:color-mix(in srgb,var(--ext) 8%,var(--surface));border-right:1px dashed var(--line-strong);display:flex;flex-direction:column;gap:10px}
+.cmp .m{padding:18px 20px;display:flex;flex-direction:column;gap:8px;position:relative}
+.lab{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.hl{font:600 16px/1.4 var(--sans);color:var(--ink)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.chip.e{color:var(--ext);background:color-mix(in srgb,var(--ext) 12%,transparent);border-color:transparent}
+.cmp ul{padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14.5px}
+.cmp .it{color:var(--interp);border-left:3px solid var(--interp);padding-left:12px;font-size:14px}
+.cmp .q{font:700 18px/1.2 var(--hand);color:var(--mut)}
+.quiz .cmp .m>*:not(.cover){visibility:hidden}
+.quiz .cmp.open .m>*{visibility:visible}
+.cover{position:absolute;inset:0;display:none;align-items:center;justify-content:center}
+.quiz .cmp:not(.open) .cover{display:flex}
+.techs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.tc{padding:16px;display:flex;flex-direction:column;gap:6px}
+.tc b{font:700 16px var(--sans)}
+.tc p{font-size:14px;color:var(--mut)}
+.tc .sg{font:700 17px/1.1 var(--hand);color:var(--ext)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.fc{padding:16px;display:flex;flex-direction:column;gap:4px}
+.fc b{font:800 30px/1 var(--head);letter-spacing:-.03em}
+.fc span{font-size:13.5px;color:var(--mut)}
+.scan{padding:18px;display:flex;flex-direction:column;gap:12px}
+.scan textarea{width:100%;min-height:76px;resize:vertical;font:500 16px/1.4 var(--sans);color:var(--ink);background:var(--bg);border:1px solid var(--line-strong);border-radius:16px;padding:12px 14px}
+.scan textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.temp{height:10px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.temp i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#2f9e44,#e0a100,#e5446d);transition:width .3s}
+.srcs{columns:2 320px;column-gap:28px;font-size:14px;padding-left:18px}
+.srcs li{margin-bottom:6px;break-inside:avoid}
+.srcs a{color:var(--accent)}
+@media (max-width:820px){.cmp{grid-template-columns:1fr}.cmp .w{border-right:0;border-bottom:1px dashed var(--line-strong)}}
+
+.abs{border:1.5px dashed color-mix(in srgb,var(--ext) 55%,transparent);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;background:var(--surface)}
+.absd{font:700 21px/1.15 var(--hand);color:var(--ext)}
+.lol{font-size:13px;color:var(--mut);font-style:italic}
+.calm{border-top:1px dashed var(--line-strong);padding-top:8px;display:flex;flex-direction:column;gap:2px}
+.calm p{font-size:14.5px;font-weight:600}
+.cost{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.cc{padding:16px;display:flex;flex-direction:column;gap:6px}
+.cc b{font:700 16px/1.25 var(--sans)}
+.cc p{font-size:14px}
+.cc .cv2{font:800 28px/1 var(--head);letter-spacing:-.03em}
+.cc .cav{font-size:12.5px;color:var(--mut)}
+.cc a{color:var(--accent);font-size:13px}
+.calc{padding:18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:center}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:600;margin-bottom:10px}
+.calc input[type=range]{width:100%;accent-color:var(--accent)}
+.calc output{font-variant-numeric:tabular-nums;color:var(--accent)}
+.res{display:flex;flex-direction:column;gap:6px}
+.res .big2{font:800 40px/1 var(--head);letter-spacing:-.03em}
+@media (max-width:760px){.calc{grid-template-columns:1fr}}
+.good{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+.gc{padding:16px;display:flex;flex-direction:column;gap:8px;border-top:4px solid #2f9e44}
+.gc .dt{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#2f9e44}
+.gc b{font:700 17px/1.25 var(--sans)}
+.gc ul{padding-left:18px;font-size:14.5px;display:flex;flex-direction:column;gap:4px}
+.gc .hk{font-size:13.5px;color:var(--mut);border-left:3px solid var(--line-strong);padding-left:10px}
+.gc .it2{font-size:14px;color:var(--interp);border-left:3px solid var(--interp);padding-left:10px}
+.gc a{color:var(--accent);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@media (max-width:1020px){.layout{grid-template-columns:1fr}.side{position:static}svg.map{min-width:720px}}
+@media (max-width:480px){h1{font-size:28px}.metric b{font-size:30px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <span class="eyebrow"><i></i>Dane z 28.10.2026</span>
+    <h1>Gospodarka bez nerwów</h1>
+    <p class="lead">Skąd bierze się cena w sklepie? Ropa, inflacja, stopy i pensje łączą się w jeden łańcuch, a Ukraina, USA i Chiny dorzucają swoje trzy grosze. Klikaj kafelki i zobacz, co się z czym łączy.</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Zakładki">
+    <button class="tab" role="tab" id="tb-map" aria-selected="true" aria-controls="tab-map" type="button">Mapa gospodarcza</button>
+    <button class="tab" role="tab" id="tb-emo" aria-selected="false" aria-controls="tab-emo" type="button">Newsy bez nerwów</button>
+  </div>
+
+  <div id="tab-map" role="tabpanel" aria-labelledby="tb-map" style="display:flex;flex-direction:column;gap:20px">
+  <div class="layout">
+    <div class="left">
+    <section class="card scene" aria-label="Mapa">
+      <div class="scroller" id="map">
+      <svg class="map" id="sv" viewBox="0 0 1000 900" role="img" aria-label="Mapa Europy i Bliskiego Wschodu z trasą ropy z Zatoki Perskiej do Gdańska, powiększeniem Polski i węzłami opisującymi gospodarkę.">
+        <defs>
+          <clipPath id="insclip"><circle cx="790" cy="205" r="205"/></clipPath>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="var(--chain)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <filter id="rough" filterUnits="userSpaceOnUse" x="-100" y="-100" width="1300" height="1100"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <filter id="rough2" filterUnits="userSpaceOnUse" x="-100" y="-100" width="1300" height="1100"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <linearGradient id="g-oil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--o1)"/><stop offset="1" stop-color="var(--o2)"/></linearGradient>
+          <linearGradient id="g-chain" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)"/><stop offset="1" stop-color="var(--c2t)"/></linearGradient>
+          <linearGradient id="g-ind" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--i1)"/><stop offset="1" stop-color="var(--i2)"/></linearGradient>
+          <linearGradient id="g-ext" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--e1)"/><stop offset="1" stop-color="var(--e2)"/></linearGradient>
+          <symbol id="i-derrick" viewBox="0 0 48 48"><path class="ia" d="M24 4C24 4 9 21 9 30a15 15 0 0 0 30 0C39 21 24 4 24 4Z"/><circle class="ey" cx="19" cy="28" r="2.7"/><circle class="ie" cx="19.6" cy="28.2" r="1.30"/><circle class="ey" cx="29" cy="28" r="2.7"/><circle class="ie" cx="29.6" cy="28.2" r="1.30"/><path class="im" d="M19.500 35q5 4 10 -1"/><path class="im" d="M16 23l5 1.500M32 23l-5 1.500"/></symbol>
+          <symbol id="i-gate" viewBox="0 0 48 48"><path class="ib" d="M24 7q-3 -3 0 -5M28 9q-3 -3 0 -5" stroke-width="0"/><rect class="iw" x="21" y="8" width="6" height="9" rx="2"/><circle class="ib" cx="24" cy="4.500" r="2.400"/><rect class="ib" x="14" y="16" width="20" height="13" rx="4"/><circle class="ey" cx="20" cy="22.5" r="2.6"/><circle class="ie" cx="20.6" cy="22.7" r="1.25"/><circle class="ey" cx="28" cy="22.5" r="2.6"/><circle class="ie" cx="28.6" cy="22.7" r="1.25"/><path class="ia" d="M4 28H44L38.500 40H9.500Z"/><path class="im" d="M19 34q5 -3.500 10 0"/><path class="sb" d="M5 45q4.500 -3 9.500 0t9.500 0 9.500 0 9.500 0"/></symbol>
+          <symbol id="i-pump" viewBox="0 0 48 48"><rect class="ia" x="8" y="5" width="24" height="35" rx="7"/><rect class="iw" x="12" y="10" width="16" height="11" rx="3.500"/><circle class="ey" cx="17.5" cy="15.5" r="2.3"/><circle class="ie" cx="18.1" cy="15.7" r="1.10"/><circle class="ey" cx="23.5" cy="15.5" r="2.3"/><circle class="ie" cx="24.1" cy="15.7" r="1.10"/><ellipse class="ie" cx="20" cy="30" rx="3" ry="3.600"/><rect class="ib" x="5" y="38" width="30" height="6" rx="3"/><path class="sb" d="M32 16h4a3 3 0 0 1 3 3v14a2.500 2.500 0 0 0 5 0V21"/></symbol>
+          <symbol id="i-shop" viewBox="0 0 48 48"><path class="sb" d="M16 19v-4a8 8 0 0 1 16 0v4"/><rect class="ia" x="7" y="18" width="34" height="25" rx="9"/><circle class="ey" cx="18.5" cy="28" r="2.7"/><circle class="ie" cx="19.1" cy="28.2" r="1.30"/><circle class="ey" cx="29.5" cy="28" r="2.7"/><circle class="ie" cx="30.1" cy="28.2" r="1.30"/><path class="im" d="M18.500 33.500q5.500 6 11 0"/></symbol>
+          <symbol id="i-bank" viewBox="0 0 48 48"><path class="ia" d="M24 4 43 16H5Z" stroke-linejoin="round"/><circle class="ey" cx="24" cy="12" r="3.800"/><circle class="ie" cx="24.600" cy="12.200" r="1.700"/><path class="im" d="M27.500 15q3 6 -1 9"/><rect class="ib" x="9" y="19" width="6.500" height="17" rx="2.600"/><rect class="ib" x="20.800" y="19" width="6.500" height="17" rx="2.600"/><rect class="ib" x="32.500" y="19" width="6.500" height="17" rx="2.600"/><rect class="ia" x="5" y="38" width="38" height="6" rx="3"/></symbol>
+          <symbol id="i-worker" viewBox="0 0 48 48"><circle class="ib" cx="16" cy="11" r="7"/><circle class="iw" cx="16" cy="11" r="2.500"/><rect class="ia" x="4" y="14" width="40" height="28" rx="9"/><rect class="ib" x="28" y="23" width="16" height="11" rx="5.500"/><circle class="iw" cx="34.500" cy="28.500" r="2.200"/><path class="im" d="M9 27q3 3 6 0M17.500 27q3 3 6 0M12 35h9"/><path class="ib" d="M41 5q-3.500 4.500 0 7 3.500 -2.500 0 -7Z"/></symbol>
+          <symbol id="i-debt" viewBox="0 0 48 48"><path class="im" d="M20 13V3"/><path class="ie" d="M20 3 29 6.500 20 10Z"/><path class="ia" d="M2 42 20 12 38 42Z" stroke-linejoin="round"/><path class="ib" d="M31 42 38 31 46 42Z"/><circle class="ey" cx="14.5" cy="31" r="2.4"/><circle class="ie" cx="15.1" cy="31.2" r="1.15"/><circle class="ey" cx="24" cy="31" r="2.4"/><circle class="ie" cx="24.6" cy="31.2" r="1.15"/><path class="im" d="M11.500 26.500l5.500 2.500M27 26.500l-5.500 2.500M15 38.500q4.500 -3.500 9 0"/></symbol>
+          <symbol id="i-tree" viewBox="0 0 48 48"><rect class="ib" x="6" y="27" width="9.500" height="15" rx="3.800"/><rect class="ia" x="18.500" y="18" width="9.500" height="24" rx="3.800"/><rect class="ib" x="31" y="6" width="11" height="36" rx="4.500"/><circle class="ey" cx="34.8" cy="15" r="2"/><circle class="ie" cx="35.4" cy="15.2" r="0.96"/><circle class="ey" cx="38.5" cy="15" r="2"/><circle class="ie" cx="39.1" cy="15.2" r="0.96"/><path class="im" d="M34 21q3 3.500 6 0"/><path class="im" d="M6 15 17 8M13 7.500l4.500 .5 -1 4.500"/></symbol>
+          <symbol id="i-sun" viewBox="0 0 48 48"><path class="sb" d="M24 3v6M24 39v6M3 24h6M39 24h6M9 9l4.200 4.200M34.800 34.800 39 39M39 9l-4.200 4.200M13.200 34.800 9 39"/><circle class="ia" cx="24" cy="24" r="11.500"/><rect class="ie" x="14.500" y="19" width="9" height="6.500" rx="3"/><rect class="ie" x="24.500" y="19" width="9" height="6.500" rx="3"/><path class="im" d="M23 21h2M18.500 31q5.500 5 11 0"/></symbol>
+          <symbol id="i-west" viewBox="0 0 48 48"><circle class="ib" cx="33" cy="12" r="7.500"/><path class="ia" d="M13 38a9 9 0 0 1-1-18 12.500 12.500 0 0 1 24 2 8.500 8.500 0 0 1 0 16Z"/><circle class="ey" cx="19.5" cy="28" r="2.7"/><circle class="ie" cx="20.1" cy="28.2" r="1.30"/><circle class="ey" cx="29.5" cy="28" r="2.7"/><circle class="ie" cx="30.1" cy="28.2" r="1.30"/><path class="im" d="M20.500 34.500q4 -3.500 8 0"/><path class="sb" d="M16 43v3M25 43v3M34 43v3"/></symbol>
+          <symbol id="i-ukraine" viewBox="0 0 48 48"><path class="ia" d="M24 3 42 9.500V23C42 33.500 34.500 41 24 45 13.500 41 6 33.500 6 23V9.500Z"/><path class="ib" d="M24 9 36 13.200V23C36 30.500 31 35.500 24 38.500Z"/><path class="iw" d="M24 14.500l2.900 5.800 6.400.9-4.600 4.500 1.100 6.300L24 29l-5.800 3 1.100-6.300-4.600-4.500 6.400-.9Z"/></symbol>
+          <symbol id="i-usa" viewBox="0 0 48 48"><circle class="ib" cx="24" cy="25" r="20"/><path class="ia" d="M24 6l5.500 11.500 12.500 1.800-9 8.800 2.100 12.500L24 34.800 12.900 40.600 15 28.100 6 19.300l12.500-1.800Z" stroke-linejoin="round"/><circle class="ey" cx="19.5" cy="25" r="2.5"/><circle class="ie" cx="20.1" cy="25.2" r="1.20"/><circle class="ey" cx="28.5" cy="25" r="2.5"/><circle class="ie" cx="29.1" cy="25.2" r="1.20"/><path class="im" d="M19.500 30q4.500 4.500 9 0"/></symbol>
+          <symbol id="i-china" viewBox="0 0 48 48"><rect class="ib" x="11" y="40" width="9" height="6" rx="3"/><rect class="ib" x="28" y="40" width="9" height="6" rx="3"/><rect class="ia" x="6" y="16" width="36" height="26" rx="7"/><rect class="ib" x="4" y="8" width="40" height="11" rx="5"/><rect class="iw" x="20.500" y="8" width="7" height="34" rx="3"/><circle class="ey" cx="13.5" cy="28" r="2.6"/><circle class="ie" cx="14.1" cy="28.2" r="1.25"/><circle class="ey" cx="34.5" cy="28" r="2.6"/><circle class="ie" cx="35.1" cy="28.2" r="1.25"/><path class="im" d="M15 35q9 6.500 18 0"/></symbol>
+          <symbol id="cl" viewBox="0 0 120 60"><circle cx="35" cy="36" r="20"/><circle cx="62" cy="26" r="25"/><circle cx="90" cy="37" r="18"/><rect x="35" y="36" width="56" height="19" rx="9"/></symbol>
+        </defs>
+        <rect class="sea" width="1000" height="900"/>
+        <g filter="url(#rough2)"><path class="land oth" d="M128.1,558.2L127.8,559L126.7,561.2L119.7,579.2L85,564.3L72.3,594.6L61.6,591.2L56.2,596.1L50.7,614.2L7.6,593.8L3.3,596.5L6.2,591.8L6.4,591.9L31.5,602.9L34.8,599.3L41.7,596.1L52.8,581.5L73.4,575.5L84.9,562.9L88.5,563.4L95.8,555.7L105.2,558.2L108.4,561.2L113.1,563.2L117.6,561.9L124.3,564.1L126.5,557.6Z"/><path class="land oth" d="M963,177.7L963.7,188.1L959.3,193.5L967.1,203.3L967.1,210.7L951.4,218.1L960.4,239.5L958.5,244.4L947.7,258.8L967,271.3L964,277.6L968.8,282.9L963.1,284.8L956.8,283.9L945,290.6L932.4,298.8L930.5,301.8L916.8,304.5L913.8,309.4L916.5,316.4L901.5,320.6L897.3,325.2L898.3,330.9L894.9,335.6L888.6,349.1L889.3,358.8L886.3,360.6L881.2,356.7L870.6,362L864.2,353.8L860.1,355.8L855,344.5L841.3,341.3L827.9,348.9L819.1,355L806.7,348.4L798.2,347L782.2,344.1L780.2,343.8L762,358.9L778.6,401.6L774.3,403.8L764.9,396.9L757.8,395.8L748.8,401.6L746.3,406.9L744.9,404.1L745.4,398.5L742.3,395L731,394.2L723.8,384.9L718.1,383.3L716.6,379.5L725.2,378.1L722.8,369.3L729.2,365.1L737.1,364.4L734.6,352.4L730.6,345.6L722.7,348.9L714.9,348.3L707.1,356.4L700.2,361.2L695.4,360.5L694.5,354.1L687,347.5L681.1,349.5L672.1,343.1L674.2,332.7L671.3,330.9L673.9,315.9L683.9,320.7L682.3,311.6L694,293.7L705.6,289.6L724.8,292.2L735.5,293.7L741.5,285.7L753,280.8L765,282.9L765.6,278.5L776.1,274.5L775.4,268.2L760.3,265.4L764.6,256.8L761.9,254.2L767.2,248.2L758.7,242.5L760,237.1L783.4,221L785.2,216.5L799.3,203.7L802.5,195.8L815.3,191.7L824.1,201.9L829.1,195.2L839.6,193.9L842.8,200.1L848.5,195.6L857.5,175.1L857.5,180L871,182.6L903.9,198.6L903.4,190.8L916.5,190L923.5,180.4L928.3,179.4L935.9,182.6L941.8,180.9L947.9,182.8L954.7,174.7Z"/><path class="land oth" d="M778.6,401.6L762,358.9L780.2,343.8L782.2,344.1L798.2,347L806.7,348.4L819.1,355L827.9,348.9L841.3,341.3L855,344.5L860.1,355.8L864.2,353.8L870.6,362L881.2,356.7L886.3,360.6L889.3,358.8L888.6,349.1L894.9,335.6L898.3,330.9L901.3,330.6L898.6,341.4L906.9,342L911,335.9L923.9,335.7L918.3,349.6L911.4,352.3L908.2,354.5L905.3,352.2L904.1,346.3L894.7,355L896,363.4L895.4,371.6L888.1,374.9L888.5,380.9L896.1,380.1L902.4,387.2L903.6,400.9L895.8,402.1L890.9,404.6L887.6,397.8L873.6,399L861.8,398.1L853.6,395.6L840.1,392.5L830.6,382.8L826.8,382.1L817.8,386.7L813.5,385.8L808.7,377.1L794.8,375.9L790.3,385.5L784.6,392.4L788.3,397.6Z"/><path class="land me" d="M771.9,905L774.8,901.3L793.4,896.3L822,843.7L828.3,829.5L832,819.3L829.9,812.2L825.9,798.6L824.4,793L824.4,792.8L828.5,791.3L834,787.5L840.5,784.1L845.3,777.6L850.2,776L851.6,779.6L852.9,787.7L855.2,794.7L853.9,800.4L854.7,816.2L852.9,833.5L849.7,853.7L843.8,877.8L836.1,897.2L832.4,905L771.9,905Z"/><path class="land me" d="M495.4,885.9L484.5,879.6L479.7,875.5L478.8,871L481.1,865.1L481.1,859.4L473.2,850.5L471.7,844.5L471.9,841.1L466.9,836.9L466.9,828.8L464.2,823.4L459.4,824.1L460.9,819.1L464.5,813.4L463.1,807.7L467.6,803.6L464.8,800.3L468.5,792L474.6,782.1L485.8,783.1L485.3,730L485.4,724.5L499.7,724.4L499.4,698.2L547.9,696.6L594.6,692.9L642.1,687L647.9,699.1L645.6,701.8L649.4,714.9L656.3,729.9L661.5,732.4L669.1,736.1L664,744.7L655.1,748.3L651.6,752.9L651.7,762L648.9,782.5L651.1,787.7L650.6,799.6L647.1,813.8L639.9,821.7L635.4,833L634.7,838.8L628.7,843.5L626.3,858.7L628,871.4L626.6,860.4L624.6,860.3L624,853.3L621.9,848.6L614.2,843.9L611.5,834L612.1,823.6L605.7,823.3L605.1,826.5L597,828L600.6,831.7L602.6,840L595.8,848.3L589.8,859.1L582.7,861.1L570.4,853.7L565.4,857L564.2,861.2L557.2,864.3L556.9,867.2L542.9,867.9L540.9,865.1L530.8,865L525.9,867.6L521.9,866.5L514.6,858.4L512.1,854.6L502.1,856.7L498.4,863.3L494.8,876L490,878.7L485.7,880.3Z"/><path class="land oth" d="M485.3,730L485.8,783.1L474.6,782.1L468.5,792L464.8,800.3L467.6,803.6L463.1,807.7L464.5,813.4L460.9,819.1L459.4,824.1L464.2,823.4L466.9,828.8L466.9,836.9L471.9,841.1L471.7,844.5L463,846.7L455.8,852.3L445.3,867.4L431.9,873.4L418.3,871.9L414.3,873L415.4,878.1L407.7,882.6L401.3,887.8L382.9,891.9L379.7,888.4L377.3,887.9L374.3,891.4L362.5,891.3L365.1,887.7L361.6,877.4L360.2,871.2L354.4,868.2L347,859L350.8,852.7L357,854.8L361,854.3L368.7,855.2L362.5,841.7L363.9,832.5L364,823.2L359.5,813.8L361.6,807.5L353.1,806.2L354.1,797.5L349.2,791.8L356.9,774.7L374.7,763.8L377.1,746.5L384.5,720.2L387.7,714.8L383,709.9L383.2,705.7L379,701.9L378.2,681.4L390.8,675.6L436.9,703.7Z"/><path class="land oth" d="M477.8,291.7L464.1,291.6L455,289.8L456.9,284.2L467.2,280.4L474.9,282.9L478.1,285L477.3,288.5ZM631.5,-5L631.4,1.2L630.1,17.6L635.4,29.1L648.5,37.2L646.3,39.5L630.5,43.3L627.1,37.5L617.5,36.4L614.4,28.8L617.9,24.2L615.1,16.3L619.1,0.9L614.7,0.4L614.7,0.4L616.3,-5L631.5,-5ZM1005,86.9L1002.9,87.5L1005,94.7L1005,123.9L1005,123.9L1000,128.5L992.1,128.3L986.1,134.1L978.4,136.3L973.7,149L969.7,167.4L964.8,174.8L963,177.7L954.7,174.7L947.9,182.8L941.8,180.9L935.9,182.6L928.3,179.4L923.5,180.4L916.5,190L903.4,190.8L903.9,198.6L871,182.6L857.5,180L857.5,175.1L848.5,195.6L842.8,200.1L839.6,193.9L829.1,195.2L824.1,201.9L815.3,191.7L802.5,195.8L799.3,203.7L785.2,216.5L783.4,221L760,237.1L758.7,242.5L767.2,248.2L761.9,254.2L764.6,256.8L760.3,265.4L775.4,268.2L776.1,274.5L765.6,278.5L765,282.9L753,280.8L741.5,285.7L735.5,293.7L724.8,292.2L705.6,289.6L694,293.7L682.3,311.6L683.9,320.7L673.9,315.9L671.3,330.9L674.2,332.7L672.1,343.1L681.1,349.5L687,347.5L694.5,354.1L695.4,360.5L700.2,361.2L698.5,369.4L690.9,373.7L685.8,388.3L696.7,397.6L698.1,405.9L711.6,417.3L707.7,423.6L706.9,427.1L702.8,427.4L694.7,421.7L692,422L685.7,420.6L681.7,416.4L672.9,415.9L667.9,419L665.8,417.1L652.5,414L639.1,414.7L631.2,414L630.3,415.6L617.3,407.3L606.6,404.3L597.9,398.2L603.9,395.3L609.4,383.8L603.9,379.7L615.5,372.7L614.8,370L607.6,373.2L607,367.7L610.7,363.6L618.6,361.3L619.1,356.9L616.1,350.5L618.2,343.4L617.4,339.8L604.9,337.9L600.3,338.7L594.4,333.7L588.6,336.6L577.9,333.6L577.8,331.1L574.3,326L567.9,326.2L566.8,322.4L568.5,319.6L562.7,313L554.9,315.1L552.5,314.7L550.8,317.7L547.8,317.5L545.2,309.5L543.1,305.5L544.4,304.2L550.6,304.1L553.3,301L550.8,297.9L545.5,296.1L545.7,293.7L542.5,291.7L537.2,283.7L538.5,280.1L537.3,274.2L530,271.6L526.3,273.4L525.1,270.3L517.3,267.4L514.7,259.9L513.8,253.6L510.3,250.8L513.1,246.5L510.6,234.4L515.1,226.6L514,224.4L521.2,216.7L513.9,210.8L526.7,192.9L532,184.7L533.8,177.6L524,169L525.8,159.9L519.8,150.1L522.9,137.9L515.3,122.3L519.7,111.3L510.9,102.2L511.2,92.1L515.3,90.5L523.6,84L528.4,78.5L537.6,86.5L552.2,88.1L574.6,100.9L579.9,106.8L582.1,116L577.4,124.5L568.9,129.8L542.5,122.6L538.6,124.9L548.9,134L550.1,140.4L552.2,154.4L560.4,157.6L565.6,160.4L565.3,153.7L560.9,148.4L563.9,142.6L579.3,148.8L583.6,144.6L577.9,135.3L588.3,119.3L593.6,119.1L599.8,122.7L600.8,112.5L594.4,105.3L595.1,96.4L589.2,88.6L604.8,89.6L609.8,96.6L603.5,100L605.5,107.7L610.9,111.3L618.4,106.1L617.3,97L626.2,87.3L640,69.7L643.9,69.1L641.9,79.1L648.7,78.2L650.6,72.3L659.7,68.4L664.7,59.9L673.6,65.5L675.3,54.4L666.9,48.8L667.4,43.3L682.9,41L691.3,42L715.9,47.7L715.3,39.4L707,35.3L705.4,32.6L699.2,34.3L697.4,27.4L689.6,18.4L687.3,14.2L688.6,-2L687.7,-5L705.8,-5L705.8,-5L706.2,-3L711.3,-0.4L718.1,7.6L727.6,25.3L737.3,29.8L740.4,39.2L741.7,62L748.3,60.4L747.5,54.9L750.8,48.6L748.3,41.9L748.5,33.6L741.5,28.5L738.3,19.1L732.9,21.2L727.5,15L722.9,0.3L713.8,-5L1005,-5ZM568.8,392.7L570.7,389.4L577.2,391.4L580,391.5L581.4,393.8L582.7,394L582.9,395.1L587.6,397.5L596.3,395.6L595.2,400.2L586,403.6L574.9,412.2L569.7,410.2L571,404.2L561.1,401.6L562.5,399L570.3,394.1Z"/><path class="land oth" d="M523.6,84L515.3,90.5L511.2,92.1L512.8,81.7L506,76.2L498.4,81.4L496.1,92.2L491.2,98.7L485.5,95.2L478.7,95.9L473.1,88L469.9,91.8L466.6,92.2L465.4,101.7L455.6,98.8L453.6,106.7L448.5,106.3L444,116.1L437,131.2L425.9,149.7L427.5,154.6L424.8,159.8L418.9,158.8L413.3,171L411.3,188.8L414.4,196.1L410.2,211.3L403.5,219.6L399.5,226.7L396.2,218L380.4,230.8L370.8,232.1L362.8,223.7L363.4,209.3L368,178.8L375.4,171.5L393.6,163.4L407.6,151.4L420.9,133.7L437.4,108.2L447.4,98.3L462.8,81L474.2,75L482.4,76L490,63.7L498.8,64.2L507.5,60.8L523.5,70.8L517.4,75.2Z"/><path class="land oth" d="M275.6,-5L276,0.4L271.5,11.8L262.5,9.8L262.2,3L261.8,-5L275.6,-5ZM260.6,-5L257.6,2L248.6,5.5L259.5,13L265,17.2L246.7,21.1L228.5,23.1L212.9,18.3L208.1,14.9L200.3,16L185.1,23.3L169.5,23.4L166.1,21.3L158,19L149.6,16.1L140.2,19.1L133.6,26.2L125.3,30.8L110.6,32L105.2,41.4L95.5,47.5L84.1,54.6L76.9,48.6L77.7,34.1L68.8,24.7L70,15.1L76.9,3.1L79.2,-5L260.6,-5Z"/><path class="land west" d="M342.9,338.8L346,342.8L357.2,347.3L351.5,354.9L348.8,363.5L346.1,365.1L342.6,363.3L342.3,366.5L334.8,372.1L333.5,377.6L337.9,376.5L339.7,382.4L338.7,385.8L340.3,390.9L336.6,394L337,403.9L341.5,406.4L339.4,411.5L330.1,416.8L313.3,409.8L299.6,410.7L296.8,417.7L286.1,416.7L277.6,408.7L273.7,410.4L259.1,400.4L257.1,394.7L263.7,388.9L272.3,365.6L267.6,350.5L263.5,342.6L252.8,334.1L254.9,325.2L265.9,325.9L278.2,333.1L279.8,318.7L285.7,326.1L306.5,321.7L311.4,312.3L318.8,311.6L318.8,316.1L322.4,317.2L324.8,323L329,330.1L333.2,330L339,337.1L340.5,338.6ZM348.7,426.6L355.3,422.9L355.1,433.7L350.5,442.6L346.8,439.4L346.1,430.8Z"/><path class="land oth" d="M-5,659.6L-0.7,659.7L5.8,662.6L9.8,668.8L16.1,675.6L19.2,688L23.4,700L20.6,708L19.8,716.3L22.9,721.8L21.9,727.2L19.6,730.9L17.5,730.9L11.2,726.9L9.6,727.9L6.8,727L-0.7,720L-5,717.9L-5,704.9L-5,704.9L-3.1,704.8L-3.9,700.1L-5,700.2L-5,659.6Z"/><path class="land oth" d="M19.6,730.9L21.9,727.2L22.9,721.8L19.8,716.3L20.6,708L23.4,700L28.4,699.5L33.6,693L37.6,694.3L44.5,701.4L52.4,701.7L56.7,704.4L59.7,702.4L108.8,720.5L114.7,712.5L113.1,710.2L126.3,654.1L139.7,599.4L156.6,605.1L186,644L217.8,682.4L219.1,689.1L225.6,694.6L230.7,698L228.9,706.3L242.7,708.2L235.9,738.1L227,745.3L224,753.1L212.2,752.5L194.6,749.2L188.7,752.7L180.5,751L172.3,748.8L169.9,745.3L162.4,745.2L149,747.1L145.4,750.4L133.7,753.2L130.9,756.1L124.7,757L119.1,753.3L114.6,755.3L109.7,763.6L95.8,771.1L94.6,775.7L89.1,780L87.2,788L81.2,788.1L77.5,788.7L77.5,782.3L73.2,782.5L71.1,781.4L67.3,784.4L57.2,780.5L54.4,777.2L52.2,777.8L49.7,772.5L51.9,768.8L50.9,766.7L47.7,766.9L49.8,762.8L53.7,760.5L50.6,753L50.5,748.9L48.8,744.9L46.4,743.6L42.7,744.2L37.9,744.3L33.3,745.7L28.4,742.4L26.2,737.7L24.3,736.4L20.3,736.7L18.3,735.9Z"/><path class="land oth" d="M-5,638L-3.5,635.7L1,623.4L2.6,616.8L6.6,611.4L6.5,604.4L3.3,596.5L3.3,596.5L7.6,593.8L50.7,614.2L56.2,596.1L61.6,591.2L72.3,594.6L85,564.3L119.7,579.2L126.7,561.2L156.6,605.1L139.7,599.4L126.3,654.1L113.1,710.2L114.7,712.5L108.8,720.5L59.7,702.4L56.7,704.4L52.4,701.7L44.5,701.4L37.6,694.3L33.6,693L28.4,699.5L23.4,700L19.2,688L16.1,675.6L9.8,668.8L5.8,662.6L-0.7,659.7L-5,659.6L-5,638Z"/><path class="land oth" d="M180.7,877.1L168.6,875.9L167.7,865.2L176.6,833.4L174.6,829.9L175.8,823L172.4,817L169.4,811.9L173,805.2L178,804.9L182.3,799.7L189.1,800.1L193,796.8L198.4,793.9L203.1,795.1L211.4,805.3L209.8,809.7L210.9,818.5L207,823.4L207.5,827.4L198.9,834.4L193.6,837.6L188.9,845.7L187.1,854.6Z"/><path class="land oth" d="M378.2,681.4L379,701.9L383.2,705.7L383,709.9L387.7,714.8L384.5,720.2L377.1,746.5L374.7,763.8L356.9,774.7L349.2,791.8L354.1,797.5L353.1,806.2L361.6,807.5L359.5,813.8L355.7,814.2L354.8,818.5L352.2,818.5L345,802.5L341.9,801.5L330.6,807.8L320.8,802.4L313.8,800.6L309.7,801.9L302,800.3L293.2,804.9L286.4,804L271.6,794.2L264.8,796.3L258.1,794.8L254.2,788.7L242.1,780.9L227.8,779.5L223.8,781.6L220.2,788.9L215.1,793.4L211.4,805.3L203.1,795.1L198.4,793.9L193,796.8L195.6,787.6L181.4,780.7L182.7,774.1L177.8,763.5L177.7,757L180.5,751L188.7,752.7L194.6,749.2L212.2,752.5L224,753.1L227,745.3L235.9,738.1L242.7,708.2L261.1,706.2L300.9,687.6L345.4,669.5L363.3,677.5L369.2,685.3Z"/><path class="land oth" d="M214.1,905L211.8,894.1L203.8,882.5L193.1,880.2L180.7,877.1L180.7,877.1L187.1,854.6L188.9,845.7L193.6,837.6L198.9,834.4L207.5,827.4L207,823.4L210.9,818.5L209.8,809.7L211.4,805.3L215.1,793.4L220.2,788.9L223.8,781.6L227.8,779.5L242.1,780.9L254.2,788.7L258.1,794.8L264.8,796.3L271.6,794.2L286.4,804L293.2,804.9L302,800.3L309.7,801.9L313.8,800.6L320.8,802.4L330.6,807.8L341.9,801.5L345,802.5L352.2,818.5L354.8,818.5L359.5,824.6L357.7,826.9L356.5,831.5L343.8,840.9L339.1,849.4L336.3,856.4L332.9,859.2L328.8,868.8L320.6,873.6L317.4,880.5L313.4,885.9L311.3,891.6L300.7,895.1L293.6,888L288.2,887.4L278.4,894.4L274.2,893.8L266.1,905L214.1,905Z"/><path class="land oth" d="M266.1,905L274.2,893.8L278.4,894.4L288.2,887.4L293.6,888L300.7,895.1L311.3,891.6L313.4,885.9L317.4,880.5L320.6,873.6L328.8,868.8L332.9,859.2L336.3,856.4L339.1,849.4L343.8,840.9L356.5,831.5L357.7,826.9L359.5,824.6L354.8,818.5L355.7,814.2L359.5,813.8L359.5,813.8L364,823.2L363.9,832.5L362.5,841.7L368.7,855.2L361,854.3L357,854.8L350.8,852.7L347,859L354.4,868.2L360.2,871.2L361.6,877.4L365.1,887.7L362.5,891.3L353.9,905L266.1,905Z"/><path class="land oth" d="M173,805.2L169.4,811.9L172.4,817L175.8,823L174.6,829.9L176.6,833.4L167.7,865.2L168.6,875.9L156.5,875.9L154.7,870.1L153.4,860.2L154.2,852.9L160.6,841.2L158.6,835.3L160.2,824.1L163,814.2L159.4,805.6L161.5,801.7Z"/><path class="land oth" d="M161.5,801.7L159.4,805.6L163,814.2L160.2,824.1L158.6,835.3L160.6,841.2L154.2,852.9L153.4,860.2L154.7,870.1L156.5,875.9L132,878.1L122.8,880.7L108.8,881L97.5,873.1L99.9,867.8L97.7,853.8L106.2,839.3L115.6,829.6L118.1,809.1L119.5,798.4L122.2,790.8L145.2,797.2L150.8,799.9L155.7,798.9Z"/><path class="land oth" d="M52.2,777.8L54.4,777.2L57.2,780.5L67.3,784.4L71.1,781.4L73.2,782.5L77.5,782.3L77.5,788.7L81.2,788.1L87.2,788L92.1,793L93,798.2L98,803L103.7,801.2L110.1,802.7L118.1,809.1L115.6,829.6L106.2,839.3L97.7,853.8L99.9,867.8L97.5,873.1L91.1,871.3L82.2,865.3L73.2,862.5L55.8,859.3L44.8,859.8L29.1,859.9L26.5,858.5L31.9,847.5L33.9,846.3L35.5,840.7L31.9,832.7L27.9,830.2L25.4,824.9L30.7,820L31.8,812.9L34,809.3L36.1,810.1L39.1,804.5L39.1,801.5L41.1,800.2L46.6,800.4L47.4,788.5L46.5,781.9L49.3,777.8Z"/><path class="land oth" d="M-5,717.9L-0.7,720L6.8,727L9.6,727.9L11.2,726.9L17.5,730.9L19.6,730.9L18.3,735.9L20.3,736.7L24.3,736.4L26.2,737.7L28.4,742.4L33.3,745.7L37.9,744.3L42.7,744.2L46.4,743.6L48.8,744.9L50.5,748.9L50.6,753L53.7,760.5L49.8,762.8L47.7,766.9L50.9,766.7L51.9,768.8L49.7,772.5L52.2,777.8L49.3,777.8L46.5,781.9L47.4,788.5L46.6,800.4L41.1,800.2L39.1,801.5L39.1,804.5L36.1,810.1L34,809.3L30.4,807.5L25.5,811.8L21.8,810.3L20.3,806.4L23.3,801.4L21.1,791L17,791.1L14.1,790.2L10.2,789.5L12.3,784.7L11.7,780.4L13.7,776.8L13.2,770.1L11.5,763.9L1.3,759.5L-2.7,760.7L-5,759.9L-5,717.9Z"/><path class="land oth" d="M-5,800.8L-3.5,798.6L5.5,793.9L14.1,790.2L17,791.1L21.1,791L23.3,801.4L20.3,806.4L21.8,810.3L25.5,811.8L30.4,807.5L34,809.3L34,809.3L31.8,812.9L30.7,820L25.4,824.9L27.9,830.2L31.9,832.7L35.5,840.7L33.9,846.3L31.9,847.5L26.5,858.5L22.8,857.3L11.2,845.2L2.9,829.8L-5,818.4L-5,800.8Z"/><path class="land oth" d="M-5,759.9L-2.7,760.7L1.3,759.5L11.5,763.9L13.2,770.1L13.7,776.8L11.7,780.4L12.3,784.7L10.2,789.5L14.1,790.2L5.5,793.9L-3.5,798.6L-5,800.8L-5,759.9Z"/><path class="land oth" d="M87.2,788L89.1,780L94.6,775.7L95.8,771.1L109.7,763.6L114.6,755.3L119.1,753.3L124.7,757L130.9,756.1L133.7,753.2L145.4,750.4L149,747.1L162.4,745.2L169.9,745.3L172.3,748.8L180.5,751L177.7,757L177.8,763.5L182.7,774.1L181.4,780.7L195.6,787.6L193,796.8L189.1,800.1L182.3,799.7L178,804.9L173,805.2L161.5,801.7L155.7,798.9L150.8,799.9L145.2,797.2L122.2,790.8L119.5,798.4L118.1,809.1L110.1,802.7L103.7,801.2L98,803L93,798.2L92.1,793Z"/><path class="land oth" d="M353.9,905L362.5,891.3L374.3,891.4L377.3,887.9L379.7,888.4L382.9,891.9L401.3,887.8L407.7,882.6L415.4,878.1L414.3,873L418.3,871.9L431.9,873.4L445.3,867.4L455.8,852.3L463,846.7L471.7,844.5L473.2,850.5L481.1,859.4L481.1,865.1L478.8,871L479.7,875.5L484.5,879.6L495.4,885.9L503.2,891.6L503.4,896.3L513.2,903.7L514.5,905L353.9,905Z"/><path class="land me" d="M610.3,553.7L609,557.9L605,556.7L603.9,565.2L606.7,566.3L604.2,568.3L604.1,571.7L608.9,569.4L609.8,574.2L607,594.8L605.5,591.7L597.3,574.2L599.9,569.7L599.1,569.1L601.2,563L602.1,553.3L603.3,550L603.5,549.8L607,549.4L607.7,547.1L610.4,546.6L611.3,551.6L610.1,553.7Z"/><path class="land me" d="M610.4,546.6L607.7,547.1L607,549.4L603.5,549.8L605.9,539.2L609.8,529.9L609.9,529.4L614.6,529.4L617,534L612,539.4Z"/><path class="land me" d="M608.9,569.4L604.1,571.7L604.2,568.3L606.7,566.3L603.9,565.2L605,556.7L609,557.9L610,565.5Z"/><path class="land oth" d="M-5,700.2L-3.9,700.1L-3.1,704.8L-5,704.9L-5,700.2Z"/><path class="land oth" d="M330.2,579.1L329.4,556.1L323.9,550L324.3,547L317.2,538.1L318.1,528.7L325.6,523L329.7,513.4L330.3,501.4L333.4,495.5L344.9,492.4L351.5,495L350.2,501.1L359.2,497.9L359.6,500.3L353.7,505.6L352.8,511.3L355.8,514.9L352.9,525.3L345.2,530.5L346.1,537.5L351.4,538.5L353.1,544.8L356.8,547.3L354.8,556.7L349.2,559.6L345.3,563L337.3,566.7L337.6,572L335.9,577.1Z"/><path class="land oth" d="M126.7,561.2L127.8,559L128.1,558.2L133.5,544.2L153.4,541.8L164.4,543.7L173.9,543.4L179.9,538.9L193.5,538.1L196.8,529.4L203,530.3L209,527.3L222.9,529.3L226.1,525.2L224.2,521.8L224.5,508.2L226.1,500.7L224.8,492L236.1,488.2L247.1,489.2L254.6,485.9L264.9,484.8L281.8,486.7L298.1,489.5L302.6,492.3L312.8,489.5L323.2,491.4L326.6,495L333.4,495.5L330.3,501.4L329.7,513.4L325.6,523L318.1,528.7L317.2,538.1L324.3,547L323.9,550L329.4,556.1L330.2,579.1L331.9,590.7L331.5,596.6L327.9,606.4L327.8,612.3L325.2,618.9L324.9,627L319.6,631.5L324.8,641.8L324.3,647.3L327.3,655.1L333.1,653.6L341.4,660.8L345.4,669.5L300.9,687.6L261.1,706.2L242.7,708.2L228.9,706.3L230.7,698L225.6,694.6L219.1,689.1L217.8,682.4L186,644L156.6,605.1Z"/><path class="land me" d="M609,557.9L610.3,553.7L622.7,557L640.9,540.6L647.7,554.9L646,557.1L625.9,566.7L638.4,577.5L635.2,580.2L634.1,584.6L626.1,587.6L624.2,592.5L620,597L607.6,596.6L607,594.8L609.8,574.2L608.9,569.4L610,565.5Z"/><path class="land me" d="M806,618.9L807.8,617.7L809.3,620.9L817.4,616.1L826.7,613.3L833.6,611.3L838.2,600.4L843.4,589.7L847.5,579.7L851.1,583L856.2,591.9L850.6,594.1L852.7,602.2L855.3,603.2L851.2,607.4L853,612.4L851.6,618.6L853.2,623.6L851.9,627L815.7,632.7L807.4,621.6Z"/><path class="land me" d="M795.4,615.4L791.9,606.7L792.9,599.4L795.4,597.1L800,599.9L802.5,607L802.4,614.9L799.6,616.8Z"/><path class="land me" d="M745.9,560.9L749.6,565.6L749.4,568.7L755.4,576.9L747.9,579.3L743.7,574.2L733.8,575.6L738.5,561.8Z"/><path class="land me" d="M647.7,554.9L640.9,540.6L661.1,523.8L662,508.2L659.3,499.5L664.1,495.4L667.4,486.8L671.2,484L682.8,483.1L686.9,485.4L691,482.2L700.8,495.1L708.1,497.1L710.7,503.9L706.8,509.4L706.8,519.4L716.7,529.1L730.9,532.5L738.7,540.2L739.4,549.5L742.7,548.5L744.7,555L752.2,559.7L745.9,560.9L738.5,561.8L733.8,575.6L713.7,579.6L678.2,561.5L660.9,556Z"/><path class="land me" d="M853.2,623.6L851.6,618.6L853,612.4L851.2,607.4L855.3,603.2L852.7,602.2L850.6,594.1L856.2,591.9L864.3,598.2L872.1,600.1L880.7,598.5L888.1,597.9L895.9,602.7L900.6,605.4L905.2,605.2L906.3,607.9L905.3,616.8L905,620.9L901.9,626.8L901.1,636.8L895.7,638.3L894.5,642.2L895.1,649.1L899.8,656.7L899.4,658.7L894,660.8L888.5,668.2L889.7,674.7L888,678.4L880.6,681.1L877.1,686L879,691L874.5,696.7L867.4,697.9L860.8,705L855.4,707.7L848.4,700.2L832.1,682.5L863,657.7L861.5,630.3ZM851.1,583L847.5,579.7L849,574.5L850.8,575L851.7,580.3Z"/><path class="land oth" d="M1005,94.7L1002.9,87.5L1005,86.9L1005,94.7ZM1005,178.9L1005,178.8L993.8,175.5L981.8,180.2L972.2,179.9L964.8,174.8L964.8,174.8L969.7,167.4L973.7,149L978.4,136.3L986.1,134.1L992.1,128.3L1000,128.5L1005,123.9L1005,178.9Z"/><path class="land oth" d="M1005,550.8L988.2,548.1L990.9,536.7L1005,528.7L1005,550.8ZM1005,515.4L996.8,513.3L990.7,505.4L981.4,504.1L985.5,486.4L997.2,480.6L1000.2,463.2L999.3,448.7L1001.4,432.3L996.4,424.9L1000,413.9L989.5,413.4L981.9,408.2L972.9,401L974.3,393.7L989,387.7L997.4,379.8L999.6,365.6L1005,367.3L1005,515.4Z"/><path class="land oth" d="M1005,528.7L990.9,536.7L988.2,548.1L979,549.3L971.6,542.8L959.1,538.4L941.1,550.2L924.3,558.6L910.2,567.1L908,551.8L920.1,538.8L916.7,534L910.9,534.4L905.9,524.4L893.9,523.9L886.7,518.7L879,514.9L898.4,513.1L907.5,506.7L914.1,505.3L914.9,501.8L922.3,499.4L932.6,488.2L928,478.6L929.9,469.5L937,465.7L936.4,462.1L942.7,456.7L946.7,455.8L948.6,450.7L944.4,444.4L944.6,435.7L948.8,429.6L941.1,424.5L949.8,419.9L950,414.6L947.1,410.7L948.9,403.6L944.7,398.9L939.9,395.6L942.2,387.9L949.9,380.1L958.8,372.8L961.8,368.1L965.9,363.8L975.2,364.6L983,370.9L999.6,365.6L999.6,365.6L997.4,379.8L989,387.7L974.3,393.7L972.9,401L981.9,408.2L989.5,413.4L1000,413.9L996.4,424.9L1001.4,432.3L999.3,448.7L1000.2,463.2L997.2,480.6L985.5,486.4L981.4,504.1L990.7,505.4L996.8,513.3L1005,515.4L1005,528.7Z"/><path class="land oth" d="M890.9,404.6L895.8,402.1L903.6,400.9L907,400.8L911.3,393.8L915.4,394.3L915.3,387.8L920.6,385.1L921,382.7L919.4,377.9L920.8,372.1L926.8,371.8L927.8,375.6L930.6,374.6L935.2,384L940.7,385.5L942.3,381.4L945.4,378.1L947.7,370.1L953.9,367.3L962.5,361.8L965.9,363.8L961.8,368.1L958.8,372.8L949.9,380.1L942.2,387.9L939.9,395.6L944.7,398.9L948.9,403.6L947.1,410.7L950,414.6L949.8,419.9L941.1,424.5L948.8,429.6L944.6,435.7L944.4,444.4L948.6,450.7L946.7,455.8L942.7,456.7L936.4,462.1L937,465.7L929.9,469.5L928,478.6L932.6,488.2L922.3,499.4L914.9,501.8L914.1,505.3L907.5,506.7L898.4,513.1L879,514.9L883.3,500.4L879.1,493.5L870.9,494.9L866.9,487.9L859.7,480.2L861,472.1L856.1,472.3L855,462.8L852.5,447L863.9,447L870.1,442.2L869.6,436.2L875.9,431.1L879.3,425.2L876.7,415.4L883,409.5L882.4,404.8L888.1,405.7Z"/><path class="land oth" d="M903.6,400.9L902.4,387.2L896.1,380.1L888.5,380.9L888.1,374.9L895.4,371.6L896,363.4L894.7,355L904.1,346.3L905.3,352.2L908.2,354.5L911.4,352.3L910.4,357.3L900.4,360.7L903.1,367.3L911.6,361.3L923.9,358.8L938.3,347.6L946.5,356L948.5,353.3L955,352.4L957.4,356.7L962.5,361.8L953.9,367.3L947.7,370.1L945.4,378.1L942.3,381.4L940.7,385.5L935.2,384L930.6,374.6L927.8,375.6L926.8,371.8L920.8,372.1L919.4,377.9L921,382.7L920.6,385.1L915.3,387.8L915.4,394.3L911.3,393.8L907,400.8Z"/><path class="land oth" d="M898.3,330.9L897.3,325.2L901.5,320.6L916.5,316.4L913.8,309.4L916.8,304.5L930.5,301.8L932.4,298.8L945,290.6L956.8,283.9L963.1,284.8L968.8,282.9L969.4,285.9L961.6,299.9L961.7,305.8L952.7,313.9L954.2,322.4L945,326.6L940.9,332.2L936.4,342L939.1,343.8L938.3,347.6L923.9,358.8L911.6,361.3L903.1,367.3L900.4,360.7L910.4,357.3L911.4,352.3L918.3,349.6L923.9,335.7L911,335.9L906.9,342L898.6,341.4L901.3,330.6Z"/><path class="land oth" d="M746.3,406.9L748.8,401.6L757.8,395.8L764.9,396.9L774.3,403.8L778.6,401.6L788.3,397.6L784.6,392.4L790.3,385.5L794.8,375.9L808.7,377.1L813.5,385.8L817.8,386.7L826.8,382.1L830.6,382.8L840.1,392.5L853.6,395.6L861.8,398.1L873.6,399L887.6,397.8L890.9,404.6L888.1,405.7L882.4,404.8L883,409.5L876.7,415.4L879.3,425.2L875.9,431.1L869.6,436.2L870.1,442.2L863.9,447L852.5,447L847.4,437.8L840.4,440.4L825.6,434.8L817.9,436.5L805.4,434.8L798.5,436.2L795.4,439.9L789.1,441.9L785,451L777.7,456.2L773,448.5L770,435.8L761.6,434.3L761.1,425.5L755,426.8L753.6,416.3L762.9,416.3L769.3,409.7L760.4,405L755.6,399.2L749.6,404.6L751.6,413.5Z"/><path class="land me" d="M752.2,559.7L744.7,555L742.7,548.5L739.4,549.5L738.7,540.2L730.9,532.5L716.7,529.1L706.8,519.4L706.8,509.4L710.7,503.9L708.1,497.1L700.8,495.1L691,482.2L683.5,473.8L684.5,469.6L678.3,456.4L683.8,451.5L686.4,455.7L692.5,460.1L699.3,460.1L702.6,458.8L711.2,447.1L714.4,445.2L718.1,448L716.6,454.7L724.2,459.3L726.3,458.1L731.9,466L741.6,465.8L750,469.7L764.1,467.4L777.7,459.3L777.7,456.2L785,451L789.1,441.9L795.4,439.9L798.5,436.2L805.4,434.8L817.9,436.5L825.6,434.8L840.4,440.4L847.4,437.8L852.5,447L855,462.8L856.1,472.3L861,472.1L859.7,480.2L866.9,487.9L870.9,494.9L879.1,493.5L883.3,500.4L879,514.9L886.7,518.7L893.9,523.9L905.9,524.4L910.9,534.4L916.7,534L920.1,538.8L908,551.8L910.2,567.1L888.6,572.4L875.8,574.6L863.2,577.9L852.9,565.2L847,565L839.7,570.3L831,580L816.5,580.7L802.5,575.2L791.1,575.1L780.4,565.9L767.6,552.2L762.6,555.9L754.8,553.8Z"/><path class="land me" d="M610.3,553.7L610.1,553.7L611.3,551.6L610.4,546.6L612,539.4L617,534L614.6,529.4L609.9,529.4L607.7,520.1L609.5,514.7L611.8,511.6L614,508.5L613.6,501.6L617.2,503.5L627.5,498.4L633,499.9L641.1,498.4L651.5,491.7L656.8,490.9L667.4,486.8L664.1,495.4L659.3,499.5L662,508.2L661.1,523.8L640.9,540.6L622.7,557Z"/><path class="land oth" d="M702.6,458.8L699.3,460.1L693.7,454.1L693.3,452.2L689.2,453.3L685.7,450.7L683.8,451.5L679.3,448.8L671.8,447.4L671.3,441.3L668.8,437.4L681,432.6L683.6,435.3L687.6,436.5L686.5,440L692.4,442.9L690.8,447.4L695.6,449.7L700.2,450.6Z"/><path class="land oth" d="M399.5,226.7L403.5,219.6L410.2,211.3L414.4,196.1L411.3,188.8L413.3,171L418.9,158.8L424.8,159.8L427.5,154.6L425.9,149.7L437,131.2L444,116.1L448.5,106.3L453.6,106.7L455.6,98.8L465.4,101.7L466.6,92.2L469.9,91.8L476.6,99.1L484.8,109L484.9,130.9L486.7,136.3L476.8,140.2L471,149.8L471.6,158.2L461.7,168.9L449.1,179.9L443.1,198.5L447.1,208.2L452.8,215.9L445.7,230.4L438.5,232.9L434,254.6L428.9,266.3L420.3,264.2L415.1,273.9L406.7,273.5L405.9,261.1L402,245.7Z"/><path class="land oth" d="M517.3,267.4L525.1,270.3L526.3,273.4L530,271.6L537.3,274.2L538.5,280.1L537.2,283.7L542.5,291.7L545.7,293.7L545.5,296.1L550.8,297.9L553.3,301L550.6,304.1L544.4,304.2L543.1,305.5L545.2,309.5L547.8,317.5L541.2,318.8L539,321.7L539,328.1L535.8,327.1L528.7,328.2L526.5,325.4L523.7,327.7L520.6,326.1L514.4,326.1L505.6,323.3L497.7,322.5L491.6,322.9L487.3,326.3L483.6,326.8L483.4,321.1L481.1,315.2L485.7,312.7L485.8,307.6L483.7,302.8L483.4,297.1L490.7,297.2L498.8,292.3L500.3,285L506.3,280.8L505.4,275L509.8,272.7Z"/><path class="land oth" d="M547.8,317.5L550.8,317.7L552.5,314.7L554.9,315.1L562.7,313L568.5,319.6L566.8,322.4L567.9,326.2L574.3,326L577.8,331.1L577.9,333.6L588.6,336.6L594.4,333.7L600.3,338.7L604.9,337.9L617.4,339.8L618.2,343.4L616.1,350.5L619.1,356.9L618.6,361.3L610.7,363.6L607,367.7L607.6,373.2L601.1,375.3L596.1,380.1L588.2,381.9L581.5,387.5L582.7,394L581.4,393.8L580,391.5L577.2,391.4L570.7,389.4L568.8,392.7L567.5,391.5L553.8,389.7L552.9,385.1L545.1,387.3L542.4,394.3L536.3,404L532.2,402.1L528.2,404.3L524.2,402.2L526.3,400.8L527.7,396.4L529.8,392.3L529.1,390.1L530.8,389L531.7,390.7L536.8,390.8L539,389.7L537.3,388.5L537.8,386.6L534.6,383.7L533.1,378.5L529.9,376.7L530.3,372.4L526.3,369.3L522.8,369L516.5,365.3L511.1,366.8L509.1,368.7L505.6,368.8L503.6,371.8L497.4,373.1L494.6,375L490.7,372L485.3,371.9L480.1,370.5L476.5,373.2L476,369.8L471.4,366.3L473.1,361.3L475.5,358.1L477.2,358.8L475.2,353.2L482.7,342.8L486.7,341.3L487.5,337.8L483.6,326.8L487.3,326.3L491.6,322.9L497.7,322.5L505.6,323.3L514.4,326.1L520.6,326.1L523.7,327.7L526.5,325.4L528.7,328.2L535.8,327.1L539,328.1L539,321.7L541.2,318.8Z"/><path class="land pl" d="M483.4,297.1L483.7,302.8L485.8,307.6L485.7,312.7L481.1,315.2L483.4,321.1L483.6,326.8L487.5,337.8L486.7,341.3L482.7,342.8L475.2,353.2L477.2,358.8L475.5,358.1L467.8,353.1L461.8,354.7L458,353.2L453.1,355.7L449.2,351.1L445.7,352.6L445.3,351.8L442,345.4L436,344.2L435.6,340.2L430.2,338.4L428.7,341.6L424.6,338.6L425.4,335.2L419.6,333.5L416.2,329.1L413.8,320.7L414.9,316.5L413.7,309.5L411.4,304.7L413.9,301.6L412.9,294.9L418.4,291.8L430.6,287L440.2,283.4L447.5,286.1L447.8,289.2L455,289.8L464.1,291.6L477.8,291.7L481.6,293.2Z"/><path class="land west" d="M428.7,367.9L427.7,372.9L423,372.6L424.3,375.4L420.8,383.2L419,385.1L411.5,384.7L407,387.1L400,385.3L388.2,380.6L386.9,376.1L378.3,377L377,379.3L372.1,376.7L367.9,375.7L364.5,372.8L366.2,370L366.3,367.8L368.9,367.5L372.6,371.6L374.3,368.5L381.5,370.2L387.8,368.8L391.8,369.7L394.1,372.6L395.1,370.6L394.9,362.3L398.1,361.1L401.7,355.7L407.3,360.4L412.5,355.8L415.5,355.2L421.5,359.6L425.4,359.3L429,362L428.2,363.5Z"/><path class="land oth" d="M471.4,366.3L476,369.8L476.5,373.2L471.3,375.7L467.1,384.1L461.7,392.4L454.7,394.4L449.3,393.6L442.5,396.5L439.2,398.2L432.2,395.3L426.1,389.5L423.6,387.8L422.3,383.4L420.8,383.2L424.3,375.4L423,372.6L427.7,372.9L428.7,367.9L432.7,371.4L435.7,373L442.8,371.9L443.7,369.5L447,369.3L451.2,367.5L452,368.4L456,367L458.1,364.1L460.8,363.5L469.6,367.6Z"/><path class="land oth" d="M509.1,368.7L511.1,366.8L516.5,365.3L522.8,369L526.3,369.3L530.3,372.4L529.9,376.7L533.1,378.5L534.6,383.7L537.8,386.6L537.3,388.5L539,389.7L536.8,390.8L531.7,390.7L530.8,389L529.1,390.1L529.8,392.3L527.7,396.4L526.3,400.8L524.2,402.2L522.4,396.6L523.1,391.3L522.5,385.8L517.3,378.6L514.4,373.4L511.7,369.8Z"/><path class="land oth" d="M524.2,402.2L528.2,404.3L532.2,402.1L536.3,404L536.7,407.2L532.6,410.1L529.9,409.1L528.2,424.2L522.9,423.1L516.2,418.9L505.8,422.1L501.4,425.4L488.2,424.8L481.3,422.9L477.8,423.7L475.3,418.6L473.7,416.4L475.8,414.4L473.7,412.8L470.8,415.5L465.8,411.8L465.2,406.6L460,403.5L459.2,399.5L454.7,394.4L461.7,392.4L467.1,384.1L471.3,375.7L476.5,373.2L480.1,370.5L485.3,371.9L490.7,372L494.6,375L497.4,373.1L503.6,371.8L505.6,368.8L509.1,368.7L511.7,369.8L514.4,373.4L517.3,378.6L522.5,385.8L523.1,391.3L522.4,396.6Z"/><path class="land oth" d="M505.4,275L506.3,280.8L500.3,285L498.8,292.3L490.7,297.2L483.4,297.1L481.6,293.2L477.8,291.7L477.3,288.5L478.1,285L474.9,282.9L467.2,280.4L466,269.6L474.4,265.8L486.4,266.8L493.5,265.5L494.5,268.2L498.3,268.9Z"/><path class="land oth" d="M510.3,250.8L513.8,253.6L514.7,259.9L517.3,267.4L509.8,272.7L505.4,275L498.3,268.9L494.5,268.2L493.5,265.5L486.4,266.8L474.4,265.8L466,269.6L466.6,259.8L470.3,251.8L477,247.5L482.5,257.3L488.2,257L489.5,247.1L495.4,244.7L498.4,246.2L504.5,250.9Z"/><path class="land oth" d="M514,224.4L515.1,226.6L510.6,234.4L513.1,246.5L510.3,250.8L504.5,250.9L498.4,246.2L495.4,244.7L489.5,247.1L490.2,239.3L487.7,241L483.4,236.3L482.8,228.8L491.3,225.1L499.8,223.1L507.1,225Z"/><path class="land west" d="M412.9,294.9L413.9,301.6L411.4,304.7L413.7,309.5L414.9,316.5L413.8,320.7L416.2,329.1L412.5,330.1L410.6,328.4L408.4,330.6L402.4,332.3L399.1,335.1L392.9,337L393.8,340.9L394,346.3L397.7,349.8L401.7,355.7L398.1,361.1L394.9,362.3L395.1,370.6L394.1,372.6L391.8,369.7L387.8,368.8L381.5,370.2L374.3,368.5L372.6,371.6L368.9,367.5L366.3,367.8L358,362.5L355.9,364.9L348.8,363.5L351.5,354.9L357.2,347.3L346,342.8L342.9,338.8L344.5,333.5L343.4,330.4L346.1,322.2L347.4,309L352,309.9L354.9,305.6L359,294.6L358.4,290.1L360.4,287.7L366.7,288.2L367.6,291.2L373.8,285.9L372.9,280.9L373.8,273.7L379,276.3L384,275.1L383.3,280L390.3,284.2L389.6,288.6L397.5,287.3L402.1,284.4L409.8,290.5Z"/><path class="land oth" d="M475.3,418.6L477.8,423.7L481.3,422.9L488.2,424.8L501.4,425.4L505.8,422.1L516.2,418.9L522.9,423.1L528.2,424.2L523.8,429.6L520.9,438.6L524.1,445.5L516.1,444.2L506.8,448.3L506.9,454.5L498.5,455.9L491.9,451.6L484.4,455L477.5,454.6L477,446.4L472.4,442.3L474,440.6L473,439.1L474.6,435.2L478.1,431.4L473.8,425.9L473.1,421.4Z"/><path class="land oth" d="M510.6,529.3L509.4,533L494.7,534.3L494.8,532.2L482.3,529.8L484.3,524.6L489.8,528.8L497.7,528L505.3,528.7L505.1,530.9ZM477.5,454.6L484.4,455L491.9,451.6L498.5,455.9L506.9,454.5L506.8,448.3L511.4,451.5L508.8,459.3L506.6,460.8L500.9,460.6L496,459.5L484.6,462.7L491.1,469.7L486.3,471.7L481.1,471.7L476.1,465.3L474.3,468L476.3,475.4L481.1,481.3L477.4,483.9L482.7,489.7L487.5,493.3L487.7,500.3L478.6,497L481.5,503.4L475.2,504.6L478.8,515.6L472.2,515.7L464.1,510.1L460.7,500.1L459.2,491.7L455.7,485.9L451,478.6L450.5,475.1L455.2,469.2L455.9,465.2L459.1,463.6L459.3,460.3L465.5,459.4L469.1,456.8L474.2,457.1L475.8,455Z"/><path class="land me" d="M691,482.2L686.9,485.4L682.8,483.1L671.2,484L667.4,486.8L656.8,490.9L651.5,491.7L641.1,498.4L633,499.9L627.5,498.4L617.2,503.5L613.6,501.6L614,508.5L611.8,511.6L609.5,514.7L605,509.6L608.2,504.4L602.3,506.3L593.6,504.5L587.7,512.4L572.7,515.4L564,509.5L553.2,510L551.3,515.3L544.5,517.2L534.5,511.2L523.6,512L517.3,499.8L509.9,493.2L514.3,483.4L508.1,477.6L518.2,465.4L532.7,464.3L536.2,454.7L554,455L564.4,446.1L574.8,441.5L589.9,439.4L607.1,445.9L621.1,448.6L631.5,444.8L639.6,444.5L649.2,436L658.7,433.4L668.8,437.4L671.3,441.3L671.8,447.4L679.3,448.8L683.8,451.5L678.3,456.4L684.5,469.6L683.5,473.8ZM506.8,448.3L516.1,444.2L524.1,445.5L525.4,450.2L533.7,453.8L532.2,456.9L521.1,458.2L517.3,462.1L509.6,469.1L506.5,463.3L506.6,460.8L508.8,459.3L511.4,451.5Z"/><path class="land oth" d="M459.3,460.3L459.1,463.6L455.9,465.2L455.2,469.2L450.5,475.1L448.9,474.2L448.9,471.4L443.8,467L443.3,461.1L444.5,452.7L446,448.9L444.6,446.8L444.2,442.9L448.4,437L448.9,439.3L451.4,438.3L453.2,441.8L455.3,443.1L455.8,447.6L454.5,451.8L455.6,457.2Z"/><path class="land oth" d="M423.6,387.8L426.1,389.5L432.2,395.3L439.2,398.2L442.5,396.5L444.3,401.5L446.9,405.2L443.3,409.7L439.5,406.7L433.4,406.5L426,403.8L421.9,403.8L419.8,406.2L417,403.1L414.6,408L418.4,414.2L420,418.2L423.7,423.2L426.9,426.2L429.9,431.6L437.7,436.8L436.5,438.9L428.3,433.7L423.4,428.9L415.5,424.5L408.9,414.7L410.8,413.9L407.2,408.3L407.5,404.1L402.1,401.6L398.8,406.6L396.7,402.1L397.4,397.9L397.8,397.7L403.8,398.8L405.6,396.9L408.3,399.3L411.7,399.8L412,396.4L415.1,395.4L416.5,390.5Z"/><path class="land west" d="M366.3,367.8L366.2,370L364.5,372.8L367.9,375.7L372.1,376.7L370.7,381.7L366.6,383.2L360.6,380.6L357.9,385.2L353.8,384.9L352.7,382.7L347.1,386L342.9,385.8L339.7,382.4L337.9,376.5L333.5,377.6L334.8,372.1L342.3,366.5L342.6,363.3L346.1,365.1L348.8,363.5L355.9,364.9L358,362.5Z"/><path class="land west" d="M343.4,330.4L344.5,333.5L342.9,338.8L340.5,338.6L339,337.1L341.3,330.4Z"/><path class="land west" d="M346.1,322.2L343.4,330.4L341.3,330.4L339,337.1L333.2,330L329,330.1L324.8,323L322.4,317.2L318.8,316.1L318.8,311.6L325.5,310.6L330.9,312.9L338.6,312L342.4,318.4Z"/><path class="land west" d="M358.4,290.1L359,294.6L354.9,305.6L352,309.9L347.4,309L346.1,322.2L342.4,318.4L338.6,312L330.9,312.9L325.5,310.6L330.3,308.2L341,291.5L352.3,288.5Z"/><path class="land west" d="M189.3,391.4L193.6,389.7L197.7,389.3L197.7,395.8L202.9,397.7L204.9,396.8L209.8,399.1L210.1,405.8L204.9,407.5L201.5,416.5L199.4,417.7L197,423.1L192.8,422.6L193.8,430.9L188.5,437.6L190.4,442.3L187.9,445L182.9,448.1L182.2,452.2L177.3,453.8L173.1,450.3L167.8,449.7L172.8,441.2L174.7,433.8L171.1,431.1L170.6,425.9L174.3,418.6L179.6,415.9L182,411.4L186.6,405.2L188.3,400.3L188.2,395.4Z"/><path class="land west" d="M182.2,452.2L182.9,448.1L187.9,445L190.4,442.3L188.5,437.6L193.8,430.9L192.8,422.6L197,423.1L199.4,417.7L201.5,416.5L204.9,407.5L210.1,405.8L209.8,399.1L204.9,396.8L202.9,397.7L197.7,395.8L197.7,389.3L193.6,389.7L189.3,391.4L193,383.3L191.5,376.9L206.6,373.2L216.2,379.2L227.6,383.1L236,388.2L243.3,390L257.1,394.7L259.1,400.4L273.7,410.4L277.6,408.7L286.1,416.7L296.8,417.7L295.6,424.9L285.1,430.8L272.8,430.3L270.9,434.1L263.5,439.2L257.2,447.9L258.9,455.7L252.1,459.5L247.8,466.7L240,467L230.5,474.1L218.4,470.5L209.4,467.3L202.1,469.5L196.9,472.7L192.6,470.1L190.5,464.9L190.2,457.2Z"/><path class="land west" d="M264.4,259.1L262.5,268.1L253.2,276.8L237.6,278.9L228,273.1L238.7,263.1L239.8,249.6L253,244L260.3,240.4L259.3,247.4L255.5,253.3L259.9,254.7Z"/><path class="land oth" d="M1005,367.3L999.6,365.6L983,370.9L975.2,364.6L965.9,363.8L962.5,361.8L957.4,356.7L955,352.4L948.5,353.3L946.5,356L938.3,347.6L939.1,343.8L936.4,342L940.9,332.2L945,326.6L954.2,322.4L952.7,313.9L961.7,305.8L961.6,299.9L969.4,285.9L968.8,282.9L968.8,282.9L964,277.6L967,271.3L947.7,258.8L958.5,244.4L960.4,239.5L951.4,218.1L967.1,210.7L967.1,203.3L959.3,193.5L963.7,188.1L963,177.7L964.8,174.8L972.2,179.9L981.8,180.2L993.8,175.5L1005,178.8L1005,178.9L1005,367.3Z"/><path class="land west" d="M372.1,376.7L377,379.3L378.3,377L386.9,376.1L388.2,380.6L400,385.3L398.4,391.3L399.8,396.8L393.2,394.2L385.6,397.7L385.2,403.9L383.7,407.2L385.7,413.9L393.3,421.1L396.7,431.9L405.7,442.9L412.9,443.5L414.9,446.4L412.1,448.7L420,453.9L426.6,458.1L434.2,465.1L435,467.5L433,471.8L428.1,465.7L420.1,463L415.4,470.7L421.9,475.8L420.3,482.2L416.2,482.6L410.1,492.8L406,493.3L406.4,489.6L409,483.1L411.3,480.7L408.2,473.2L405.9,466.7L402.2,464.7L399.9,459.1L394.2,456.2L390.7,450.8L384,449.2L377.5,442.7L370.3,433.5L365.2,425.5L364.3,412.9L360.2,410.8L353.7,405.6L349.4,406.5L343.3,411.3L339.4,411.5L341.5,406.4L337,403.9L336.6,394L340.3,390.9L338.7,385.8L339.7,382.4L342.9,385.8L347.1,386L352.7,382.7L353.8,384.9L357.9,385.2L360.6,380.6L366.6,383.2L370.7,381.7ZM397.3,489.5L404.8,489.2L400.3,498.6L401.4,502.6L398.7,508.7L391.6,503.3L386.7,501.3L373.8,493.4L376,487.2L387.2,489.8ZM344.7,447.7L350,444.7L354.1,454.3L350.1,470.3L345.9,468.8L341.4,472.2L338.3,468.3L340.6,453.5L339.7,446.2Z"/><path class="land west" d="M384,275.1L379,276.3L373.8,273.7L372.2,266.1L374.3,253.1L376.1,249.9L378.8,246.4L385,246.7L388.1,243.5L394.2,240.8L392.9,247.4L390.2,251.2L390.5,254.9L394.1,257.4L391.6,262L389.7,260.3L383.1,268.6ZM403.8,263.4L405.2,270.1L399.5,279.8L392.9,271.6L392.7,266.1Z"/><path class="land west" d="M264.4,259.1L259.9,254.7L255.5,253.3L259.3,247.4L260.3,240.4L266.3,242L271.1,252.2ZM284.7,272.2L284.7,272.2L288,265.5L285.6,256.4L285.6,256.3L277.8,251.3L277.2,247.4L281.6,242.8L280.5,238.7L274.8,243.2L278.5,231.3L277.3,223.9L284.2,212.1L292.7,203.8L297.6,206.5L305.7,208L294.4,219.2L301.7,219.7L308.9,222L304.1,231.6L294.5,240.8L301.4,243.8L301.5,245.2L303.5,261.6L307.8,265L308.3,280.3L309.1,285.7L317.5,290.4L314.5,298.1L309.7,300.6L311.1,307.7L302.4,312.3L292.2,309.3L278.2,308.7L275.4,305.2L268.5,309.2L261.9,305.5L255,308.3L251.8,304.5L267.1,295.7L274.7,295.4L274.7,295.3L263.6,289.5L263.2,284L272.1,282.9L270.3,275L274.3,267.6Z"/><path class="land oth" d="M277.5,83.4L272.4,91.1L274.4,102.5L263,108.8L243.3,109.6L237.5,109.3L231.4,103.8L218.9,91.7L227,89.4L219.3,77.1L229.6,80.1L231.4,76.4L222.7,67.4L230.7,61.6L239.1,64.2L242.2,76.8L253.4,74.2L257.9,81.1L269.5,78.5Z"/><path class="land oth" d="M692,422L694.7,421.7L702.8,427.4L706.9,427.1L707.7,423.6L711.6,417.3L718.1,422.2L725.2,429.3L729.6,428.6L733.3,430.9L726.2,434.1L727.3,443.8L726.9,448.5L724.4,452.2L726.3,458.1L724.2,459.3L716.6,454.7L718.1,448L714.4,445.2L711.2,447.1L702.6,458.8L700.2,450.6L695.6,449.7L690.8,447.4L692.4,442.9L686.5,440L687.6,436.5L683.6,435.3L681,432.6L682.7,430.1L690.3,431.8L695.4,431.3L696.2,429.6L690.1,424.2ZM699.3,460.1L692.5,460.1L686.4,455.7L683.8,451.5L685.7,450.7L689.2,453.3L693.3,452.2L693.7,454.1Z"/><path class="land oth" d="M630.3,415.6L631.2,414L639.1,414.7L652.5,414L665.8,417.1L667.9,419L672.9,415.9L681.7,416.4L685.7,420.6L692,422L690.1,424.2L696.2,429.6L695.4,431.3L690.3,431.8L682.7,430.1L681,432.6L668.8,437.4L658.7,433.4L649.2,436L649.5,430.5L645.5,422.7L639.5,419.2L634.3,418.8Z"/><path class="land oth" d="M400,385.3L407,387.1L411.5,384.7L419,385.1L420.8,383.2L422.3,383.4L423.6,387.8L416.5,390.5L415.1,395.4L412,396.4L411.7,399.8L408.3,399.3L405.6,396.9L403.8,398.8L397.8,397.7L399.8,396.8L398.4,391.3Z"/><path class="land oth" d="M511.2,92.1L510.9,102.2L519.7,111.3L515.3,122.3L522.9,137.9L519.8,150.1L525.8,159.9L524,169L533.8,177.6L532,184.7L526.7,192.9L513.9,210.8L502.1,212.2L490.6,217.3L479.8,220L476.1,212.7L469.8,208.2L471.7,195.1L469,182.8L472.2,175L477.9,166.6L491.6,151.7L495.4,148.8L494.8,142.9L486.7,136.3L484.9,130.9L484.8,109L476.6,99.1L469.9,91.8L473.1,88L478.7,95.9L485.5,95.2L491.2,98.7L496.1,92.2L498.4,81.4L506,76.2L512.8,81.7Z"/><path class="land oth" d="M475.5,358.1L473.1,361.3L471.4,366.3L469.6,367.6L460.8,363.5L458.1,364.1L456,367L452,368.4L451.2,367.5L447,369.3L443.7,369.5L442.8,371.9L435.7,373L432.7,371.4L428.7,367.9L428.2,363.5L429,362L430.4,359.3L434,359.8L436.9,358.7L437.2,357.6L438.9,357.1L439.6,354.3L441.5,353.8L442.9,351.7L445.3,351.8L445.7,352.6L449.2,351.1L453.1,355.7L458,353.2L461.8,354.7L467.8,353.1Z"/><path class="land oth" d="M416.2,329.1L419.6,333.5L425.4,335.2L424.6,338.6L428.7,341.6L430.2,338.4L435.6,340.2L436,344.2L442,345.4L445.3,351.8L442.9,351.7L441.5,353.8L439.6,354.3L438.9,357.1L437.2,357.6L436.9,358.7L434,359.8L430.4,359.3L429,362L425.4,359.3L421.5,359.6L415.5,355.2L412.5,355.8L407.3,360.4L401.7,355.7L397.7,349.8L394,346.3L393.8,340.9L392.9,337L399.1,335.1L402.4,332.3L408.4,330.6L410.6,328.4L412.5,330.1Z"/><path class="land me" d="M651.1,787.7L648.9,782.5L651.7,762L651.6,752.9L655.1,748.3L664,744.7L669.1,736.1L679,750.2L684.6,761.7L692.8,767L712.8,776.3L721.6,782.4L730.3,788.7L735.4,792.5L742.7,795.2L739.5,799.3L733.6,799.4L728.1,795.9L721.1,789.1L714.4,786L710.2,782L697.8,778.7L688.8,780.2L685.2,777.9L678.1,782.4L669.3,777.5L666.8,788.2Z"/><path class="land me" d="M832.1,682.5L848.4,700.2L855.4,707.7L847.8,714.1L847.3,720.6L848.4,725L837.8,734.5L819.6,746.8L810.9,759.4L805.5,761.7L801.5,762L795.5,769.5L787.9,774.3L777.2,777.8L774.1,779.4L772.2,783.6L769,785.4L767.8,789.3L761.2,790.6L757.5,793.4L748.2,794.8L743,787.7L741.8,780.3L738.8,776.8L734.1,767.5L729.2,762.8L731.7,761.6L729,755.9L730,753L728.2,747.4L732.8,742L730.3,736.7L732.2,729.6L738.1,731.8L741.2,729.8L755.4,726.1L758,726.9L770.3,725.1L774.9,723.2L779.1,726.7L784.4,723L789.4,707L799.1,698Z"/><path class="land me" d="M607.6,596.6L620,597L624.2,592.5L626.1,587.6L634.1,584.6L635.2,580.2L638.4,577.5L625.9,566.7L646,557.1L647.7,554.9L660.9,556L678.2,561.5L713.7,579.6L733.8,575.6L743.7,574.2L747.9,579.3L755.4,576.9L762.6,586.2L768.8,587.4L771.9,591.1L780.9,594L783,598.8L783.2,603.2L785.9,606.9L790.1,609.4L792.8,612.9L795.4,615.4L799.6,616.8L802.4,614.9L806,618.9L807.4,621.6L815.7,632.7L851.9,627L853.2,623.6L861.5,630.3L863,657.7L832.1,682.5L799.1,698L789.4,707L784.4,723L779.1,726.7L774.9,723.2L770.3,725.1L758,726.9L755.4,726.1L741.2,729.8L738.1,731.8L732.2,729.6L730.3,736.7L732.8,742L728.2,747.4L725.3,742.1L720.7,739L718.7,733.9L711.3,730.6L702.5,721L696.9,711.1L686.8,703.8L681,702.6L670.8,691.8L667.9,683.1L667.1,675.4L658,662.4L651.7,658.3L645,656.6L640.1,649.9L640.3,647L636.1,640.9L632.4,638.5L626.6,629.7L618.3,620.5L611.5,612.6L606,613.3L606.9,606.2L606.8,601.8Z"/><path class="land oth" d="M576.1,527.2L576.8,527.1L577.9,523.9L585.2,523.3L594,518.6L587.8,524.6L588.8,526.9L587.6,526.5L585.8,527.7L584.2,527.6L583.8,528.1L583.5,526.9L582.7,526.2L580.7,526.3L578.1,527.7Z"/><path class="land oth" d="M576.1,527.2L578.1,527.7L580.7,526.3L582.7,526.2L583.5,526.9L583.8,528.1L584.2,527.6L585.8,527.7L587.6,526.5L588.8,526.9L589.2,527.8L579.3,534L574.1,532.9L571.3,528.1Z"/><path class="land oth" d="M224.8,492L226.1,500.7L224.5,508.2L224.2,521.8L226.1,525.2L222.9,529.3L209,527.3L203,530.3L196.8,529.4L193.5,538.1L179.9,538.9L173.9,543.4L164.4,543.7L153.4,541.8L133.5,544.2L128.1,558.2L126.5,557.6L124.3,564.1L117.6,561.9L113.1,563.2L108.4,561.2L105.2,558.2L95.8,555.7L88.5,563.4L84.9,562.9L73.4,575.5L52.8,581.5L41.7,596.1L34.8,599.3L31.5,602.9L6.4,591.9L6.2,591.8L9.4,586.6L15.1,585.5L21.7,581.2L22.9,576.9L30.6,570.5L40.1,566L44.6,565.8L50.6,560.4L53.7,554.3L60.8,548.9L69.7,547.9L81.6,539L81.9,538.9L89,536.8L99.1,539.6L110.5,535.1L117,534.1L129.4,527.8L132.7,512.2L140.5,503.8L144.3,498.1L153.7,492.7L165.5,491.1L174.5,489L185.3,479.2L190.9,473L197.9,475.5L201.9,482.5L211.4,484.7L220.6,490.5Z"/><path class="land me" d="M642.1,687L594.6,692.9L547.9,696.6L499.4,698.2L498.8,650.7L498.3,605.5L494.9,595.4L497.6,587.6L495.9,582.2L499.8,576.2L513.9,575.6L524.4,578.6L535.2,581.8L540.3,583.5L548.3,579L552.5,575.2L561.8,573.4L569.5,574.4L573,580.3L575.1,576L584,578.1L592.4,577.9L597.3,574.2L605.5,591.7L607,594.8L604.5,600.2L603.3,610L601.1,616.9L598.7,619.4L594.5,615.8L588.9,610.7L579.3,593.4L578.2,594.7L584.1,607.5L592.2,619.5L602.9,638.3L608,644.7L612.6,651.4L624.8,664.2L622.8,666.7L624.2,675L639.6,684.7Z"/><path class="land oth" d="M499.4,698.2L499.7,724.4L485.4,724.5L485.3,730L436.9,703.7L390.8,675.6L378.2,681.4L369.2,685.3L363.3,677.5L345.4,669.5L341.4,660.8L333.1,653.6L327.3,655.1L324.3,647.3L324.8,641.8L319.6,631.5L324.9,627L325.2,618.9L327.8,612.3L327.9,606.4L331.5,596.6L331.9,590.7L330.2,579.1L335.9,577.1L337.6,572L337.3,566.7L345.3,563L349.2,559.6L354.8,556.7L356.8,547.3L368.4,553.2L372.9,552.7L381.4,555.8L394.7,562.9L398.6,574.5L408,577.8L422.7,584.2L433.9,591.1L439.3,588.1L444.8,582.6L442.7,572.9L446.3,566.9L454.2,561.4L461.5,559.9L475.6,562.8L479.2,568.4L483.2,568.5L486.5,570.6L497.1,572L499.8,576.2L495.9,582.2L497.6,587.6L494.9,595.4L498.3,605.5L498.8,650.7Z"/><path class="land me" d="M645.4,905L641.9,900.1L634.9,897.5L631.8,892.1L623.8,885.9L614.9,885.8L618.9,877.1L626.3,876L628,871.4L626.3,858.7L628.7,843.5L634.7,838.8L635.4,833L639.9,821.7L647.1,813.8L650.6,799.6L651.1,787.7L666.8,788.2L669.3,777.5L678.1,782.4L685.2,777.9L688.8,780.2L697.8,778.7L710.2,782L714.4,786L721.1,789.1L728.1,795.9L733.6,799.4L730.1,806.3L726.9,813.6L728.8,817.2L729.8,821.3L737.4,820L740.4,818.4L743.9,820.2L742,825.7L748.7,832.2L755.2,837.7L761.5,841.5L810.5,846.9L822,843.7L822,843.7L793.4,896.3L774.8,901.3L771.9,905L645.4,905Z"/><path class="land me" d="M733.6,799.4L739.5,799.3L742.7,795.2L746.8,798.6L747.6,804.4L740.7,809.3L747.3,811.8L743.9,820.2L740.4,818.4L737.4,820L729.8,821.3L728.8,817.2L726.9,813.6L730.1,806.3Z"/><path class="land oth" d="M824.4,792.8L824.4,793L825.9,798.6L829.9,812.2L832,819.3L828.3,829.5L822,843.7L810.5,846.9L761.5,841.5L755.2,837.7L748.7,832.2L742,825.7L743.9,820.2L747.3,811.8L752.2,813.3L756.1,818.4L763.5,822.7L770.2,821.2L782,814.6L796.1,809.3L806.7,801.9L813,799.2L817,795.4Z"/><path class="land oth" d="M437.7,436.8L429.9,431.6L426.9,426.2L423.7,423.2L420,418.2L418.4,414.2L414.6,408L417,403.1L419.8,406.2L421.9,403.8L426,403.8L433.4,406.5L439.5,406.7L443.3,409.7L446.5,409.8L444,415.2L448,420.1L446.4,425.9L444.3,426.4L442.5,427.4L439.4,430.1Z"/><path class="land oth" d="M472.4,442.3L477,446.4L477.5,454.6L475.8,455L474.2,457.1L469.1,456.8L465.5,459.4L459.3,460.3L455.6,457.2L454.5,451.8L455.8,447.6L457,447.8L457.5,445.2L463,443.5L465,443.1L468.2,442.4Z"/><path class="land oth" d="M442.5,396.5L449.3,393.6L454.7,394.4L459.2,399.5L460,403.5L465.2,406.6L465.8,411.8L470.8,415.5L473.7,412.8L475.8,414.4L473.7,416.4L475.3,418.6L473.1,421.4L473.8,425.9L478.1,431.4L474.6,435.2L473,439.1L474,440.6L472.4,442.3L468.2,442.4L465,443.1L464.8,442.2L465.9,440.7L467,437.7L465.7,437.8L464,435.4L462.5,434.8L461.4,432.7L459.7,431.9L458.5,430.1L456.8,430.8L455.4,434.8L453.2,435.6L454,434.6L450.7,431.9L447.8,430.4L446.6,428.6L444.3,426.4L446.4,425.9L448,420.1L444,415.2L446.5,409.8L443.3,409.7L446.9,405.2L444.3,401.5Z"/><path class="land oth" d="M451.4,438.3L448.9,439.3L448.4,437L444.2,442.9L444.6,446.8L442.7,445.8L440.3,441.6L436.5,438.9L437.7,436.8L439.4,430.1L442.5,427.4L444.3,426.4L446.6,428.6L447.8,430.4L450.7,431.9L454,434.6L453.2,435.6Z"/><path class="land oth" d="M455.8,447.6L455.3,443.1L453.2,441.8L451.4,438.3L453.2,435.6L455.4,434.8L456.8,430.8L458.5,430.1L459.7,431.9L461.4,432.7L462.5,434.8L464,435.4L465.7,437.8L467,437.7L465.9,440.7L464.8,442.2L465,443.1L463,443.5L457.5,445.2L457,447.8Z"/><path class="land oth" d="M514.5,905L513.2,903.7L503.4,896.3L503.2,891.6L495.4,885.9L485.7,880.3L490,878.7L494.8,876L498.4,863.3L502.1,856.7L512.1,854.6L514.6,858.4L521.9,866.5L525.9,867.6L530.8,865L540.9,865.1L542.9,867.9L556.9,867.2L557.2,864.3L564.2,861.2L565.4,857L570.4,853.7L582.7,861.1L589.8,859.1L595.8,848.3L602.6,840L600.6,831.7L597,828L605.1,826.5L605.7,823.3L612.1,823.6L611.5,834L614.2,843.9L621.9,848.6L624,853.3L624.6,860.3L626.6,860.4L628,871.4L626.3,876L618.9,877.1L614.9,885.8L623.8,885.9L631.8,892.1L634.9,897.5L641.9,900.1L645.4,905L514.5,905Z"/></g>
+
+        <use class="cloud" href="#cl" x="215" y="262" width="150" height="75"/>
+        <use class="cloud b" href="#cl" x="330" y="228" width="120" height="60"/>
+
+        <!-- trasa ropy -->
+        <g filter="url(#rough)"><path id="rt" class="rt" d="M780.2 590.1 C787.8 588.0 790.8 586.9 808.7 582.2 C826.6 577.5 829.6 571.7 847.5 572.3 C865.4 572.9 859.9 576.1 875.8 584.4 C891.7 592.7 898.1 586.9 907 603.5 C915.9 620.1 917.6 622.8 909.3 646.6 C901.0 670.4 898.1 665.6 875.8 692.6 C853.5 719.6 854.3 721.0 825.8 747.9 C797.3 774.8 790.7 781.1 768.9 793.3 C747.1 805.5 757.3 801.0 744 793.5 C730.7 786.0 736.2 786.3 718.9 765.2 C701.6 744.1 702.2 743.4 679.3 714.2 C656.4 685.0 652.9 680.6 633.2 655.6 C613.5 630.6 618.6 636.4 605.4 620.6 C592.2 604.8 591.2 608.6 583.7 596.2 C576.2 583.8 589.0 585.3 577.2 574.1 C565.4 562.9 569.1 563.2 539.6 554.3 C510.1 545.4 507.3 551.7 466.7 540.6 C426.1 529.5 417.0 526.0 387.2 512.7 C357.4 499.4 377.5 500.7 355 490.9 C332.5 481.1 333.0 480.4 302.9 476.1 C272.8 471.8 271.0 476.0 242.2 474.7 C213.4 473.4 217.4 478.0 195 471.3 C172.6 464.6 165.5 468.2 158.2 449.5 C150.9 430.8 159.5 423.6 167.6 401.1 C175.7 378.6 171.0 378.1 188.4 365.3 C205.8 352.5 215.9 363.7 232.7 353 C249.5 342.3 237.7 334.4 251.3 325.1 C264.9 315.8 267.0 322.5 283.6 318.3 C300.2 314.1 301.2 315.6 313.5 309.5 C325.8 303.4 320.9 308.5 329.9 295.3 C338.9 282.1 334.8 273.5 347.3 260 C359.8 246.5 363.8 250.5 376.6 244.8 C389.4 239.1 389.6 234.2 395.4 238.7 C401.2 243.2 399.3 251.8 398.4 261.5 C397.5 271.2 390.0 270.1 392.1 274.9 C394.2 279.7 397.6 278.0 406.3 279.4 C415.0 280.8 415.9 279.7 424.8 280.2 C433.7 280.7 432.9 279.9 439.5 281.4 C446.1 282.9 446.8 284.8 449.5 286"/>
+        <path class="rtflow" d="M780.2 590.1 C787.8 588.0 790.8 586.9 808.7 582.2 C826.6 577.5 829.6 571.7 847.5 572.3 C865.4 572.9 859.9 576.1 875.8 584.4 C891.7 592.7 898.1 586.9 907 603.5 C915.9 620.1 917.6 622.8 909.3 646.6 C901.0 670.4 898.1 665.6 875.8 692.6 C853.5 719.6 854.3 721.0 825.8 747.9 C797.3 774.8 790.7 781.1 768.9 793.3 C747.1 805.5 757.3 801.0 744 793.5 C730.7 786.0 736.2 786.3 718.9 765.2 C701.6 744.1 702.2 743.4 679.3 714.2 C656.4 685.0 652.9 680.6 633.2 655.6 C613.5 630.6 618.6 636.4 605.4 620.6 C592.2 604.8 591.2 608.6 583.7 596.2 C576.2 583.8 589.0 585.3 577.2 574.1 C565.4 562.9 569.1 563.2 539.6 554.3 C510.1 545.4 507.3 551.7 466.7 540.6 C426.1 529.5 417.0 526.0 387.2 512.7 C357.4 499.4 377.5 500.7 355 490.9 C332.5 481.1 333.0 480.4 302.9 476.1 C272.8 471.8 271.0 476.0 242.2 474.7 C213.4 473.4 217.4 478.0 195 471.3 C172.6 464.6 165.5 468.2 158.2 449.5 C150.9 430.8 159.5 423.6 167.6 401.1 C175.7 378.6 171.0 378.1 188.4 365.3 C205.8 352.5 215.9 363.7 232.7 353 C249.5 342.3 237.7 334.4 251.3 325.1 C264.9 315.8 267.0 322.5 283.6 318.3 C300.2 314.1 301.2 315.6 313.5 309.5 C325.8 303.4 320.9 308.5 329.9 295.3 C338.9 282.1 334.8 273.5 347.3 260 C359.8 246.5 363.8 250.5 376.6 244.8 C389.4 239.1 389.6 234.2 395.4 238.7 C401.2 243.2 399.3 251.8 398.4 261.5 C397.5 271.2 390.0 270.1 392.1 274.9 C394.2 279.7 397.6 278.0 406.3 279.4 C415.0 280.8 415.9 279.7 424.8 280.2 C433.7 280.7 432.9 279.9 439.5 281.4 C446.1 282.9 446.8 284.8 449.5 286"/></g>
+        <circle class="ship" r="5"><animateMotion dur="70s" begin="-8s" repeatCount="indefinite"><mpath href="#rt"/></animateMotion></circle>
+        <circle class="ship" r="5"><animateMotion dur="70s" begin="-31s" repeatCount="indefinite"><mpath href="#rt"/></animateMotion></circle>
+        <circle class="ship" r="5"><animateMotion dur="70s" begin="-55s" repeatCount="indefinite"><mpath href="#rt"/></animateMotion></circle>
+        <circle class="queue" cx="803" cy="579" r="4.5"/><circle class="queue" cx="815" cy="574" r="4.5"/><circle class="queue" cx="827" cy="570" r="4.5"/>
+
+        <g filter="url(#rough)">
+        <path class="ext-arc" d="M104 132 Q 270 130 438 308"/>
+        <path class="ext-arc" d="M920 478 Q 700 505 466 330"/>
+        <path class="ext-arc" d="M545 372 L 472 334"/></g>
+
+        <!-- powiększenie Polski -->
+        <path class="conn" d="M451.5 319.2 L732.2 401.7 L624.9 83.5 Z" filter="url(#rough)"/>
+        <circle class="ringp" cx="451.5" cy="319.2" r="13"/>
+        <g clip-path="url(#insclip)"><g filter="url(#rough2)"><rect class="sea" x="585" y="0" width="410" height="410"/><g class="ins" transform="translate(790 205)"><path class="land oth" d="M215,208.3L208.5,209.9L201.1,210.9L192,215L176.7,215L176.7,215L174.1,212.7L171.8,209.9L168.6,209.1L165.2,209.6L161.8,210.9L158.4,211.2L154.6,209.2L154.1,209.5L152.6,209.7L142.9,207.4L142,207L141.5,206.9L140.2,206.7L133,207L126.1,202.3L124,202.2L122.4,204.1L121.3,206.2L116.5,208.3L115.3,209.1L114.6,208.5L114.3,206.6L114.7,205.1L114,203.5L112.2,201.8L111.7,201.1L109.4,201.2L108.8,201.4L108.6,201.4L105.5,199.8L103.5,196.3L100.2,194.4L97.9,193.8L96.8,192.3L96.1,190.2L95.2,188.7L95.1,188.6L94.6,186.3L93.9,186L93.8,185.9L90.6,186.3L90.9,178.2L96.1,172.3L97.3,169.3L99.2,162.8L100.6,159.8L102.3,157.3L103.6,154.9L104.1,152.8L105.5,152.6L109.4,154.5L113,155.5L114.1,154.5L114.4,153.3L114.3,152.4L111.5,149.6L109.7,147.8L109.6,146.7L110.1,144.3L110.5,141.5L110.1,138.5L108.1,131.9L107.8,129.1L109.7,125.6L115.8,117.4L117.8,114.4L120.5,110.6L128.2,101.7L133,96.4L136.2,93.5L140.9,88.5L143,85.8L151.7,84.1L152.6,81.7L154.3,79.1L155.5,77.9L155.6,73.4L154.1,67.8L152.8,65.9L151.8,64.5L152.4,63.3L153.4,62.9L154.6,62.7L156,61.4L155.8,60L152.1,56.4L150.5,53.7L148,46.6L143,39.3L141.4,36.9L141.2,34.6L141.9,32.4L141.2,29.5L139.4,25.8L139.8,25.4L139.5,20.9L140.8,19.9L142.9,19.2L145.6,19.5L148,20.2L151,22.3L151.8,21.9L156.7,18L161.8,12.1L163.3,8.7L164.6,7.1L169,6.3L172.8,5.9L175.2,6L181.3,5.5L184.9,4.8L187.9,3.8L194.6,3.3L204.9,4.1L211.7,4.1L215,4.5L215,208.3Z"/><path class="land oth" d="M-172,-215L-172.3,-209.9L-169.9,-204.4L-167.8,-198.1L-173.3,-190.4L-176.4,-190.2L-185.4,-192.2L-201.6,-187.4L-215,-191L-215,-193.6L-215,-193.6L-214.2,-195.3L-214.2,-198.4L-213.5,-203L-213,-207.8L-213.1,-211L-214.2,-214.4L-214.7,-215L-172,-215Z"/><path class="land oth" d="M-59.7,215L-63.7,212.1L-69,207L-69.6,206.8L-70.4,206.3L-73.8,205.9L-74.7,206.2L-76.7,204.6L-77.3,202.4L-80.5,196.7L-84.1,187.3L-84.1,184.5L-82.8,181.5L-81.5,179L-81.3,177.2L-81.1,176.7L-80,172.8L-77.5,167.5L-75.1,164.5L-73.3,163.5L-69.8,164.4L-63.6,165.2L-58.9,164.5L-54.5,162.1L-52.1,160.1L-49.9,157.9L-49.3,156.5L-48.4,155.9L-44.7,154.7L-43.6,153.2L-43.1,150.4L-42.8,147.4L-42.1,145.1L-41.1,143.4L-34.3,139.4L-33.7,138L-32.6,136.6L-30.6,135.1L-28.7,132.9L-26.7,131.6L-24,131.6L-21.5,131.4L-19.6,130.6L-18.8,130.5L-15.3,131.2L-14.7,133.7L-14.4,136.3L-8.3,136.2L-4.9,130.5L-3.3,129.8L-0.4,127.8L1.4,126L2.6,127.2L4.5,130.8L6.4,133.8L7.5,134.9L7.6,135.8L8.8,136.3L10.9,136.7L12.4,137.6L12.9,140.3L12.9,142.8L12.1,144.5L11.8,146.1L13.3,146.7L15.6,146.1L17.2,145.2L21.8,147.3L23.5,142.8L25.3,140.4L27.8,139.3L29.9,137.9L32,137L33.3,137L33.9,136.6L35.7,136.7L37.6,137.1L40.3,136.6L44,137.7L46.4,139.8L48.7,140.5L51.3,140.4L53.1,139.2L55.7,135.3L57.6,135.3L60.5,134.7L64.7,134.7L74.2,135.5L76.7,137.1L82.6,139.1L85.2,141.3L86.3,144L86.9,145.9L93,148.7L101.9,152.4L104.1,152.8L104.1,152.8L103.6,154.9L102.3,157.3L100.6,159.8L99.2,162.8L97.3,169.3L96.1,172.3L90.9,178.2L90.6,186.3L89.9,186.9L78.5,189.7L77,189.3L75.4,187.7L74.6,186.5L74,185.7L73,183.5L71.7,181.8L69.8,180.5L68,179L65.7,179L59.5,181.1L55.2,181.3L52.5,180.6L48.7,179.3L41.3,179.1L36.1,180.3L35.7,181.8L31,191.8L24.2,195.5L18.2,199.2L16.6,200L13.6,198.8L10.2,196.6L7.5,195.4L5.5,195.9L3.2,198.5L2.2,201L-4.5,202.9L-16.2,204L-20.2,206.5L-21.5,209.6L-21.6,211.8L-20.6,213.8L-21.3,215L-59.7,215Z"/><path class="land oth" d="M51.7,-183.5L48.4,-177.9L39.6,-166.3L42.3,-164.8L45.6,-164.3L49.4,-162.1L53,-161.8L59.3,-163.6L60.5,-173.6L60.8,-182.7L62.9,-182.7L66,-183.3L67.9,-181L71.5,-178.6L75.6,-176.6L82.1,-173.2L88.7,-171L90.8,-170.8L97.7,-171.1L105,-170.8L107,-165.7L110.6,-163.3L113.6,-159.9L113.7,-158.1L109.8,-146.2L109,-142.2L108.7,-138.3L110.3,-133.2L111.6,-130.4L110.5,-130L91.8,-130.6L74.1,-131.5L57.7,-132.4L42,-133.3L26.8,-134.1L17.4,-134.9L8.1,-135.6L6.8,-136.3L11.9,-141.1L15.2,-146.3L18,-153L18.3,-157.6L19.1,-162.8L23.5,-164.9L33,-164.6L37.2,-167.1L42.5,-173.3L48,-180.8L49.7,-184Z"/><path class="land oth" d="M110.1,215L114.4,210.3L115.3,209.1L116.5,208.3L121.3,206.2L122.4,204.1L124,202.2L126.1,202.3L133,207L140.2,206.7L141.5,206.9L142,207L142.9,207.4L152.6,209.7L154.1,209.5L154.6,209.2L158.4,211.2L161.8,210.9L165.2,209.6L168.6,209.1L171.8,209.9L174.1,212.7L176.7,215L110.1,215ZM192,215L201.1,210.9L208.5,209.9L215,208.3L215,215Z"/><path class="land pl" d="M139.4,25.8L141.2,29.5L141.9,32.4L141.2,34.6L141.4,36.9L143,39.3L148,46.6L150.5,53.7L152.1,56.4L155.8,60L156,61.4L154.6,62.7L153.4,62.9L152.4,63.3L151.8,64.5L152.8,65.9L154.1,67.8L155.6,73.4L155.5,77.9L154.3,79.1L152.6,81.7L151.7,84.1L143,85.8L140.9,88.5L136.2,93.5L133,96.4L128.2,101.7L120.5,110.6L117.8,114.4L115.8,117.4L109.7,125.6L107.8,129.1L108.1,131.9L110.1,138.5L110.5,141.5L110.1,144.3L109.6,146.7L109.7,147.8L111.5,149.6L114.3,152.4L114.4,153.3L114.1,154.5L113,155.5L109.4,154.5L105.5,152.6L104.1,152.8L101.9,152.4L93,148.7L86.9,145.9L86.3,144L85.2,141.3L82.6,139.1L76.7,137.1L74.2,135.5L64.7,134.7L60.5,134.7L57.6,135.3L55.7,135.3L53.1,139.2L51.3,140.4L48.7,140.5L46.4,139.8L44,137.7L40.3,136.6L37.6,137.1L35.7,136.7L33.9,136.6L33.3,137L32,137L29.9,137.9L27.8,139.3L25.3,140.4L23.5,142.8L21.8,147.3L17.2,145.2L15.6,146.1L13.3,146.7L11.8,146.1L12.1,144.5L12.9,142.8L12.9,140.3L12.4,137.6L10.9,136.7L8.8,136.3L7.6,135.8L7.5,134.9L6.4,133.8L4.5,130.8L2.6,127.2L1.4,126L-0.4,127.8L-3.3,129.8L-4.9,130.5L-8.3,136.2L-14.4,136.3L-14.7,133.7L-15.3,131.2L-18.8,130.5L-18.9,129L-19.6,125.3L-26.7,117.9L-27.6,114.7L-27.3,113.6L-27.7,111.6L-29.3,110.5L-34.9,109L-36.3,109.8L-37.6,109L-39.7,107.2L-43.1,105.8L-43.5,105L-44.8,103.7L-45.5,103.6L-45.9,104.4L-47,105.4L-50.5,106.9L-52,106.3L-53.3,105.1L-54.8,102.5L-57,100.2L-58.8,99.4L-59.9,98.2L-60.1,97.3L-56,95.4L-55.2,93.5L-55.7,90L-56.3,89.5L-57.8,90.7L-61.2,91.7L-64.3,92.2L-65.8,92.2L-74.5,85.8L-80.3,83.9L-83.6,83.3L-84,83.9L-82.4,87.6L-79.8,92L-79.9,93.1L-83,94.9L-84.8,95.8L-86.9,97.3L-88.7,99.4L-90.2,100.3L-91.6,100.2L-92.9,99.1L-96.6,92.5L-101.2,87.6L-101.6,86.4L-103.1,86.1L-105.1,85L-105.8,83.4L-104.7,81.9L-103.4,80.3L-100.9,79.4L-100.2,78.6L-99.7,77.3L-98.9,75.6L-99.1,75.1L-100.8,73.2L-103.4,71.4L-110.6,72.7L-112.5,73.6L-113.6,72.4L-114.4,70.5L-116.3,70.3L-118.7,68.5L-121.7,66.9L-124.6,66.5L-130.5,64.1L-132.8,64L-134.1,63.2L-135.5,61.4L-136.7,59.4L-137.3,55.4L-141.7,53.7L-146.2,52.5L-146.4,53.1L-146.3,57.1L-146.5,59.3L-149.4,60.5L-152.3,60.7L-152,60L-148.7,52.9L-147.1,48.3L-145.3,39.9L-147.5,33.3L-148.1,30.2L-149,28.8L-155,25.5L-155.5,24.4L-154.5,20L-155,18.1L-156.4,16.2L-158.3,12.4L-159.2,9L-156.7,5.1L-156.1,2.3L-155,-1.6L-154.3,-3.8L-154.2,-4.4L-155.7,-5.9L-156.1,-8.1L-155.7,-11.2L-156.5,-13.6L-158.7,-15L-160,-16.9L-160.7,-19.5L-160.1,-23.3L-158.6,-28.6L-162,-35L-170.6,-42.5L-174.8,-47.7L-174.5,-50.8L-172.7,-53.5L-169.3,-56L-166.8,-60.3L-165.5,-65.5L-165.4,-66.4L-165.3,-70.2L-169.2,-85.3L-169.8,-89.1L-170.3,-93.8L-170.5,-95L-162.9,-91.8L-159.8,-90L-160.1,-92L-160.7,-93.8L-160.4,-96.4L-160.6,-100.3L-167.4,-102.3L-171.9,-102.9L-172.5,-105.7L-172.1,-107.4L-170.8,-106.4L-166.3,-106L-155.4,-111.3L-136.4,-118.1L-116.1,-124.6L-111.3,-125.3L-106.5,-126.7L-104.9,-129.1L-103.1,-130.7L-100.3,-135L-94.2,-141.7L-83.4,-144.1L-79.3,-147.3L-71,-151.8L-51.6,-156.8L-43.6,-157.9L-35.7,-158L-28.7,-154.1L-21.3,-149.2L-19.9,-146.2L-23.9,-148.1L-29.8,-152.5L-31.9,-152.7L-26.9,-139.3L-24.3,-134.7L-18.7,-131.1L-14,-130L0.2,-132.1L5.3,-134.9L6.8,-136.3L8.1,-135.6L17.4,-134.9L26.8,-134.1L42,-133.3L57.7,-132.4L74.1,-131.5L91.8,-130.6L110.5,-130L111.6,-130.4L113.5,-132.7L115.9,-132.4L118.6,-131L119.9,-129.9L120.4,-128.8L120.8,-127.5L122.3,-127.2L125.1,-126.2L128.8,-123.8L131.6,-121.6L134.4,-118.3L135.3,-114.7L135.3,-110.6L135.2,-107.9L135.5,-106.8L139.3,-87.8L145.6,-69.5L147.9,-60.7L148.8,-56L149.5,-49.3L149.8,-44.5L149.8,-41.8L149.3,-38.2L147.4,-36L135.3,-29.9L133,-28L129.5,-23.2L126.1,-18.3L125.4,-16.6L125.2,-15.5L125.9,-13.8L130.2,-11.3L134.6,-9.1L136.1,-7.5L139.2,-5.6L140.4,-3.8L141.1,-2.2L140.9,1.4L139.5,6.5L140.1,10.2L138.7,12.7L137.5,15.5L137.2,20.4Z"/><path class="land oth" d="M51.7,-183.5L49.7,-184L53.6,-190.7L55,-195L56,-201.2L56.9,-203.3L56.9,-200.4L56.5,-195.8L54.2,-187.6ZM215,-163L214.3,-162.7L211.6,-157.8L209.7,-151.1L209.7,-146.4L210,-143.8L209.7,-142.3L208.4,-140.6L206.3,-136.4L204.6,-131.6L203.9,-129.1L204.2,-127.9L206.1,-127.8L209,-126.8L210.5,-124.9L211,-122.7L211,-120.4L210.5,-119.1L208.3,-118.1L204.7,-118.1L202.7,-119.3L202.2,-120.2L203.1,-122.3L202.4,-125.2L201,-126.8L198,-124.4L195.1,-124.4L191.7,-122.3L189.4,-119L187.3,-117.7L181.4,-118.4L179.9,-116.9L178.7,-110.2L178,-108.8L173.2,-109.1L168.4,-106.4L163,-104.2L160.4,-105.7L158.9,-107.4L156,-107.1L152.8,-106.4L150.7,-106.7L148.4,-106.7L143.7,-105.3L138,-105.7L135.5,-106.8L135.2,-107.9L135.3,-110.6L135.3,-114.7L134.4,-118.3L131.6,-121.6L128.8,-123.8L125.1,-126.2L122.3,-127.2L120.8,-127.5L120.4,-128.8L119.9,-129.9L118.6,-131L115.9,-132.4L113.5,-132.7L111.6,-130.4L111.6,-130.4L110.3,-133.2L108.7,-138.3L109,-142.2L109.8,-146.2L113.7,-158.1L113.6,-159.9L110.6,-163.3L107,-165.7L105,-170.8L97.7,-171.1L90.8,-170.8L88.7,-171L82.1,-173.2L75.6,-176.6L71.5,-178.6L67.9,-181L66,-183.3L62.9,-182.7L60.8,-182.7L60.8,-183.1L59.8,-187.3L61,-193.8L58.7,-203.3L55.1,-214.8L55.1,-215L215,-215Z"/><path class="land oth" d="M-78.5,215L-78.6,214.5L-78.2,212.8L-77,211.4L-76.7,208.4L-74.7,206.2L-73.8,205.9L-70.4,206.3L-69.6,206.8L-69,207L-63.7,212.1L-59.7,215L-78.5,215ZM-21.3,215L-20.6,213.8L-21.6,211.8L-21.5,209.6L-20.2,206.5L-16.2,204L-4.5,202.9L2.2,201L3.2,198.5L5.5,195.9L7.5,195.4L10.2,196.6L13.6,198.8L16.6,200L18.2,199.2L24.2,195.5L31,191.8L35.7,181.8L36.1,180.3L41.3,179.1L48.7,179.3L52.5,180.6L55.2,181.3L59.5,181.1L65.7,179L68,179L69.8,180.5L71.7,181.8L73,183.5L74,185.7L74.6,186.5L75.4,187.7L77,189.3L78.5,189.7L89.9,186.9L90.6,186.3L90.6,186.3L93.8,185.9L93.9,186L94.6,186.3L95.1,188.6L95.2,188.7L96.1,190.2L96.8,192.3L97.9,193.8L100.2,194.4L103.5,196.3L105.5,199.8L108.6,201.4L108.8,201.4L109.4,201.2L111.7,201.1L112.2,201.8L114,203.5L114.7,205.1L114.3,206.6L114.6,208.5L115.3,209.1L114.4,210.3L110.1,215L-21.3,215Z"/><path class="land oth" d="M-215,-134.1L-211.2,-133.5L-207.3,-126.2L-197.4,-118.2L-188.2,-118.9L-185,-111.3L-183.5,-102L-180.7,-99L-178.3,-97.2L-170.8,-95.1L-170.5,-95L-170.3,-93.8L-169.8,-89.1L-169.2,-85.3L-165.3,-70.2L-165.4,-66.4L-165.5,-65.5L-166.8,-60.3L-169.3,-56L-172.7,-53.5L-174.5,-50.8L-174.8,-47.7L-170.6,-42.5L-162,-35L-158.6,-28.6L-160.1,-23.3L-160.7,-19.5L-160,-16.9L-158.7,-15L-156.5,-13.6L-155.7,-11.2L-156.1,-8.1L-155.7,-5.9L-154.2,-4.4L-154.3,-3.8L-155,-1.6L-156.1,2.3L-156.7,5.1L-159.2,9L-158.3,12.4L-156.4,16.2L-155,18.1L-154.5,20L-155.5,24.4L-155,25.5L-149,28.8L-148.1,30.2L-147.5,33.3L-145.3,39.9L-147.1,48.3L-148.7,52.9L-152,60L-152.3,60.7L-152.6,61.5L-153.7,62.8L-155.1,63L-157.3,62.1L-158.7,60.9L-158.3,57.8L-159.3,57.5L-160.5,55.7L-161,53.6L-162.3,52.8L-166.9,51.9L-168.5,51.3L-169.7,51.8L-170.6,53.1L-170,54.5L-169.1,55.8L-166.6,57.8L-166.8,58.6L-172.4,60.5L-175.9,62.6L-179.1,63.7L-182.5,65.8L-189,68.2L-193.8,68.8L-194.8,69.4L-196.5,73.4L-197.7,74.2L-198.9,73.8L-199.8,73.1L-201,73.6L-202,75L-203.3,75.5L-204.3,75.4L-206.2,79L-211.7,80L-212.3,81.8L-213.4,83.9L-214.1,84.3L-215,84L-215,-134.1ZM-215,139.7L-211.5,143.3L-207.5,148.4L-204.7,150.8L-202.6,151.5L-201,153.4L-199.5,156.1L-198.9,157.6L-197.6,158.7L-194,158.5L-189.5,162.7L-186.8,165.8L-185.2,168.2L-185.6,169.2L-185.8,172.3L-185.8,175.6L-186.2,177.2L-188.2,179.5L-189.3,180L-189.9,180.4L-196.1,177.5L-196.5,178L-197,178.3L-198.7,186.9L-199.8,188.5L-201.6,190.1L-205.1,191.5L-207.5,192.1L-209.6,192.8L-215,196L-215,139.7ZM-215,210.2L-213.7,212L-213.7,215L-215,215ZM-188.7,-131.9L-187.8,-128.1L-188.8,-126.2L-192.5,-129.4L-196.3,-129.4L-198.5,-124.3L-200.1,-124.1L-206,-128.7L-206.8,-130.9L-207,-132.7L-206.2,-139.1L-206.3,-141.1L-204.5,-143.3L-204.3,-146.5L-201.1,-149.9L-198.2,-150L-197.3,-147.2L-195.9,-145.2L-191.2,-143L-190.5,-142L-190,-140.6L-192.2,-138L-193,-136.6L-192.2,-134.3ZM-172.1,-107.4L-172.5,-105.7L-171.9,-102.9L-173.4,-103.1L-177.4,-102.5L-181.5,-103.4L-182.3,-106.7L-181.6,-110.1L-183.3,-112.2L-184.8,-113.6L-185.1,-115.5L-184.8,-117.4L-177.8,-112.1Z"/><path class="land oth" d="M-143.1,-168.6L-144.3,-167.6L-149.7,-169.3L-156.4,-173.3L-155.4,-181.2L-153.7,-184.6L-141.5,-175.7L-141.4,-172.4Z"/><path class="land oth" d="M-215,84L-214.1,84.3L-213.4,83.9L-212.3,81.8L-211.7,80L-206.2,79L-204.3,75.4L-203.3,75.5L-202,75L-201,73.6L-199.8,73.1L-198.9,73.8L-197.7,74.2L-196.5,73.4L-194.8,69.4L-193.8,68.8L-189,68.2L-182.5,65.8L-179.1,63.7L-175.9,62.6L-172.4,60.5L-166.8,58.6L-166.6,57.8L-169.1,55.8L-170,54.5L-170.6,53.1L-169.7,51.8L-168.5,51.3L-166.9,51.9L-162.3,52.8L-161,53.6L-160.5,55.7L-159.3,57.5L-158.3,57.8L-158.7,60.9L-157.3,62.1L-155.1,63L-153.7,62.8L-152.6,61.5L-152.3,60.7L-149.4,60.5L-146.5,59.3L-146.3,57.1L-146.4,53.1L-146.2,52.5L-141.7,53.7L-137.3,55.4L-136.7,59.4L-135.5,61.4L-134.1,63.2L-132.8,64L-130.5,64.1L-124.6,66.5L-121.7,66.9L-118.7,68.5L-116.3,70.3L-114.4,70.5L-113.6,72.4L-112.5,73.6L-110.6,72.7L-103.4,71.4L-100.8,73.2L-99.1,75.1L-98.9,75.6L-99.7,77.3L-100.2,78.6L-100.9,79.4L-103.4,80.3L-104.7,81.9L-105.8,83.4L-105.1,85L-103.1,86.1L-101.6,86.4L-101.2,87.6L-96.6,92.5L-92.9,99.1L-91.6,100.2L-90.2,100.3L-88.7,99.4L-86.9,97.3L-84.8,95.8L-83,94.9L-79.9,93.1L-79.8,92L-82.4,87.6L-84,83.9L-83.6,83.3L-80.3,83.9L-74.5,85.8L-65.8,92.2L-64.3,92.2L-61.2,91.7L-57.8,90.7L-56.3,89.5L-55.7,90L-55.2,93.5L-56,95.4L-60.1,97.3L-59.9,98.2L-58.8,99.4L-57,100.2L-54.8,102.5L-53.3,105.1L-52,106.3L-50.5,106.9L-47,105.4L-45.9,104.4L-45.5,103.6L-44.8,103.7L-43.5,105L-43.1,105.8L-39.7,107.2L-37.6,109L-36.3,109.8L-34.9,109L-29.3,110.5L-27.7,111.6L-27.3,113.6L-27.6,114.7L-26.7,117.9L-19.6,125.3L-18.9,129L-18.8,130.5L-18.8,130.5L-19.6,130.6L-21.5,131.4L-24,131.6L-26.7,131.6L-28.7,132.9L-30.6,135.1L-32.6,136.6L-33.7,138L-34.3,139.4L-41.1,143.4L-42.1,145.1L-42.8,147.4L-43.1,150.4L-43.6,153.2L-44.7,154.7L-48.4,155.9L-49.3,156.5L-49.9,157.9L-52.1,160.1L-54.5,162.1L-58.9,164.5L-63.6,165.2L-69.8,164.4L-73.3,163.5L-75.1,164.5L-77.5,167.5L-80,172.8L-81.1,176.7L-81.9,175.6L-83.5,171.4L-85.2,170.9L-87.4,170.5L-89.1,169.9L-92.8,167.5L-94.7,166.8L-96.9,166.6L-99,168L-100.6,169.6L-105.5,169.6L-110.8,168.8L-118.6,163.3L-120.5,163.3L-122.6,163.5L-126,162.2L-132.6,158.6L-135.7,157.8L-137.6,158.3L-139.2,159L-140.6,159.2L-141.3,158L-143.7,156.6L-146.2,156.4L-146.9,157.3L-147.6,165.2L-148.4,168L-151.8,167.9L-153,169.2L-155.6,173L-156.2,176.6L-160.7,175.9L-162.9,175.3L-164.8,175.8L-166.9,177.8L-172.8,177.7L-177.4,176.5L-179.5,172L-181.6,170.2L-184.2,168.6L-185.2,168.2L-186.8,165.8L-189.5,162.7L-194,158.5L-197.6,158.7L-198.9,157.6L-199.5,156.1L-201,153.4L-202.6,151.5L-204.7,150.8L-207.5,148.4L-211.5,143.3L-215,139.7L-215,84Z"/><path class="land oth" d="M215,4.5L211.7,4.1L204.9,4.1L194.6,3.3L187.9,3.8L184.9,4.8L181.3,5.5L175.2,6L172.8,5.9L169,6.3L164.6,7.1L163.3,8.7L161.8,12.1L156.7,18L151.8,21.9L151,22.3L148,20.2L145.6,19.5L142.9,19.2L140.8,19.9L139.5,20.9L139.8,25.4L139.4,25.8L137.2,20.4L137.5,15.5L138.7,12.7L140.1,10.2L139.5,6.5L140.9,1.4L141.1,-2.2L140.4,-3.8L139.2,-5.6L136.1,-7.5L134.6,-9.1L130.2,-11.3L125.9,-13.8L125.2,-15.5L125.4,-16.6L126.1,-18.3L129.5,-23.2L133,-28L135.3,-29.9L147.4,-36L149.3,-38.2L149.8,-41.8L149.8,-44.5L149.5,-49.3L148.8,-56L147.9,-60.7L145.6,-69.5L139.3,-87.8L135.5,-106.8L138,-105.7L143.7,-105.3L148.4,-106.7L150.7,-106.7L152.8,-106.4L156,-107.1L158.9,-107.4L160.4,-105.7L163,-104.2L168.4,-106.4L173.2,-109.1L178,-108.8L178.7,-110.2L179.9,-116.9L181.4,-118.4L187.3,-117.7L189.4,-119L191.7,-122.3L195.1,-124.4L198,-124.4L201,-126.8L202.4,-125.2L203.1,-122.3L202.2,-120.2L202.7,-119.3L204.7,-118.1L208.3,-118.1L210.5,-119.1L211,-120.4L211,-122.7L210.5,-124.9L209,-126.8L206.1,-127.8L204.2,-127.9L203.9,-129.1L204.6,-131.6L206.3,-136.4L208.4,-140.6L209.7,-142.3L210,-143.8L209.7,-146.4L209.7,-151.1L211.6,-157.8L214.3,-162.7L215,-163L215,4.5Z"/><path class="land oth" d="M-213.7,215L-213.7,212L-215,210.2L-215,196L-215,196L-209.6,192.8L-207.5,192.1L-205.1,191.5L-201.6,190.1L-199.8,188.5L-198.7,186.9L-197,178.3L-196.5,178L-196.1,177.5L-189.9,180.4L-189.3,180L-188.2,179.5L-186.2,177.2L-185.8,175.6L-185.8,172.3L-185.6,169.2L-185.2,168.2L-184.2,168.6L-181.6,170.2L-179.5,172L-177.4,176.5L-172.8,177.7L-166.9,177.8L-164.8,175.8L-162.9,175.3L-160.7,175.9L-156.2,176.6L-155.6,173L-153,169.2L-151.8,167.9L-148.4,168L-147.6,165.2L-146.9,157.3L-146.2,156.4L-143.7,156.6L-141.3,158L-140.6,159.2L-139.2,159L-137.6,158.3L-135.7,157.8L-132.6,158.6L-126,162.2L-122.6,163.5L-120.5,163.3L-118.6,163.3L-110.8,168.8L-105.5,169.6L-100.6,169.6L-99,168L-96.9,166.6L-94.7,166.8L-92.8,167.5L-89.1,169.9L-87.4,170.5L-85.2,170.9L-83.5,171.4L-81.9,175.6L-81.1,176.7L-81.3,177.2L-81.5,179L-82.8,181.5L-84.1,184.5L-84.1,187.3L-80.5,196.7L-77.3,202.4L-76.7,204.6L-74.7,206.2L-76.7,208.4L-77,211.4L-78.2,212.8L-78.6,214.5L-78.5,215L-213.7,215Z"/></g></g><rect class="shade" x="835" y="0" width="160" height="410"/><line class="div" x1="835" y1="0" x2="835" y2="410"/></g>
+        <circle class="insring" cx="790" cy="205" r="205" filter="url(#rough)"/>
+        <text class="cap" x="735" y="440">Łańcuch cen</text>
+        <text class="cap" x="905" y="440">Osobne wskaźniki</text>
+
+        <g filter="url(#rough)"><path class="link" d="M745 107 L745 150"/>
+        <path class="link" d="M716 185 L676 185"/>
+        <path class="link" d="M745 222 L745 262"/></g>
+
+        <g id="nodes"></g>
+      </svg>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--oil)"></i>Energia</span>
+        <span><i style="background:var(--chain)"></i>Łańcuch cen</span>
+        <span><i style="background:var(--ind)"></i>Osobne wskaźniki</span>
+        <span><i style="background:var(--ext)"></i>Otoczenie i wpływy zewnętrzne</span>
+      </div>
+    </section>
+    <nav class="card steps" aria-label="Lista kroków" id="steps"></nav>
+    </div>
+
+    <aside class="side" id="side">
+      <section class="card panel" id="panel" aria-live="polite">
+        <span class="tag chain" id="tag">Start</span>
+        <h2 id="bt">Zacznij od ropy</h2>
+        <p class="quip" id="qp">Kliknij kafelek na mapie, a opowiemy resztę.</p>
+        <div class="metric" id="mt"><b id="mn">28.10</b><span id="mc">Stan danych. Wybierz węzeł na mapie albo krok z listy.</span></div>
+        <div class="sec" id="sf"><h3>Fakty</h3><ul id="fl"><li>Pomarańczowa linia to schematyczna trasa ropy z Zatoki Perskiej do Polski.</li><li>Niebieskie strzałki w powiększeniu Polski pokazują zależności widoczne w danych.</li></ul></div>
+        <div class="interp" id="bi"><h3>Interpretacja</h3><p id="bp">Fioletowe i różowe węzły są pokazane osobno, bo w zebranych danych nie ma między nimi a cenami w sklepach bezpośredniego związku.</p></div>
+        <button class="btn more" id="more" type="button">Szczegóły i wykresy</button>
+        <div class="nav">
+          <button class="btn" id="prev" type="button" aria-label="Poprzedni krok">←</button>
+          <button class="btn" id="next" type="button" aria-label="Następny krok">→</button>
+          <button class="btn primary" id="play" type="button" aria-pressed="false">Odtwórz</button>
+          <div class="prog" aria-hidden="true"><i id="pg"></i></div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <p class="foot">Mapa jest uproszczona, a trasa tankowców schematyczna. Liczby pochodzą z przeglądu „Gospodarka Polski i świata” z 28.10.2026 oraz z dodatkowego researchu o Ukrainie, USA i Chinach. Granice krajów: Natural Earth. Ciemny tekst w panelu to fakty, tekst w kolorze morskim to interpretacja, czyli logiczny wniosek, a nie pewnik.</p>
+
+  <details>
+    <summary>Źródła</summary>
+    <ul>
+      <li><a href="https://www.pap.pl/aktualnosci/ukraina-siodmym-najwiekszym-odbiorca-polskich-towarow">PAP: Ukraina siódmym odbiorcą polskich towarów</a></li>
+      <li><a href="https://xyz.pl/?p=256422">xyz.pl: uchodźcy z Ukrainy, 2,4% PKB</a></li>
+      <li><a href="https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf">Pułaski: wydatki obronne 2026</a></li>
+      <li><a href="https://biznes.interia.pl/gospodarka/news-drony-artyleria-rakiety-polska-gospodarka-wystrzeli-na-pozyc,nId,23520876">Interia: SAFE i PKB</a></li>
+      <li><a href="https://www.daily-sun.com/world/905163">Reuters: lokalne zawieszenie broni</a></li>
+      <li><a href="https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/">Africanews: rozmowy w listopadzie</a></li>
+      <li><a href="https://xyz.pl/dzieje-sie/amerykanskie-cla-kontra-polscy-eksporterzy-skutki-sa-zroznicowane-3648">xyz.pl: cła USA a polscy eksporterzy (PIE)</a></li>
+      <li><a href="https://bank.pl/?p=554635">bank.pl: nowe cła USA</a></li>
+      <li><a href="https://forsal.pl/kraj/bezpieczenstwo/artykuly/11273678,zolnierze-usa-wroca-do-polski-szef-mon-wskazal-szczegoly.html">Forsal: żołnierze USA w Polsce</a></li>
+      <li><a href="https://www.wiadomoscihandlowe.pl/gospodarka-i-finanse/chiny-najwiekszym-dostawca-towarow-do-polski-deficyt-rosnie-2537961">Wiadomości Handlowe: Chiny dostawcą nr 1</a></li>
+      <li><a href="https://xyz.pl/nanoanalizy/chinski-walec-nie-chce-zwolnic-1540-1540">xyz.pl: import z Chin</a></li>
+      <li><a href="https://xyz.pl/?p=261350">xyz.pl: prognozy MFW dla Polski</a></li>
+      <li><a href="https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus">Finwire: inflacja CPI, wrzesień</a></li>
+      <li><a href="https://www.nationthailand.com/news/world/40072812">Nation Thailand: Brent 27.10</a></li>
+      <li><a href="https://xyz.pl/?p=265113">xyz.pl: notyfikacje EDP, deficyt i dług</a></li>
+      <li><a href="https://www.gpw.pl/pub/GPW/files/PDF/raporty/R2026/Q2/Komunikat_Prasowy_GPW_Q2_2026.pdf">GPW: wyniki indeksów 2026</a></li>
+    </ul>
+  </details>
+  </div>
+
+  <div id="tab-emo" role="tabpanel" aria-labelledby="tb-emo" hidden>
+    <div class="card note"><span class="ic">🧭</span><div><b>Dlaczego nie ma tu listy serwisów i autorów</b><p>Szukałem rzetelnych danych, które wskazywałyby konkretne serwisy albo osoby jako tych, którzy najczęściej stosują clickbait i naciski emocjonalne. Nie znalazłem żadnego wiarygodnego, publicznego rankingu, a wskazanie nazwisk bez takich danych byłoby oskarżeniem, a nie faktem. Dlatego zamiast listy osób dostajesz: tłumacz nagłówków, listę technik, wyniki badań i narzędzia, którymi sprawdzisz każdy serwis sam.</p></div></div>
+
+    <section>
+      <h2 class="sech">Co napisano, a co to naprawdę znaczy</h2>
+      <p class="secp">Osiem wymyślonych nagłówków zbudowanych według typowych wzorców, z gospodarczymi liczbami z mapy. To nie są cytaty z konkretnych serwisów. Po lewej to, co widzisz, po prawej to, co wynika z danych.</p>
+    </section>
+    <div class="toolbar"><button class="btn" id="quizb" type="button" aria-pressed="false">Tryb zgadywania</button><span class="secp" style="margin:0;font-size:13.5px">Ukrywa tłumaczenia, dopóki ich nie odkryjesz.</span></div>
+    <div class="cmps" id="cmps"></div>
+
+    <section>
+      <h2 class="sech">Ile Cię to kosztuje</h2>
+      <p class="secp">Czy nagłówek dał Ci wiedzę, której naprawdę potrzebowałeś, czy tylko emocję? Najczęściej informacja jest w treści, a nagłówek jest reklamą. Cenę emocji mierzy się nastrojem, objawami stresu i czasem. Nie znalazłem wiarygodnego pomiaru „ile kalorii kosztuje oburzenie”, więc go nie podaję.</p>
+    </section>
+    <div class="cost" id="cost"></div>
+    <div class="card calc">
+      <div>
+        <b style="font:700 17px var(--sans)">Twój rachunek za klikanie</b>
+        <p class="secp" style="margin:2px 0 12px;font-size:13.5px">To prosta arytmetyka na Twoich założeniach, nie badanie.</p>
+        <label>Kliknięć w nagłówki dziennie: <output id="o1">10</output><input id="i1" type="range" min="0" max="40" value="10"></label>
+        <label>Minut na jedno kliknięcie i powrót do tego, co robiłeś: <output id="o2">3</output><input id="i2" type="range" min="1" max="15" value="3"></label>
+        <label>Ile z tych kliknięć dało Ci wiedzę, której użyłeś: <output id="o3">10</output>%<input id="i3" type="range" min="0" max="100" value="10"></label>
+      </div>
+      <div class="res"><span class="lab">W ciągu roku</span><span class="big2" id="r1">0 h</span><p id="r2"></p><p class="lol" id="r3"></p></div>
+    </div>
+
+    <section>
+      <h2 class="sech">Odtrutka: dobre wiadomości z ostatnich tygodni</h2>
+      <p class="secp">Prawdziwe, sprawdzone i z linkiem. Każda ma też „haczyk uczciwości”, czyli to, co psuje zbyt różowy obraz. Dobre wiadomości też można podkręcać, więc tu niczego nie podkręcam.</p>
+    </section>
+    <div class="good" id="good"></div>
+
+    <section>
+      <h2 class="sech">Osiem sztuczek w pigułce</h2>
+      <p class="secp">Nie każdy z tych zabiegów jest nieuczciwy. Problem zaczyna się, gdy nagłówek obiecuje więcej, niż daje treść, albo mówi Ci, co masz czuć.</p>
+    </section>
+    <div class="techs" id="techs"></div>
+
+    <section>
+      <h2 class="sech">Co mówią badania</h2>
+      <p class="secp">Ostrożnie: to pojedyncze badania, a próbki bywają małe.</p>
+    </section>
+    <div class="facts">
+      <div class="card fc"><b>+10–17%</b><span>więcej udostępnień dla postów z mocnym, moralno-emocjonalnym językiem. Słowa o „drugiej stronie” działały jeszcze mocniej (+35–57%). Badanie postów mediów na Facebooku i Twitterze (Rathje i in., PNAS 2021).</span></div>
+      <div class="card fc"><b>ok. 20%</b><span>więcej rozpowszechniania na każde dodatkowe słowo moralno-emocjonalne w wiadomości na tematy polaryzujące (Brady i in., PNAS 2017, ponad 560 tys. wiadomości).</span></div>
+      <div class="card fc"><b>54,5%</b><span>z 99 polskich nagłówków o zdrowiu z jednego tygodnia lipca 2025 miało choć jedną cechę clickbaitu. Najczęściej: listy i liczby oraz niedopowiedzenia (po 19,2%). Mała próbka, jeden temat (Laskowska 2026).</span></div>
+      <div class="card fc"><b>59%</b><span>linków udostępnionych na Twitterze nigdy nie zostało kliknięte. Ludzie częściej udostępniają, niż czytają (badanie z 2016 r., cytowane przez Demagoga).</span></div>
+      <div class="card fc"><b>39%</b><span>Polaków ufa większości wiadomości (spadek o 8 pkt), a 46% unika newsów czasem lub często (Reuters Institute, Digital News Report 2026).</span></div>
+    </div>
+
+    <section>
+      <h2 class="sech">Skaner nagłówków</h2>
+      <p class="secp">Wklej dowolny nagłówek. Skaner szuka znanych wzorców w słowach. Nie ocenia, czy nagłówek jest prawdziwy ani jaka była intencja autora.</p>
+    </section>
+    <div class="card scan">
+      <label class="lab" for="scin">Nagłówek</label>
+      <textarea id="scin" placeholder="np. SZOK! Eksperci biją na alarm. Zobacz, ile zapłacisz za prąd!"></textarea>
+      <div class="temp" aria-hidden="true"><i id="scbar"></i></div>
+      <div><b id="sclab" style="font:700 16px var(--sans)">Wpisz nagłówek</b></div>
+      <div class="chips" id="scchips"></div>
+    </div>
+
+    <section>
+      <h2 class="sech">Pięć pytań, zanim klikniesz</h2>
+    </section>
+    <div class="techs">
+      <div class="card tc"><b>1. Co teraz czuję?</b><p>Jeśli nagłówek najpierw wywołał strach lub złość, zatrzymaj się. To sygnał, że ktoś mógł celować w emocje.</p></div>
+      <div class="card tc"><b>2. Gdzie jest liczba?</b><p>Rzetelny nagłówek o gospodarce zwykle ma liczbę, okres i źródło. Samo „rośnie”, „eksploduje” albo „tonie” niczego nie mierzy.</p></div>
+      <div class="card tc"><b>3. Kim są „eksperci”?</b><p>Ilu ich jest, jak się nazywają i kto im płaci? Anonimowa zbiorowość to nie źródło.</p></div>
+      <div class="card tc"><b>4. Czy tytuł zgadza się z treścią?</b><p>Przeczytaj pierwszy akapit. Jeśli odpowiedź z nagłówka tam nie pada, to była przynęta.</p></div>
+      <div class="card tc"><b>5. Co to znaczy dla mnie?</b><p>Przełóż wiadomość na swoje pieniądze: rata, rachunek, pensja. Jeśli się nie da, to prawdopodobnie szum.</p></div>
+    </div>
+
+    <section>
+      <h2 class="sech">Narzędzia i źródła do samodzielnego sprawdzania</h2>
+    </section>
+    <ul class="srcs">
+      <li><a href="https://demagog.org.pl/analizy_i_raporty/jak-sie-odnalezc-w-gaszczu-clickbaitow-poradnik-demagoga/">Demagog: jak odnaleźć się w gąszczu clickbaitów</a> (poradnik po polsku)</li>
+      <li><a href="https://demagog.org.pl/analizy_i_raporty/mimowolna-dezinformacja-jak-clickbait-napedza-falszywe-informacje/">Demagog: jak clickbait napędza fałszywe informacje</a></li>
+      <li><a href="https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2026/poland">Reuters Institute: Digital News Report 2026, Polska</a></li>
+      <li><a href="https://czasopisma.ignatianum.edu.pl/pk/article/download/2025.5201.05/3385">Laskowska 2026: etyka clickbaitu w komunikacji zdrowotnej</a></li>
+      <li><a href="https://ojs.academicon.pl/jezykoznawstwo/article/download/10566/10842/32988">Patalong i Induła: język clickbaitu w nagłówkach na Facebooku</a></li>
+      <li><a href="https://www.bps.org.uk/research-digest/social-media-posts-are-hostile-towards-political-opponents-get-more-shares">BPS Research Digest o badaniu Rathje i in. (PNAS 2021)</a></li>
+      <li><a href="https://collaborate.princeton.edu/en/publications/emotion-shapes-the-diffusion-of-moralized-content-in-social-netwo/">Brady i in. (PNAS 2017): emocje a rozprzestrzenianie treści moralizujących</a></li>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/9061893/">Johnston i Davey (1997): wpływ negatywnych wiadomości TV na nastrój i zamartwianie się</a></li>
+      <li><a href="https://www.pnas.org/doi/10.1073/pnas.1316265110">Holman i in. (PNAS 2014): media a ostry stres po zamachu w Bostonie</a></li>
+      <li><a href="https://news.gallup.com/businessjournal/23146/Too-Many-Interruptions-Work.aspx">Gallup: wywiad z Gloria Mark o kosztach przerywania pracy</a></li>
+      <li><a href="https://www.emerald.com/mhdt/article/doi/10.1108/MHDT-10-2025-0068/1338079/The-influence-of-doomscrolling-on-mental-health-a">Przegląd badań o doomscrollingu (Emerald)</a></li>
+      <li><a href="https://nobelprize.org/prizes/medicine/2026/summary">Nobel z medycyny 2026</a>, <a href="https://iea.org/reports/global-energy-review-2026/technology-solar-pv-and-wind">IEA Global Energy Review 2026</a>, <a href="https://www.who.int/campaigns/world-malaria-day/2026">WHO: Światowy Dzień Malarii 2026</a></li>
+      <li><a href="https://www.rmf24.pl/fakty/ekonomia/news-dobre-wiesci-ws-polskiej-gospodarki-w-tle-kryzys-na-bliskim-,nId,8089250">RMF24/PAP: PIE o odporności polskiej gospodarki</a>, <a href="https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/">Africanews: rozmowy w listopadzie</a></li>
+      <li><a href="https://mediabiasfactcheck.com/">Media Bias/Fact Check</a> i <a href="https://www.newsguardtech.com/">NewsGuard</a>: zagraniczne oceny wiarygodności serwisów. To oceny redakcyjne, więc traktuj je jak jedną z opinii.</li>
+    </ul>
+  </div>
+</main>
+
+<dialog class="md" id="md" aria-labelledby="mt-t">
+  <div class="mh"><div class="big node" id="mbig" aria-hidden="true"></div><div class="tt"><span class="tag chain" id="mtag"></span><h2 id="mt-t"></h2><p class="quip" id="mq"></p></div><button class="mx" id="mx" type="button" aria-label="Zamknij">✕</button></div>
+  <div class="mb" id="mbody"></div>
+  <div class="mf"><button class="btn" id="mprev" type="button">← Poprzedni</button><button class="btn" id="mnext" type="button">Następny →</button><span class="ct" id="mct"></span></div>
+</dialog>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+var ICON={
+ oil:'M7 21 L12 5 L17 21 M9.5 15 H14.5 M4 6 H13',
+ gate:'M5 20 V8 M19 20 V8 M3 8 H21 M9 20 V14 M15 20 V14',
+ pump:'M6 21 V5 a2 2 0 0 1 2 -2 H14 a2 2 0 0 1 2 2 V21 M4 21 H18 M8 8 H14 M16 9 l3 2 v6 a1.5 1.5 0 0 0 3 0 v-5 l-2 -3',
+ shop:'M5 8 H19 L18 20 H6 Z M9 8 V6 a3 3 0 0 1 6 0 V8',
+ bank:'M3 10 L12 4 L21 10 M5 10 V18 M9.5 10 V18 M14.5 10 V18 M19 10 V18 M3 20 H21',
+ wallet:'M4 7 H18 a2 2 0 0 1 2 2 V18 a2 2 0 0 1 -2 2 H6 a2 2 0 0 1 -2 -2 V7 Z M4 7 L15 4 V7 M16 14 H18',
+ debt:'M3 20 L9 10 L12 15 L15 11 L21 20 Z',
+ chart:'M4 17 L9 12 L12 15 L19 8 M15 7 H20 V12',
+ sun:'M12 8 a4 4 0 1 0 0.01 0 M12 2 V4 M12 20 V22 M2 12 H4 M20 12 H22 M5 5 L6.5 6.5 M17.5 17.5 L19 19 M19 5 L17.5 6.5 M6.5 17.5 L5 19',
+ cloud:'M7 18 a4 4 0 0 1 0 -8 a5 5 0 0 1 9.5 -1 A3.5 3.5 0 0 1 17 18 Z',
+ shield:'M12 3 L20 6 V12 C20 17 16.5 20 12 21 C7.5 20 4 17 4 12 V6 Z',
+ star:'M12 3 L14.7 8.6 L20.8 9.5 L16.4 13.8 L17.4 19.9 L12 17 L6.6 19.9 L7.6 13.8 L3.2 9.5 L9.3 8.6 Z',
+ box:'M3 8 L12 3 L21 8 V16 L12 21 L3 16 Z M3 8 L12 13 L21 8 M12 13 V21'
+};
+/* węzły: id, kategoria, ikona, pozycja, podpis, położenie podpisu */
+var NODES=[
+ {id:'derrick',cat:'oil',ic:'oil',x:770,y:600,lb:'Ropa',lp:'l'},
+ {id:'gate',cat:'oil',ic:'gate',x:862,y:556,lb:'Ormuz',lp:'t'},
+ {id:'pump',cat:'chain',ic:'pump',x:745,y:75,lb:'Stacja',lp:'r'},
+ {id:'shop',cat:'chain',ic:'shop',x:745,y:185,lb:'Sklep',lp:'r'},
+ {id:'bank',cat:'chain',ic:'bank',x:640,y:185,lb:'Bank',lp:'b'},
+ {id:'worker',cat:'chain',ic:'wallet',x:745,y:295,lb:'Pensje',lp:'r'},
+ {id:'debt',cat:'ind',ic:'debt',x:900,y:305,lb:'Dług',lp:'b'},
+ {id:'tree',cat:'ind',ic:'chart',x:900,y:205,lb:'Giełda',lp:'b'},
+ {id:'sun',cat:'ind',ic:'sun',x:900,y:105,lb:'PKB',lp:'b'},
+ {id:'west',cat:'ext',ic:'cloud',x:322,y:352,lb:'Zachód Europy',lp:'b'},
+ {id:'ukraine',cat:'ext',ic:'shield',x:566,y:388,lb:'Ukraina',lp:'b'},
+ {id:'usa',cat:'ext',ic:'star',x:72,y:132,lb:'USA',lp:'b'},
+ {id:'china',cat:'ext',ic:'box',x:946,y:482,lb:'Chiny',lp:'b'}
+];
+var STEPS=[
+ {id:'derrick',cat:'oil',tag:'Energia',t:'Studnia ropy',m:'114 USD',mc:'Brent, 27.10. Ok. 90% więcej niż na początku roku.',
+  f:['Brent kosztuje ok. 114 USD za baryłkę, prawie dwa razy tyle co na początku roku.','Powodem jest wojna wokół Iranu oraz ataki na szlaki i instalacje w regionie.'],
+  i:'Dzisiejsza cena zawiera premię za ryzyko wokół Iranu, więc porozumienie mogłoby ją szybko obniżyć, a eskalacja podbić.'},
+ {id:'gate',cat:'oil',tag:'Energia',t:'Cieśnina Ormuz',m:'ok. 60%',mc:'normalnego ruchu tankowców przez cieśninę.',
+  f:['Prawie cała ropa z Zatoki płynie przez jedną wąską cieśninę.','Liczba ataków na statki w okolicy była w październiku najwyższa od początku rejestrów.'],
+  i:'Im dłużej ruch jest ograniczony, tym mniejsza szansa na szybki spadek cen paliw w Polsce.'},
+ {id:'pump',cat:'chain',tag:'Łańcuch cen',t:'Stacja paliw',m:'+24%',mc:'ceny paliw r/r (sierpień).',
+  f:['Paliwa drożeją najszybciej, bo to pierwsze ogniwo łańcucha ropa → ceny.','Rząd ogranicza maksymalne ceny na stacjach do końca roku (program „Ceny Paliwa Niżej”), a diesel kosztuje ok. 8 zł za litr.','Trasa na mapie jest schematyczna. Polska sprowadza ropę m.in. przez Gdańsk.'],
+  i:'Limit cen łagodzi skok na stacjach, ale nie usuwa przyczyny. Po wygaśnięciu programu pod koniec roku ceny mogą wyraźniej odczuć wzrost ropy.'},
+ {id:'shop',cat:'chain',tag:'Łańcuch cen',t:'Sklep i ceny',m:'4,1%',mc:'inflacja CPI, wrzesień. Cel NBP: 2,5% ±1 pp.',
+  f:['Usługi drożeją o 5,6%, towary o 2,5%, a żywność tanieje o 0,9% (sierpień).','Paliwa podbiły wrześniowy odczyt.'],
+  i:'Skoro usługi drożeją szybciej niż towary, inflacja może okazać się trwalsza niż sam szok paliwowy, bo ceny usług wolniej spadają. Banki oczekują 4–5% na przełomie roku.'},
+ {id:'bank',cat:'chain',tag:'Łańcuch cen',t:'Bank i stopy procentowe',m:'3,75%',mc:'stopa referencyjna NBP. Fed: 3,75–4,00%, EBC: 2,50%.',
+  f:['Fed i EBC podnosiły stopy w tym roku, a NBP trzyma 3,75% od marca.','Realna stopa w Polsce wynosi ok. −0,4 pp. Decyzja RPP zapada 3–4 listopada, a część banków spodziewa się podwyżki w IV kwartale.'],
+  i:'Ujemna realna stopa daje RPP argument za podwyżką, ale słabnący konsument i spadające zatrudnienie przemawiają za cierpliwością. Dlatego decyzja nie jest oczywista.'},
+ {id:'worker',cat:'chain',tag:'Łańcuch cen',t:'Pensje i portfel',m:'+1,6%',mc:'realny wzrost płac (nominalnie +5,9%).',
+  f:['Płace rosną o 5,9%, a ceny o 4,1%.','Bezrobocie rejestrowane wynosi 5,8%, a zatrudnienie w firmach spada o 0,8% r/r.'],
+  i:'Jeśli zatrudnienie dalej będzie spadać, a płace rosnąć wolniej niż ceny, konsumpcja może hamować. Sprzedaż detaliczna w sierpniu już zwolniła.'},
+ {id:'debt',cat:'ind',tag:'Osobny wskaźnik',t:'Dług publiczny',m:'7,1% PKB',mc:'deficyt sektora finansów publicznych (plan 2026 i 2027).',
+  f:['Dług rośnie do ok. 67,6% PKB w 2026 r., a według MFW do ok. 82% w 2031 r.','Obsługa długu kosztuje ok. 90 mld zł rocznie, o 19% więcej niż rok wcześniej.','Ta miara opisuje finanse państwa, a nie ceny ani pensje.'],
+  i:'Rentowności powyżej 6% i droższa obsługa długu utrudniają ograniczanie deficytu, bo coraz więcej budżetu idzie na odsetki.'},
+ {id:'tree',cat:'ind',tag:'Osobny wskaźnik',t:'Giełda',m:'4 267 pkt',mc:'WIG20, rekord z 21.10. WIG: +29,7% od początku roku (stan na 3.09).',
+  f:['Rekord ciągną głównie banki i spółki energetyczne.','Małe spółki (sWIG80) zyskały tylko ok. 5%.','W zebranych danych nie ma bezpośredniego związku z pensjami ani cenami w sklepach.'],
+  i:'Rekord WIG20 odzwierciedla oczekiwania co do zysków banków i energetyki, a nie nastroje przeciętnego konsumenta. Wyższe stopy mogą pośrednio sprzyjać zyskom banków.'},
+ {id:'sun',cat:'ind',tag:'Osobny wskaźnik',t:'Wzrost gospodarczy (PKB)',m:'+3,9%',mc:'PKB Polski w II kwartale, r/r.',
+  f:['Inwestycje rosną o 8,4%, a konsumpcja prywatna o 2,8%.','MFW prognozuje 3,4% w 2026 r. i 2,5% w 2027 r.','PKB mierzy produkcję całej gospodarki, więc to inna miara niż ceny i pensje.'],
+  i:'Jeśli energia pozostanie droga, wzrost w Polsce może okazać się niższy niż w prognozach, które powstawały przy tańszej ropie.'},
+ {id:'west',cat:'ext',tag:'Otoczenie',t:'Zachód Europy',m:'1,1%',mc:'wzrost strefy euro w 2026 (MFW). Niemcy 1,3%, Francja 0,4%.',
+  f:['Inflacja w strefie euro wynosi 3,8% (wrzesień).','EBC podniósł stopy w czerwcu i we wrześniu. Kolejna decyzja zapada 29.10.'],
+  i:'Słabszy wzrost strefy euro może ograniczać popyt na polski eksport. To ryzyko dla przemysłu, który ma PMI poniżej 50.'},
+ {id:'ukraine',cat:'ext',tag:'Wojna za wschodnią granicą',t:'Ukraina',m:'4,8% PKB',mc:'wydatki obronne Polski w 2026 r. (201 mld zł).',
+  f:['Wojna trwa piąty rok. Rozmowy USA–Ukraina–Rosja są planowane na początek listopada w Abu Dhabi.','Pożyczka SAFE z UE wynosi 43,7 mld euro, a rząd szacuje, że ok. 89% zamówień trafi do polskiego przemysłu.','Uchodźcy z Ukrainy wytworzyli w 2025 r. 2,4% polskiego PKB (94 mld zł).','Eksport do Ukrainy wyniósł w 2025 r. ok. 56,9 mld zł.'],
+  i:'Zbrojenia i SAFE wspierają inwestycje w 2026 r., ale w 2027 r. impuls będzie słabszy, a deficyt pozostaje wysoki. Uchodźcy łagodzą braki pracowników. To, czy polskie firmy zyskają na odbudowie Ukrainy, jest otwarte.'},
+ {id:'usa',cat:'ext',tag:'Otoczenie i wpływy zewnętrzne',t:'USA',m:'10%',mc:'nowe cło USA na towary z UE od 24.07 (bez stali, aluminium i aut).',
+  f:['Wyrok Sądu Najwyższego USA z 20.02 unieważnił dotychczasowe cła, a od lipca obowiązuje nowa struktura ceł.','Według PIE ok. 49% polskich eksporterów do USA nie odczuło skutków ceł, a 24% odczuło je bezpośrednio lub pośrednio.','W Polsce stacjonuje ok. 10 tys. żołnierzy USA, a Polska zabiega o stałą bazę.'],
+  i:'Bezpośrednio USA kupują niewielką część polskiego eksportu, więc cła uderzają głównie pośrednio, przez Niemcy i podzespoły, zwłaszcza w motoryzacji. Dla Polski ważniejsza jest rola USA w bezpieczeństwie niż w handlu. Wysokie rentowności USA i silny dolar zwiększają presję na złotego i obligacje.'},
+ {id:'china',cat:'ext',tag:'Otoczenie i wpływy zewnętrzne',t:'Chiny',m:'nr 1',mc:'dostawca towarów do Polski w lipcu. W ujęciu 12-miesięcznym Niemcy wciąż prowadzą.',
+  f:['Import z Chin i Wietnamu to 67 mld euro w 12 miesiącach, z Niemiec 71,4 mld euro.','Import aut z Chin wzrósł z 40 mln euro w 2019 r. do 1,74 mld euro rocznie, czyli ok. 40% wartości aut z Niemiec.','Deficyt obrotów bieżących ma sięgnąć ok. 2% PKB na koniec roku.'],
+  i:'Tani import może hamować ceny towarów, ale jest konkurencją dla polskiego przemysłu. Rosnący deficyt handlowy zwiększa zależność od zagranicznego finansowania. Słaby popyt w Chinach może też uderzać pośrednio w niemieckich odbiorców polskich podzespołów.'}
+];
+var EMO={derrick:'🛢️',gate:'🚢',pump:'⛽',shop:'🛒',bank:'🏦',worker:'👛',debt:'⛰️',tree:'📈',sun:'☀️',west:'🌦️',ukraine:'🛡️',usa:'🦅',china:'🐉'};
+var Q=['Wszystko zaczyna się od baryłki.','Jedne wąskie drzwi i mnóstwo tankowców.','Tu ropa spotyka Twój portfel.','Koszyk zakupowy wie pierwszy.','Bank trzyma rękę na pokrętle.','Pensja goni ceny, na razie z lekką przewagą.','Rachunek państwa to osobna historia.','Giełda żyje własnym życiem.','Cała gospodarka w jednym wskaźniku.','Kiedy sąsiedzi za Odrą kichają, my słuchamy uważnie.','Sąsiad, o którym warto wiedzieć wszystko.','Daleko za oceanem, ale blisko w sprawach bezpieczeństwa.','Daleki wschód, krótka dostawa.'];
+var NS='http://www.w3.org/2000/svg';
+function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+var byId={};STEPS.forEach(function(s,i){byId[s.id]=i;});
+
+/* węzły na mapie */
+var host=document.getElementById('nodes');
+NODES.forEach(function(n){
+  var g=el('g',{'class':'node '+n.cat,id:'n-'+n.id,tabindex:'0',role:'button','aria-label':STEPS[byId[n.id]].t+', krok '+(byId[n.id]+1),transform:'translate('+n.x+' '+n.y+')'},host);
+  el('rect',{'class':'ring',x:-36,y:-36,width:72,height:72,rx:24},g);
+  var pp=el('g',{'class':'pop'},g);
+  var tl=el('rect',{'class':'tile',x:-32,y:-32,width:64,height:64,rx:22},pp);tl.setAttribute('fill','url(#g-'+n.cat+')');
+  var us=el('use',{x:-27,y:-27,width:54,height:54},pp);us.setAttribute('href','#i-'+n.id);
+  el('circle',{'class':'bn',cx:24,cy:-24,r:11},g);var bt=el('text',{'class':'bt',x:24,y:-19.5},g);bt.textContent=byId[n.id]+1;
+  var w=n.lb.length*8+24,lx,ly,tx;
+  if(n.lp==='r'){lx=38;ly=-14;}else if(n.lp==='l'){lx=-38-w;ly=-14;}else if(n.lp==='t'){lx=-w/2;ly=-62;}else{lx=-w/2;ly=36;}
+  var lb=el('g',{'class':'lb',transform:'translate('+lx+' '+ly+')'},g);
+  el('rect',{'class':'lbbg',x:0,y:0,width:w,height:26,rx:13},lb);var t=el('text',{'class':'lbt',x:11,y:19},lb);t.textContent=n.lb;
+});
+/* podpis Polski */
+(function(){var g=el('g',{'class':'node',style:'pointer-events:none'},document.getElementById('sv'));})();
+
+/* lista kroków */
+var steps=document.getElementById('steps');
+var groups=[['Energia','oil'],['Łańcuch cen','chain'],['Osobne wskaźniki','ind'],['Otoczenie','ext']];
+groups.forEach(function(gr){
+  var h=document.createElement('h3');h.textContent=gr[0];steps.appendChild(h);
+  var ol=document.createElement('ol');
+  STEPS.forEach(function(s,i){if(s.cat!==gr[1])return;var li=document.createElement('li');var b=document.createElement('button');b.type='button';b.className='step '+s.cat;b.id='st-'+s.id;b.innerHTML='<b>'+(i+1)+'</b>'+s.t;b.addEventListener('click',function(){stop();show(i);});li.appendChild(b);ol.appendChild(li);});
+  steps.appendChild(ol);
+});
+
+/* panel */
+var cur=-1;
+function show(i,scroll){
+  cur=i;var s=STEPS[i];
+  var tg=document.getElementById('tag');tg.textContent=s.tag;tg.className='tag '+s.cat;
+  document.getElementById('bt').textContent=s.t;document.getElementById('qp').textContent=Q[i];
+  document.getElementById('mn').textContent=s.m;document.getElementById('mc').textContent=s.mc;
+  var ul=document.getElementById('fl');ul.innerHTML='';s.f.forEach(function(x){var li=document.createElement('li');li.textContent=x;ul.appendChild(li);});
+  document.getElementById('bp').textContent=s.i;
+  document.querySelectorAll('.node').forEach(function(n){n.classList.toggle('on',n.id==='n-'+s.id);});
+  document.querySelectorAll('.step').forEach(function(b){b.classList.toggle('on',b.id==='st-'+s.id);});
+  if(scroll&&window.innerWidth<=1020){document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});}
+}
+document.querySelectorAll('.node').forEach(function(g){
+  var id=g.id.slice(2);
+  g.addEventListener('click',function(){stop();openModal(byId[id]);});
+  g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();stop();openModal(byId[id]);}});
+});
+function go(d){stop();var i=cur<0?(d>0?0:STEPS.length-1):(cur+d+STEPS.length)%STEPS.length;show(i);}
+document.getElementById('prev').addEventListener('click',function(){go(-1);});
+document.getElementById('next').addEventListener('click',function(){go(1);});
+document.addEventListener('keydown',function(e){if(e.target.closest&&e.target.closest('details'))return;if(e.key==='ArrowRight'){go(1);}else if(e.key==='ArrowLeft'){go(-1);}});
+var timer=null,pt=null,btn=document.getElementById('play'),pg=document.getElementById('pg');
+var DUR=7000;
+function stop(){if(timer){clearInterval(timer);timer=null;}if(pt){cancelAnimationFrame(pt);pt=null;}pg.style.width='0';btn.textContent='Odtwórz';btn.setAttribute('aria-pressed','false');}
+function tick(t0){var p=Math.min(1,(performance.now()-t0)/DUR);pg.style.width=(p*100)+'%';if(timer)pt=requestAnimationFrame(function(){tick(t0);});}
+function start(){btn.textContent='Zatrzymaj';btn.setAttribute('aria-pressed','true');var i=0;show(0);var t0=performance.now();timer=setInterval(function(){i=(i+1)%STEPS.length;show(i);t0=performance.now();},DUR);pt=requestAnimationFrame(function loop(){var p=Math.min(1,(performance.now()-t0)/DUR);pg.style.width=(p*100)+'%';if(timer)pt=requestAnimationFrame(loop);});}
+btn.addEventListener('click',function(){timer?stop():start();});
+
+/* wykresy w oknie szczegółów; ds[i].c: 1 = kolor kategorii, 2 = złoty */
+var MS=[1,32,60,91,121,152,182,213,244,274,305],MN=['sty','lut','mar','kwi','maj','cze','lip','sie','wrz','paź','lis'];
+var CH={
+ derrick:[{t:'Ropa Brent w ostatnich latach',sub:'USD za baryłkę. 2021–2024: średnie roczne, ostatni słupek to cena z jednego dnia.',type:'bar',dec:1,labels:['2021','2022','2023','2024','27.10.2026'],ds:[{n:'Brent',d:[70.9,100.9,82.5,80.5,113.9],c:1}],note:'W 2022 r. średnia przekroczyła 100 USD po napaści Rosji na Ukrainę. Roku 2025 nie pokazuję, bo nie sprawdziłem jego średniej w źródle.',src:'Macrotrends/EIA (2021–2024), Reuters i inne (27.10.2026)'}],
+ gate:[{t:'Brent w 2026 roku',sub:'USD za baryłkę, punkty z wybranych dni.',type:'xline',dec:1,ymin:50,ymax:130,pts:[[44,67.6,'13.02'],[51,71.8,'20.02'],[68,88.4,'9.03'],[86,112.6,'27.03'],[120,110.5,'30.04'],[193,76.6,'12.07 (ok.)'],[222,86.4,'10.08'],[237,89,'25.08'],[245,95.6,'2.09'],[280,100.2,'7.10'],[296,116.7,'23.10'],[300,113.9,'27.10']],ds:[{n:'Brent',c:1}],note:'W kwietniu cena na krótko przekroczyła 126 USD w trakcie sesji. Najniższe zamknięcie października to 100,2 USD.',src:'Reuters, Trading Economics, Oil & Gas Middle East'}],
+ pump:[{t:'Z czego bierze się inflacja',sub:'Sierpień 2026, CPI r/r według grup.',type:'bar',dec:1,unit:'%',sign:true,labels:['Paliwa','Usługi','CPI ogółem','Towary','Żywność'],ds:[{n:'r/r',d:[24.2,5.6,3.4,2.5,-0.9],c:1}],note:'Paliwa to jedyna grupa, która drożeje w tempie dwucyfrowym.',src:'GUS'}],
+ shop:[{t:'Inflacja w Polsce, średnio w roku',sub:'CPI. 2026: prognoza MFW z października.',type:'bar',dec:1,unit:'%',labels:['2021','2022','2023','2024','2025','2026 (prog.)'],ds:[{n:'CPI',d:[5.1,14.4,11.4,3.6,3.6,3.2],c:1}],note:'Rok 2022 był rekordowy od 1997 r.',src:'GUS, MFW'},
+        {t:'Inflacja a stopa NBP w ostatnim roku',sub:'Miesięcznie, wrzesień 2025 do wrzesień 2026.',type:'line',dec:2,unit:'%',ymin:1,ymax:5,labels:['IX 25','X','XI','XII','I 26','II','III','IV','V','VI','VII','VIII','IX'],ds:[{n:'CPI r/r',d:[2.9,2.8,2.5,2.4,2.1,2.1,3.0,3.2,3.1,2.5,3.0,3.4,4.1],c:1},{n:'Stopa referencyjna',d:[4.75,4.5,4.25,4.0,4.0,4.0,3.75,3.75,3.75,3.75,3.75,3.75,3.75],c:2,step:true}],note:'We wrześniu inflacja po raz pierwszy od dawna przekroczyła stopę NBP.',src:'GUS, NBP'}],
+ bank:[{t:'Stopa referencyjna NBP, koniec roku',sub:'Do 28.10.2026.',type:'line',step:true,dec:2,unit:'%',ymin:0,labels:['2020','2021','2022','2023','2024','2025','28.10.26'],ds:[{n:'Stopa',d:[0.10,1.75,6.75,5.75,5.75,4.00,3.75],c:1}],note:'Podwyżki zaczęły się w październiku 2021 r., szczyt 6,75% trwał od września 2022 r., a obniżki w 2025 r. zeszły do 4,00%.',src:'NBP'}],
+ worker:[{t:'Płace w firmach a inflacja',sub:'Średnioroczny wzrost przeciętnego wynagrodzenia w sektorze przedsiębiorstw i CPI.',type:'bar',dec:1,unit:'%',labels:['2021','2022','2023','2024','2025'],ds:[{n:'Płace (nominalnie)',d:[8.8,13.0,11.9,11.0,8.1],c:1},{n:'Inflacja CPI',d:[5.1,14.4,11.4,3.6,3.6],c:2}],note:'W 2022 r. ceny rosły szybciej niż pensje, więc realnie pensje spadły. Wzrost za 2024 i 2025 wyliczyłem z podanych przez GUS kwot (8 266 zł i 8 935 zł).',src:'GUS'}],
+ debt:[{t:'Dług sektora finansów publicznych',sub:'% PKB (metodologia UE). 2026: notyfikacja EDP.',type:'bar',dec:1,unit:'%',ymin:0,labels:['2022','2023','2024','2025','2026'],ds:[{n:'Dług',d:[48.8,49.5,54.8,59.7,67.6],c:1}],note:'Od 2023 r. Polska notuje jeden z najszybszych wzrostów zadłużenia w UE.',src:'GUS, Eurostat, MF'},
+        {t:'Deficyt sektora finansów publicznych',sub:'% PKB. 2026: plan rządu.',type:'bar',dec:1,unit:'%',ymin:0,labels:['2022','2023','2024','2025','2026 (plan)'],ds:[{n:'Deficyt',d:[3.4,5.2,6.4,7.3,7.1],c:2}],note:'Deficyt ponad dwukrotnie wzrósł w ciągu trzech lat.',src:'GUS, MF'}],
+ tree:[{t:'WIG20 na koniec roku',sub:'Punkty indeksu. Ostatni słupek: rekord z 21.10.2026.',type:'bar',dec:0,labels:['2020','2021','2022','2023','2024','2025','21.10.26'],ds:[{n:'WIG20',d:[1984,2267,1792,2343,2192,3184,4267],c:1}],note:'Zmiany roczne: 2021 +14,3%, 2022 −21,0%, 2023 +30,8%, 2024 −6,4%, 2025 +45,3%.',src:'GPW, PAP'}],
+ sun:[{t:'Wzrost PKB w Polsce',sub:'Realnie, średnio w roku. 2026: prognoza MFW.',type:'bar',dec:1,unit:'%',sign:true,labels:['2021','2022','2023','2024','2025','2026 (prog.)'],ds:[{n:'PKB',d:[6.9,5.3,0.1,3.2,3.8,3.4],c:1}],note:'Rok 2023 był niemal zerowy, bo inflacja ścięła popyt. PKB 2024 i 2025 po rewizji GUS.',src:'GUS, MFW'}],
+ west:[{t:'Strefa euro: PKB kwartalnie',sub:'Zmiana k/k.',type:'bar',dec:1,unit:'%',sign:true,labels:['I 25','II 25','III 25','IV 25','I 26','II 26'],ds:[{n:'PKB k/k',d:[0.6,0.1,0.2,0.2,0.0,0.4],c:1}],note:'Odczyt za III kwartał 2026 pojawi się 30.10.',src:'Eurostat'}],
+ ukraine:[{t:'Wydatki obronne Polski',sub:'% PKB wg NATO. 2026: plan.',type:'bar',dec:1,unit:'%',ymin:0,labels:['2021','2022','2023','2024','2025','2026 (plan)'],ds:[{n:'Obrona',d:[2.2,2.2,3.3,3.8,4.3,4.8],c:1}],note:'Skok zaczął się po napaści Rosji na Ukrainę w 2022 r. Dziś Polska wydaje najwięcej w NATO w relacji do PKB.',src:'NATO, defence24'}],
+ usa:[{t:'Stopy banków centralnych',sub:'Fed (górna granica), NBP (referencyjna) i EBC (depozytowa), koniec kwartału.',type:'line',step:true,dec:2,unit:'%',ymin:1.5,ymax:4.5,labels:['XII 2025','III 2026','VI 2026','IX 2026'],ds:[{n:'Fed',d:[3.75,3.75,3.75,4.00],c:1},{n:'NBP',d:[4.00,3.75,3.75,3.75],c:2},{n:'EBC',d:[2.00,2.00,2.25,2.50],c:3}],note:'Fed podniósł stopy 16.09 po raz pierwszy od lipca 2023.',src:'Fed, EBC, NBP'}],
+ china:[{t:'Import towarów z Chin do Polski',sub:'Mld euro.',type:'bar',dec:1,ymin:0,labels:['2024','2025'],ds:[{n:'Import z Chin',d:[51.1,57.9],c:1}],note:'Wzrost o 13,3%, najszybszy spośród dziesięciu największych partnerów.',src:'GUS'},
+        {t:'Auta z Chin',sub:'Mld euro. Drugi słupek: 12 miesięcy do maja 2026.',type:'bar',dec:2,ymin:0,labels:['2019','VI 2025–V 2026'],ds:[{n:'Import aut',d:[0.04,1.74],c:1}],note:'Ponad 40 razy więcej niż w 2019 r., choć wciąż ok. 40% wartości aut z Niemiec.',src:'xyz.pl na podstawie GUS'},
+        {t:'Chiny: PKB kwartalnie',sub:'Wzrost r/r.',type:'bar',dec:1,unit:'%',ymin:0,labels:['I 25','II 25','III 25','IV 25','I 26','II 26','III 26'],ds:[{n:'PKB',d:[5.4,5.2,4.8,4.5,5.0,4.3,4.5],c:1}],note:'Wzrost napędza eksport, a popyt krajowy jest słaby.',src:'NBS Chin'}]
+};
+var charts=[];
+function cvr(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function fm(v,s){return v==null?'':v.toLocaleString('pl-PL',{minimumFractionDigits:s.dec,maximumFractionDigits:s.dec});}
+var VL={id:'vl',afterDatasetsDraw:function(ch){
+  var s=ch.options.plugins.vl&&ch.options.plugins.vl.spec;if(!s)return;var ctx=ch.ctx,bar=ch.config.type==='bar',multi=ch.data.datasets.length>1;
+  ctx.save();ctx.font='600 11px Geist, system-ui, sans-serif';ctx.fillStyle=cvr('--ink');
+  ch.data.datasets.forEach(function(ds,i){var m=ch.getDatasetMeta(i);if(m.hidden)return;
+    if(bar){m.data.forEach(function(el,j){var v=ds.data[j];if(v==null)return;ctx.textAlign='center';ctx.textBaseline=v>=0?'bottom':'top';ctx.fillText(fm(v,s)+(s.unit&&!multi?s.unit:''),el.x,el.y+(v>=0?-4:4));});}
+    else if(!multi){var k=ds.data.length-1,el=m.data[k],v=typeof ds.data[k]==='object'?ds.data[k].y:ds.data[k];ctx.textAlign='right';ctx.textBaseline='bottom';ctx.fillText(fm(v,s)+(s.unit||''),el.x-2,el.y-6);}
+  });ctx.restore();}};
+function mdChart(cv,s,cat){
+  var ink=cvr('--ink'),mut=cvr('--mut'),line=cvr('--line');
+  Chart.defaults.font.family='Geist, system-ui, sans-serif';Chart.defaults.font.size=11.5;Chart.defaults.color=mut;
+  var cols=[cvr('--'+cat),cvr('--s2'),cvr('--ext')];
+  var isLine=s.type==='line'||s.type==='xline',x=s.type==='xline';
+  var ds=s.ds.map(function(d,i){var c=cols[d.c-1],o={label:d.n,data:x?s.pts.map(function(p){return {x:p[0],y:p[1],l:p[2]};}):d.d};
+    if(isLine){o.borderColor=c;o.backgroundColor=c;o.borderWidth=2.5;o.tension=0;o.stepped=(d.step||s.step)?'before':false;o.pointRadius=4;o.pointBackgroundColor=c;o.pointBorderColor=cvr('--surface');o.pointBorderWidth=2;}
+    else{o.backgroundColor=s.sign&&s.ds.length===1?function(q){return q.raw!=null&&q.raw<0?cvr('--s2'):c;}:c;o.borderRadius=6;o.borderSkipped=false;o.maxBarThickness=46;}
+    return o;});
+  var y={grid:{color:line},border:{display:false},ticks:{color:mut,callback:function(v){return v.toLocaleString('pl-PL')+(s.unit||'');}}};if(s.ymin!=null)y.min=s.ymin;if(s.ymax!=null)y.max=s.ymax;
+  var xa={grid:{display:false},border:{color:line},ticks:{color:mut,maxRotation:0,autoSkip:true}};
+  if(x)xa={type:'linear',min:1,max:305,grid:{display:false},border:{color:line},ticks:{color:mut,callback:function(v){var i=MS.indexOf(v);return i>=0?MN[i]:'';}},afterBuildTicks:function(a){a.ticks=MS.map(function(v){return {value:v};});}};
+  charts.push(new Chart(cv,{type:isLine?'line':'bar',data:{labels:x?undefined:s.labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:20,right:12}},
+    interaction:{mode:x?'nearest':'index',intersect:false},
+    plugins:{legend:{display:s.ds.length>1,position:'top',align:'start',labels:{color:ink,usePointStyle:true,pointStyle:'rectRounded',boxWidth:9,boxHeight:9}},
+      tooltip:{callbacks:{title:function(it){var r=it[0].raw;return r&&r.l?r.l:it[0].label;},label:function(c){var v=c.raw&&typeof c.raw==='object'?c.raw.y:c.raw;return ' '+c.dataset.label+': '+fm(v,s)+(s.unit||'');}}},vl:{spec:s}},
+    scales:{x:xa,y:y}},plugins:[VL]}));
+}
+var md=document.getElementById('md'),mi=0;
+function chartTable(s){var h='<table><tr><th></th>'+s.ds.map(function(d){return '<th>'+d.n+'</th>';}).join('')+'</tr>';
+  (s.type==='xline'?s.pts.map(function(p){return p[2];}):s.labels).forEach(function(l,i){h+='<tr><td>'+l+'</td>'+s.ds.map(function(d){var v=s.type==='xline'?s.pts[i][1]:d.d[i];return '<td>'+fm(v,s)+(s.unit||'')+'</td>';}).join('')+'</tr>';});return h+'</table>';}
+function openModal(i){
+  mi=i;var s=STEPS[i];
+  charts.forEach(function(c){c.destroy();});charts=[];
+  var tg=document.getElementById('mtag');tg.textContent=s.tag;tg.className='tag '+s.cat;
+  document.getElementById('mt-t').textContent=s.t;document.getElementById('mq').textContent=Q[i];
+  var big=document.getElementById('mbig');big.className='big node '+s.cat;
+  big.innerHTML='<svg viewBox="-38 -38 76 76"><rect x="-34" y="-34" width="68" height="68" rx="24" fill="url(#g-'+s.cat+')" stroke="var(--ink)" stroke-opacity=".75" stroke-width="2"/><use href="#i-'+s.id+'" x="-28" y="-28" width="56" height="56"/></svg>';
+  var b=document.getElementById('mbody');b.innerHTML='';
+  var top=document.createElement('div');top.className='mgrid';
+  var l=document.createElement('div');l.className='sec';l.innerHTML='<div class="metric"><b></b><span></span></div><h3 style="margin-top:14px">Fakty</h3><ul></ul>';
+  l.querySelector('b').textContent=s.m;l.querySelector('span').textContent=s.mc;
+  s.f.forEach(function(x){var li=document.createElement('li');li.textContent=x;l.querySelector('ul').appendChild(li);});
+  var r=document.createElement('div');r.className='interp';r.innerHTML='<h3>Interpretacja</h3><p></p>';r.querySelector('p').textContent=s.i;
+  top.appendChild(l);top.appendChild(r);b.appendChild(top);
+  var cs=CH[s.id]||[];
+  if(cs.length){var h=document.createElement('h3');h.className='sec';h.style.cssText='font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0';h.textContent='Jak to wyglądało w ostatnich latach';b.appendChild(h);
+    var g=document.createElement('div');g.className='chs';b.appendChild(g);
+    cs.forEach(function(c,k){var d=document.createElement('div');d.className='ch';d.innerHTML='<h3></h3><div class="sub"></div><div class="cv"><canvas role="img"></canvas></div><div class="nt"></div><details><summary>Pokaż dane</summary></details><div class="nt"></div>';
+      var q=d.querySelectorAll('.nt');d.querySelector('h3').textContent=c.t;d.querySelector('.sub').textContent=c.sub;q[0].textContent=c.note;q[1].textContent='Źródło: '+c.src;d.querySelector('details').insertAdjacentHTML('beforeend',chartTable(c));
+      d.querySelector('canvas').setAttribute('aria-label',c.t);g.appendChild(d);});
+    if(!md.open)md.showModal();
+    cs.forEach(function(c,k){mdChart(g.children[k].querySelector('canvas'),c,s.cat==='ext'?'ext':s.cat);});
+  }else{var p=document.createElement('p');p.className='foot';p.textContent='Dla tego tematu nie mam w źródłach serii z kilku lat, więc nie pokazuję wykresu zamiast zgadywać.';b.appendChild(p);}
+  document.getElementById('mct').textContent=(i+1)+' z '+STEPS.length;
+  if(!md.open)md.showModal();
+  b.scrollTop=0;show(i);
+}
+function mdNav(d){openModal((mi+d+STEPS.length)%STEPS.length);}
+document.getElementById('mx').addEventListener('click',function(){md.close();});
+document.getElementById('mprev').addEventListener('click',function(){mdNav(-1);});
+document.getElementById('mnext').addEventListener('click',function(){mdNav(1);});
+md.addEventListener('click',function(e){if(e.target===md)md.close();});
+md.addEventListener('close',function(){charts.forEach(function(c){c.destroy();});charts=[];});
+md.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='ArrowRight'){mdNav(1);}else if(e.key==='ArrowLeft'){mdNav(-1);}});
+document.getElementById('more').addEventListener('click',function(){openModal(cur<0?0:cur);});
+
+
+/* zakładki */
+var tbs={map:document.getElementById('tb-map'),emo:document.getElementById('tb-emo')};
+var lead=document.querySelector('.lead'),leadMap=lead.textContent;
+function tab(n){
+  document.getElementById('tab-map').hidden=n!=='map';document.getElementById('tab-emo').hidden=n!=='emo';
+  for(var k in tbs){tbs[k].setAttribute('aria-selected',k===n?'true':'false');}
+  lead.textContent=n==='map'?leadMap:'Nagłówki potrafią sterować tym, co czujesz, zanim zdążysz pomyśleć. Tu zobaczysz, jak to działa, i nauczysz się to widzieć.';
+  if(md.open)md.close();
+}
+tbs.map.addEventListener('click',function(){tab('map');});tbs.emo.addEventListener('click',function(){tab('emo');});
+document.querySelector('.tabs').addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var n=document.activeElement===tbs.map?'emo':'map';tab(n);tbs[n].focus();e.stopPropagation();}});
+/* tłumacz nagłówków */
+var CMP=[
+ {h:'SZOK! Ceny paliw eksplodują. Zobacz, ile zapłacisz!',t:['Hiperbola','Luka ciekawości'],e:'Strach',
+  f:['Paliwa drożały o 24,2% r/r w sierpniu (GUS), a diesel kosztuje ok. 8 zł za litr.','Rząd ogranicza ceny maksymalne na stacjach do końca roku.'],
+  i:'„Eksplodują” opisuje obawę, nie stan obecny. Po wygaśnięciu limitu ceny mogą wzrosnąć, ale nagłówek nie podaje ani kwoty, ani terminu.',
+  calm:'Paliwa są droższe o 24,2% r/r, a limit cen obowiązuje do końca roku.',q:'Ile dokładnie i do kiedy?',
+  abs:'SZOK!!! Ceny paliw eksplodują, a dystrybutory same chodzą po stacji! Zobacz, ile zapłacisz, zanim ktoś Ci to powie w ostatnim akapicie!',lol:'Eksplozji nie zgłoszono. Stacja stoi tam, gdzie stała, a portfel nadal się zamyka.'},
+ {h:'Rekord na giełdzie! Wszyscy zarabiają, a Ty?',t:['Porównanie społeczne','Uogólnienie'],e:'Zazdrość, FOMO',
+  f:['WIG20 pobił rekord 21.10 (4 267 pkt), ale ciągną go głównie banki i spółki energetyczne.','Małe spółki (sWIG80) zyskały od początku roku tylko ok. 5%.'],
+  i:'„Wszyscy” nie jest prawdą. Rekord jednego indeksu nie mówi, czy zarabia przeciętny inwestor, a tym bardziej czy rosną Twoje pensje.',
+  calm:'Indeks WIG20 pobił rekord, głównie dzięki bankom i energetyce. Małe spółki zyskały mniej.',q:'Który indeks i w jakim okresie?',
+  abs:'WSZYSCY zarabiają! Nawet Twój kot ma już konto maklerskie, a Ty wciąż czytasz nagłówki!',lol:'Kot nie zgłosił zysków. Indeks rośnie, ale kot zostaje przy karmie.'},
+ {h:'Polska tonie w długach. Dzieci będą spłacać to do końca życia',t:['Katastrofizacja','Metafora'],e:'Lęk, poczucie winy',
+  f:['Dług sektora finansów publicznych wynosił 59,7% PKB w 2025 r., wobec 54,8% rok wcześniej (GUS). Planowane jest ok. 67,6% w 2026 r.','Średnia UE to ok. 82% PKB. Polska jest poniżej niej, ale zadłuża się szybciej niż większość krajów.'],
+  i:'Poziom długu nie jest rekordowy na tle UE, a tempo wzrostu i deficyt (7,3% PKB w 2025) są realnym problemem. „Tonie” i „do końca życia” to obrazy, nie dane.',
+  calm:'Dług rośnie szybko (59,7% PKB w 2025 r.), ale wciąż jest poniżej średniej UE. Problemem jest wysoki deficyt.',q:'Jaki poziom i jak szybko rośnie?',
+  abs:'Polska tonie w długach, a dzieci Twoich dzieci spłacą je na Marsie, w ratach, z odsetkami od odsetek!',lol:'Na Marsie nie ma jeszcze oddziału banku. Na razie warto pilnować deficytu, a nie kupować skafander.'},
+ {h:'Inflacja znów w górę! Twoje oszczędności topnieją',t:['Zwrot do „Ciebie”','Alarmistyczny czasownik'],e:'Strach o pieniądze',
+  f:['Inflacja CPI wyniosła 4,1% we wrześniu, wobec 2,1% w lutym.','Towary drożeją o 2,5%, usługi o 5,6%, a żywność tanieje o 0,9% (sierpień).'],
+  i:'Oszczędności tracą realnie tylko wtedy, gdy ich oprocentowanie jest niższe niż inflacja. Stopa NBP wynosi 3,75%, więc realnie jest lekko ujemna (ok. −0,4 pp). To zależy od Twojej lokaty, nie od samej inflacji.',
+  calm:'Inflacja wynosi 4,1%. Sprawdź, ile procent daje Twoja lokata.',q:'A ile Ty dostajesz na koncie?',
+  abs:'Twoje oszczędności topnieją! Skarbonka ma już kałużę pod sobą, a świnka płacze w rogu!',lol:'Skarbonki nie topnieją. Sprawdź oprocentowanie, a świnkę możesz pocieszyć.'},
+ {h:'Chińskie towary zalewają Polskę. Co z naszymi miejscami pracy?',t:['Metafora żywiołu','Pytanie retoryczne'],e:'Strach, wrogość',
+  f:['Import z Chin wyniósł 57,9 mld euro w 2025 r. (+13,3%), czyli ok. 15,5% polskiego importu. Z Niemiec to ok. 19,1%.','Rośnie też import aut z Chin: z 40 mln euro w 2019 r. do 1,74 mld euro rocznie.'],
+  i:'Import rzeczywiście szybko rośnie i to konkurencja dla części przemysłu. Nagłówek nie podaje jednak żadnych danych o miejscach pracy i sugeruje zagrożenie, którego nie mierzy.',
+  calm:'Import z Chin rośnie najszybciej spośród największych partnerów, ale Niemcy wciąż mają większy udział.',q:'Jakie dane o zatrudnieniu?',
+  abs:'Chińskie towary zalewają Polskę! Fala paczek dotarła już do trzeciego piętra, a listonosz prosi o kapok!',lol:'Statystyki nie zgłaszają powodzi. Zgłaszają wzrost importu o 13%.'},
+ {h:'Kto zarabia na wojnie? Odpowiedź Cię zaskoczy',t:['Luka ciekawości','Obietnica sekretu'],e:'Ciekawość, oburzenie',
+  f:['Polska planuje na 2026 r. wydatki obronne rzędu 4,8% PKB (201 mld zł).','Z pożyczki SAFE (43,7 mld euro) rząd szacuje, że ok. 89% zamówień trafi do polskiego przemysłu.'],
+  i:'Odpowiedź to zwykle przemysł zbrojeniowy i budżet państwa, czyli nic tajemniczego. Nagłówek obiecuje sekret, żeby wymusić kliknięcie.',
+  calm:'Wydatki obronne to 4,8% PKB, a większość zamówień z pożyczki SAFE ma trafić do polskich firm (szacunek rządu).',q:'Jaką konkretną odpowiedź obiecuje?',
+  abs:'Kto zarabia na tym nagłówku? Odpowiedź Cię zaskoczy: ten, kto go napisał!',lol:'Tajemnica rozwiązana: reklamodawca. Wojna jest zbyt poważna na żarty, więc śmiejemy się z nagłówka.'},
+ {h:'Eksperci biją na alarm: stopy w górę!',t:['Anonimowi eksperci','Alarm'],e:'Pilność, niepokój',
+  f:['Stopa referencyjna NBP wynosi 3,75% od marca. Decyzja RPP zapada 3–4 listopada.','Część banków spodziewa się podwyżki w IV kwartale, ale nie wszystkie.'],
+  i:'„Eksperci” to tu „część analityków”. Podwyżka jest jednym ze scenariuszy, a nie przesądzonym faktem. Hamująca konsumpcja przemawia za cierpliwością.',
+  calm:'Stopy bez zmian od marca (3,75%). Decyzja RPP 3–4 listopada, część banków widzi podwyżkę.',q:'Ilu ekspertów i kim są?',
+  abs:'Trzej eksperci, jeden stażysta i pan z kiosku biją na alarm! Alarm wyłączono po trzech sekundach, bo przeszkadzał kotu!',lol:'Alarm nie zadzwonił, ale nagłówek tak. Warto policzyć, ilu tych ekspertów.'},
+ {h:'Polska rośnie trzy razy szybciej niż strefa euro!',t:['Prawdziwy, ale wybrany fakt','Pozytywny wykrzyknik'],e:'Duma, euforia',
+  f:['MFW prognozuje dla Polski 3,4% wzrostu w 2026 r., a dla strefy euro 1,1%.','Deficyt sektora finansów publicznych to ok. 7,1% PKB, a realne pensje rosną o ok. 1,6%.'],
+  i:'Liczba jest prawdziwa, ale PKB nie jest tym samym co Twoje zarobki. Nagłówek pomija koszty (deficyt, dług), więc wywołuje dumę bez pełnego obrazu. Manipulacja działa też „na plus”.',
+  calm:'Prognozowany wzrost to 3,4% wobec 1,1% w strefie euro. Deficyt jest jednak wysoki (7,1% PKB).',q:'Czego nagłówek nie mówi?',
+  abs:'Polska rośnie trzy razy szybciej! Ekonomiści mierzą już linijką, a PKB wyrósł z domu i nie odbiera telefonu!',lol:'Mierzyć warto też to, czego nagłówek nie mierzy: dług i realne pensje.'}
+];
+function nfo(h){var n=(h.match(/\d+/g)||[]).length+(/(jeden|dwa|trzy|cztery|pięć)\b/i.test(h)?1:0);var s=/(według|wg |dane |GUS|NBP|raport|badanie)/i.test(h)?'tak':'brak';var o=/(20\d\d|r\/r|w \w+ rok|miesiąc|kwartał)/i.test(h)?'tak':'brak';return 'Liczby: '+n+' · Źródło: '+s+' · Okres: '+o;}
+var cm=document.getElementById('cmps');
+CMP.forEach(function(c,i){var d=document.createElement('article');d.className='card cmp';
+  d.innerHTML='<div class="w"><span class="lab">Napisano</span><p class="hl"></p><div class="chips"></div><div class="abs"><span class="lab">Podkręćmy to jeszcze bardziej</span><p class="absd"></p><p class="lol"></p></div></div><div class="m"><span class="lab">Naprawdę znaczy</span><ul></ul><p class="it"></p><div class="calm"><span class="lab">Wersja spokojna</span><p></p></div><p class="q"></p><button class="btn cover" type="button">Odkryj, co to znaczy</button></div>';
+  d.querySelector('.hl').textContent='„'+c.h+'”';
+  var ch=d.querySelector('.chips');c.t.forEach(function(x){var s=document.createElement('span');s.className='chip';s.textContent=x;ch.appendChild(s);});
+  var se=document.createElement('span');se.className='chip e';se.textContent='Celuje w: '+c.e;ch.appendChild(se);
+  var sn=document.createElement('span');sn.className='chip';sn.textContent=nfo(c.h);ch.appendChild(sn);
+  d.querySelector('.absd').textContent='„'+c.abs+'”';d.querySelector('.lol').textContent='Komentarz: '+c.lol;
+  c.f.forEach(function(x){var li=document.createElement('li');li.textContent=x;d.querySelector('ul').appendChild(li);});
+  d.querySelector('.it').textContent='Interpretacja: '+c.i;d.querySelector('.calm p').textContent=c.calm;d.querySelector('.q').textContent='Pytanie kontrolne: '+c.q;
+  d.querySelector('.cover').addEventListener('click',function(){d.classList.add('open');});
+  cm.appendChild(d);});
+/* koszt emocji */
+var COST=[
+ {b:'Nastrój po 14 minutach',v:'więcej lęku i smutku',p:'Grupa oglądająca negatywny serwis po 14 minutach była bardziej niespokojna i smutna, a własne zmartwienia widziała jako większe niż grupy oglądające serwis pozytywny lub neutralny.',c:'Eksperyment z trzema grupami z 1997 r., telewizja, nie nagłówki.',u:'https://pubmed.ncbi.nlm.nih.gov/9061893/',l:'Johnston i Davey 1997'},
+ {b:'Stres po wielu godzinach newsów',v:'9 razy częściej',p:'Po zamachu w Bostonie osoby, które oglądały relacje po 6 lub więcej godzin dziennie, 9 razy częściej niż oglądające poniżej godziny zgłaszały wysoki ostry stres.',c:'Zależność, nie dowód przyczyny. Zdarzenie ekstremalne, nie clickbait.',u:'https://www.pnas.org/doi/10.1073/pnas.1316265110',l:'Holman i in., PNAS 2014'},
+ {b:'Koszt uwagi',v:'dziesiątki minut',p:'Powrót do przerwanego zadania zajmował średnio ok. 23 minut (w badaniu opublikowanym 25 min). Przerywani zgłaszali większy stres, frustrację i wysiłek.',c:'Mała próbka z pracy biurowej. Czas obejmuje też inne zadania, więc to rząd wielkości, nie stała.',u:'https://news.gallup.com/businessjournal/23146/Too-Many-Interruptions-Work.aspx',l:'Gloria Mark, wywiad dla Gallupa'},
+ {b:'Doomscrolling',v:'związek, nie dowód',p:'Przeglądy badań łączą kompulsywne czytanie negatywnych treści z lękiem, stresem i objawami depresji.',c:'Dane głównie przekrojowe i z ankiet. Nie wiadomo, co jest przyczyną, a co skutkiem.',u:'https://www.emerald.com/mhdt/article/doi/10.1108/MHDT-10-2025-0068/1338079/The-influence-of-doomscrolling-on-mental-health-a',l:'Przegląd badań (Emerald)'}
+];
+var cs=document.getElementById('cost');
+COST.forEach(function(c){var d=document.createElement('article');d.className='card cc';d.innerHTML='<b></b><span class="cv2"></span><p></p><p class="cav"></p><a target="_blank" rel="noopener"></a>';
+  d.querySelector('b').textContent=c.b;d.querySelector('.cv2').textContent=c.v;d.querySelectorAll('p')[0].textContent=c.p;d.querySelector('.cav').textContent='Zastrzeżenie: '+c.c;
+  var a=d.querySelector('a');a.href=c.u;a.textContent=c.l;cs.appendChild(d);});
+function calc(){var k=+document.getElementById('i1').value,m=+document.getElementById('i2').value,u=+document.getElementById('i3').value;
+  document.getElementById('o1').textContent=k;document.getElementById('o2').textContent=m;document.getElementById('o3').textContent=u;
+  var h=k*m*365/60,dni=h/24,uz=h*u/100;
+  document.getElementById('r1').textContent=Math.round(h).toLocaleString('pl-PL')+' h';
+  document.getElementById('r2').textContent='To ok. '+dni.toLocaleString('pl-PL',{maximumFractionDigits:1})+' doby w roku. Z tego na realnie użyteczną wiedzę poszło ok. '+Math.round(uz).toLocaleString('pl-PL')+' h.';
+  document.getElementById('r3').textContent=h<20?'Całkiem rozsądnie. Tak trzymać.':h<150?'To mniej więcej weekend urlopu oddany nagłówkom.':'To już prawie tydzień bez snu poświęcony cudzym przynętom. Książka i spacer wyglądają lepiej.';}
+['i1','i2','i3'].forEach(function(id){document.getElementById(id).addEventListener('input',calc);});calc();
+/* dobre wiadomości */
+var GOOD=[
+ {d:'5 października 2026',b:'Nobel z medycyny za optogenetykę',f:['Nagrodę otrzymali Karl Deisseroth, Peter Hegemann i Georg Nagel za odkrycia dotyczące kanałów jonowych sterowanych światłem i optogenetyki.'],h:'Nagrody Nobla honorują odkrycia sprzed lat. To nie jest nowy lek dostępny od jutra.',u:'https://nobelprize.org/prizes/medicine/2026/summary',l:'nobelprize.org'},
+ {d:'2026, dane za 2025 r.',b:'Kolejny rekord odnawialnych źródeł energii',f:['IEA: 2025 był 23. z rzędu rokiem rekordów w przyroście mocy odnawialnych. Słońce dało ponad trzy czwarte nowych mocy.','UE dodała w 2025 r. rekordowe ok. 85 GW, a wiatr na świecie ok. 160 GW. IRENA podaje rekordowe 692 GW odnawialnych mocy na świecie.'],h:'Rekordy nie oznaczają, że to wystarczy. IRENA zaznacza, że potrzebne jest jeszcze szybsze tempo.',u:'https://iea.org/reports/global-energy-review-2026/technology-solar-pv-and-wind',l:'IEA Global Energy Review 2026'},
+ {d:'kwiecień i maj 2026',b:'Coraz więcej krajów bez malarii',f:['WHO: 47 krajów ma certyfikat wolnych od malarii, a 37 krajów zgłosiło poniżej 1000 przypadków w 2024 r.','Timor Wschodni odebrał certyfikat 19 maja 2026 r.'],h:'Zgonów z malarii wciąż było 610 tys. w 2024 r., nieco więcej niż rok wcześniej.',u:'https://www.who.int/campaigns/world-malaria-day/2026',l:'WHO'},
+ {d:'5 czerwca 2026',b:'Polska gospodarka wytrzymała szok naftowy',f:['Według PIE Komisja Europejska nie obniżyła prognozy dla Polski (3,5%) i była to jedna z trzech takich gospodarek w UE.','Niemcy straciły w tej prognozie 0,6 pkt proc.'],h:'To prognoza z wiosny. Analizy wskazują też presję na finanse publiczne.',u:'https://www.rmf24.pl/fakty/ekonomia/news-dobre-wiesci-ws-polskiej-gospodarki-w-tle-kryzys-na-bliskim-,nId,8089250',l:'RMF24/PAP'},
+ {d:'wrzesień i sierpień 2026',b:'Pensje wyprzedzają ceny, a żywność tanieje',f:['Realny wzrost płac wynosi ok. 1,6%, PKB w II kwartale wzrósł o 3,9% r/r.','Ceny żywności spadają o 0,9% r/r (sierpień).'],h:'Inflacja wynosi 4,1%, a zatrudnienie w firmach spada o 0,8% r/r.',u:'https://finwire.pl/artykuly/przecietne-wynagrodzenie-wrzesien-2026-sektor-przedsiebiorstw-gus',l:'finwire, dane GUS'},
+ {d:'23 października 2026',b:'Zaplanowane rozmowy USA, Ukrainy i Rosji',f:['Rozmowy pokojowe mają się odbyć na początku listopada w Abu Dhabi. Zgłoszono też lokalne zawieszenie broni.'],h:'Plan rozmów to nie porozumienie. Wynik jest niepewny.',u:'https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/',l:'Africanews'}
+];
+var gd=document.getElementById('good');
+GOOD.forEach(function(g){var d=document.createElement('article');d.className='card gc';d.innerHTML='<span class="dt"></span><b></b><ul></ul><p class="hk"></p><a target="_blank" rel="noopener"></a>';
+  d.querySelector('.dt').textContent=g.d;d.querySelector('b').textContent=g.b;g.f.forEach(function(x){var li=document.createElement('li');li.textContent=x;d.querySelector('ul').appendChild(li);});
+  d.querySelector('.hk').textContent='Haczyk uczciwości: '+g.h;var a=d.querySelector('a');a.href=g.u;a.textContent='Źródło: '+g.l;gd.appendChild(d);});
+var qb=document.getElementById('quizb');
+qb.addEventListener('click',function(){var on=!cm.classList.contains('quiz');cm.classList.toggle('quiz',on);qb.setAttribute('aria-pressed',on?'true':'false');qb.textContent=on?'Pokaż wszystko':'Tryb zgadywania';if(!on)cm.querySelectorAll('.cmp').forEach(function(x){x.classList.remove('open');});});
+var TE=[['Luka ciekawości','Nagłówek zostawia pytanie bez odpowiedzi, żebyś kliknął.','„Zobacz”, „odpowiedź Cię zaskoczy”, „ten jeden trik”.'],
+ ['Hiperbola','Zwykłe zjawisko opisane jak katastrofa albo cud.','„Eksploduje”, „szok”, „sensacja”.'],
+ ['Strach i katastrofizacja','Najgorszy scenariusz podany jak stan obecny.','„Tonie”, „krach”, „koniec”.'],
+ ['Oburzenie i „my kontra oni”','Wskazanie winnych wzmacnia emocje i udostępnienia.','„Oni nam to robią”, „kto na tym zarabia”.'],
+ ['Pilność i FOMO','Wrażenie, że coś Cię omija albo trzeba działać teraz.','„Wszyscy już wiedzą”, „zanim będzie za późno”.'],
+ ['Anonimowe autorytety','Powołanie się na kogoś, kogo nie da się sprawdzić.','„Eksperci biją na alarm”, „naukowcy ostrzegają”.'],
+ ['Zwrot do „Ciebie”','Osobisty ton sprawia, że wiadomość wydaje się o Tobie.','„Ile zapłacisz”, „Twoje oszczędności”.'],
+ ['Prawdziwy, ale wybrany fakt','Liczba się zgadza, ale pominięto to, co psuje obraz.','„Rośnie 3 razy szybciej”, bez słowa o kosztach.']];
+var tx=document.getElementById('techs');TE.forEach(function(x){var d=document.createElement('div');d.className='card tc';d.innerHTML='<b></b><p></p><span class="sg"></span>';d.querySelector('b').textContent=x[0];d.querySelector('p').textContent=x[1];d.querySelector('.sg').textContent=x[2];tx.appendChild(d);});
+/* skaner */
+var RULES=[
+ ['Wykrzyknik',function(s){return /!/.test(s);}],
+ ['WIELKIE LITERY',function(s){return /\b[A-ZĄĆĘŁŃÓŚŹŻ]{4,}\b/.test(s);}],
+ ['Słowa szokowe',function(s){return /(szok|sensacj|skandal|dramat|tragedi|katastrof|apokalips|horror|bomba|eksplod|zalew|tonie|runie|krach|wybuch)/i.test(s);}],
+ ['Luka ciekawości',function(s){return /(nie uwierzysz|zaskoczy|zobacz|sprawdź|ten jeden|tego nie|ujawnia|kulisy|prawda o|oto )/i.test(s);}],
+ ['Pilność / FOMO',function(s){return /(natychmiast|ostatnia szansa|zdąż|zanim|tylko dziś|nie przegap|wszyscy|teraz)/i.test(s);}],
+ ['Anonimowi „eksperci”',function(s){return /(eksperci|ekonomiści|analitycy|specjaliści|lekarze|naukowcy)\b/i.test(s);}],
+ ['Zwrot do „Ciebie”',function(s){return /(\btw(ój|oja|oje|oich|oim)\b|\bty\b|\bcię\b|\bciebie\b|zapłacisz|musisz|powinieneś|powinnaś)/i.test(s);}],
+ ['Pytanie',function(s){return /\?/.test(s);}],
+ ['Brak jakiejkolwiek liczby',function(s){return !/\d/.test(s);}]
+];
+var sci=document.getElementById('scin');
+function scan(){var s=sci.value.trim(),ch=document.getElementById('scchips'),bar=document.getElementById('scbar'),lb=document.getElementById('sclab');ch.innerHTML='';
+  if(!s){bar.style.width='0';lb.textContent='Wpisz nagłówek';return;}
+  var hit=RULES.filter(function(r){return r[1](s);});
+  hit.forEach(function(r){var c=document.createElement('span');c.className='chip e';c.textContent=r[0];ch.appendChild(c);});
+  var n=hit.filter(function(r){return r[0]!=='Brak jakiejkolwiek liczby';}).length;
+  bar.style.width=Math.min(100,n*20+(n?0:6))+'%';
+  lb.textContent=n===0?'Spokojny ton: nie wykryłem znanych wzorców':n<=2?'Lekko podgrzany ('+n+' wzorce)':n<=4?'Podgrzany ('+n+' wzorce)':'Wrzący ('+n+' wzorców)';}
+sci.addEventListener('input',scan);
+
+try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)document.getElementById('sv').pauseAnimations();}catch(e){}
+</script>
+</body>
+</html>

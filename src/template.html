@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gospodarka bez nerwów</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Bricolage+Grotesque:wght@600;700;800&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+/*__STYLE__*/
+</head>
+<body>
+<main>
+  <header class="top">
+    <span class="eyebrow"><i></i>Dane z 28.10.2026</span>
+    <h1>Gospodarka bez nerwów</h1>
+    <p class="lead">Skąd bierze się cena w sklepie? Ropa, inflacja, stopy i pensje łączą się w jeden łańcuch, a Ukraina, USA i Chiny dorzucają swoje trzy grosze. Klikaj kafelki i zobacz, co się z czym łączy.</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Zakładki">
+    <button class="tab" role="tab" id="tb-map" aria-selected="true" aria-controls="tab-map" type="button">Mapa gospodarcza</button>
+    <button class="tab" role="tab" id="tb-emo" aria-selected="false" aria-controls="tab-emo" type="button">Newsy bez nerwów</button>
+  </div>
+
+  <div id="tab-map" role="tabpanel" aria-labelledby="tb-map" style="display:flex;flex-direction:column;gap:20px">
+  <div class="layout">
+    <div class="left">
+    <section class="card scene" aria-label="Mapa">
+      <div class="scroller" id="map">
+      <svg class="map" id="sv" viewBox="0 0 1000 900" role="img" aria-label="Mapa Europy i Bliskiego Wschodu z trasą ropy z Zatoki Perskiej do Gdańska, powiększeniem Polski i węzłami opisującymi gospodarkę.">
+        <defs>
+          <clipPath id="insclip"><circle cx="790" cy="205" r="205"/></clipPath>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="var(--chain)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <filter id="rough" filterUnits="userSpaceOnUse" x="-100" y="-100" width="1300" height="1100"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <filter id="rough2" filterUnits="userSpaceOnUse" x="-100" y="-100" width="1300" height="1100"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <linearGradient id="g-oil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--o1)"/><stop offset="1" stop-color="var(--o2)"/></linearGradient>
+          <linearGradient id="g-chain" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)"/><stop offset="1" stop-color="var(--c2t)"/></linearGradient>
+          <linearGradient id="g-ind" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--i1)"/><stop offset="1" stop-color="var(--i2)"/></linearGradient>
+          <linearGradient id="g-ext" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--e1)"/><stop offset="1" stop-color="var(--e2)"/></linearGradient>
+          <symbol id="i-derrick" viewBox="0 0 48 48"><path class="ia" d="M24 4C24 4 9 21 9 30a15 15 0 0 0 30 0C39 21 24 4 24 4Z"/><circle class="ey" cx="19" cy="28" r="2.7"/><circle class="ie" cx="19.6" cy="28.2" r="1.30"/><circle class="ey" cx="29" cy="28" r="2.7"/><circle class="ie" cx="29.6" cy="28.2" r="1.30"/><path class="im" d="M19.500 35q5 4 10 -1"/><path class="im" d="M16 23l5 1.500M32 23l-5 1.500"/></symbol>
+          <symbol id="i-gate" viewBox="0 0 48 48"><path class="ib" d="M24 7q-3 -3 0 -5M28 9q-3 -3 0 -5" stroke-width="0"/><rect class="iw" x="21" y="8" width="6" height="9" rx="2"/><circle class="ib" cx="24" cy="4.500" r="2.400"/><rect class="ib" x="14" y="16" width="20" height="13" rx="4"/><circle class="ey" cx="20" cy="22.5" r="2.6"/><circle class="ie" cx="20.6" cy="22.7" r="1.25"/><circle class="ey" cx="28" cy="22.5" r="2.6"/><circle class="ie" cx="28.6" cy="22.7" r="1.25"/><path class="ia" d="M4 28H44L38.500 40H9.500Z"/><path class="im" d="M19 34q5 -3.500 10 0"/><path class="sb" d="M5 45q4.500 -3 9.500 0t9.500 0 9.500 0 9.500 0"/></symbol>
+          <symbol id="i-pump" viewBox="0 0 48 48"><rect class="ia" x="8" y="5" width="24" height="35" rx="7"/><rect class="iw" x="12" y="10" width="16" height="11" rx="3.500"/><circle class="ey" cx="17.5" cy="15.5" r="2.3"/><circle class="ie" cx="18.1" cy="15.7" r="1.10"/><circle class="ey" cx="23.5" cy="15.5" r="2.3"/><circle class="ie" cx="24.1" cy="15.7" r="1.10"/><ellipse class="ie" cx="20" cy="30" rx="3" ry="3.600"/><rect class="ib" x="5" y="38" width="30" height="6" rx="3"/><path class="sb" d="M32 16h4a3 3 0 0 1 3 3v14a2.500 2.500 0 0 0 5 0V21"/></symbol>
+          <symbol id="i-shop" viewBox="0 0 48 48"><path class="sb" d="M16 19v-4a8 8 0 0 1 16 0v4"/><rect class="ia" x="7" y="18" width="34" height="25" rx="9"/><circle class="ey" cx="18.5" cy="28" r="2.7"/><circle class="ie" cx="19.1" cy="28.2" r="1.30"/><circle class="ey" cx="29.5" cy="28" r="2.7"/><circle class="ie" cx="30.1" cy="28.2" r="1.30"/><path class="im" d="M18.500 33.500q5.500 6 11 0"/></symbol>
+          <symbol id="i-bank" viewBox="0 0 48 48"><path class="ia" d="M24 4 43 16H5Z" stroke-linejoin="round"/><circle class="ey" cx="24" cy="12" r="3.800"/><circle class="ie" cx="24.600" cy="12.200" r="1.700"/><path class="im" d="M27.500 15q3 6 -1 9"/><rect class="ib" x="9" y="19" width="6.500" height="17" rx="2.600"/><rect class="ib" x="20.800" y="19" width="6.500" height="17" rx="2.600"/><rect class="ib" x="32.500" y="19" width="6.500" height="17" rx="2.600"/><rect class="ia" x="5" y="38" width="38" height="6" rx="3"/></symbol>
+          <symbol id="i-worker" viewBox="0 0 48 48"><circle class="ib" cx="16" cy="11" r="7"/><circle class="iw" cx="16" cy="11" r="2.500"/><rect class="ia" x="4" y="14" width="40" height="28" rx="9"/><rect class="ib" x="28" y="23" width="16" height="11" rx="5.500"/><circle class="iw" cx="34.500" cy="28.500" r="2.200"/><path class="im" d="M9 27q3 3 6 0M17.500 27q3 3 6 0M12 35h9"/><path class="ib" d="M41 5q-3.500 4.500 0 7 3.500 -2.500 0 -7Z"/></symbol>
+          <symbol id="i-debt" viewBox="0 0 48 48"><path class="im" d="M20 13V3"/><path class="ie" d="M20 3 29 6.500 20 10Z"/><path class="ia" d="M2 42 20 12 38 42Z" stroke-linejoin="round"/><path class="ib" d="M31 42 38 31 46 42Z"/><circle class="ey" cx="14.5" cy="31" r="2.4"/><circle class="ie" cx="15.1" cy="31.2" r="1.15"/><circle class="ey" cx="24" cy="31" r="2.4"/><circle class="ie" cx="24.6" cy="31.2" r="1.15"/><path class="im" d="M11.500 26.500l5.500 2.500M27 26.500l-5.500 2.500M15 38.500q4.500 -3.500 9 0"/></symbol>
+          <symbol id="i-tree" viewBox="0 0 48 48"><rect class="ib" x="6" y="27" width="9.500" height="15" rx="3.800"/><rect class="ia" x="18.500" y="18" width="9.500" height="24" rx="3.800"/><rect class="ib" x="31" y="6" width="11" height="36" rx="4.500"/><circle class="ey" cx="34.8" cy="15" r="2"/><circle class="ie" cx="35.4" cy="15.2" r="0.96"/><circle class="ey" cx="38.5" cy="15" r="2"/><circle class="ie" cx="39.1" cy="15.2" r="0.96"/><path class="im" d="M34 21q3 3.500 6 0"/><path class="im" d="M6 15 17 8M13 7.500l4.500 .5 -1 4.500"/></symbol>
+          <symbol id="i-sun" viewBox="0 0 48 48"><path class="sb" d="M24 3v6M24 39v6M3 24h6M39 24h6M9 9l4.200 4.200M34.800 34.800 39 39M39 9l-4.200 4.200M13.200 34.800 9 39"/><circle class="ia" cx="24" cy="24" r="11.500"/><rect class="ie" x="14.500" y="19" width="9" height="6.500" rx="3"/><rect class="ie" x="24.500" y="19" width="9" height="6.500" rx="3"/><path class="im" d="M23 21h2M18.500 31q5.500 5 11 0"/></symbol>
+          <symbol id="i-west" viewBox="0 0 48 48"><circle class="ib" cx="33" cy="12" r="7.500"/><path class="ia" d="M13 38a9 9 0 0 1-1-18 12.500 12.500 0 0 1 24 2 8.500 8.500 0 0 1 0 16Z"/><circle class="ey" cx="19.5" cy="28" r="2.7"/><circle class="ie" cx="20.1" cy="28.2" r="1.30"/><circle class="ey" cx="29.5" cy="28" r="2.7"/><circle class="ie" cx="30.1" cy="28.2" r="1.30"/><path class="im" d="M20.500 34.500q4 -3.500 8 0"/><path class="sb" d="M16 43v3M25 43v3M34 43v3"/></symbol>
+          <symbol id="i-ukraine" viewBox="0 0 48 48"><path class="ia" d="M24 3 42 9.500V23C42 33.500 34.500 41 24 45 13.500 41 6 33.500 6 23V9.500Z"/><path class="ib" d="M24 9 36 13.200V23C36 30.500 31 35.500 24 38.500Z"/><path class="iw" d="M24 14.500l2.900 5.800 6.400.9-4.600 4.500 1.100 6.300L24 29l-5.800 3 1.100-6.300-4.600-4.500 6.400-.9Z"/></symbol>
+          <symbol id="i-usa" viewBox="0 0 48 48"><circle class="ib" cx="24" cy="25" r="20"/><path class="ia" d="M24 6l5.500 11.500 12.500 1.800-9 8.800 2.100 12.500L24 34.800 12.900 40.600 15 28.100 6 19.300l12.500-1.800Z" stroke-linejoin="round"/><circle class="ey" cx="19.5" cy="25" r="2.5"/><circle class="ie" cx="20.1" cy="25.2" r="1.20"/><circle class="ey" cx="28.5" cy="25" r="2.5"/><circle class="ie" cx="29.1" cy="25.2" r="1.20"/><path class="im" d="M19.500 30q4.500 4.500 9 0"/></symbol>
+          <symbol id="i-china" viewBox="0 0 48 48"><rect class="ib" x="11" y="40" width="9" height="6" rx="3"/><rect class="ib" x="28" y="40" width="9" height="6" rx="3"/><rect class="ia" x="6" y="16" width="36" height="26" rx="7"/><rect class="ib" x="4" y="8" width="40" height="11" rx="5"/><rect class="iw" x="20.500" y="8" width="7" height="34" rx="3"/><circle class="ey" cx="13.5" cy="28" r="2.6"/><circle class="ie" cx="14.1" cy="28.2" r="1.25"/><circle class="ey" cx="34.5" cy="28" r="2.6"/><circle class="ie" cx="35.1" cy="28.2" r="1.25"/><path class="im" d="M15 35q9 6.500 18 0"/></symbol>
+          <symbol id="cl" viewBox="0 0 120 60"><circle cx="35" cy="36" r="20"/><circle cx="62" cy="26" r="25"/><circle cx="90" cy="37" r="18"/><rect x="35" y="36" width="56" height="19" rx="9"/></symbol>
+        </defs>
+        <rect class="sea" width="1000" height="900"/>
+        <g filter="url(#rough2)">__MAIN__</g>
+
+        <use class="cloud" href="#cl" x="215" y="262" width="150" height="75"/>
+        <use class="cloud b" href="#cl" x="330" y="228" width="120" height="60"/>
+
+        <!-- trasa ropy -->
+        <g filter="url(#rough)"><path id="rt" class="rt" d="__ROUTE__"/>
+        <path class="rtflow" d="__ROUTE__"/></g>
+        <circle class="ship" r="5"><animateMotion dur="70s" begin="-8s" repeatCount="indefinite"><mpath href="#rt"/></animateMotion></circle>
+        <circle class="ship" r="5"><animateMotion dur="70s" begin="-31s" repeatCount="indefinite"><mpath href="#rt"/></animateMotion></circle>
+        <circle class="ship" r="5"><animateMotion dur="70s" begin="-55s" repeatCount="indefinite"><mpath href="#rt"/></animateMotion></circle>
+        <circle class="queue" cx="803" cy="579" r="4.5"/><circle class="queue" cx="815" cy="574" r="4.5"/><circle class="queue" cx="827" cy="570" r="4.5"/>
+
+        <g filter="url(#rough)">
+        <path class="ext-arc" d="M104 132 Q 270 130 438 308"/>
+        <path class="ext-arc" d="M920 478 Q 700 505 466 330"/>
+        <path class="ext-arc" d="M545 372 L 472 334"/></g>
+
+        <!-- powiększenie Polski -->
+        <path class="conn" d="__CONN__" filter="url(#rough)"/>
+        <circle class="ringp" cx="__PX__" cy="__PY__" r="13"/>
+        <g clip-path="url(#insclip)"><g filter="url(#rough2)"><rect class="sea" x="585" y="0" width="410" height="410"/><g class="ins" transform="translate(790 205)">__INSET__</g></g><rect class="shade" x="835" y="0" width="160" height="410"/><line class="div" x1="835" y1="0" x2="835" y2="410"/></g>
+        <circle class="insring" cx="790" cy="205" r="205" filter="url(#rough)"/>
+        <text class="cap" x="735" y="440">Łańcuch cen</text>
+        <text class="cap" x="905" y="440">Osobne wskaźniki</text>
+
+        <g filter="url(#rough)"><path class="link" d="M745 107 L745 150"/>
+        <path class="link" d="M716 185 L676 185"/>
+        <path class="link" d="M745 222 L745 262"/></g>
+
+        <g id="nodes"></g>
+      </svg>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--oil)"></i>Energia</span>
+        <span><i style="background:var(--chain)"></i>Łańcuch cen</span>
+        <span><i style="background:var(--ind)"></i>Osobne wskaźniki</span>
+        <span><i style="background:var(--ext)"></i>Otoczenie i wpływy zewnętrzne</span>
+      </div>
+    </section>
+    <nav class="card steps" aria-label="Lista kroków" id="steps"></nav>
+    </div>
+
+    <aside class="side" id="side">
+      <section class="card panel" id="panel" aria-live="polite">
+        <span class="tag chain" id="tag">Start</span>
+        <h2 id="bt">Zacznij od ropy</h2>
+        <p class="quip" id="qp">Kliknij kafelek na mapie, a opowiemy resztę.</p>
+        <div class="metric" id="mt"><b id="mn">28.10</b><span id="mc">Stan danych. Wybierz węzeł na mapie albo krok z listy.</span></div>
+        <div class="sec" id="sf"><h3>Fakty</h3><ul id="fl"><li>Pomarańczowa linia to schematyczna trasa ropy z Zatoki Perskiej do Polski.</li><li>Niebieskie strzałki w powiększeniu Polski pokazują zależności widoczne w danych.</li></ul></div>
+        <div class="interp" id="bi"><h3>Interpretacja</h3><p id="bp">Fioletowe i różowe węzły są pokazane osobno, bo w zebranych danych nie ma między nimi a cenami w sklepach bezpośredniego związku.</p></div>
+        <button class="btn more" id="more" type="button">Szczegóły i wykresy</button>
+        <div class="nav">
+          <button class="btn" id="prev" type="button" aria-label="Poprzedni krok">←</button>
+          <button class="btn" id="next" type="button" aria-label="Następny krok">→</button>
+          <button class="btn primary" id="play" type="button" aria-pressed="false">Odtwórz</button>
+          <div class="prog" aria-hidden="true"><i id="pg"></i></div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <p class="foot">Mapa jest uproszczona, a trasa tankowców schematyczna. Liczby pochodzą z przeglądu „Gospodarka Polski i świata” z 28.10.2026 oraz z dodatkowego researchu o Ukrainie, USA i Chinach. Granice krajów: Natural Earth. Ciemny tekst w panelu to fakty, tekst w kolorze morskim to interpretacja, czyli logiczny wniosek, a nie pewnik.</p>
+
+  <details>
+    <summary>Źródła</summary>
+    <ul>
+      <li><a href="https://www.pap.pl/aktualnosci/ukraina-siodmym-najwiekszym-odbiorca-polskich-towarow">PAP: Ukraina siódmym odbiorcą polskich towarów</a></li>
+      <li><a href="https://xyz.pl/?p=256422">xyz.pl: uchodźcy z Ukrainy, 2,4% PKB</a></li>
+      <li><a href="https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf">Pułaski: wydatki obronne 2026</a></li>
+      <li><a href="https://biznes.interia.pl/gospodarka/news-drony-artyleria-rakiety-polska-gospodarka-wystrzeli-na-pozyc,nId,23520876">Interia: SAFE i PKB</a></li>
+      <li><a href="https://www.daily-sun.com/world/905163">Reuters: lokalne zawieszenie broni</a></li>
+      <li><a href="https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/">Africanews: rozmowy w listopadzie</a></li>
+      <li><a href="https://xyz.pl/dzieje-sie/amerykanskie-cla-kontra-polscy-eksporterzy-skutki-sa-zroznicowane-3648">xyz.pl: cła USA a polscy eksporterzy (PIE)</a></li>
+      <li><a href="https://bank.pl/?p=554635">bank.pl: nowe cła USA</a></li>
+      <li><a href="https://forsal.pl/kraj/bezpieczenstwo/artykuly/11273678,zolnierze-usa-wroca-do-polski-szef-mon-wskazal-szczegoly.html">Forsal: żołnierze USA w Polsce</a></li>
+      <li><a href="https://www.wiadomoscihandlowe.pl/gospodarka-i-finanse/chiny-najwiekszym-dostawca-towarow-do-polski-deficyt-rosnie-2537961">Wiadomości Handlowe: Chiny dostawcą nr 1</a></li>
+      <li><a href="https://xyz.pl/nanoanalizy/chinski-walec-nie-chce-zwolnic-1540-1540">xyz.pl: import z Chin</a></li>
+      <li><a href="https://xyz.pl/?p=261350">xyz.pl: prognozy MFW dla Polski</a></li>
+      <li><a href="https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus">Finwire: inflacja CPI, wrzesień</a></li>
+      <li><a href="https://www.nationthailand.com/news/world/40072812">Nation Thailand: Brent 27.10</a></li>
+      <li><a href="https://xyz.pl/?p=265113">xyz.pl: notyfikacje EDP, deficyt i dług</a></li>
+      <li><a href="https://www.gpw.pl/pub/GPW/files/PDF/raporty/R2026/Q2/Komunikat_Prasowy_GPW_Q2_2026.pdf">GPW: wyniki indeksów 2026</a></li>
+    </ul>
+  </details>
+  </div>
+
+  <div id="tab-emo" role="tabpanel" aria-labelledby="tb-emo" hidden>
+    <div class="card note"><span class="ic">🧭</span><div><b>Dlaczego nie ma tu listy serwisów i autorów</b><p>Szukałem rzetelnych danych, które wskazywałyby konkretne serwisy albo osoby jako tych, którzy najczęściej stosują clickbait i naciski emocjonalne. Nie znalazłem żadnego wiarygodnego, publicznego rankingu, a wskazanie nazwisk bez takich danych byłoby oskarżeniem, a nie faktem. Dlatego zamiast listy osób dostajesz: tłumacz nagłówków, listę technik, wyniki badań i narzędzia, którymi sprawdzisz każdy serwis sam.</p></div></div>
+
+    <section>
+      <h2 class="sech">Co napisano, a co to naprawdę znaczy</h2>
+      <p class="secp">Osiem wymyślonych nagłówków zbudowanych według typowych wzorców, z gospodarczymi liczbami z mapy. To nie są cytaty z konkretnych serwisów. Po lewej to, co widzisz, po prawej to, co wynika z danych.</p>
+    </section>
+    <div class="toolbar"><button class="btn" id="quizb" type="button" aria-pressed="false">Tryb zgadywania</button><span class="secp" style="margin:0;font-size:13.5px">Ukrywa tłumaczenia, dopóki ich nie odkryjesz.</span></div>
+    <div class="cmps" id="cmps"></div>
+
+    <section>
+      <h2 class="sech">Ile Cię to kosztuje</h2>
+      <p class="secp">Czy nagłówek dał Ci wiedzę, której naprawdę potrzebowałeś, czy tylko emocję? Najczęściej informacja jest w treści, a nagłówek jest reklamą. Cenę emocji mierzy się nastrojem, objawami stresu i czasem. Nie znalazłem wiarygodnego pomiaru „ile kalorii kosztuje oburzenie”, więc go nie podaję.</p>
+    </section>
+    <div class="cost" id="cost"></div>
+    <div class="card calc">
+      <div>
+        <b style="font:700 17px var(--sans)">Twój rachunek za klikanie</b>
+        <p class="secp" style="margin:2px 0 12px;font-size:13.5px">To prosta arytmetyka na Twoich założeniach, nie badanie.</p>
+        <label>Kliknięć w nagłówki dziennie: <output id="o1">10</output><input id="i1" type="range" min="0" max="40" value="10"></label>
+        <label>Minut na jedno kliknięcie i powrót do tego, co robiłeś: <output id="o2">3</output><input id="i2" type="range" min="1" max="15" value="3"></label>
+        <label>Ile z tych kliknięć dało Ci wiedzę, której użyłeś: <output id="o3">10</output>%<input id="i3" type="range" min="0" max="100" value="10"></label>
+      </div>
+      <div class="res"><span class="lab">W ciągu roku</span><span class="big2" id="r1">0 h</span><p id="r2"></p><p class="lol" id="r3"></p></div>
+    </div>
+
+    <section>
+      <h2 class="sech">Odtrutka: dobre wiadomości z ostatnich tygodni</h2>
+      <p class="secp">Prawdziwe, sprawdzone i z linkiem. Każda ma też „haczyk uczciwości”, czyli to, co psuje zbyt różowy obraz. Dobre wiadomości też można podkręcać, więc tu niczego nie podkręcam.</p>
+    </section>
+    <div class="good" id="good"></div>
+
+    <section>
+      <h2 class="sech">Osiem sztuczek w pigułce</h2>
+      <p class="secp">Nie każdy z tych zabiegów jest nieuczciwy. Problem zaczyna się, gdy nagłówek obiecuje więcej, niż daje treść, albo mówi Ci, co masz czuć.</p>
+    </section>
+    <div class="techs" id="techs"></div>
+
+    <section>
+      <h2 class="sech">Co mówią badania</h2>
+      <p class="secp">Ostrożnie: to pojedyncze badania, a próbki bywają małe.</p>
+    </section>
+    <div class="facts">
+      <div class="card fc"><b>+10–17%</b><span>więcej udostępnień dla postów z mocnym, moralno-emocjonalnym językiem. Słowa o „drugiej stronie” działały jeszcze mocniej (+35–57%). Badanie postów mediów na Facebooku i Twitterze (Rathje i in., PNAS 2021).</span></div>
+      <div class="card fc"><b>ok. 20%</b><span>więcej rozpowszechniania na każde dodatkowe słowo moralno-emocjonalne w wiadomości na tematy polaryzujące (Brady i in., PNAS 2017, ponad 560 tys. wiadomości).</span></div>
+      <div class="card fc"><b>54,5%</b><span>z 99 polskich nagłówków o zdrowiu z jednego tygodnia lipca 2025 miało choć jedną cechę clickbaitu. Najczęściej: listy i liczby oraz niedopowiedzenia (po 19,2%). Mała próbka, jeden temat (Laskowska 2026).</span></div>
+      <div class="card fc"><b>59%</b><span>linków udostępnionych na Twitterze nigdy nie zostało kliknięte. Ludzie częściej udostępniają, niż czytają (badanie z 2016 r., cytowane przez Demagoga).</span></div>
+      <div class="card fc"><b>39%</b><span>Polaków ufa większości wiadomości (spadek o 8 pkt), a 46% unika newsów czasem lub często (Reuters Institute, Digital News Report 2026).</span></div>
+    </div>
+
+    <section>
+      <h2 class="sech">Skaner nagłówków</h2>
+      <p class="secp">Wklej dowolny nagłówek. Skaner szuka znanych wzorców w słowach. Nie ocenia, czy nagłówek jest prawdziwy ani jaka była intencja autora.</p>
+    </section>
+    <div class="card scan">
+      <label class="lab" for="scin">Nagłówek</label>
+      <textarea id="scin" placeholder="np. SZOK! Eksperci biją na alarm. Zobacz, ile zapłacisz za prąd!"></textarea>
+      <div class="temp" aria-hidden="true"><i id="scbar"></i></div>
+      <div><b id="sclab" style="font:700 16px var(--sans)">Wpisz nagłówek</b></div>
+      <div class="chips" id="scchips"></div>
+    </div>
+
+    <section>
+      <h2 class="sech">Pięć pytań, zanim klikniesz</h2>
+    </section>
+    <div class="techs">
+      <div class="card tc"><b>1. Co teraz czuję?</b><p>Jeśli nagłówek najpierw wywołał strach lub złość, zatrzymaj się. To sygnał, że ktoś mógł celować w emocje.</p></div>
+      <div class="card tc"><b>2. Gdzie jest liczba?</b><p>Rzetelny nagłówek o gospodarce zwykle ma liczbę, okres i źródło. Samo „rośnie”, „eksploduje” albo „tonie” niczego nie mierzy.</p></div>
+      <div class="card tc"><b>3. Kim są „eksperci”?</b><p>Ilu ich jest, jak się nazywają i kto im płaci? Anonimowa zbiorowość to nie źródło.</p></div>
+      <div class="card tc"><b>4. Czy tytuł zgadza się z treścią?</b><p>Przeczytaj pierwszy akapit. Jeśli odpowiedź z nagłówka tam nie pada, to była przynęta.</p></div>
+      <div class="card tc"><b>5. Co to znaczy dla mnie?</b><p>Przełóż wiadomość na swoje pieniądze: rata, rachunek, pensja. Jeśli się nie da, to prawdopodobnie szum.</p></div>
+    </div>
+
+    <section>
+      <h2 class="sech">Narzędzia i źródła do samodzielnego sprawdzania</h2>
+    </section>
+    <ul class="srcs">
+      <li><a href="https://demagog.org.pl/analizy_i_raporty/jak-sie-odnalezc-w-gaszczu-clickbaitow-poradnik-demagoga/">Demagog: jak odnaleźć się w gąszczu clickbaitów</a> (poradnik po polsku)</li>
+      <li><a href="https://demagog.org.pl/analizy_i_raporty/mimowolna-dezinformacja-jak-clickbait-napedza-falszywe-informacje/">Demagog: jak clickbait napędza fałszywe informacje</a></li>
+      <li><a href="https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2026/poland">Reuters Institute: Digital News Report 2026, Polska</a></li>
+      <li><a href="https://czasopisma.ignatianum.edu.pl/pk/article/download/2025.5201.05/3385">Laskowska 2026: etyka clickbaitu w komunikacji zdrowotnej</a></li>
+      <li><a href="https://ojs.academicon.pl/jezykoznawstwo/article/download/10566/10842/32988">Patalong i Induła: język clickbaitu w nagłówkach na Facebooku</a></li>
+      <li><a href="https://www.bps.org.uk/research-digest/social-media-posts-are-hostile-towards-political-opponents-get-more-shares">BPS Research Digest o badaniu Rathje i in. (PNAS 2021)</a></li>
+      <li><a href="https://collaborate.princeton.edu/en/publications/emotion-shapes-the-diffusion-of-moralized-content-in-social-netwo/">Brady i in. (PNAS 2017): emocje a rozprzestrzenianie treści moralizujących</a></li>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/9061893/">Johnston i Davey (1997): wpływ negatywnych wiadomości TV na nastrój i zamartwianie się</a></li>
+      <li><a href="https://www.pnas.org/doi/10.1073/pnas.1316265110">Holman i in. (PNAS 2014): media a ostry stres po zamachu w Bostonie</a></li>
+      <li><a href="https://news.gallup.com/businessjournal/23146/Too-Many-Interruptions-Work.aspx">Gallup: wywiad z Gloria Mark o kosztach przerywania pracy</a></li>
+      <li><a href="https://www.emerald.com/mhdt/article/doi/10.1108/MHDT-10-2025-0068/1338079/The-influence-of-doomscrolling-on-mental-health-a">Przegląd badań o doomscrollingu (Emerald)</a></li>
+      <li><a href="https://nobelprize.org/prizes/medicine/2026/summary">Nobel z medycyny 2026</a>, <a href="https://iea.org/reports/global-energy-review-2026/technology-solar-pv-and-wind">IEA Global Energy Review 2026</a>, <a href="https://www.who.int/campaigns/world-malaria-day/2026">WHO: Światowy Dzień Malarii 2026</a></li>
+      <li><a href="https://www.rmf24.pl/fakty/ekonomia/news-dobre-wiesci-ws-polskiej-gospodarki-w-tle-kryzys-na-bliskim-,nId,8089250">RMF24/PAP: PIE o odporności polskiej gospodarki</a>, <a href="https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/">Africanews: rozmowy w listopadzie</a></li>
+      <li><a href="https://mediabiasfactcheck.com/">Media Bias/Fact Check</a> i <a href="https://www.newsguardtech.com/">NewsGuard</a>: zagraniczne oceny wiarygodności serwisów. To oceny redakcyjne, więc traktuj je jak jedną z opinii.</li>
+    </ul>
+  </div>
+</main>
+
+<dialog class="md" id="md" aria-labelledby="mt-t">
+  <div class="mh"><div class="big node" id="mbig" aria-hidden="true"></div><div class="tt"><span class="tag chain" id="mtag"></span><h2 id="mt-t"></h2><p class="quip" id="mq"></p></div><button class="mx" id="mx" type="button" aria-label="Zamknij">✕</button></div>
+  <div class="mb" id="mbody"></div>
+  <div class="mf"><button class="btn" id="mprev" type="button">← Poprzedni</button><button class="btn" id="mnext" type="button">Następny →</button><span class="ct" id="mct"></span></div>
+</dialog>
+/*__CDN__*/
+/*__SCRIPT__*/
+</body>
+</html>
