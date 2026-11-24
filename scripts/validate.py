@@ -105,8 +105,25 @@ def check_nodes(D, r):
             r.err(label, f'brak wpisu dla węzła „{missing}”')
         for extra in sorted(got - set(ids)):
             r.err(label, f'wpis „{extra}” nie ma węzła w nodes.json')
-    covered = sum(1 for s in steps if s.get('src'))
+    reg_by_id = {x.get('id'): x for x in (D.get('sources') or {}).get('sources', []) if isinstance(x, dict)}
+    covered = primary_cov = 0
+    for s in steps:
+        if 'src' not in s:
+            continue
+        if not (isinstance(s['src'], list) and s['src'] and all(is_str(x) for x in s['src'])):
+            r.err('steps.json', f'{s.get("id")}: „src” musi być niepustą listą id źródeł')
+            continue
+        covered += 1
+        tiers = []
+        for sid in s['src']:
+            if sid not in reg_by_id:
+                r.err('steps.json', f'{s["id"]}: źródło „{sid}” nie ma wpisu w sources.json')
+            elif isinstance(reg_by_id[sid].get('tier'), int):
+                tiers.append(reg_by_id[sid]['tier'])
+        if tiers and min(tiers) == 1:
+            primary_cov += 1
     r.note(f'pokrycie źródłami liczb: {covered}/{len(steps)} węzłów w steps.json ma pole „src” (migracja: faza 0)')
+    r.note(f'węzły z co najmniej jednym źródłem pierwotnym (poziom 1): {primary_cov}/{len(steps)}')
 
 
 def check_chart(r, where, c):
@@ -223,6 +240,18 @@ def check_sources(D, r):
         if s['url'] in urls:
             r.err(w, f'adres {s["url"]} już jest w rejestrze jako „{urls[s["url"]]}”')
         urls[s['url']] = s['id']
+    for s in by_id.values():
+        if 'primary' in s:
+            if not (isinstance(s['primary'], list) and s['primary']):
+                r.err(f'sources.json {s["id"]}', '„primary” musi być niepustą listą id')
+                continue
+            for pid in s['primary']:
+                if pid not in by_id:
+                    r.err(f'sources.json {s["id"]}', f'„primary” wskazuje nieistniejące źródło „{pid}”')
+                elif by_id[pid]['tier'] != 1:
+                    r.warn(f'sources.json {s["id"]}', f'źródło pierwotne „{pid}” nie jest poziomu 1')
+        if s.get('checked') and not re.match(r'^\d{4}-\d{2}-\d{2}$', str(s['checked'])):
+            r.err(f'sources.json {s["id"]}', 'pole „checked” ma mieć format rrrr-mm-dd')
     tiers = [s['tier'] for s in by_id.values()]
     reviewed = sum(1 for s in by_id.values() if s.get('reviewed'))
     r.note('rejestr źródeł: %d (poziom 1: %d, 2: %d, 3: %d), przejrzane przez redaktora: %d/%d' % (

@@ -34,6 +34,7 @@ python3 docs/design/mockups/build.py     # odświeża makiety z danych i tokenó
 ## Dane
 
 - Przy każdej aktualizacji danych dopisz na górze `src/data/changelog.json` nowy wpis (nie edytuj starych). Daty na stronie ustawiają się z najnowszego wpisu.
+- Przy liczbie w `steps.json` ustaw `src`: lista id z rejestru, źródło pierwotne (poziom 1) pierwsze.
 - Każdy nowy adres URL (w danych lub w sekcji „Źródła” szablonu) dopisz najpierw do `src/data/sources.json` z poziomem 1–3. `validate.py` zgłosi błąd dla adresu spoza rejestru. Poziomy robocze mają `reviewed: false`.
 - `build.py` wczytuje każdy `src/data/*.json` (poza `sources.json`) do obiektu `DATA` (klucz = nazwa pliku).
 

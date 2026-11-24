@@ -180,8 +180,12 @@ Faza 0 jest wąskim gardłem. Bez niej agenci nie mają czego sprawdzać.
 | Rejestr źródeł `src/data/sources.json` (51 źródeł: 14 pierwotnych, 16 poziomu 2, 21 wtórnych, poziomy robocze) | **gotowe** |
 | `scripts/validate.py` (schematy, spójność id, dziennik zmian, rejestr, pokrycie URL, zaległości migracji, `--links`) + 13 testów | **gotowe** |
 | `npm run check` / `npm test`, walidacja w CI (Pages) | **gotowe** |
+| Zestawienie źródeł poziomu 3 ([`sources-tier3-review.md`](sources-tier3-review.md)) | **gotowe** |
+| Źródła pierwotne GUS (CPI, płace, PKB) w rejestrze, `primary` przy Finwire, `src` w 4 z 13 węzłów (`shop`, `pump`, `worker`, `sun`) | **gotowe** |
+| Pozostałe źródła pierwotne (Fed, Eurostat, EIA, KE, handel GUS, PNAS) i `src` przy 9 węzłach | do zrobienia |
 | Przegląd poziomów źródeł przez redaktora, naprawa etykiety „Reuters” | do zrobienia |
-| Pola `src` przy liczbach węzłów (dziś 0/13) i generowana sekcja „Źródła” | do zrobienia |
+| Generowana sekcja „Źródła” z rejestru | do zrobienia |
+| Architektura źródeł danych i API ([`data-sources-architecture.md`](data-sources-architecture.md)) | osobne zadanie badawcze po fazie 0 |
 | `confidence.py` (wskaźnik pewności z rejestru) | do zrobienia |
 | Migracja `src/data/` na model treści, w tym `good.json` i `news.json` (D5) | do zrobienia |
 | `src/tokens.css` z `tokens.json`, `design-lint.py` | do zrobienia |

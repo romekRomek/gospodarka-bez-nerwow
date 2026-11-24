@@ -10,7 +10,8 @@
  "fields": {
   "cites": "Instytucja, którą wprost przywołuje źródło wtórne (np. GUS). Pozwala wskazać źródło pierwotne.",
   "cadence": "Rytm publikacji (np. miesięczny). Z niego liczy się aktualność. Do uzupełnienia.",
-  "checked": "Data ostatniego sprawdzenia, że link działa i potwierdza liczbę. Do uzupełnienia skryptem."
+  "checked": "Data ostatniego sprawdzenia, że link działa i potwierdza liczbę. Do uzupełnienia skryptem.",
+  "primary": "Lista id źródeł pierwotnych (poziom 1), które to źródło wtórne przywołuje. Walidator sprawdza, że id istnieją."
  },
  "sources": [
   {
@@ -251,6 +252,9 @@
    "cites": "GUS",
    "where": [
     "template"
+   ],
+   "primary": [
+    "gus-cpi"
    ]
   },
   {
@@ -269,6 +273,9 @@
    "where": [
     "template",
     "problems.json"
+   ],
+   "primary": [
+    "gus-cpi"
    ]
   },
   {
@@ -287,6 +294,9 @@
    "where": [
     "template",
     "good.json"
+   ],
+   "primary": [
+    "gus-wynagrodzenia-2026-10"
    ]
   },
   {
@@ -304,6 +314,9 @@
    "cites": "GUS",
    "where": [
     "template"
+   ],
+   "primary": [
+    "gus-pkb-szybki-szacunek-2026-q3"
    ]
   },
   {
@@ -888,6 +901,60 @@
    "where": [
     "good.json"
    ]
+  },
+  {
+   "id": "gus-cpi",
+   "name": "GUS: wskaźniki cen towarów i usług konsumpcyjnych (inflacja)",
+   "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-pot-inflacja-/",
+   "org": "GUS",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "miesięczny",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "note": "Strona tematyczna. Konkretnego komunikatu za październik 2026 nie znaleziono automatycznie, do wskazania przez badacza danych. Liczby 3,5% i 4,1% potwierdzone w źródle wtórnym (Finwire), nie w tekście tej strony."
+  },
+  {
+   "id": "gus-wynagrodzenia-2026-10",
+   "name": "GUS: przeciętne zatrudnienie i wynagrodzenie w sektorze przedsiębiorstw, październik 2026",
+   "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
+   "org": "GUS",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "miesięczny",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "note": "Wzrost nominalny +6,1% potwierdzony w tekście strony. Kwoty 9 405 zł nie ma w tekście strony (sprawdzić załącznik)."
+  },
+  {
+   "id": "gus-pkb-szybki-szacunek-2026-q3",
+   "name": "GUS: szybki szacunek produktu krajowego brutto za 3 kwartał 2026",
+   "url": "https://stat.gov.pl/obszary-tematyczne/rachunki-narodowe/kwartalne-rachunki-narodowe/szybki-szacunek-produktu-krajowego-brutto-za-3-kwartal-2026-r-,1,55.html",
+   "org": "GUS",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "kwartalny",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "note": "Wzrost +3,5% potwierdzony w tekście strony. Wartość z II kwartału (+4,1%) nie występuje w tekście tej strony ani stron szacunków II kwartału, do wyjaśnienia."
   }
  ]
 }

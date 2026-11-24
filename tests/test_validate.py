@@ -91,6 +91,44 @@ class ValidateTest(unittest.TestCase):
         (self.data / 'cost.json').write_text('{ nie json', encoding='utf-8')
         self.assert_error(self.run_v(), 'niepoprawny JSON')
 
+    def test_step_src_must_point_to_registry(self):
+        def bad(steps):
+            next(s for s in steps if s['id'] == 'shop')['src'] = ['nie-ma-takiego-zrodla']
+        self.edit('steps', bad)
+        self.assert_error(self.run_v(), 'nie ma wpisu w sources.json')
+
+    def test_step_src_must_be_nonempty_list(self):
+        def bad(steps):
+            next(s for s in steps if s['id'] == 'shop')['src'] = []
+        self.edit('steps', bad)
+        self.assert_error(self.run_v(), 'niepustą listą')
+
+    def test_primary_must_exist(self):
+        def bad(reg):
+            next(s for s in reg['sources'] if 'primary' in s)['primary'] = ['brak-takiego-id']
+        self.edit('sources', bad)
+        self.assert_error(self.run_v(), 'nieistniejące źródło')
+
+    def test_primary_not_tier1_is_warning(self):
+        def bad(reg):
+            first = next(s for s in reg['sources'] if 'primary' in s)
+            tier3 = next(s for s in reg['sources'] if s['tier'] == 3 and s['id'] != first['id'])
+            first['primary'] = [tier3['id']]
+        self.edit('sources', bad)
+        r = self.run_v()
+        self.assertEqual(r.errors, [])
+        self.assertTrue(any('nie jest poziomu 1' in w for w in r.warnings))
+
+    def test_checked_date_format(self):
+        def bad(reg):
+            reg['sources'][0]['checked'] = '24.11.2026'
+        self.edit('sources', bad)
+        self.assert_error(self.run_v(), 'rrrr-mm-dd')
+
+    def test_primary_coverage_is_reported(self):
+        r = self.run_v()
+        self.assertTrue(any('źródłem pierwotnym' in i for i in r.info), r.info)
+
     def test_banned_phrase_is_warning_not_error(self):
         self.edit('headlines', lambda h: h[0].__setitem__('calm', 'To jest dobra wiadomość.'))
         r = self.run_v()

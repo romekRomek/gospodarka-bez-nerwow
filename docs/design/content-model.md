@@ -54,9 +54,13 @@ Każda jednostka treści to blok:
 
 `confidence.level` i `factors` nie są wpisywane ręcznie. Liczy je `scripts/confidence.py` z `sources.json` i pól `inputs`.
 
+## Źródła przy liczbach (`src`)
+
+Węzeł i kafelek ma pole `src`: niepusta lista id z `sources.json`, **źródło pierwotne (poziom 1) pierwsze**, potem pomocnicze. `confidence.py` liczy czynnik „Źródło” z najlepszego poziomu na liście. `validate.py` zgłasza błąd dla id spoza rejestru. Węzły bez `src` są raportowane jako zaległość migracji.
+
 ## Rejestr źródeł (`sources.json`)
 
-`id`, `name`, `url`, `org`, `tier` (1 pierwotne, 2 agencje i duże media, 3 wtórne), `fetch` (api / page / pdf), `cadence` (rytm publikacji), `checked` (data ostatniego sprawdzenia).
+`id`, `name`, `url`, `org`, `tier` (1 pierwotne, 2 agencje i duże media, 3 wtórne), `fetch` (api / page / pdf), `cadence` (rytm publikacji), `checked` (data ostatniego sprawdzenia, rrrr-mm-dd), `cites` (kogo cytuje źródło wtórne), `primary` (lista id źródeł pierwotnych, które źródło wtórne przywołuje).
 
 ## Wskaźnik pewności (reguła do implementacji)
 
