@@ -48,11 +48,11 @@ Każda jednostka treści to blok:
   },
   "viz": {"type": "spark", "series": "charts.derrick.0"},
   "blocks": [ … ],
-  "confidence": {"inputs": {"sources": ["…"], "agree": false, "kind": "market"}}
+  "conf": {"asof": "2026-11-23", "kind": "market", "agree": "small"}
 }
 ```
 
-`confidence.level` i `factors` nie są wpisywane ręcznie. Liczy je `scripts/confidence.py` z `sources.json` i pól `inputs`.
+Poziom i czynniki pewności nie są wpisywane ręcznie. Liczy je `scripts/confidence.py` z `sources.json`, pola `src` i pól wejściowych `conf` (opis w sekcji „Wskaźnik pewności”).
 
 ## Źródła przy liczbach (`src`)
 
