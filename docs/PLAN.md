@@ -185,6 +185,7 @@ Faza 0 jest wąskim gardłem. Bez niej agenci nie mają czego sprawdzać.
 | EIA (Brent): źródło, porównanie i skrypt `check_brent_eia.py`, `src` dla `derrick`. Wniosek: dane to kontrakt ICE, EIA to spot (patrz [`brent-eia-check.md`](brent-eia-check.md)). Decyzja D14 (opcja C) wykonana: podpisy miar, fakt z EIA, poprawiony wykres, EIA na liście „Źródła” | **zrobione** |
 | Pozostałe źródła pierwotne (GUS CPI i handel, Fed, Eurostat) i `src` w 12 z 13 węzłów (brak tylko `gate`); pola `decides`, `concerns`, `watch`, `soon`, `conf` we wszystkich 13 węzłach (treści robocze do przeglądu redaktora: [`node-fields-review.md`](node-fields-review.md)); `validate.py` sprawdza nowe pola (26 testów) | **gotowe (treści robocze)** |
 | Przegląd poziomów źródeł przez redaktora, naprawa etykiety „Reuters” | do zrobienia |
+| Weryfikacja treści bez udziału właściciela (rejestr twierdzeń, `verify_claims.py`, agenci z rubrykami; [`verification.md`](verification.md)) | **projekt (D17), do zrobienia** |
 | Generowana sekcja „Źródła” z rejestru (dziś lista w szablonie, 7 pozycji dopisanych ręcznie) | do zrobienia |
 | Architektura źródeł danych i API ([`data-sources-architecture.md`](data-sources-architecture.md)) | osobne zadanie badawcze po fazie 0 |
 | `confidence.py` (wskaźnik pewności z rejestru), 32 testy; czeka na pola `conf` w danych (W3) | **gotowe (skrypt)** |

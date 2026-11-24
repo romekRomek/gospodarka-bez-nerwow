@@ -34,6 +34,7 @@ python3 docs/design/mockups/build.py     # odświeża makiety z danych i tokenó
 5. **Nie ma dobrych i złych wiadomości.** Opisujemy kierunek (↑ ↓ →), skalę i kontekst. Wolno pokazać, że „dobre” i „złe” to ton autora lub sposób wywołania emocji. Radość też bywa manipulacją.
 6. **Opis świata, nie ocena czytelnika.** „Decyduje” i „Dotyczy” są prawdziwe dla każdego, „Obserwuj” tylko z konkretem, a „Co może o tym zadecydować” to najbliższe wydarzenia z datą i jedno łatwe pytanie „Dla Ciebie” (z głowy, w 3 sekundy, bez porównań ze średnią). Zaproszenie, nie nakaz: bez trybu rozkazującego, presji, porad i prognoz. Bez etykiet typu „nie masz wpływu”.
 7. **Skróty z definicją.** Każdy skrót i termin fachowy w tekście ma mieć wpis w glosariuszu (docelowo `src/data/terms.json`, na razie lista `TERMS` w `docs/design/mockups/build.py`) z definicją w jednym zdaniu i źródłem. Nie wpisuj skrótu w tekst bez definicji.
+8. **Weryfikowalność.** Każda liczba i twierdzenie ma być do sprawdzenia automatycznie z dowodem (źródło, okres, wskaźnik), bez udziału właściciela. Człowiek decyduje tylko o sprawach wartościowych. Projekt: `docs/verification.md`.
 
 ## Dane
 
