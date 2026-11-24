@@ -153,11 +153,11 @@ def conf(level, why, factors=None):
             f'<span class="pips" aria-hidden="true"><i></i><i></i><i></i></span><b>{CL[level]}</b></div>'
             f'<span class="why">{E(why)}</span>{fac}</div>')
 
-def tile(label, who_html, num, cap, dlt, plain, viz, more, note='', conf_html='', watch_html='', soon_html=''):
+def tile(label, who_html, num, cap, dlt, plain, viz, more, note='', conf_html='', watch_html='', soon_html='', extra_html=''):
     return (f'<article class="stat"><header><span class="tl">{label}</span></header>'
             f'<div class="num">{num}</div><p class="cap-s">{cap}</p>{dlt}'
             f'<p class="plain">{plain}</p>{who_html}{watch_html}<div class="ctx">{viz}<p class="ctxl">{note}</p>{conf_html}</div>'
-            f'<p class="more lv2">{more}</p>{soon_html}</article>')
+            f'<p class="more lv2">{more}</p>{soon_html}{extra_html}</article>')
 
 brent = tile('Ropa Brent', who('rynek światowy, negocjacje USA–Iran', 'kierowców, firm zależnych od paliw'), 'ok. 90 <small>USD</small>', 'za baryłkę, 23–24.11',
              delta('down', 'ok. 20% od 27.10 (114 USD)'),
@@ -197,6 +197,56 @@ wage = tile('Pensje i portfel', who('pracodawcy i rynek pracy', 'pracowników, f
                 ('Rodzaj danych', 'mid', 'Wzrost realny jest wyliczony (płace minus ceny)')]),
             watch_html=watch('zatrudnienie w firmach, spadło o 0,7% r/r'),
             soon_html=soon([('co miesiąc', 'kolejne dane GUS o płacach i zatrudnieniu')], 'Czy Twoja pensja wzrosła w tym roku?'))
+
+
+def limits(items):
+    li = ''.join(f'<li>{E(x)}</li>' for x in items)
+    return f'<div class="limits lv2"><b class="limh">Czego ta liczba nie mówi</b><ul>{li}</ul></div>'
+
+def also(cells, note):
+    c = ''.join(f'<a class="acell" href="#" onclick="return false"><small>{E(w)}</small><b>{E(v)}</b><span>{E(d)}</span></a>' for w, v, d in cells)
+    return (f'<div class="also lv2"><b class="alh">Spójrz też na</b><div class="acells">{c}</div>'
+            f'<p class="ctxl">{E(note)}</p></div>')
+
+# Glosariusz (robocze definicje do zweryfikowania w słowniku GUS i NBP; docelowo src/data/terms.json)
+TERMS = [
+    dict(id='pkb', forms=['PKB'], name='Produkt krajowy brutto', defn='Łączna wartość towarów i usług wytworzonych w kraju w danym okresie.'),
+    dict(id='rr', forms=['r/r'], name='Rok do roku', defn='Porównanie z tym samym okresem rok wcześniej, np. października z poprzednim październikiem.'),
+    dict(id='mm', forms=['m/m'], name='Miesiąc do miesiąca', defn='Porównanie z poprzednim miesiącem.'),
+    dict(id='cpi', forms=['CPI'], name='Wskaźnik cen towarów i usług konsumpcyjnych (CPI)', defn='Miara inflacji: pokazuje, jak zmieniają się ceny typowego koszyka zakupów gospodarstw domowych.'),
+    dict(id='gus', forms=['GUS'], name='Główny Urząd Statystyczny', defn='Państwowa instytucja, która publikuje oficjalne dane statystyczne o Polsce.'),
+    dict(id='nbp', forms=['NBP'], name='Narodowy Bank Polski', defn='Bank centralny Polski. Stopy procentowe ustala jego Rada Polityki Pieniężnej.'),
+    dict(id='rpp', forms=['RPP'], name='Rada Polityki Pieniężnej', defn='Ciało przy NBP, które ustala stopy procentowe.'),
+    dict(id='pp', forms=['pp', 'pkt proc.'], name='Punkt procentowy', defn='Różnica między dwiema wartościami podanymi w procentach. Przejście z 3% na 4% to 1 punkt procentowy.'),
+    dict(id='flash', forms=['szybki szacunek', 'Szybki szacunek', 'szybkiego szacunku'], name='Szybki szacunek', defn='Wstępne dane publikowane szybko po zakończeniu okresu. Mogą zostać później skorygowane.'),
+    dict(id='ice', forms=['kontrakt ICE', 'kontraktu ICE', 'ICE'], name='Kontrakt terminowy ICE', defn='Cena ropy Brent z giełdy ICE, ustalana w umowach na przyszłą dostawę. To inna miara niż cena spot.'),
+    dict(id='spot', forms=['cena spot', 'ceny spot', 'spot'], name='Cena spot', defn='Cena ropy przy bieżącej dostawie, w odróżnieniu od ceny kontraktu na przyszłość.'),
+    dict(id='eia', forms=['EIA'], name='Amerykańska Agencja Informacji Energetycznej (EIA)', defn='Publikuje m.in. dzienne ceny ropy naftowej.'),
+    dict(id='brent', forms=['Brent'], name='Brent', defn='Gatunek ropy, którego cena jest światowym punktem odniesienia.'),
+    dict(id='deficyt', forms=['deficyt', 'deficytu'], name='Deficyt sektora finansów publicznych', defn='Różnica między wydatkami a dochodami państwa i samorządów w danym roku.'),
+]
+TERMS_JSON = json.dumps([dict(id=t['id'], forms=t['forms'], name=t['name'], **{'def': t['defn']}) for t in TERMS], ensure_ascii=False).replace('</', '<\\/')
+
+pkb_tile = tile('Wzrost gospodarczy (PKB)',
+                who('aktywność firm, wydatki gospodarstw domowych i państwa, eksport', 'pracowników, przedsiębiorców, budżet państwa'),
+                '+3,5<small>%</small>', 'PKB Polski w III kwartale, r/r', '',
+                'Gospodarka urosła o 3,5% w porównaniu z tym samym kwartałem rok wcześniej.',
+                '',
+                'To szybki szacunek GUS, czyli dane wstępne. Dane zaktualizowane GUS publikuje później.',
+                'Źródło: GUS, szybki szacunek za III kwartał 2026.',
+                conf('mid', 'Szybki szacunek, dane wstępne', [
+                    ('Źródło', 'ok', 'GUS, dane pierwotne'),
+                    ('Aktualność', 'ok', 'Szybki szacunek za III kwartał 2026'),
+                    ('Zgodność źródeł', 'ok', 'Zgodne z drugim źródłem (Finwire)'),
+                    ('Rodzaj danych', 'no', 'Szybki szacunek, może zostać skorygowany')]),
+                watch('zaktualizowany szacunek PKB od GUS'),
+                soon([('co kwartał', 'kolejny szacunek PKB z GUS')], 'Czy miejsce, w którym pracujesz, ostatnio się rozwija?'),
+                limits(['PKB to łączna wartość wytworzonych i sprzedanych towarów i usług. Nie mówi, czy ktoś na tym zyskał ani jak wzrost rozkłada się między ludzi.',
+                        'Nie pokazuje kosztów wzrostu. Deficyt sektora finansów publicznych to ok. 7,1% PKB (plan na 2026 i 2027 r.).',
+                        'To szybki szacunek, czyli dane wstępne, które GUS może później skorygować.'])
+                + also([('Kraj', '+3,5% r/r', 'PKB, III kwartał'), ('Pracownik', '+2,4% r/r', 'płace realnie, październik'), ('Koszt', 'ok. 7,1% PKB', 'deficyt, plan 2026 i 2027')],
+                       'To różne miary, więc nie leżą na jednej skali. Pokazują wzrost z trzech stron.'))
+pkb_fig = f'<div class="scr lv2-on"><div class="scr-body tight">{pkb_tile}</div></div>'
 
 EX = [
     dict(topic='Inflacja CPI', fact='3,5% w październiku r/r, we wrześniu 4,1%. Cel NBP: 2,5% ±1 pp.',
@@ -370,10 +420,8 @@ myth = (f'<article class="card myth"><header><span class="lbl">Dementi w 4 kroka
         f'<footer class="ask"><span>Zadaj sobie pytanie</span><b>{E(h0["q"])}</b></footer></article>')
 
 bank = STEPS['bank']
-terms = (f'<article class="card terms"><header><span class="lbl">Słowniczek w kontekście</span></header>'
-         f'<p class="tp">Rada Polityki Pieniężnej zostawiła <button class="term" type="button" aria-expanded="true" aria-controls="tp1">stopę referencyjną</button> bez zmian.</p>'
-         f'<div class="pop-t" id="tp1" role="note"><b>Stopa referencyjna</b><p>Podstawowa stopa procentowa banku centralnego. Od niej zależy oprocentowanie kredytów i lokat. Teraz: {E(bank["m"])}.</p>'
-         f'<a class="lnk" href="#" onclick="return false">Więcej o stopach →</a></div></article>')
+terms = ('<div class="scr"><div class="scr-body tight"><article class="card terms"><header><span class="lbl">Skróty z definicją</span></header>'
+         '<p class="tp">PKB urósł o 3,5% r/r, wynika z szybkiego szacunku GUS.</p><div class="tspace"></div></article></div></div>')
 
 conf_demo = ('<article class="card confdemo lv2-on"><header><span class="lbl">Wskaźnik pewności danych</span></header>'
              + conf('hi', 'Dane urzędowe, odczyt finalny, zgodne źródła', [('Źródło', 'ok', 'GUS, NBP, Eurostat'), ('Aktualność', 'ok', 'Najnowszy odczyt'), ('Zgodność źródeł', 'ok', 'Zgodne'), ('Rodzaj danych', 'ok', 'Pomiar')])
@@ -384,7 +432,7 @@ conf_demo = ('<article class="card confdemo lv2-on"><header><span class="lbl">Ws
 # ---------- złożenie ----------
 tpl = (HERE / 'mockups.tpl.html').read_text(encoding='utf-8')
 subs = {'__TOKENS__': TOK.css(), '__MAPDEFS__': MAPDEFS, '__MAPCSS__': MAPCSS, '__START__': start_screen(), '__STARTWIDE__': start_screen(), '__MAPSCREEN__': map_screen(),
-        '__NCARD1__': node_card(1), '__NCARD2__': node_card(2), '__MYTH__': myth, '__GOOD__': good_card2, '__CONFDEMO__': conf_demo, '__TERMS__': terms,
+        '__NCARD1__': node_card(1), '__NCARD2__': node_card(2), '__MYTH__': myth, '__GOOD__': good_card2, '__CONFDEMO__': conf_demo, '__TERMS__': terms, '__PKB__': pkb_fig, '__TERMSJSON__': TERMS_JSON,
         '__ASOF__': E(ASOF),
         '__GR__': ''.join(f'<li>{grade(k)}<span>{t}</span></li>' for k, t in
                           [('ok', 'liczba z danych pierwotnych (GUS, NBP, Eurostat)'), ('est', 'szacunek lub dane wstępne'),

@@ -377,9 +377,25 @@ h4{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercas
 .myth .ask span{font-size:var(--t-xs);color:var(--mut)}
 .myth .ask b{font-size:var(--t-md)}
 .tp{font-size:var(--t-lg)/1.5 var(--sans)}
-.term{border:0;border-bottom:2px dotted var(--accent);background:none;padding:0 0 1px;cursor:pointer;font:inherit;color:inherit}
-.pop-t{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-md);padding:var(--sp-3);box-shadow:0 8px 24px var(--shadow);display:grid;gap:6px}
-.pop-t p{font-size:var(--t-sm)}
+.tspace{min-height:84px}
+.term{border:0;border-bottom:2px dotted var(--accent);background:none;padding:0 0 1px;cursor:pointer;font:inherit;color:inherit;text-align:inherit}
+.term[aria-expanded="true"]{background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:3px 3px 0 0}
+.tpop{position:absolute;z-index:20;background:var(--surface);color:var(--ink);border:1px solid var(--line-strong);border-radius:var(--r-md);padding:var(--sp-3) 52px var(--sp-3) var(--sp-3);box-shadow:0 10px 28px var(--shadow);display:grid;gap:4px;font-size:var(--t-sm);text-align:left;font-weight:400}
+.tpop[hidden]{display:none}
+.tpop b{font:700 var(--t-sm) var(--sans)}
+.tpop p{margin:0}
+.tpop .x{position:absolute;top:0;right:0;width:44px;height:44px;border:0;background:none;color:var(--mut);font-size:16px;cursor:pointer;border-radius:var(--r-md)}
+.scr{position:relative}
+.limits{background:var(--surface-2);border-radius:var(--r-md);padding:var(--sp-3);font-size:var(--t-sm)}
+.limits .limh,.also .alh{display:block;font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-bottom:6px}
+.limits ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.also{display:grid;gap:var(--sp-2)}
+.acells{display:grid;gap:var(--sp-2);grid-template-columns:repeat(auto-fit,minmax(min(100%,112px),1fr))}
+.acell{display:grid;gap:2px;align-content:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-3);text-decoration:none;color:var(--ink);min-height:44px}
+.acell small{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.acell b{font:800 var(--t-lg)/1.1 var(--head);font-variant-numeric:tabular-nums}
+.acell span{font-size:var(--t-xs);color:var(--mut)}
+
 
 
 /* wskaźnik pewności danych */
@@ -574,6 +590,7 @@ h4{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercas
         <li>Kierunek „Mapa + warstwy”. Start jest pierwszą zakładką, poziomy na start to Podstawy i Więcej, „Uczę się” dopiero po ustabilizowaniu.</li>
         <li>Nie ma dobrych i złych wiadomości. Pokazujemy ramowanie: ten sam fakt może wywołać ulgę albo niepokój.</li>
         <li>Zamiast oceniać czytelnika: „Decyduje” i „Dotyczy” opisują świat, a „Co może o tym zadecydować” pokazuje najbliższe wydarzenia i zadaje jedno łatwe pytanie, bez nakłaniania do działania. Przy każdej liczbie wskaźnik pewności danych.</li>
+        <li>Kontekst liczby: „Czego ta liczba nie mówi” i „Spójrz też na” (np. PKB obok płac i deficytu). Każdy skrót w tekście jest klikalny z definicją.</li>
         <li>Nagłówek dnia: tytułem jest parodia, pod nią klikbajt, odzwierciedlenie i „Po ludzku”.</li>
         <li>Tokeny, komponenty i zasady: <code>docs/design/</code>. Opisy „Decyduje / Dotyczy”, sytuacje i oceny pewności na tej stronie to przykłady redakcyjne do potwierdzenia przy migracji danych.</li>
       </ul>
@@ -634,13 +651,13 @@ h4{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercas
       <figure class="fig"><figcaption>Wskaźnik pewności danych<small>Podsumowanie czterech czynników, liczone skryptem z rejestru źródeł</small></figcaption><article class="card confdemo lv2-on"><header><span class="lbl">Wskaźnik pewności danych</span></header><div class="conf c-hi"><div class="cmain"><span class="cl">Pewność danych</span><span class="pips" aria-hidden="true"><i></i><i></i><i></i></span><b>Wysoka</b></div><span class="why">Dane urzędowe, odczyt finalny, zgodne źródła</span><dl class="cfac lv2"><dt>Źródło</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>GUS, NBP, Eurostat</dd><dt>Aktualność</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>Najnowszy odczyt</dd><dt>Zgodność źródeł</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>Zgodne</dd><dt>Rodzaj danych</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>Pomiar</dd></dl></div><hr><div class="conf c-mid"><div class="cmain"><span class="cl">Pewność danych</span><span class="pips" aria-hidden="true"><i></i><i></i><i></i></span><b>Średnia</b></div><span class="why">Cena rynkowa albo wyliczenie</span><dl class="cfac lv2"><dt>Źródło</dt><dd class="f-mid"><b aria-hidden="true">~</b><span class="sr">z zastrzeżeniem: </span>Agencje i serwisy rynkowe</dd><dt>Aktualność</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>Dzisiejszy odczyt</dd><dt>Zgodność źródeł</dt><dd class="f-mid"><b aria-hidden="true">~</b><span class="sr">z zastrzeżeniem: </span>Małe różnice między źródłami</dd><dt>Rodzaj danych</dt><dd class="f-mid"><b aria-hidden="true">~</b><span class="sr">z zastrzeżeniem: </span>Cena zmienna lub wartość wyliczona</dd></dl></div><hr><div class="conf c-lo"><div class="cmain"><span class="cl">Pewność danych</span><span class="pips" aria-hidden="true"><i></i><i></i><i></i></span><b>Niska</b></div><span class="why">Przykład ilustracyjny: prognoza z jednego źródła</span><dl class="cfac lv2"><dt>Źródło</dt><dd class="f-no"><b aria-hidden="true">!</b><span class="sr">problem: </span>Jedno źródło wtórne</dd><dt>Aktualność</dt><dd class="f-mid"><b aria-hidden="true">~</b><span class="sr">z zastrzeżeniem: </span>Starsze niż rytm publikacji</dd><dt>Zgodność źródeł</dt><dd class="f-no"><b aria-hidden="true">!</b><span class="sr">problem: </span>Brak drugiego źródła do porównania</dd><dt>Rodzaj danych</dt><dd class="f-no"><b aria-hidden="true">!</b><span class="sr">problem: </span>Prognoza, nie pomiar</dd></dl></div></article></figure>
       <figure class="fig"><figcaption>Dementi: fakt, mit, mechanizm, fakt<small>Zamiast powtarzać mit, zaczynamy i kończymy faktem</small></figcaption><article class="card myth"><header><span class="lbl">Dementi w 4 krokach</span><span class="chip g-ok">Potwierdzone</span></header><div class="step"><b class="k fact">1 Fakt</b><p>Paliwa są droższe o 21,7% r/r, a limit cen obowiązuje do końca roku.</p></div><div class="step"><b class="k mit">2 Mit (nagłówek)</b><p class="q">SZOK! Ceny paliw eksplodują. Zobacz, ile zapłacisz!</p><small>Przykładowy, wymyślony nagłówek.</small></div><div class="step"><b class="k mech">3 Dlaczego działa</b><div class="tags"><span class="chip tlo">Hiperbola</span><span class="chip tlo">Luka ciekawości</span></div><p>„Eksplodują” opisuje obawę, nie stan obecny. Po wygaśnięciu limitu ceny mogą wzrosnąć, ale nagłówek nie podaje ani kwoty, ani terminu.</p></div><div class="step"><b class="k fact">4 Fakt jeszcze raz</b><p>Paliwa drożeją o 21,7% r/r w październiku (GUS), a maksymalna cena diesla wynosi 7,32 zł za litr (24.11).</p></div><footer class="ask"><span>Zadaj sobie pytanie</span><b>Ile dokładnie i do kiedy?</b></footer></article></figure>
       <figure class="fig"><figcaption>Ta sama liczba, dwa nagłówki<small>„Dobry” i „zły” to ton autora, nie cecha faktu</small></figcaption><article class="card frame lv2-on"><header><span class="lbl">Ta sama liczba, dwa nagłówki</span></header><div class="fx"><div class="ftop"><span class="chip tlo">Ropa Brent</span></div><div class="fpair"><div class="fb a"><span class="ftone">Wywołuje ulgę</span><p class="fh">Ropa tanieje o ok. 24 USD w niecały miesiąc!</p><small>Akcentuje: spadek od 27.10</small></div><div class="fb b"><span class="ftone">Wywołuje niepokój</span><p class="fh">Ropa wciąż o ok. 22 USD droższa niż w lutym</p><small>Akcentuje: wzrost od lutego</small></div></div><div class="ffact"><b>Pod spodem ten sam fakt</b><p>ok. 90 USD: ok. 24 USD mniej niż 27.10 (114 USD) i ok. 22 USD więcej niż w lutym (68 USD).</p></div><div class="polu"><b>Po ludzku</b><p>Cena spadła od końca października, ale jest wyraźnie wyższa niż w lutym. Wniosek zależy od tego, od kiedy patrzysz.</p></div><div class="conf c-mid"><div class="cmain"><span class="cl">Pewność danych</span><span class="pips" aria-hidden="true"><i></i><i></i><i></i></span><b>Średnia</b></div><span class="why">Kontrakt giełdowy z mediów, cena zmienna</span><dl class="cfac lv2"><dt>Źródło</dt><dd class="f-mid"><b aria-hidden="true">~</b><span class="sr">z zastrzeżeniem: </span>Agencje i serwisy rynkowe</dd><dt>Aktualność</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>Cena z 23–24.11</dd><dt>Zgodność źródeł</dt><dd class="f-mid"><b aria-hidden="true">~</b><span class="sr">z zastrzeżeniem: </span>Dwie miary (kontrakt ICE i spot EIA), w listopadzie zbliżone, w kryzysie różnice do 26 USD</dd><dt>Rodzaj danych</dt><dd class="f-mid"><b aria-hidden="true">~</b><span class="sr">z zastrzeżeniem: </span>Cena rynkowa, zmienia się codziennie</dd></dl></div></div><footer><span class="fake">Nagłówki wymyślone. Liczby i fakt są prawdziwe.</span></footer></article>
-        <figcaption style="margin-top:12px">Słowniczek w kontekście<small>Dotknięcie pojęcia otwiera definicję w jednym zdaniu</small></figcaption><article class="card terms"><header><span class="lbl">Słowniczek w kontekście</span></header><p class="tp">Rada Polityki Pieniężnej zostawiła <button class="term" type="button" aria-expanded="true" aria-controls="tp1">stopę referencyjną</button> bez zmian.</p><div class="pop-t" id="tp1" role="note"><b>Stopa referencyjna</b><p>Podstawowa stopa procentowa banku centralnego. Od niej zależy oprocentowanie kredytów i lokat. Teraz: 3,75%.</p><a class="lnk" href="#" onclick="return false">Więcej o stopach →</a></div></article></figure>
+        <figcaption style="margin-top:12px">Skróty z definicją<small>Skrót w tekście jest przyciskiem. Dotknięcie otwiera definicję w jednym zdaniu</small></figcaption><div class="scr"><div class="scr-body tight"><article class="card terms"><header><span class="lbl">Skróty z definicją</span></header><p class="tp">PKB urósł o 3,5% r/r, wynika z szybkiego szacunku GUS.</p><div class="tspace"></div></article></div></div></figure>
       <div class="notes">
         <h3>Jak liczymy pewność danych</h3>
         <ul><li><b>Źródło:</b> <span>pierwotne (GUS, NBP, Eurostat, WHO), agencje i duże media, wtórne.</span></li><li><b>Aktualność:</b> <span>względem rytmu publikacji źródła, nie kalendarza.</span></li><li><b>Zgodność źródeł:</b> <span>czy źródła podają to samo, czy różne wartości.</span></li><li><b>Rodzaj danych:</b> <span>pomiar, wyliczenie, szacunek albo prognoza.</span></li></ul>
         <p class="ctxl">Wynik liczy skrypt z rejestru źródeł, nie model językowy, więc jest powtarzalny i sprawdzalny. Wskaźnik opisuje całą liczbę, a oznaczenia poniżej opisują rodzaj pojedynczego twierdzenia w tekście.</p>
         <h3>Bez dobrych i złych wiadomości</h3>
-        <ul><li><b>Opisujemy fakt, nie nastrój.</b> <span>Kierunek strzałką i słowem, skala i kontekst. Nie „dobra” ani „zła”.</span></li><li><b>Pokazujemy ramowanie.</b> <span>Ten sam fakt zasila ulgę albo lęk. Nagłówek zdradza emocję autora albo to, jaką emocję chce w Tobie wywołać.</span></li><li><b>Radość też bywa manipulacją.</b> <span>„Pozytywny wykrzyknik” jest taką samą techniką jak katastrofizacja.</span></li><li><b>Opis świata, nie ocena czytelnika.</b> <span>„Decyduje” i „Dotyczy” są prawdziwe dla każdego. Własne wnioski zostawiamy czytelnikowi: blok „Co może o tym zadecydować” opisuje perspektywy i zadaje pytanie. „Obserwuj” wskazuje konkretne wydarzenie albo wskaźnik.</span></li><li><b>Haczyk uczciwości</b> <span>zmienia się w „Czego nagłówek nie mówi”.</span></li></ul>
+        <ul><li><b>Opisujemy fakt, nie nastrój.</b> <span>Kierunek strzałką i słowem, skala i kontekst. Nie „dobra” ani „zła”.</span></li><li><b>Pokazujemy ramowanie.</b> <span>Ten sam fakt zasila ulgę albo lęk. Nagłówek zdradza emocję autora albo to, jaką emocję chce w Tobie wywołać.</span></li><li><b>Radość też bywa manipulacją.</b> <span>„Pozytywny wykrzyknik” jest taką samą techniką jak katastrofizacja.</span></li><li><b>Opis świata, nie ocena czytelnika.</b> <span>„Decyduje” i „Dotyczy” są prawdziwe dla każdego. Własne wnioski zostawiamy czytelnikowi: blok „Co może o tym zadecydować” pokazuje najbliższe wydarzenia i zadaje jedno łatwe pytanie. „Obserwuj” wskazuje konkretne wydarzenie albo wskaźnik.</span></li><li><b>Haczyk uczciwości</b> <span>zmienia się w „Czego nagłówek nie mówi”.</span></li></ul>
         <h3>Zasady humoru</h3>
         <ul><li><span>Tytułem jest absurdalna parodia klikbajtu, pod nią widać, jaki prawdziwy klikbajt parodiuje.</span></li><li><span>Żartujemy z tonu nagłówka, nigdy z ludzi, wojny ani konkretnych redakcji.</span></li><li><span>Nagłówki są wymyślone i tak oznaczone. Liczby w nich i w wyjaśnieniu są prawdziwe.</span></li><li><span>Zawsze obok jest „Po ludzku” z faktem i źródłem.</span></li></ul>
         <h3>Oznaczenia pewności</h3>
@@ -652,9 +669,29 @@ h4{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercas
     </div>
   </section>
 
+  <section class="sec" id="pkb" aria-labelledby="h-pkb">
+    <header>
+      <h2 id="h-pkb">5. Kontekst liczby: PKB i skróty</h2>
+      <p>Każda liczba może mieć na poziomie „Więcej” dwa bloki: „Czego ta liczba nie mówi” (granica wskaźnika) i „Spójrz też na” (inne miary, które aplikacja już ma). PKB sumuje wartość wytworzonych i sprzedanych towarów i usług, więc nie mówi, czy ktoś na wzroście zyskał ani ile on kosztował. Skróty i terminy fachowe są klikalne i mają definicję w jednym zdaniu.</p>
+      <ul class="check"><li>Czy trzy kafelki „Kraj, Pracownik, Koszt” pokazują, że to różne miary, a nie jedną skalę?</li><li>Kliknij podkreślone skróty (PKB, r/r, GUS, szybki szacunek, deficyt): każdy otwiera definicję. Escape i klik poza nią ją zamykają.</li></ul>
+    </header>
+    <div class="figs">
+      <figure class="fig"><figcaption>Kafelek PKB (poziom Więcej)<small>Liczba, wpływ i obserwacja, a pod spodem granice wskaźnika i trzy spojrzenia na wzrost</small></figcaption><div class="scr lv2-on"><div class="scr-body tight"><article class="stat"><header><span class="tl">Wzrost gospodarczy (PKB)</span></header><div class="num">+3,5<small>%</small></div><p class="cap-s">PKB Polski w III kwartale, r/r</p><p class="plain">Gospodarka urosła o 3,5% w porównaniu z tym samym kwartałem rok wcześniej.</p><dl class="who"><dt>Decyduje</dt><dd>aktywność firm, wydatki gospodarstw domowych i państwa, eksport</dd><dt>Dotyczy</dt><dd>pracowników, przedsiębiorców, budżet państwa</dd></dl><p class="watch"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6.500 10-6.500S22 12 22 12s-3.500 6.500-10 6.500S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b>Obserwuj:</b> zaktualizowany szacunek PKB od GUS</span></p><div class="ctx"><p class="ctxl">Źródło: GUS, szybki szacunek za III kwartał 2026.</p><div class="conf c-mid"><div class="cmain"><span class="cl">Pewność danych</span><span class="pips" aria-hidden="true"><i></i><i></i><i></i></span><b>Średnia</b></div><span class="why">Szybki szacunek, dane wstępne</span><dl class="cfac lv2"><dt>Źródło</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>GUS, dane pierwotne</dd><dt>Aktualność</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>Szybki szacunek za III kwartał 2026</dd><dt>Zgodność źródeł</dt><dd class="f-ok"><b aria-hidden="true">✓</b><span class="sr">w porządku: </span>Zgodne z drugim źródłem (Finwire)</dd><dt>Rodzaj danych</dt><dd class="f-no"><b aria-hidden="true">!</b><span class="sr">problem: </span>Szybki szacunek, może zostać skorygowany</dd></dl></div></div><p class="more lv2">To szybki szacunek GUS, czyli dane wstępne. Dane zaktualizowane GUS publikuje później.</p><div class="soon lv2"><b class="soonh">Co może o tym zadecydować</b><ul class="events"><li><span class="when">co kwartał</span><span>kolejny szacunek PKB z GUS</span></li></ul><p class="askme"><b>Dla Ciebie</b>Czy miejsce, w którym pracujesz, ostatnio się rozwija?</p></div><div class="limits lv2"><b class="limh">Czego ta liczba nie mówi</b><ul><li>PKB to łączna wartość wytworzonych i sprzedanych towarów i usług. Nie mówi, czy ktoś na tym zyskał ani jak wzrost rozkłada się między ludzi.</li><li>Nie pokazuje kosztów wzrostu. Deficyt sektora finansów publicznych to ok. 7,1% PKB (plan na 2026 i 2027 r.).</li><li>To szybki szacunek, czyli dane wstępne, które GUS może później skorygować.</li></ul></div><div class="also lv2"><b class="alh">Spójrz też na</b><div class="acells"><a class="acell" href="#" onclick="return false"><small>Kraj</small><b>+3,5% r/r</b><span>PKB, III kwartał</span></a><a class="acell" href="#" onclick="return false"><small>Pracownik</small><b>+2,4% r/r</b><span>płace realnie, październik</span></a><a class="acell" href="#" onclick="return false"><small>Koszt</small><b>ok. 7,1% PKB</b><span>deficyt, plan 2026 i 2027</span></a></div><p class="ctxl">To różne miary, więc nie leżą na jednej skali. Pokazują wzrost z trzech stron.</p></div></article></div></div></figure>
+      <div class="notes">
+        <h3>Zasady tych bloków</h3>
+        <ul>
+          <li><b>Czego ta liczba nie mówi:</b> <span>1–3 zdania o granicy wskaźnika (co mierzy, czego nie). Definicja albo dane z aplikacji, bez ocen i bez dobrych i złych wiadomości.</span></li>
+          <li><b>Spójrz też na:</b> <span>2–3 wskaźniki, które aplikacja już ma (każdy prowadzi do swojego węzła) albo zweryfikowane źródło. Nie budujemy własnego wskaźnika zbiorczego, bo jego metodologia byłaby subiektywna.</span></li>
+          <li><b>Różne miary, nie jedna skala:</b> <span>wskaźniki o różnych jednostkach i znaczeniu nie trafiają na jeden wykres. Podpis mówi wprost, że to różne miary.</span></li>
+          <li><b>Skróty z definicją:</b> <span>każdy skrót i termin fachowy jest klikalny (pierwsze wystąpienie w bloku). Definicje pochodzą z jednego pliku glosariusza ze źródłem, a nie z tekstu przy liczbie.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <section class="sec" id="system" aria-labelledby="h-system">
     <header>
-      <h2 id="h-system">5. Szkic systemu: tokeny i zasady</h2>
+      <h2 id="h-system">6. Szkic systemu: tokeny i zasady</h2>
       <p>Kolory i czcionki zostają z aplikacji. Nowe są semantyczne kolory pewności i trzy skale (typografia, odstępy, promienie), które zastąpią dzisiejsze 11 rozmiarów czcionek i odstępy wpisane na sztywno.</p>
     </header>
     <div class="two">
@@ -703,6 +740,7 @@ h4{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercas
   </section>
 </div>
 
+<script type="application/json" id="terms-data">[{"id": "pkb", "forms": ["PKB"], "name": "Produkt krajowy brutto", "def": "Łączna wartość towarów i usług wytworzonych w kraju w danym okresie."}, {"id": "rr", "forms": ["r/r"], "name": "Rok do roku", "def": "Porównanie z tym samym okresem rok wcześniej, np. października z poprzednim październikiem."}, {"id": "mm", "forms": ["m/m"], "name": "Miesiąc do miesiąca", "def": "Porównanie z poprzednim miesiącem."}, {"id": "cpi", "forms": ["CPI"], "name": "Wskaźnik cen towarów i usług konsumpcyjnych (CPI)", "def": "Miara inflacji: pokazuje, jak zmieniają się ceny typowego koszyka zakupów gospodarstw domowych."}, {"id": "gus", "forms": ["GUS"], "name": "Główny Urząd Statystyczny", "def": "Państwowa instytucja, która publikuje oficjalne dane statystyczne o Polsce."}, {"id": "nbp", "forms": ["NBP"], "name": "Narodowy Bank Polski", "def": "Bank centralny Polski. Stopy procentowe ustala jego Rada Polityki Pieniężnej."}, {"id": "rpp", "forms": ["RPP"], "name": "Rada Polityki Pieniężnej", "def": "Ciało przy NBP, które ustala stopy procentowe."}, {"id": "pp", "forms": ["pp", "pkt proc."], "name": "Punkt procentowy", "def": "Różnica między dwiema wartościami podanymi w procentach. Przejście z 3% na 4% to 1 punkt procentowy."}, {"id": "flash", "forms": ["szybki szacunek", "Szybki szacunek", "szybkiego szacunku"], "name": "Szybki szacunek", "def": "Wstępne dane publikowane szybko po zakończeniu okresu. Mogą zostać później skorygowane."}, {"id": "ice", "forms": ["kontrakt ICE", "kontraktu ICE", "ICE"], "name": "Kontrakt terminowy ICE", "def": "Cena ropy Brent z giełdy ICE, ustalana w umowach na przyszłą dostawę. To inna miara niż cena spot."}, {"id": "spot", "forms": ["cena spot", "ceny spot", "spot"], "name": "Cena spot", "def": "Cena ropy przy bieżącej dostawie, w odróżnieniu od ceny kontraktu na przyszłość."}, {"id": "eia", "forms": ["EIA"], "name": "Amerykańska Agencja Informacji Energetycznej (EIA)", "def": "Publikuje m.in. dzienne ceny ropy naftowej."}, {"id": "brent", "forms": ["Brent"], "name": "Brent", "def": "Gatunek ropy, którego cena jest światowym punktem odniesienia."}, {"id": "deficyt", "forms": ["deficyt", "deficytu"], "name": "Deficyt sektora finansów publicznych", "def": "Różnica między wydatkami a dochodami państwa i samorządów w danym roku."}]</script>
 <script>
 (function(){
   var root=document.documentElement;
@@ -726,10 +764,69 @@ h4{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercas
       [].forEach.call(card.querySelectorAll('.mapv'),function(m){m.hidden=m.getAttribute('data-view')!==v;});
     });});
   });
-  [].forEach.call(document.querySelectorAll('.term'),function(t){t.addEventListener('click',function(){
-    var p=document.getElementById(t.getAttribute('aria-controls'));var open=t.getAttribute('aria-expanded')==='true';
-    t.setAttribute('aria-expanded',String(!open));p.hidden=open;
-  });});
+  (function(){
+    var raw=document.getElementById('terms-data');if(!raw)return;
+    var terms;try{terms=JSON.parse(raw.textContent);}catch(e){return;}
+    var byForm={},forms=[];
+    terms.forEach(function(t){t.forms.forEach(function(f){byForm[f]=t;forms.push(f);});});
+    forms.sort(function(a,b){return b.length-a.length;});
+    var esc=function(s){return s.replace(/[.*+?^${}()|[\]\\\/]/g,'\\$&');};
+    var re;try{re=new RegExp('(?<![\\p{L}\\p{N}/])('+forms.map(esc).join('|')+')(?![\\p{L}\\p{N}/])','gu');}catch(e){return;}
+    var SKIP=['BUTTON','A','SCRIPT','STYLE','H4'],SKIPC=['chip','lbl','tag','hype','fh','q','tpop','num','cap'];
+    function skip(n,root){
+      for(var p=n.parentNode;p&&p!==root;p=p.parentNode){
+        if(SKIP.indexOf(p.nodeName)>-1||(window.SVGElement&&p instanceof SVGElement))return true;
+        for(var i=0;i<SKIPC.length;i++){if(p.classList&&p.classList.contains(SKIPC[i]))return true;}
+      }
+      return false;
+    }
+    function wrap(block){
+      var seen={},w=document.createTreeWalker(block,NodeFilter.SHOW_TEXT,null),nodes=[];
+      while(w.nextNode())nodes.push(w.currentNode);
+      nodes.forEach(function(n){
+        if(skip(n,block))return;
+        var s=n.nodeValue,m,last=0,frag=null;re.lastIndex=0;
+        while((m=re.exec(s))){
+          var t=byForm[m[1]];if(!t||seen[t.id])continue;
+          seen[t.id]=1;frag=frag||document.createDocumentFragment();
+          frag.appendChild(document.createTextNode(s.slice(last,m.index)));
+          var b=document.createElement('button');b.type='button';b.className='term';
+          b.setAttribute('data-term',t.id);b.setAttribute('aria-expanded','false');b.textContent=m[1];
+          frag.appendChild(b);last=m.index+m[1].length;
+        }
+        if(frag){frag.appendChild(document.createTextNode(s.slice(last)));n.parentNode.replaceChild(frag,n);}
+      });
+    }
+    [].forEach.call(document.querySelectorAll('.scr .stat,.scr .card,.scr .sheet,.scr .ncard'),wrap);
+    var pop=document.createElement('div');pop.className='tpop';pop.id='tpop';pop.setAttribute('role','note');pop.hidden=true;
+    var cur=null;
+    function closePop(){if(cur){cur.setAttribute('aria-expanded','false');cur.removeAttribute('aria-describedby');}pop.hidden=true;cur=null;}
+    function openPop(btn){
+      var t=terms.filter(function(x){return x.id===btn.getAttribute('data-term');})[0];if(!t)return;
+      var scr=btn.closest('.scr');if(!scr)return;
+      if(pop.parentNode!==scr)scr.appendChild(pop);
+      pop.textContent='';
+      var b=document.createElement('b');b.textContent=t.name;
+      var p=document.createElement('p');p.textContent=t['def'];
+      var x=document.createElement('button');x.type='button';x.className='x';x.setAttribute('aria-label','Zamknij definicję');x.textContent='✕';
+      pop.appendChild(b);pop.appendChild(p);pop.appendChild(x);
+      pop.hidden=false;
+      var sr=scr.getBoundingClientRect(),br=btn.getBoundingClientRect(),w=Math.min(300,sr.width-24);
+      pop.style.width=w+'px';
+      pop.style.left=Math.max(12,Math.min(br.left-sr.left,sr.width-w-12))+'px';
+      pop.style.top=(br.bottom-sr.top+8)+'px';
+      btn.setAttribute('aria-expanded','true');btn.setAttribute('aria-describedby','tpop');cur=btn;
+    }
+    document.addEventListener('click',function(e){
+      var tg=e.target&&e.target.closest?e.target:null;if(!tg)return;
+      var b=tg.closest('.term');
+      if(b){if(cur===b){closePop();}else{closePop();openPop(b);}return;}
+      if(tg.closest('.tpop .x')){var c=cur;closePop();if(c)c.focus();return;}
+      if(!tg.closest('.tpop'))closePop();
+    });
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&cur){var c=cur;closePop();c.focus();}});
+    var all=document.querySelectorAll('.terms .term');if(all.length)openPop(all[all.length-1]);
+  })();
   [].forEach.call(document.querySelectorAll('.hl'),function(c){
     var items=c.querySelectorAll('.hli'),cnt=c.querySelector('.cnt'),i=0;
     function paint(){[].forEach.call(items,function(e,k){e.hidden=k!==i;});cnt.textContent=(i+1)+' / '+items.length;}

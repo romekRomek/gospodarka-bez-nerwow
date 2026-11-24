@@ -14,6 +14,8 @@ Odbiorca: dorosły laik, telefon najpierw, ok. 2 minuty. Cel: rozumieć gospodar
 | I4 | **Liczba = źródło + pewność.** Każda liczba ma źródło z linkiem i wskaźnik pewności danych. | Brak liczby bez `src` i wskaźnika w danych. |
 | I5 | **Poziomy zamiast ścian tekstu.** Podstawy: do 40 słów i ok. 10 s. Więcej: ok. 80 słów plus wykres. Szczegóły i Ekspert dopiero na życzenie. | Liczba słów bloków `level:1` ≤ 40 na kartę. |
 | I6 | **Jedna idea na ekran.** Na ekranie telefonu nie więcej niż jedna karta „główna” i dwie pomocnicze. | Zrzut 390 px nie pokazuje więcej niż jednej głównej idei. |
+| I7 | **Skrót z definicją.** Każdy skrót i termin fachowy w tekście jest klikalny i ma definicję w jednym zdaniu z glosariusza (`terms.json`) ze źródłem. Pierwsze wystąpienie w bloku. | Skrót w danych bez wpisu w glosariuszu jest zgłaszany przez walidator. |
+| I8 | **Granice liczby.** Liczba na poziomie „Więcej” ma „Czego ta liczba nie mówi” (1–3 zdania) i, gdy sens ma zestawienie, „Spójrz też na” z innymi miarami aplikacji. Różne miary nie leżą na jednej skali, a własnych wskaźników zbiorczych nie budujemy. | Każdy kafelek na poziomie 2 ma blok granic; `also` wskazuje istniejące węzły. |
 
 ## Zasady tonu (bez nerwów)
 
@@ -46,6 +48,7 @@ Odbiorca: dorosły laik, telefon najpierw, ok. 2 minuty. Cel: rozumieć gospodar
 | A2 | **Znaczenie nie tylko kolorem.** Pewność i kierunek mają też liczbę kropek, słowo lub strzałkę. | Przegląd w skali szarości. |
 | A3 | **Klawiatura i czytnik.** Widoczny fokus, role ARIA, kolejność zgodna z wizualną, `aria-live` przy zmianie panelu. | axe w CI. |
 | A4 | **Wykres ma tabelę lub opis.** | Każdy wykres ma alternatywę tekstową. |
+| A5 | **Okienko definicji jest dostępne.** Skrót to przycisk z `aria-expanded`, definicja w elemencie `role=note`, Escape i klik poza nią zamykają, cel zamknięcia min. 44 px, fokus wraca na skrót. | axe, test e2e. |
 
 ## Zasady systemu (skalowalność)
 

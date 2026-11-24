@@ -58,6 +58,13 @@ Poziom i czynniki pewności nie są wpisywane ręcznie. Liczy je `scripts/confid
 
 Węzeł i kafelek ma pole `src`: niepusta lista id z `sources.json`, **źródło pierwotne (poziom 1) pierwsze**, potem pomocnicze. `confidence.py` liczy czynnik „Źródło” z najlepszego poziomu na liście. `validate.py` zgłasza błąd dla id spoza rejestru. Węzły bez `src` są raportowane jako zaległość migracji. `src` dotyczy **liczby głównej** węzła (`m`). Dodatkowe fakty z innych źródeł mają własne źródła w blokach (po migracji) i nie podnoszą poziomu liczby głównej.
 
+## Kontekst liczby i glosariusz
+
+- `limits`: lista 1–3 zdań o granicy wskaźnika („Czego ta liczba nie mówi”). Zdanie pochodzi z definicji wskaźnika albo z danych aplikacji (np. deficyt przy PKB). Bez ocen.
+- `also`: lista `{ "node": "worker", "role": "Pracownik" }` („Spójrz też na”). **Wartość i opis czyta się z węzła docelowego** (`m`, `mc`), a nie wpisuje drugi raz, żeby liczby się nie rozjeżdżały. Wskaźniki wybieramy spośród tych, które aplikacja już ma, albo zweryfikowanych źródeł. Własnego wskaźnika zbiorczego nie tworzymy.
+- `src/data/terms.json` (glosariusz): lista `{ "id", "forms": ["PKB"], "name": "Produkt krajowy brutto", "def": "jedno zdanie", "src": ["id źródła"] }`. `forms` zawiera odmiany i warianty zapisu (np. „szybki szacunek”, „szybkiego szacunku”, „r/r”). Definicje mają źródło (np. słownik GUS, NBP). Mechanizm owija pierwsze wystąpienie każdej formy w bloku. Do dodania w walidatorze: skrót w tekście danych bez wpisu w glosariuszu jest ostrzeżeniem.
+- Robocza lista glosariusza (14 haseł, definicje do zweryfikowania w źródle) jest w `docs/design/mockups/build.py`, zmienna `TERMS`, i trafi do `terms.json` w fali 2.
+
 ## Rejestr źródeł (`sources.json`)
 
 `id`, `name`, `url`, `org`, `tier` (1 pierwotne, 2 agencje i duże media, 3 wtórne), `fetch` (api / page / pdf), `cadence` (rytm publikacji), `checked` (data ostatniego sprawdzenia, rrrr-mm-dd), `cites` (kogo cytuje źródło wtórne), `primary` (lista id źródeł pierwotnych, które źródło wtórne przywołuje).

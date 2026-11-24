@@ -2,6 +2,12 @@
 
 Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca do odrzuconych pomysłów bez nowego argumentu. Nowy wpis: data, decyzja, powód, skutek.
 
+## 24.11.2026 (faza 0): D15, kontekst liczby i skróty z definicją
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D15 | Dwa nowe bloki na poziomie „Więcej”: **„Czego ta liczba nie mówi”** (1–3 zdania o granicy wskaźnika, z definicji albo z danych aplikacji) i **„Spójrz też na”** (2–3 wskaźniki, które aplikacja już ma, każdy prowadzi do swojego węzła; to różne miary, więc nie leżą na jednej skali). Pierwszy przykład: PKB obok płac realnych i deficytu. **Własnego wskaźnika zbiorczego nie budujemy.** Drugi element: **każdy skrót i termin fachowy w tekście jest klikalny** i ma definicję w jednym zdaniu (pierwsze wystąpienie w bloku), z jednego glosariusza ze źródłem. | PKB mierzy wartość wytworzoną i sprzedaną, a nie to, czy ktoś zyskał ani ile wzrost kosztował. Laik nie zna skrótów (r/r, pp, CPI, GUS, PKB). Własny wskaźnik zbiorczy miałby subiektywną metodologię, której nie da się obronić. | Pola `limits` i `also` w węzłach, plik `src/data/terms.json`, komponenty `LimitsBlock`, `AlsoBlock`, `GlossaryTerm`, zasady I7 i A5. Makieta: sekcja 5 w `docs/design/mockups`. Dane i implementacja dopiero po scaleniu W3 (fala 2), bo W3 edytuje `steps.json`. |
+
 ## 24.11.2026 (faza 0): D14, miara ceny ropy Brent (opcja C)
 
 | # | Decyzja | Powód | Skutek |

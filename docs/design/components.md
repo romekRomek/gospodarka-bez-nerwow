@@ -27,6 +27,8 @@ Poziomy: **P** = Podstawy (zawsze), **W** = Więcej (tylko przy poziomie 2 albo 
 | `SoonBlock` (`.soon`) | „Co może o tym zadecydować”: najbliższe wydarzenia i jedno łatwe pytanie | `events[]`: `{when, text}` (`when`: data, „do końca roku”, „co miesiąc” albo „bez terminu”; chronologicznie), `question` (3 sekundy, z głowy) | W. Wydarzenia tylko z danych. Zasada T7. |
 | `ConfidenceMeter` (`.conf`) | Pewność danych: 3 kropki, słowo, powód | `confidence.level`, `why`, `factors[4]` | P: kropki, słowo, powód. W: cztery czynniki. Liczony skryptem. |
 | `ClaimChip` (`.chip.g-*`) | Rodzaj pojedynczego twierdzenia: Potwierdzone / Szacunek / Sporne / Prognoza | `grade` | Przy twierdzeniach w tekście. |
+| `LimitsBlock` (`.limits`) | „Czego ta liczba nie mówi”: granica wskaźnika | `limits[]`: 1–3 zdania (definicja lub dane z aplikacji) | W. Bez ocen. Zasady w `principles.md` (I8). |
+| `AlsoBlock` (`.also`, `.acell`) | „Spójrz też na”: 2–3 inne miary obok liczby | `also[]`: `{node, role}` (np. Kraj, Pracownik, Koszt); wartość i opis czyta z węzła docelowego | W. Każda komórka prowadzi do węzła. Podpis mówi, że to różne miary (nie jedna skala). |
 | `ChartFrame` | Standardowa ramka wykresu: tytuł, podtytuł, wykres, notatka, źródło, tabela alternatywna | `charts.json` | W. Wykres ma tabelę (A4). |
 
 ## Karty treści
@@ -40,7 +42,7 @@ Poziomy: **P** = Podstawy (zawsze), **W** = Więcej (tylko przy poziomie 2 albo 
 | `FrameCard` (`.frame`) | Ta sama liczba, dwa nagłówki o różnym tonie | `topic`, `fact`, `a{h,accent,emotion}`, `b{...}`, `calm`, `confidence` | P: pierwszy przykład. W: kolejne. |
 | `MythCard` (`.myth`) | Dementi: fakt → mit → mechanizm → fakt | `headlines.json` | P. |
 | `TechniqueCard` (`.tech`) | Technika dnia | `techniques.json` | P. |
-| `Term` (`.term`, `.pop-t`) | Pojęcie z definicją w jednym zdaniu | `terms` | `aria-expanded`, definicja jako `role=note`. |
+| `GlossaryTerm` (`.term`, `.tpop`) | Skrót lub termin fachowy w tekście jako przycisk z definicją w jednym zdaniu | `terms.json`: `{id, forms[], name, def, src[]}`; mechanizm sam wyszukuje `forms` w tekście bloku | Pierwsze wystąpienie w bloku. Pomija nagłówki, etykiety, chipy i parodie nagłówków. `aria-expanded`, okienko `role=note`, Escape i klik poza nim zamykają, przycisk zamknięcia 44 px. |
 | `ChangeSummary` (`.bal`) | Bilans zmian z aktualizacji (↓ ↑ →) | `changelog[0].changes` | W. Kolory neutralne (bez oceny). |
 | `Calculator` | „Ile Cię to kosztuje” | `cost.json` | P. |
 | `ScannerTool` | Skaner nagłówków | reguły w danych | P. |
