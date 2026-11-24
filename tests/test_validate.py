@@ -218,8 +218,12 @@ class NodeFieldsTest(DataCase):
         self.step(swap)
         self.assert_error(self.run_v(), 'nie są chronologiczne')
 
-    def test_question_is_required_and_limited(self):
+    def test_question_is_optional_but_must_be_valid_when_present(self):
         self.step(lambda s: s['soon'].pop('question'))
+        r = self.run_v()
+        self.assertFalse([e for e in r.errors if 'soon.question' in e], r.errors)
+        self.reset()
+        self.step(lambda s: s['soon'].__setitem__('question', ''))
         self.assert_error(self.run_v(), 'soon.question')
         self.reset()
         self.step(lambda s: s['soon'].__setitem__('question', 'x' * 70 + '?'))

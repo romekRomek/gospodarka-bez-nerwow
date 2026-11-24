@@ -246,15 +246,16 @@ def check_node_fields(D, r):
                 if b < a:
                     r.err(w, f'„soon.events” nie są chronologiczne: „{w2}” po „{w1}” (cykliczne po datach, „bez terminu” na końcu)')
                     break
-            q = soon.get('question')
-            if not is_str(q):
-                r.err(w, 'brak „soon.question” (jedno łatwe pytanie „Dla Ciebie”)')
-            else:
-                texts.append(('soon.question', q))
-                if len(q) > LIM_QUESTION:
-                    r.err(w, f'„soon.question” ma {len(q)} znaków, limit {LIM_QUESTION}')
-                if q.count('?') != 1 or not q.strip().endswith('?'):
-                    r.err(w, '„soon.question” ma być jednym pytaniem zakończonym znakiem „?” (zasada T7)')
+            if 'question' in soon:
+                q = soon['question']
+                if not is_str(q):
+                    r.err(w, '„soon.question” musi być niepustym tekstem (pytanie „Dla Ciebie” jest opcjonalne: gdy nie ma dobrego, pomiń pole)')
+                else:
+                    texts.append(('soon.question', q))
+                    if len(q) > LIM_QUESTION:
+                        r.err(w, f'„soon.question” ma {len(q)} znaków, limit {LIM_QUESTION}')
+                    if q.count('?') != 1 or not q.strip().endswith('?'):
+                        r.err(w, '„soon.question” ma być jednym pytaniem zakończonym znakiem „?” (zasada T7)')
 
         conf = s.get('conf')
         if conf is None:

@@ -46,6 +46,8 @@ Każda jednostka treści to blok:
     ],
     "question": "Jak często tankujesz?"
   },
+
+`soon.question` jest **opcjonalne**: gdy nie ma dobrego pytania „Dla Ciebie”, pomijamy pole, a blok pokazuje tylko wydarzenia (np. węzeł `ukraine`). Pytania na siłę nie dopisujemy. Jeśli pole jest, musi spełniać zasadę T7 (jedno pytanie, do 70 znaków, odpowiadalne z głowy w 3 sekundy).
   "viz": {"type": "spark", "series": "charts.derrick.0"},
   "blocks": [ … ],
   "conf": {"asof": "2026-11-23", "kind": "market", "agree": "small"}

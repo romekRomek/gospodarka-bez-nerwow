@@ -186,7 +186,7 @@ Uzasadnienie `conf`: 1,1% to prognoza MFW na 2026 r. (`forecast`), `asof` = data
 | concerns | podatników, firmy zbrojeniowe i ich dostawców, pracodawców zatrudniających uchodźców |
 | watch | (pominięte: brak daty ani wskaźnika) |
 | soon | **bez terminu**: kolejna runda rozmów USA–Ukraina–Rosja po spotkaniu w Abu Dhabi (10–11.11) |
-| question | Czy w Twojej okolicy mieszkają osoby z Ukrainy? |
+| question | (brak pytania, decyzja właściciela 24.11.2026: temat wojny i uchodźców, pytanie ewentualnie później) |
 | conf | `2026-07-01`, `estimate`, `single` |
 | src | `fundacja-pulaskiego-wydatki-obronne-2026` (poziom 2) |
 

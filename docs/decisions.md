@@ -2,6 +2,12 @@
 
 Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca do odrzuconych pomysłów bez nowego argumentu. Nowy wpis: data, decyzja, powód, skutek.
 
+## 24.11.2026 (faza 0): D16, pytanie „Dla Ciebie” jest opcjonalne
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D16 | Pole `soon.question` jest **opcjonalne**. Węzeł `ukraine` zostaje **bez pytania**, dopóki nie pojawi się dobre. | Pytanie „Czy w Twojej okolicy mieszkają osoby z Ukrainy?” dotyka wojny i uchodźców (zasada „szanuj temat wojny”). Lepszy brak pytania niż pytanie na siłę. | Walidator nie wymaga pola (jeśli jest, sprawdza T7), test zaktualizowany, `question` usunięte z `ukraine` w `steps.json`, opis w `content-model.md` i `components.md`. |
+
 ## 24.11.2026 (faza 0): D15, kontekst liczby i skróty z definicją
 
 | # | Decyzja | Powód | Skutek |
@@ -72,6 +78,6 @@ Zatwierdzone przez właściciela na podstawie makiet `docs/design/mockups/index.
   - `worker.m` (+2,4% realnie): prosta różnica płac i CPI daje 2,5–2,6 pp, więc Finwire użył innej deflacji;
   - `tree.mc`: „od początku roku ok. +31%" wymaga przeliczenia (WNP: +26% do 20.11);
   - `ukraine.m`: 4,8% PKB (Pułaski) vs 4,81% (FZZ), dwie wartości jednego wskaźnika.
-- Pytanie „Dla Ciebie” przy węźle `ukraine` („Czy w Twojej okolicy mieszkają osoby z Ukrainy?") dotyka tematu wojny i uchodźców: do decyzji, czy zostawić, zmienić na neutralne czy pominąć.
+- ~~Pytanie „Dla Ciebie” przy węźle `ukraine`~~: rozstrzygnięte w D16 (bez pytania).
 - Etykieta „Reuters” prowadzi do domeny `daily-sun.com`.
 - Źródła poziomu 3 przy kluczowych liczbach (do zastąpienia pierwotnymi, gdzie się da).
