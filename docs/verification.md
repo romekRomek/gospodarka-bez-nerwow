@@ -38,12 +38,27 @@ Agenty nie widzą rozumowania autora, dostają tylko treść, dowód i rubrykę.
 
 Te same zasady (zamiast pytań) stosuje agent do: parodii nagłówków (bez wskazywania serwisów i osób, bez żartów z wojny), „Czego ta liczba nie mówi" (granica wskaźnika, nie ocena), definicji skrótów (źródło, jedno zdanie) i do wszystkich nowych tekstów.
 
+### Test sensu: treści naciągane lub bez większego sensu
+
+To jest **pierwsza kontrola agenta `redaktor`**, przed rubryką formalną, i dotyczy każdej treści, która coś z czymś łączy: pytania „Dla Ciebie", „Decyduje" i „Dotyczy", „Obserwuj", „Spójrz też na", „Czego ta liczba nie mówi", pary ramowań, parodie nagłówków, definicje.
+
+Agent musi **uzasadnić powiązanie jednym zdaniem, bez dodatkowych założeń**. Wynik:
+
+| Wynik | Znaczenie | Co dalej |
+|---|---|---|
+| **Bezpośrednie** | uzasadnienie w jednym zdaniu, jedno przejście (np. „paliwo ↔ jak często tankujesz") | przyjmij |
+| **Naciągane** | uzasadnienie wymaga dwóch i więcej przejść albo dodatkowego założenia (np. „PKB ↔ budowy w okolicy" przez „inwestycje są składnikiem PKB, a budowy to inwestycje, a one są lokalnie widoczne") | **odrzuć samodzielnie**, bez udziału człowieka |
+| **Wypełniacz** | treść jest tylko po to, żeby pole nie było puste, nie dodaje wiedzy czytelnikowi | odrzuć samodzielnie (pole jest opcjonalne, patrz D16) |
+| **Graniczne** | agent nie potrafi jednoznacznie wybrać między „bezpośrednie" a „naciągane", albo dwóch niezależnych agentów ocenia różnie | **eskalacja do właściciela** z propozycją |
+
+Kryteria pomocnicze: S1 czy powiązanie jest bezpośrednie, S2 czy treść dodaje coś, czego czytelnik nie wie z samej liczby, S3 czy nie jest wypełniaczem, S4 czy nie wymaga wiedzy specjalistycznej, żeby ją zrozumieć. Odrzucenie zawsze ma uzasadnienie (które przejście jest zbędne albo czego brakuje).
+
 ## Warstwa 3: człowiek (tylko to, czego nie rozstrzygnie reguła)
 
-Do właściciela trafia **zbiorczy raport z propozycją i dowodem**, a nie surowe pytania, i tylko gdy:
+Treści **jednoznacznie naciągane lub bez sensu** agent odrzuca sam. Do właściciela trafia **zbiorczy raport z propozycją i dowodem**, a nie surowe pytania, i tylko gdy:
 1. decyzja jest **wartościowa lub redakcyjna** (nowa zasada, ton, granice tematu),
 2. **źródła pierwotne się różnią** i żadne nie jest rewizją drugiego,
-3. agent ma **niską pewność** albo dwóch niezależnych agentów się nie zgadza,
+3. **jest większa niejasność**: agent ma niską pewność, ocenia sens jako „graniczne” albo dwóch niezależnych agentów się nie zgadza (zawsze z propozycją agenta i uzasadnieniem, żebyś mógł zdecydować jednym słowem),
 4. źródła nie da się sprawdzić automatycznie (np. NBP, GPW, MFW blokują boty, do czasu dostępu przez API; patrz `data-sources-architecture.md`).
 
 ## Jak to się uruchamia
@@ -60,10 +75,12 @@ Agenty testujemy na przypadkach, które już znamy. Agent musi je poprawnie ocen
 |---|---|
 | „Rynek oczekiwał +3,6% r/r" (źródło: wartość wyrównana sezonowo) | błąd: niezgodny sens (nie konsensus) |
 | PKB II kw. +4,1% w węźle vs +3,9% w dzienniku zmian | błąd: niespójność |
-| „Czy w Twojej okolicy trwają jakieś budowy?" przy PKB | odrzuć (R1) |
+| „Czy w Twojej okolicy trwają jakieś budowy?" przy PKB | **naciągane** (dwa i więcej przejść), odrzuć samodzielnie (R1, S1) |
+| „Czy miejsce, w którym pracujesz, ostatnio się rozwija?" przy PKB | bezpośrednie, przyjmij |
+| „Z jakiej usługi publicznej korzystasz najczęściej?" przy długu | naciągane, odrzuć (R1, S1) |
+| Pytanie na granicy (np. „Czy śledzisz wiadomości o wydatkach na obronę?" przy Ukrainie) | **graniczne**, eskaluj do właściciela (temat wojny) |
 | „Czy w Twojej okolicy mieszkają osoby z Ukrainy?" | odrzuć (R4) |
 | „Jak często tankujesz?" przy ropie | zaakceptuj |
-| „Z jakiej usługi publicznej korzystasz najczęściej?" przy długu | odrzuć (R1) |
 | „Brent ok. 90 USD" przy wykresie z 92,6 | zaakceptuj z uwagą (zaokrąglenie) |
 
 ## Uczciwe ograniczenia
