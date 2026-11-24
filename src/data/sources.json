@@ -433,8 +433,9 @@
    "fetch": "page",
    "cadence": null,
    "checked": null,
-   "cites": null,
+   "cites": "ICE",
    "where": [
+    "steps.json",
     "template"
    ]
   },
@@ -450,8 +451,9 @@
    "fetch": "page",
    "cadence": null,
    "checked": null,
-   "cites": null,
+   "cites": "ICE",
    "where": [
+    "steps.json",
     "template"
    ],
    "note": "Cena rynkowa ropy z serwisu ogólnego. Lepsze byłoby źródło notowań lub agencja."
@@ -955,6 +957,26 @@
     "steps.json"
    ],
    "note": "Wzrost +3,5% potwierdzony w tekście strony. Wartość z II kwartału (+4,1%) nie występuje w tekście tej strony ani stron szacunków II kwartału, do wyjaśnienia."
+  },
+  {
+   "id": "eia-brent-spot",
+   "name": "EIA: Europe Brent Spot Price FOB (seria dzienna)",
+   "url": "https://www.eia.gov/dnav/pet/hist/RBRTEd.htm",
+   "org": "EIA (U.S. Energy Information Administration)",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "dzienny, z opóźnieniem ok. 7 dni",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "template",
+    "steps.json",
+    "charts.json"
+   ],
+   "note": "Cena spot (FOB), nie kontrakt terminowy ICE. Średnie roczne 2021–2024 w aplikacji zgadzają się z tą serią (różnice do 0,04 USD). Wartości 2026 w aplikacji (ICE) różnią się od niej średnio o −6 USD, maksymalnie o 26 USD. Szczegóły: docs/brent-eia-check.md."
   }
  ]
 }

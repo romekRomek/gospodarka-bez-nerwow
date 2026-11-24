@@ -2,6 +2,16 @@
 
 Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca do odrzuconych pomysłów bez nowego argumentu. Nowy wpis: data, decyzja, powód, skutek.
 
+## 24.11.2026 (faza 0): D14, miara ceny ropy Brent (opcja C)
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D14 | **Kafelek i wykres 2026 zostają w mierze ICE (kontrakt terminowy), jawnie podpisanej. EIA (cena spot, źródło pierwotne) jest odniesieniem.** Wykres słupkowy podpisuje średnie roczne jako spot EIA, a ostatni słupek jako „(ICE)". Węzeł ropy dostał fakt z EIA (92,94 USD z 17.11 wobec 92,6 USD kontraktu z 23.11, różnice w kryzysie do ok. 26 USD). | Porównanie z EIA pokazało, że dane 2026 to kontrakt ICE, a średnie 2021–2024 to spot EIA (zgodne co do 0,04 USD), więc wykres mieszał miary. ICE to liczba znana z mediów i aktualna „dziś”, a EIA ma ok. tygodnia opóźnienia. | `steps.json` (podpis miary, dodatkowy fakt), `charts.json` (podpisy), EIA na liście „Źródła” w szablonie. Wskaźnik pewności Brenta zostaje „Średni” (kontrakt giełdowy z mediów). |
+
+Świadome decyzje wykonawcze przy D14:
+- **Nie zmieniono „ok. 90 USD" na „ok. 93 USD".** Zmiana wymagałaby poprawienia „ok. 30% więcej niż w lutym" (93 / 68 to ok. +37%) i kopii liczb w `news.json` i `problems.json`. Do osobnej decyzji.
+- **Nie dodano wpisu do `changelog.json`.** Aplikacja bierze „ostatnią aktualizację" z pierwszego wpisu (`LAST = CL[0]`): z niego liczy kropki przy węzłach i przycisk „Co się zmieniło". Nowy wpis z jedną zmianą zastąpiłby w interfejsie dzisiejszą listę 10 zmian. Żadna wartość liczbowa się nie zmieniła (doprecyzowano opis miary i dodano fakt), więc wpis nie jest wymagany. Zasadę dopisano do `CLAUDE.md`.
+
 ## 24.11.2026 (po zamknięciu U): D13, prostszy blok „Co może o tym zadecydować”
 
 | # | Decyzja | Powód | Skutek |

@@ -182,7 +182,8 @@ Faza 0 jest wąskim gardłem. Bez niej agenci nie mają czego sprawdzać.
 | `npm run check` / `npm test`, walidacja w CI (Pages) | **gotowe** |
 | Zestawienie źródeł poziomu 3 ([`sources-tier3-review.md`](sources-tier3-review.md)) | **gotowe** |
 | Źródła pierwotne GUS (CPI, płace, PKB) w rejestrze, `primary` przy Finwire, `src` w 4 z 13 węzłów (`shop`, `pump`, `worker`, `sun`) | **gotowe** |
-| Pozostałe źródła pierwotne (Fed, Eurostat, EIA, KE, handel GUS, PNAS) i `src` przy 9 węzłach | do zrobienia |
+| EIA (Brent): źródło, porównanie i skrypt `check_brent_eia.py`, `src` dla `derrick`. Wniosek: dane to kontrakt ICE, EIA to spot (patrz [`brent-eia-check.md`](brent-eia-check.md)). Decyzja D14 (opcja C) wykonana: podpisy miar, fakt z EIA, poprawiony wykres, EIA na liście „Źródła” | **zrobione** |
+| Pozostałe źródła pierwotne (Fed, Eurostat, KE, handel GUS, PNAS) i `src` przy 8 węzłach | do zrobienia |
 | Przegląd poziomów źródeł przez redaktora, naprawa etykiety „Reuters” | do zrobienia |
 | Generowana sekcja „Źródła” z rejestru | do zrobienia |
 | Architektura źródeł danych i API ([`data-sources-architecture.md`](data-sources-architecture.md)) | osobne zadanie badawcze po fazie 0 |

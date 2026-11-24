@@ -56,7 +56,7 @@ Każda jednostka treści to blok:
 
 ## Źródła przy liczbach (`src`)
 
-Węzeł i kafelek ma pole `src`: niepusta lista id z `sources.json`, **źródło pierwotne (poziom 1) pierwsze**, potem pomocnicze. `confidence.py` liczy czynnik „Źródło” z najlepszego poziomu na liście. `validate.py` zgłasza błąd dla id spoza rejestru. Węzły bez `src` są raportowane jako zaległość migracji.
+Węzeł i kafelek ma pole `src`: niepusta lista id z `sources.json`, **źródło pierwotne (poziom 1) pierwsze**, potem pomocnicze. `confidence.py` liczy czynnik „Źródło” z najlepszego poziomu na liście. `validate.py` zgłasza błąd dla id spoza rejestru. Węzły bez `src` są raportowane jako zaległość migracji. `src` dotyczy **liczby głównej** węzła (`m`). Dodatkowe fakty z innych źródeł mają własne źródła w blokach (po migracji) i nie podnoszą poziomu liczby głównej.
 
 ## Rejestr źródeł (`sources.json`)
 

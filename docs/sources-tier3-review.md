@@ -10,7 +10,8 @@ Stan: 24.11.2026, branch `faza-0-fundament`. Dotyczy 21 źródeł poziomu 3 z `s
 | Pole `primary` przy 4 źródłach Finwire (wskazuje GUS) | **zrobione** |
 | Pola `src` w `steps.json` dla węzłów `shop`, `pump`, `worker`, `sun` (źródło pierwotne pierwsze) | **zrobione** (4 z 13 węzłów) |
 | Walidator sprawdza `src` i `primary` (+ 6 testów) | **zrobione** |
-| Pozostałe źródła z sekcji 3 (Fed, Eurostat, EIA, KE, handel GUS, PNAS), `src` przy pozostałych 9 węzłach | do zrobienia |
+| EIA (cena Brent): źródło w rejestrze, porównanie z danymi, `src` dla `derrick` (poziom 2), skrypt kontrolny. Wynik: [`brent-eia-check.md`](brent-eia-check.md). Decyzja D14 (opcja C) wykonana: podpisy miar, fakt z EIA, poprawiony wykres | **zrobione** |
+| Pozostałe źródła z sekcji 3 (Fed, Eurostat, KE, handel GUS, PNAS), `src` przy pozostałych 8 węzłach | do zrobienia |
 | NBP, GPW, MFW (ręczne potwierdzenie adresów) | do zrobienia |
 | Wyjaśnienie „+4,1% w II kw.", „9 405 zł", „59,7%" w załącznikach GUS | do zrobienia |
 | Architektura źródeł danych i API | osobne zadanie: [`data-sources-architecture.md`](data-sources-architecture.md) |

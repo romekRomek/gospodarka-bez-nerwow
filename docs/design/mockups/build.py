@@ -164,11 +164,11 @@ brent = tile('Ropa Brent', who('rynek światowy, negocjacje USA–Iran', 'kierow
              'Taniej niż miesiąc temu, ale drożej niż w lutym (68 USD).',
              spark([70.9, 100.9, 82.5, 80.5, 92.6], ['2021', '2022', '2023', '2024', 'dziś']),
              'Cena nadal zawiera premię za ryzyko wokół Iranu. Porozumienie mogłoby ją obniżyć, a kolejne ataki na tankowce podbić.',
-             'Średnie roczne 2021–2024 i cena z jednego dnia. Źródło: Macrotrends/EIA, Reuters.',
-             conf('mid', 'Dwa notowania z jednego dnia, cena zmienna', [
+             'Średnie roczne 2021–2024: cena spot (EIA). Ostatnia wartość: kontrakt ICE z jednego dnia.',
+             conf('mid', 'Kontrakt giełdowy z mediów, cena zmienna', [
                  ('Źródło', 'mid', 'Agencje i serwisy rynkowe, nie dane urzędowe'),
                  ('Aktualność', 'ok', 'Cena z 23–24.11'),
-                 ('Zgodność źródeł', 'no', 'Podają różne wartości: ok. 90 i 92,6 USD'),
+                 ('Zgodność źródeł', 'mid', 'Dwie miary (kontrakt ICE i spot EIA), w listopadzie zbliżone, w kryzysie różnice do 26 USD'),
                  ('Rodzaj danych', 'mid', 'Cena rynkowa, zmienia się codziennie')]),
              watch('decyzja o programie na 2027 r. w połowie grudnia'),
              soon([('do końca roku', 'obowiązuje limit cen na stacjach'), ('połowa grudnia', 'decyzja o przedłużeniu programu na 2027 r.'), ('bez terminu', 'negocjacje USA–Iran i incydenty z tankowcami')], 'Jak często tankujesz?'))
@@ -208,7 +208,7 @@ EX = [
          a=('Ropa tanieje o ok. 24 USD w niecały miesiąc!', 'spadek od 27.10', 'ulgę'),
          b=('Ropa wciąż o ok. 22 USD droższa niż w lutym', 'wzrost od lutego', 'niepokój'),
          calm='Cena spadła od końca października, ale jest wyraźnie wyższa niż w lutym. Wniosek zależy od tego, od kiedy patrzysz.',
-         conf=conf('mid', 'Dwa notowania z jednego dnia, cena zmienna', [('Źródło', 'mid', 'Agencje i serwisy rynkowe'), ('Aktualność', 'ok', 'Cena z 23–24.11'), ('Zgodność źródeł', 'no', 'Podają różne wartości: ok. 90 i 92,6 USD'), ('Rodzaj danych', 'mid', 'Cena rynkowa, zmienia się codziennie')])),
+         conf=conf('mid', 'Kontrakt giełdowy z mediów, cena zmienna', [('Źródło', 'mid', 'Agencje i serwisy rynkowe'), ('Aktualność', 'ok', 'Cena z 23–24.11'), ('Zgodność źródeł', 'mid', 'Dwie miary (kontrakt ICE i spot EIA), w listopadzie zbliżone, w kryzysie różnice do 26 USD'), ('Rodzaj danych', 'mid', 'Cena rynkowa, zmienia się codziennie')])),
 ]
 def frame_ex(x):
     def bub(k, cls_):

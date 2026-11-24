@@ -28,7 +28,7 @@ Poniższa lista pochodzi z ogólnej wiedzy o tych serwisach, nie z weryfikacji w
 | CPI, płace, PKB, zatrudnienie | GUS | API Banku Danych Lokalnych (BDL) GUS, pliki w załącznikach wydań, portal dane.gov.pl | zakres serii kwartalnych i miesięcznych, klucz, opóźnienie względem komunikatu |
 | Stopa referencyjna, kursy | NBP | publiczne API NBP (kursy walut i złota), strony z decyzjami RPP | czy stopy procentowe są w API, czy tylko na stronie (strona blokuje boty) |
 | Inflacja i PKB strefy euro, dług i deficyt UE, handel | Eurostat | Eurostat API (JSON-stat / SDMX), baza danych | kody zbiorów (np. HICP, PKB kwartalny, EDP), format odpowiedzi |
-| Ceny ropy Brent | EIA, ew. giełda | EIA Open Data API (dzienna cena spot) | klucz, opóźnienie, zgodność z notowaniem giełdowym |
+| Ceny ropy Brent | EIA, ew. giełda | EIA: tabela HTML dostępna bez klucza (**sprawdzone 24.11.2026**, opóźnienie ok. 7 dni, cena spot, nie kontrakt ICE); EIA Open Data API v2 (klucz, niesprawdzone) | zgodność z notowaniem giełdowym (różnice do 26 USD, patrz `brent-eia-check.md`); notowań ICE nie ma w źródłach otwartych |
 | Stopy Fed | Fed, FRED | FRED API (St. Louis Fed) | klucz, seria stóp |
 | Prognozy MFW | MFW | IMF DataMapper / WEO (pliki, API) | blokady botów (403), format |
 | Indeksy giełdowe | GPW | strony i pliki GPW | blokada botów, licencja na dane notowań |
