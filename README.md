@@ -9,6 +9,9 @@ Wynik to jeden samodzielny plik `dist/index.html`, który można wrzucić na dow
 ```bash
 python3 scripts/build.py            # składa dist/index.html
 python3 -m http.server -d dist 8080 # podgląd na http://localhost:8080
+python3 scripts/validate.py         # walidacja danych i rejestru źródeł (błędy = kod 1)
+python3 scripts/validate.py --links # dodatkowo sprawdza, czy linki ze źródeł działają (sieć)
+python3 -m unittest discover -s tests   # testy walidatora
 ```
 
 ## Struktura
@@ -34,6 +37,7 @@ python3 -m http.server -d dist 8080 # podgląd na http://localhost:8080
 - `cost.json`, `good.json`, `techniques.json` – karty kosztów emocji, dobrych wiadomości i technik.
 - `news.json` – nagłówki w oknie szczegółów każdego węzła: `pos` (z haczykiem uczciwości `hk`), `neu`, `neg` (przerysowane, z faktem `f`).
 - `problems.json` – zakładka „Z czym zmaga się Polska”: wykresy (`charts`), karty problemów (`cards`, każda z linkami w `src`) i interpretacja (`interp`).
+- `sources.json` – rejestr źródeł (id, nazwa, adres, organizacja, poziom 1–3, `cites`, rytm publikacji). Każdy adres URL w danych i w sekcji „Źródła” musi w nim być, inaczej walidator zgłasza błąd. Nie trafia do `dist/` (na razie służy walidatorowi i wskaźnikowi pewności).
 - `changelog.json` – dziennik aktualizacji, najnowsza na górze: `label` (data), `summary` i `changes` (`id` węzła, `t` nazwa, `from`, `to`, `dir` = up/down/flat, `note`, `m:true` gdy zmiana dotyczy dużej liczby węzła). Z niego biorą się: data „Dane z …”, przycisk „Co się zmieniło”, kropki przy zmienionych węzłach i etykieta „Poprzednio …” pod metryką.
 - W `app.js` zostały elementy związane z wyglądem i logiką: ikony (`ICON`), emoji i cytaty węzłów (`EMO`, `Q`), reguły skanera (`RULES`).
 - Przy każdej aktualizacji danych dopisz na górze `changelog.json` nowy wpis (nie edytuj starych). Daty na stronie ustawiają się same z najnowszego wpisu.

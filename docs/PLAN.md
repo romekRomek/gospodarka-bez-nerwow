@@ -173,6 +173,21 @@ Eksperyment jest zostawiany tylko wtedy, gdy żaden wymiar nie spada, a docelowy
 
 Faza 0 jest wąskim gardłem. Bez niej agenci nie mają czego sprawdzać.
 
+### Postęp fazy 0 (branch `faza-0-fundament`)
+
+| Krok | Stan |
+|---|---|
+| Rejestr źródeł `src/data/sources.json` (51 źródeł: 14 pierwotnych, 16 poziomu 2, 21 wtórnych, poziomy robocze) | **gotowe** |
+| `scripts/validate.py` (schematy, spójność id, dziennik zmian, rejestr, pokrycie URL, zaległości migracji, `--links`) + 13 testów | **gotowe** |
+| `npm run check` / `npm test`, walidacja w CI (Pages) | **gotowe** |
+| Przegląd poziomów źródeł przez redaktora, naprawa etykiety „Reuters” | do zrobienia |
+| Pola `src` przy liczbach węzłów (dziś 0/13) i generowana sekcja „Źródła” | do zrobienia |
+| `confidence.py` (wskaźnik pewności z rejestru) | do zrobienia |
+| Migracja `src/data/` na model treści, w tym `good.json` i `news.json` (D5) | do zrobienia |
+| `src/tokens.css` z `tokens.json`, `design-lint.py` | do zrobienia |
+| Test dymny Playwright, szablon PR ze zrzutami | do zrobienia |
+| Ujednolicenie danych Brent (90 vs 92,6 USD) | do zrobienia |
+
 ## 7. Co zostaje ustalić
 
 1. **Źródła i dostęp:** które dane mają API (NBP, GUS BDL, Eurostat)? CBOS bywa płatny lub w PDF, więc trzeba ustalić tryb półautomatyczny.

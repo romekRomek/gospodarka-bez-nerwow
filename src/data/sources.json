@@ -1,0 +1,893 @@
+{
+ "version": 1,
+ "updated": "2026-11-24",
+ "description": "Rejestr źródeł. Każda liczba i twierdzenie w danych odwołuje się do źródła po id. Poziom (tier) liczy się do wskaźnika pewności danych. Poziomy w tej wersji są robocze (tier_basis: draft, reviewed: false) i czekają na przegląd redaktora.",
+ "tiers": {
+  "1": "Źródło pierwotne: instytucja lub organizacja publikująca własne dane, albo publikacja naukowa (GUS, NBP, Eurostat, WHO, IEA, giełda, badanie).",
+  "2": "Agencja prasowa, duża redakcja, instytut analityczny lub organizacja fact-checkingowa.",
+  "3": "Portal branżowy, agregator lub serwis wtórny, który cytuje inne źródła. Przy tej klasie liczba wymaga potwierdzenia w poziomie 1 lub 2."
+ },
+ "fields": {
+  "cites": "Instytucja, którą wprost przywołuje źródło wtórne (np. GUS). Pozwala wskazać źródło pierwotne.",
+  "cadence": "Rytm publikacji (np. miesięczny). Z niego liczy się aktualność. Do uzupełnienia.",
+  "checked": "Data ostatniego sprawdzenia, że link działa i potwierdza liczbę. Do uzupełnienia skryptem."
+ },
+ "sources": [
+  {
+   "id": "pap-ukraina-siodmym-odbiorca-polskich",
+   "name": "PAP: Ukraina siódmym odbiorcą polskich towarów",
+   "url": "https://www.pap.pl/aktualnosci/ukraina-siodmym-najwiekszym-odbiorca-polskich-towarow",
+   "org": "PAP",
+   "kind": "agencja prasowa",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "xyz-pl-uchodzcy-z-ukrainy-2-4-pkb",
+   "name": "xyz.pl: uchodźcy z Ukrainy, 2,4% PKB",
+   "url": "https://xyz.pl/?p=256422",
+   "org": "xyz.pl",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "fundacja-pulaskiego-wydatki-obronne-2026",
+   "name": "Pułaski: wydatki obronne 2026",
+   "url": "https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf",
+   "org": "Fundacja Pułaskiego",
+   "kind": "instytut analityczny",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "pdf",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "interia-safe-i-pkb",
+   "name": "Interia: SAFE i PKB",
+   "url": "https://biznes.interia.pl/gospodarka/news-drony-artyleria-rakiety-polska-gospodarka-wystrzeli-na-pozyc,nId,23520876",
+   "org": "Interia",
+   "kind": "portal informacyjny",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "daily-sun-lokalne-zawieszenie-broni",
+   "name": "Reuters: lokalne zawieszenie broni",
+   "url": "https://www.daily-sun.com/world/905163",
+   "org": "Daily Sun",
+   "kind": "redakcja",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ],
+   "note": "W szablonie podpisane „Reuters”, ale adres prowadzi do daily-sun.com. Zweryfikować, czy to przedruk agencji, i poprawić etykietę."
+  },
+  {
+   "id": "africanews-rozmowy-w-listopadzie",
+   "name": "Africanews: rozmowy w listopadzie",
+   "url": "https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/",
+   "org": "Africanews",
+   "kind": "redakcja",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "cbs-news-rozmowy-w-abu-dhabi",
+   "name": "CBS News: rozmowy w Abu Dhabi",
+   "url": "https://www.cbsnews.com/news/us-russia-ukraine-war-talks-peace-abu-dhabi-deal/",
+   "org": "CBS News",
+   "kind": "redakcja",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template",
+    "good.json"
+   ]
+  },
+  {
+   "id": "xyz-pl-cla-usa-a-polscy-eksporterzy-pie",
+   "name": "xyz.pl: cła USA a polscy eksporterzy (PIE)",
+   "url": "https://xyz.pl/dzieje-sie/amerykanskie-cla-kontra-polscy-eksporterzy-skutki-sa-zroznicowane-3648",
+   "org": "xyz.pl",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "bank-pl-nowe-cla-usa",
+   "name": "bank.pl: nowe cła USA",
+   "url": "https://bank.pl/?p=554635",
+   "org": "bank.pl",
+   "kind": "portal branżowy",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "forsal-zolnierze-usa-w-polsce",
+   "name": "Forsal: żołnierze USA w Polsce",
+   "url": "https://forsal.pl/kraj/bezpieczenstwo/artykuly/11273678,zolnierze-usa-wroca-do-polski-szef-mon-wskazal-szczegoly.html",
+   "org": "Forsal",
+   "kind": "redakcja",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "wiadomosci-handlowe-chiny-dostawca-nr-1",
+   "name": "Wiadomości Handlowe: Chiny dostawcą nr 1",
+   "url": "https://www.wiadomoscihandlowe.pl/gospodarka-i-finanse/chiny-najwiekszym-dostawca-towarow-do-polski-deficyt-rosnie-2537961",
+   "org": "Wiadomości Handlowe",
+   "kind": "portal branżowy",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "xyz-pl-import-z-chin",
+   "name": "xyz.pl: import z Chin",
+   "url": "https://xyz.pl/nanoanalizy/chinski-walec-nie-chce-zwolnic-1540-1540",
+   "org": "xyz.pl",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "xyz-pl-prognozy-mfw-dla-polski",
+   "name": "xyz.pl: prognozy MFW dla Polski",
+   "url": "https://xyz.pl/?p=261350",
+   "org": "xyz.pl",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "finwire-inflacja-cpi-wrzesien",
+   "name": "Finwire: inflacja CPI, wrzesień",
+   "url": "https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus",
+   "org": "Finwire",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": "GUS",
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "finwire-inflacja-cpi-pazdziernik",
+   "name": "Finwire: inflacja CPI, październik",
+   "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
+   "org": "Finwire",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": "GUS",
+   "where": [
+    "template",
+    "problems.json"
+   ]
+  },
+  {
+   "id": "finwire-wynagrodzenia-pazdziernik",
+   "name": "Finwire: wynagrodzenia, październik",
+   "url": "https://finwire.pl/artykuly/przecietne-wynagrodzenie-pazdziernik-2026-sektor-przedsiebiorstw-gus",
+   "org": "Finwire",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": "GUS",
+   "where": [
+    "template",
+    "good.json"
+   ]
+  },
+  {
+   "id": "finwire-pkb-iii-kwartal-szybki-szacunek",
+   "name": "Finwire: PKB, III kwartał (szybki szacunek)",
+   "url": "https://finwire.pl/artykuly/pkb-szybki-szacunek-3-kwartal-2026-gus",
+   "org": "Finwire",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": "GUS",
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "finwire-decyzja-rpp-4-11",
+   "name": "Finwire: decyzja RPP 4.11",
+   "url": "https://finwire.pl/artykuly/decyzja-rpp-4-listopad-2026-stopy-bez-zmian",
+   "org": "Finwire",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "manager-plus-decyzja-fed-28-10",
+   "name": "Manager Plus: decyzja Fed 28.10",
+   "url": "https://managerplus.pl/fed-utrzymal-stopy-na-poziomie-375-4-proc-dwie-czlonkinie-fomc-chcialy-podwyzki-2026",
+   "org": "Manager Plus",
+   "kind": "portal branżowy",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "manager-plus-pkb-strefy-euro-iii-kwartal",
+   "name": "Manager Plus: PKB strefy euro, III kwartał",
+   "url": "https://managerplus.pl/pkb-strefy-euro-iii-kwartal-2026-eurostat-43133",
+   "org": "Manager Plus",
+   "kind": "portal branżowy",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "wnp-wig20-zamkniecie-23-11",
+   "name": "PAP/WNP: WIG20, zamknięcie 23.11",
+   "url": "https://www.wnp.pl/rynki/wig20-na-zamknieciu-wyniosl-4170-92-pkt-3-85,1122800.html",
+   "org": "WNP",
+   "kind": "portal branżowy",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "wnp-rekord-wig20-z-13-11-i-sesja-z-20-11",
+   "name": "WNP: rekord WIG20 z 13.11 i sesja z 20.11",
+   "url": "https://www.wnp.pl/rynki/koszmarny-koniec-tygodnia-na-gpw-najgorsza-sesja-od-marca,1122059.html",
+   "org": "WNP",
+   "kind": "portal branżowy",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "interia-program-cpn-w-2027-r",
+   "name": "Interia: program CPN w 2027 r.",
+   "url": "https://motoryzacja.interia.pl/wiadomosci/news-kiedy-koniec-programu-cpn-decyzja-zapadnie-w-polowie-grudnia,nId,23578035",
+   "org": "Interia",
+   "kind": "portal informacyjny",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "tvn24-ropa-2-11",
+   "name": "tvn24: ropa 2.11",
+   "url": "https://tvn24.pl/biznes/rynki/ceny-ropy-naftowej-2-listopada-2026-rynek-zmienia-kierunek-st9317548",
+   "org": "TVN24",
+   "kind": "redakcja",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "nation-thailand-brent-27-10",
+   "name": "Nation Thailand: Brent 27.10",
+   "url": "https://www.nationthailand.com/news/world/40072812",
+   "org": "Nation Thailand",
+   "kind": "redakcja",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ],
+   "note": "Cena rynkowa ropy z serwisu ogólnego. Lepsze byłoby źródło notowań lub agencja."
+  },
+  {
+   "id": "xyz-pl-notyfikacje-edp-deficyt-i-dlug",
+   "name": "xyz.pl: notyfikacje EDP, deficyt i dług",
+   "url": "https://xyz.pl/?p=265113",
+   "org": "xyz.pl",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "gielda-papierow-wartosciowych-wyniki",
+   "name": "GPW: wyniki indeksów 2026",
+   "url": "https://www.gpw.pl/pub/GPW/files/PDF/raporty/R2026/Q2/Komunikat_Prasowy_GPW_Q2_2026.pdf",
+   "org": "Giełda Papierów Wartościowych",
+   "kind": "giełda",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "pdf",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "stowarzyszenie-demagog-jak-odnalezc-sie-w",
+   "name": "Demagog: jak odnaleźć się w gąszczu clickbaitów",
+   "url": "https://demagog.org.pl/analizy_i_raporty/jak-sie-odnalezc-w-gaszczu-clickbaitow-poradnik-demagoga/",
+   "org": "Stowarzyszenie Demagog",
+   "kind": "organizacja fact-checkingowa",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "stowarzyszenie-demagog-jak-clickbait",
+   "name": "Demagog: jak clickbait napędza fałszywe informacje",
+   "url": "https://demagog.org.pl/analizy_i_raporty/mimowolna-dezinformacja-jak-clickbait-napedza-falszywe-informacje/",
+   "org": "Stowarzyszenie Demagog",
+   "kind": "organizacja fact-checkingowa",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "reuters-institute-digital-news-report-2026",
+   "name": "Reuters Institute: Digital News Report 2026, Polska",
+   "url": "https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2026/poland",
+   "org": "Reuters Institute",
+   "kind": "badanie",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "akademia-ignatianum-etyka-clickbaitu-w",
+   "name": "Laskowska 2026: etyka clickbaitu w komunikacji zdrowotnej",
+   "url": "https://czasopisma.ignatianum.edu.pl/pk/article/download/2025.5201.05/3385",
+   "org": "Akademia Ignatianum",
+   "kind": "publikacja naukowa",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "academicon-jezyk-clickbaitu-w-naglowkach-na",
+   "name": "Patalong i Induła: język clickbaitu w nagłówkach na Facebooku",
+   "url": "https://ojs.academicon.pl/jezykoznawstwo/article/download/10566/10842/32988",
+   "org": "Academicon",
+   "kind": "publikacja naukowa",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "british-psychological-society-bps-research",
+   "name": "BPS Research Digest o badaniu Rathje i in. (PNAS 2021)",
+   "url": "https://www.bps.org.uk/research-digest/social-media-posts-are-hostile-towards-political-opponents-get-more-shares",
+   "org": "British Psychological Society",
+   "kind": "streszczenie badania",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "princeton-university-emocje-a",
+   "name": "Brady i in. (PNAS 2017): emocje a rozprzestrzenianie treści moralizujących",
+   "url": "https://collaborate.princeton.edu/en/publications/emotion-shapes-the-diffusion-of-moralized-content-in-social-netwo/",
+   "org": "Princeton University",
+   "kind": "publikacja naukowa",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "pubmed-wplyw-negatywnych-wiadomosci-tv-na",
+   "name": "Johnston i Davey (1997): wpływ negatywnych wiadomości TV na nastrój i zamartwianie się",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/9061893/",
+   "org": "PubMed",
+   "kind": "publikacja naukowa",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "pnas-media-a-ostry-stres-po-zamachu-w",
+   "name": "Holman i in. (PNAS 2014): media a ostry stres po zamachu w Bostonie",
+   "url": "https://www.pnas.org/doi/10.1073/pnas.1316265110",
+   "org": "PNAS",
+   "kind": "publikacja naukowa",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "gallup-wywiad-z-gloria-mark-o-kosztach",
+   "name": "Gallup: wywiad z Gloria Mark o kosztach przerywania pracy",
+   "url": "https://news.gallup.com/businessjournal/23146/Too-Many-Interruptions-Work.aspx",
+   "org": "Gallup",
+   "kind": "wywiad / raport",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "emerald-publishing-przeglad-badan-o",
+   "name": "Przegląd badań o doomscrollingu (Emerald)",
+   "url": "https://www.emerald.com/mhdt/article/doi/10.1108/MHDT-10-2025-0068/1338079/The-influence-of-doomscrolling-on-mental-health-a",
+   "org": "Emerald Publishing",
+   "kind": "publikacja naukowa",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ]
+  },
+  {
+   "id": "fundacja-nobla-nobel-z-medycyny-2026",
+   "name": "Nobel z medycyny 2026",
+   "url": "https://nobelprize.org/prizes/medicine/2026/summary",
+   "org": "Fundacja Nobla",
+   "kind": "instytucja",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template",
+    "good.json"
+   ]
+  },
+  {
+   "id": "rmf24-pie-o-odpornosci-polskiej-gospodarki",
+   "name": "RMF24/PAP: PIE o odporności polskiej gospodarki",
+   "url": "https://www.rmf24.pl/fakty/ekonomia/news-dobre-wiesci-ws-polskiej-gospodarki-w-tle-kryzys-na-bliskim-,nId,8089250",
+   "org": "RMF24",
+   "kind": "redakcja",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template",
+    "good.json"
+   ]
+  },
+  {
+   "id": "media-bias-fact-check-media-bias-fact-check",
+   "name": "Media Bias/Fact Check",
+   "url": "https://mediabiasfactcheck.com/",
+   "org": "Media Bias/Fact Check",
+   "kind": "ocena mediów",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "template"
+   ],
+   "note": "Serwis oceniający media, metodologia oceny nie jest recenzowana. Traktować ostrożnie."
+  },
+  {
+   "id": "gus-deficyt-i-dlug-20222025",
+   "name": "GUS: deficyt i dług 2022–2025",
+   "url": "https://stat.gov.pl/en/topics/national-accounts/general-government-statistics/general-government-deficit-and-debt-in-the-years-2022-2025,5,43.html",
+   "org": "GUS",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "problems.json"
+   ]
+  },
+  {
+   "id": "pap-termin-2028",
+   "name": "PAP: termin 2028",
+   "url": "https://biznes.pap.pl/wiadomosci/gospodarka/eu-finance-ministers-urge-poland-eliminate-excessive-deficit-2028",
+   "org": "PAP",
+   "kind": "agencja prasowa",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "problems.json"
+   ]
+  },
+  {
+   "id": "komisja-europejska-semestr-europejski-jesien",
+   "name": "KE: Semestr Europejski, jesień",
+   "url": "https://poland.representation.ec.europa.eu/news/semestr-europejski-jesien-2026-2025-11-27_pl",
+   "org": "Komisja Europejska",
+   "kind": "instytucja UE",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "problems.json"
+   ]
+  },
+  {
+   "id": "interia-dane-gus-o-liczbie-ludnosci",
+   "name": "Interia: dane GUS o liczbie ludności",
+   "url": "https://biznes.interia.pl/gospodarka/news-w-rok-ubylo-159-tys-osob-w-polsce-zmiany-demograficzne-juz-p,nId,23518504",
+   "org": "Interia",
+   "kind": "portal informacyjny",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "problems.json"
+   ]
+  },
+  {
+   "id": "comparic-prognozy-i-obroty-biezace",
+   "name": "Comparic: prognozy i obroty bieżące",
+   "url": "https://comparic.pl/ceny-paliw-zbiora-swoje-zniwo-analitycy-obnizaja-prognozy-wzrostu-pkb-polski-w-2026-r-14-04-2026/",
+   "org": "Comparic",
+   "kind": "portal wtórny",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "problems.json"
+   ]
+  },
+  {
+   "id": "fzz-agenda-polityczna-i-gospodarcza-2026",
+   "name": "FZZ: Agenda polityczna i gospodarcza 2026",
+   "url": "https://fzz.org.pl/wp-content/uploads/2026/01/Agenda-polityczna-i-gospodarcza-2026.pdf",
+   "org": null,
+   "kind": "do klasyfikacji",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "pdf",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "problems.json"
+   ],
+   "note": "Nie rozpoznano organizacji z domeny. Do klasyfikacji przez redaktora."
+  },
+  {
+   "id": "rada-ue-sprawozdanie-o-polsce-czerwiec-2026",
+   "name": "Rada UE / KE: sprawozdanie o Polsce, czerwiec 2026",
+   "url": "https://data.consilium.europa.eu/doc/document/ST-10138-2026-ADD-1/pl/pdf",
+   "org": "Rada UE",
+   "kind": "instytucja UE",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "problems.json"
+   ]
+  },
+  {
+   "id": "pap-cbos-dla-pap",
+   "name": "CBOS dla PAP",
+   "url": "https://www.pap.pl/aktualnosci/cbos-dla-pap-46-proc-badanych-uwaza-spor-polityczny-i-polaryzacje-za-najwieksze",
+   "org": "PAP",
+   "kind": "agencja prasowa",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": "CBOS",
+   "where": [
+    "problems.json"
+   ]
+  },
+  {
+   "id": "iea-iea-global-energy-review-2026",
+   "name": "IEA Global Energy Review 2026",
+   "url": "https://iea.org/reports/global-energy-review-2026/technology-solar-pv-and-wind",
+   "org": "IEA",
+   "kind": "organizacja międzynarodowa",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "good.json"
+   ]
+  },
+  {
+   "id": "who-who",
+   "name": "WHO",
+   "url": "https://www.who.int/campaigns/world-malaria-day/2026",
+   "org": "WHO",
+   "kind": "organizacja międzynarodowa",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "good.json"
+   ]
+  }
+ ]
+}

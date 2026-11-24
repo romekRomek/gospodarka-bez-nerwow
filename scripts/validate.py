@@ -1,0 +1,355 @@
+#!/usr/bin/env python3
+"""Walidator danych aplikacji (faza 0, krok 1).
+
+  python3 scripts/validate.py                 # błędy kończą się kodem 1, ostrzeżenia nie
+  python3 scripts/validate.py --links         # dodatkowo sprawdza, czy linki ze źródeł działają (sieć)
+  python3 scripts/validate.py --json          # podsumowanie maszynowe (dla scorecard)
+  python3 scripts/validate.py --data DIR --template FILE   # inne dane (testy)
+
+Sprawdza: poprawność JSON, spójność identyfikatorów między plikami, wymagane pola,
+dziennik zmian, rejestr źródeł (src/data/sources.json) i to, że każdy adres URL w danych
+i w szablonie jest w rejestrze. Ostrzega o zaległościach migracji (zasada „nie ma dobrych
+i złych wiadomości”, brak pól src przy liczbach). Opis zasad: docs/design/principles.md.
+"""
+import argparse, datetime, json, pathlib, re, sys
+from urllib.parse import urlparse
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+CATS = {'oil', 'chain', 'ind', 'ext'}
+DIRS = {'up', 'down', 'flat'}
+FETCH = {'page', 'pdf', 'api'}
+DATE_RE = re.compile(r'^(\d{2})\.(\d{2})\.(\d{4})$')
+URL_RE = re.compile(r'https?://[^"\s\\<>]+')
+BANNED = re.compile(r'dobr(a|ą|e|ych|ej)\s+wiadomo|zł(a|ą|e|ych|ej)\s+wiadomo', re.I)
+REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'sources']
+
+
+class Report:
+    def __init__(self):
+        self.errors, self.warnings, self.info = [], [], []
+
+    def err(self, where, msg):
+        self.errors.append(f'{where}: {msg}')
+
+    def warn(self, where, msg):
+        self.warnings.append(f'{where}: {msg}')
+
+    def note(self, msg):
+        self.info.append(msg)
+
+
+def is_str(x):
+    return isinstance(x, str) and x.strip() != ''
+
+
+def need(r, where, obj, keys):
+    if not isinstance(obj, dict):
+        r.err(where, 'oczekiwano obiektu')
+        return False
+    ok = True
+    for k in keys:
+        if k not in obj or obj[k] in (None, '', []):
+            r.err(where, f'brak pola „{k}”')
+            ok = False
+    return ok
+
+
+def parse_date(s):
+    m = DATE_RE.match(s or '')
+    if not m:
+        return None
+    try:
+        return datetime.date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
+    except ValueError:
+        return None
+
+
+# ---------- wczytanie ----------
+def load(data_dir, r):
+    D = {}
+    for name in REQUIRED_FILES:
+        f = data_dir / f'{name}.json'
+        if not f.exists():
+            r.err(f'{name}.json', 'brak pliku')
+            continue
+        try:
+            D[name] = json.loads(f.read_text(encoding='utf-8'))
+        except json.JSONDecodeError as e:
+            r.err(f'{name}.json', f'niepoprawny JSON: {e}')
+    return D
+
+
+# ---------- węzły, kroki, wykresy, newsy ----------
+def check_nodes(D, r):
+    nodes, steps, charts, news = D.get('nodes'), D.get('steps'), D.get('charts'), D.get('news')
+    if not all(isinstance(x, (list, dict)) for x in (nodes, steps, charts, news)):
+        return
+    ids = []
+    for n in nodes:
+        if need(r, 'nodes.json', n, ['id', 'cat', 'ic', 'x', 'y', 'lb', 'lp']):
+            if n['cat'] not in CATS:
+                r.err('nodes.json', f'{n["id"]}: nieznana kategoria „{n["cat"]}”')
+            ids.append(n['id'])
+    if len(set(ids)) != len(ids):
+        r.err('nodes.json', 'powtórzone identyfikatory')
+    step_ids = []
+    for s in steps:
+        if need(r, 'steps.json', s, ['id', 'cat', 'tag', 't', 'm', 'mc', 'f', 'i']):
+            step_ids.append(s['id'])
+            if s['cat'] not in CATS:
+                r.err('steps.json', f'{s["id"]}: nieznana kategoria „{s["cat"]}”')
+            if not isinstance(s['f'], list) or not all(is_str(x) for x in s['f']):
+                r.err('steps.json', f'{s["id"]}: „f” musi być listą niepustych tekstów')
+    for label, got in (('steps.json', set(step_ids)), ('charts.json', set(charts)), ('news.json', set(news))):
+        for missing in sorted(set(ids) - got):
+            r.err(label, f'brak wpisu dla węzła „{missing}”')
+        for extra in sorted(got - set(ids)):
+            r.err(label, f'wpis „{extra}” nie ma węzła w nodes.json')
+    covered = sum(1 for s in steps if s.get('src'))
+    r.note(f'pokrycie źródłami liczb: {covered}/{len(steps)} węzłów w steps.json ma pole „src” (migracja: faza 0)')
+
+
+def check_chart(r, where, c):
+    xline = isinstance(c, dict) and c.get('type') == 'xline'
+    if not need(r, where, c, ['t', 'type', 'pts' if xline else 'labels', 'ds']):
+        return
+    if xline:
+        if not all(isinstance(p, list) and len(p) == 3 for p in c['pts']):
+            r.err(where, 'punkty „pts” muszą mieć postać [x, y, etykieta]')
+        return
+    for i, ds in enumerate(c['ds']):
+        if not need(r, f'{where} ds[{i}]', ds, ['n', 'd']):
+            continue
+        if len(ds['d']) != len(c['labels']):
+            r.err(where, f'seria „{ds["n"]}” ma {len(ds["d"])} wartości, a etykiet jest {len(c["labels"])}')
+    if not is_str(c.get('src')):
+        r.warn(where, 'wykres bez pola „src” (opis źródła)')
+
+
+def check_charts(D, r):
+    for nid, lst in (D.get('charts') or {}).items():
+        if not isinstance(lst, list) or not lst:
+            r.err('charts.json', f'{nid}: oczekiwano niepustej listy wykresów')
+            continue
+        for k, c in enumerate(lst):
+            check_chart(r, f'charts.json {nid}[{k}]', c)
+    p = D.get('problems')
+    if isinstance(p, dict):
+        for k, c in enumerate(p.get('charts', [])):
+            check_chart(r, f'problems.json charts[{k}]', c)
+        for k, c in enumerate(p.get('cards', [])):
+            if need(r, f'problems.json cards[{k}]', c, ['t', 'f', 'src']):
+                for s in c['src']:
+                    need(r, f'problems.json cards[{k}] src', s, ['l', 'u'])
+
+
+def check_news(D, r):
+    for nid, n in (D.get('news') or {}).items():
+        where = f'news.json {nid}'
+        for grp in ('pos', 'neu', 'neg'):
+            if not isinstance(n.get(grp), list) or not n[grp]:
+                r.err(where, f'brak listy „{grp}”')
+        for h in n.get('pos', []):
+            if need(r, f'{where} pos', h, ['h']) and not is_str(h.get('hk')):
+                r.err(where, f'nagłówek „{h["h"][:40]}…” nie ma haczyka uczciwości („hk”)')
+        for h in n.get('neg', []):
+            if need(r, f'{where} neg', h, ['h']) and not is_str(h.get('f')):
+                r.err(where, f'nagłówek „{h["h"][:40]}…” nie ma faktu („f”)')
+
+
+def check_content(D, r):
+    for i, h in enumerate(D.get('headlines') or []):
+        if need(r, f'headlines.json[{i}]', h, ['h', 't', 'e', 'f', 'i', 'calm', 'q', 'abs', 'lol']):
+            if not isinstance(h['t'], list) or not isinstance(h['f'], list):
+                r.err(f'headlines.json[{i}]', '„t” i „f” muszą być listami')
+    for i, t in enumerate(D.get('techniques') or []):
+        if not (isinstance(t, list) and len(t) == 3 and all(is_str(x) for x in t)):
+            r.err(f'techniques.json[{i}]', 'oczekiwano [nazwa, opis, przykłady]')
+    for i, g in enumerate(D.get('good') or []):
+        if need(r, f'good.json[{i}]', g, ['d', 'b', 'f', 'h', 'u', 'l']) and not str(g['u']).startswith('https://'):
+            r.err(f'good.json[{i}]', 'adres „u” musi zaczynać się od https://')
+    if not isinstance(D.get('cost'), list) or not D.get('cost'):
+        r.err('cost.json', 'oczekiwano niepustej listy')
+
+
+# ---------- dziennik zmian ----------
+def check_changelog(D, r):
+    cl, nodes = D.get('changelog'), D.get('nodes')
+    if not isinstance(cl, list) or not cl or not isinstance(nodes, list):
+        r.err('changelog.json', 'oczekiwano niepustej listy wpisów')
+        return
+    node_ids = {n.get('id') for n in nodes if isinstance(n, dict)}
+    prev = None
+    for k, e in enumerate(cl):
+        w = f'changelog.json[{k}]'
+        if not need(r, w, e, ['label', 'summary']) or 'changes' not in e:
+            if 'changes' not in e:
+                r.err(w, 'brak pola „changes”')
+            continue
+        d = parse_date(e['label'])
+        if d is None:
+            r.err(w, f'etykieta „{e["label"]}” nie ma formatu dd.mm.rrrr')
+        elif prev is not None and d > prev:
+            r.err(w, 'wpisy muszą być od najnowszego (data nowsza niż poprzedniego wpisu)')
+        prev = d or prev
+        for c in e['changes']:
+            if need(r, f'{w} change', c, ['id', 't', 'from', 'to', 'dir', 'note']):
+                if c['dir'] not in DIRS:
+                    r.err(w, f'{c["id"]}: kierunek „{c["dir"]}” spoza {sorted(DIRS)}')
+                if c['id'] not in node_ids:
+                    r.err(w, f'zmiana dotyczy nieistniejącego węzła „{c["id"]}”')
+
+
+# ---------- rejestr źródeł ----------
+def check_sources(D, r):
+    reg = D.get('sources')
+    if not isinstance(reg, dict) or not isinstance(reg.get('sources'), list):
+        r.err('sources.json', 'oczekiwano obiektu z listą „sources”')
+        return {}
+    by_id, urls = {}, {}
+    for i, s in enumerate(reg['sources']):
+        w = f'sources.json[{i}]'
+        if not need(r, w, s, ['id', 'name', 'url', 'tier', 'fetch']):
+            continue
+        if s['id'] in by_id:
+            r.err(w, f'powtórzony id „{s["id"]}”')
+        by_id[s['id']] = s
+        if s['tier'] not in (1, 2, 3):
+            r.err(w, f'{s["id"]}: poziom (tier) musi być 1, 2 lub 3')
+        if s['fetch'] not in FETCH:
+            r.err(w, f'{s["id"]}: „fetch” spoza {sorted(FETCH)}')
+        if not s['url'].startswith('https://'):
+            r.err(w, f'{s["id"]}: adres musi zaczynać się od https://')
+        if s['url'] in urls:
+            r.err(w, f'adres {s["url"]} już jest w rejestrze jako „{urls[s["url"]]}”')
+        urls[s['url']] = s['id']
+    tiers = [s['tier'] for s in by_id.values()]
+    reviewed = sum(1 for s in by_id.values() if s.get('reviewed'))
+    r.note('rejestr źródeł: %d (poziom 1: %d, 2: %d, 3: %d), przejrzane przez redaktora: %d/%d' % (
+        len(by_id), tiers.count(1), tiers.count(2), tiers.count(3), reviewed, len(by_id)))
+    if reviewed < len(by_id):
+        r.warn('sources.json', f'{len(by_id) - reviewed} źródeł ma poziom roboczy (reviewed: false), czeka na przegląd redaktora')
+    for s in by_id.values():
+        if s.get('note'):
+            r.warn('sources.json', f'{s["id"]}: {s["note"]}')
+    return urls
+
+
+def check_registry_coverage(D, urls, template, r):
+    in_data = {}
+    for name, obj in D.items():
+        if name == 'sources':
+            continue
+        for u in URL_RE.findall(json.dumps(obj, ensure_ascii=False)):
+            in_data.setdefault(u, name)
+    for u, name in sorted(in_data.items()):
+        if u not in urls:
+            r.err(f'{name}.json', f'adres spoza rejestru źródeł: {u}')
+    in_tpl = set()
+    if template and template.exists():
+        t = template.read_text(encoding='utf-8')
+        a = t.find('<summary>Źródła</summary>')
+        if a != -1:
+            in_tpl = set(re.findall(r'<li><a href="([^"]+)"', t[a:a + 20000]))
+        for u in sorted(in_tpl):
+            if u not in urls:
+                r.err('template.html', f'adres z sekcji „Źródła” spoza rejestru: {u}')
+        for s in (D.get('sources') or {}).get('sources', []):
+            if 'template' in (s.get('where') or []) and s['url'] not in in_tpl:
+                r.warn('sources.json', f'{s["id"]}: oznaczone jako użyte w szablonie, ale nie ma go w sekcji „Źródła”')
+    else:
+        r.warn('template.html', 'brak szablonu, pominięto sprawdzenie sekcji „Źródła”')
+
+
+# ---------- zasady redakcyjne (zaległości migracji) ----------
+def walk_strings(x):
+    if isinstance(x, str):
+        yield x
+    elif isinstance(x, list):
+        for v in x:
+            yield from walk_strings(v)
+    elif isinstance(x, dict):
+        for v in x.values():
+            yield from walk_strings(v)
+
+
+def check_policy(D, r):
+    for name, obj in sorted(D.items()):
+        if name in ('sources', 'changelog'):
+            continue
+        hits = [s for s in walk_strings(obj) if BANNED.search(s)]
+        if hits:
+            r.warn(f'{name}.json', f'{len(hits)} tekstów z oceną „dobra/zła wiadomość” (decyzja D5, do migracji), np. „{hits[0][:60]}”')
+    if D.get('good'):
+        r.warn('good.json', 'plik „dobrych wiadomości” czeka na migrację na karty ramowania (decyzja D5, docs/design/content-model.md)')
+    p = (D.get('news') or {})
+    if any(k for k in p.values() if isinstance(k, dict) and ('pos' in k or 'neg' in k)):
+        r.warn('news.json', 'podział pos/neu/neg czeka na migrację na pary ramowań (decyzja D5)')
+
+
+# ---------- linki (sieć) ----------
+def check_links(D, r, timeout=10):
+    import concurrent.futures, urllib.request, urllib.error
+    srcs = (D.get('sources') or {}).get('sources', [])
+
+    def probe(s):
+        req = urllib.request.Request(s['url'], method='GET', headers={'User-Agent': 'Mozilla/5.0 (gospodarka-bez-nerwow validate)'})
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return s, resp.status
+        except urllib.error.HTTPError as e:
+            return s, e.code
+        except Exception as e:  # sieć, DNS, TLS
+            return s, type(e).__name__
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
+        results = list(ex.map(probe, srcs))
+    ok = [s for s, st in results if isinstance(st, int) and 200 <= st < 400]
+    blocked = [(s, st) for s, st in results if st in (401, 403, 429)]
+    bad = [(s, st) for s, st in results if not (isinstance(st, int) and 200 <= st < 400) and st not in (401, 403, 429)]
+    r.note(f'linki: {len(ok)}/{len(results)} działa, {len(blocked)} blokuje automatyczne zapytania (do ręcznego sprawdzenia), {len(bad)} nie odpowiada')
+    for s, st in blocked:
+        r.note(f'linki (blokada {st}, sprawdzić ręcznie): {s["id"]}')
+    for s, st in bad:
+        r.warn('linki', f'{s["id"]}: {st} ({s["url"][:90]})')
+
+
+def run(data_dir, template, links=False):
+    r = Report()
+    D = load(data_dir, r)
+    check_nodes(D, r)
+    check_charts(D, r)
+    check_news(D, r)
+    check_content(D, r)
+    check_changelog(D, r)
+    urls = check_sources(D, r)
+    check_registry_coverage(D, urls, template, r)
+    check_policy(D, r)
+    if links:
+        check_links(D, r)
+    return r
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
+    ap.add_argument('--data', default=str(ROOT / 'src' / 'data'))
+    ap.add_argument('--template', default=str(ROOT / 'src' / 'template.html'))
+    ap.add_argument('--links', action='store_true')
+    ap.add_argument('--json', action='store_true')
+    a = ap.parse_args(argv)
+    r = run(pathlib.Path(a.data), pathlib.Path(a.template), a.links)
+    if a.json:
+        print(json.dumps({'errors': r.errors, 'warnings': r.warnings, 'info': r.info}, ensure_ascii=False, indent=1))
+    else:
+        for e in r.errors:
+            print('BŁĄD     ' + e)
+        for w in r.warnings:
+            print('OSTRZEŻ. ' + w)
+        for i in r.info:
+            print('INFO     ' + i)
+        print(f'\nwynik: {len(r.errors)} błędów, {len(r.warnings)} ostrzeżeń')
+    return 1 if r.errors else 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

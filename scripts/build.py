@@ -10,7 +10,9 @@ tpl = (SRC / 'template.html').read_text(encoding='utf-8')
 css = (SRC / 'styles.css').read_text(encoding='utf-8').rstrip('\n')
 js = (SRC / 'app.js').read_text(encoding='utf-8').rstrip('\n')
 # dane z src/data/*.json trafiają do obiektu DATA (klucz = nazwa pliku), z którego czyta app.js
-data = {f.stem: json.loads(f.read_text(encoding='utf-8')) for f in sorted((SRC / 'data').glob('*.json'))}
+# sources.json to rejestr dla walidatora i wskaźnika pewności; do strony trafi dopiero z generowaną listą „Źródła”
+NOT_SHIPPED = {'sources'}
+data = {f.stem: json.loads(f.read_text(encoding='utf-8')) for f in sorted((SRC / 'data').glob('*.json')) if f.stem not in NOT_SHIPPED}
 js = 'var DATA=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + ';\n' + js
 
 cls = {'pl': 'land pl', 'west': 'land west', 'me': 'land me', 'oth': 'land oth'}

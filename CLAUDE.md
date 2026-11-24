@@ -7,6 +7,8 @@ Interaktywna strona edukacyjna o gospodarce Polski i Europy dla dorosłego laika
 ```bash
 python3 scripts/build.py                 # składa dist/index.html
 python3 -m http.server -d dist 8080      # podgląd
+python3 scripts/validate.py              # walidacja danych i rejestru źródeł (błędy = kod 1)
+python3 -m unittest discover -s tests    # testy walidatora
 python3 docs/design/tokens.py check      # kontrast tokenów (AA) w obu motywach
 python3 docs/design/mockups/build.py     # odświeża makiety z danych i tokenów
 ```
@@ -32,7 +34,8 @@ python3 docs/design/mockups/build.py     # odświeża makiety z danych i tokenó
 ## Dane
 
 - Przy każdej aktualizacji danych dopisz na górze `src/data/changelog.json` nowy wpis (nie edytuj starych). Daty na stronie ustawiają się z najnowszego wpisu.
-- `build.py` wczytuje każdy `src/data/*.json` do obiektu `DATA` (klucz = nazwa pliku).
+- Każdy nowy adres URL (w danych lub w sekcji „Źródła” szablonu) dopisz najpierw do `src/data/sources.json` z poziomem 1–3. `validate.py` zgłosi błąd dla adresu spoza rejestru. Poziomy robocze mają `reviewed: false`.
+- `build.py` wczytuje każdy `src/data/*.json` (poza `sources.json`) do obiektu `DATA` (klucz = nazwa pliku).
 
 ## Zasady pracy
 
