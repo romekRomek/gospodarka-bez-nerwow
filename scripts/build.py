@@ -1,13 +1,23 @@
 #!/usr/bin/env python3
-"""Składa dist/index.html z src/: template.html + styles.css + data/*.json + app.js + geo.json (kształty map)."""
-import json, math, pathlib
+"""Składa dist/index.html z src/: template.html + tokens.css + styles.css + data/*.json + app.js + geo.json (kształty map).
+
+src/tokens.css jest generowany z docs/design/tokens.json (docs/design/tokens.py, funkcja css()). Plik jest commitowany,
+a build zawsze go odtwarza; test tests/test_tokens.py pilnuje, że wersja w repo zgadza się z tokens.json.
+"""
+import importlib.util, json, math, pathlib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC, DIST = ROOT / 'src', ROOT / 'dist'
 CDN = '<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>'
 
+_spec = importlib.util.spec_from_file_location('tokens', ROOT / 'docs' / 'design' / 'tokens.py')
+tokens = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(tokens)
+TOKENS_HEADER = '/* GENEROWANY z docs/design/tokens.json (python3 scripts/build.py). Nie edytuj ręcznie; zmień tokens.json. */\n'
+(SRC / 'tokens.css').write_text(TOKENS_HEADER + tokens.css(), encoding='utf-8')
+
 g = json.loads((SRC / 'geo.json').read_text(encoding='utf-8'))
 tpl = (SRC / 'template.html').read_text(encoding='utf-8')
-css = (SRC / 'styles.css').read_text(encoding='utf-8').rstrip('\n')
+css = ((SRC / 'tokens.css').read_text(encoding='utf-8') + (SRC / 'styles.css').read_text(encoding='utf-8')).rstrip('\n')
 js = (SRC / 'app.js').read_text(encoding='utf-8').rstrip('\n')
 # dane z src/data/*.json trafiają do obiektu DATA (klucz = nazwa pliku), z którego czyta app.js
 # sources.json to rejestr dla walidatora i wskaźnika pewności; do strony trafi dopiero z generowaną listą „Źródła”
