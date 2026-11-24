@@ -1,0 +1,515 @@
+<title>Makiety Gospodarki bez nerwów</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Bricolage+Grotesque:wght@600;700;800&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Układ: pasek narzędzi (poziom, motyw) + sekcje z ekranami w ramkach. Ramki są kontenerami, więc ten sam komponent układa się jak na telefonie albo na komputerze zależnie od szerokości ramki.
+   Tokeny (kolory, skale) są generowane z docs/design/tokens.json przez tokens.py, nie wpisuje się ich tutaj. */
+__TOKENS__
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 var(--t-md)/1.55 var(--sans);-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:0 64px}
+h1,h2,h3,h4,p,ul,ol,figure{margin:0}
+h1,h2,h3{text-wrap:balance}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---- strona z makietami ---- */
+.page{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+.toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center;padding-block:10px;margin-inline:-16px;padding-inline:16px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.toolbar .grp{display:flex;align-items:center;gap:10px;font:600 var(--t-sm) var(--sans);color:var(--mut)}
+.intro{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--sp-4);padding-top:var(--sp-6);max-width:78ch}
+.eyebrow{font:700 22px var(--hand);color:var(--mut)}
+.intro h1{font:800 clamp(30px,6vw,46px)/1.05 var(--head);letter-spacing:-.025em}
+.intro p{color:var(--mut)}
+.decide{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-lg);padding:var(--sp-4) var(--sp-5);display:grid;gap:var(--sp-2)}
+.decide h2{font:700 var(--t-sm) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.decide ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.sec{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--sp-5)}
+.page>*{min-width:0}
+.sec>header{display:grid;gap:var(--sp-2);max-width:78ch}
+.sec h2{font:800 var(--t-2xl)/1.1 var(--head);letter-spacing:-.02em}
+.sec header p{color:var(--mut)}
+.check{margin:0;padding-left:18px;color:var(--mut);display:grid;gap:4px;font-size:var(--t-sm)}
+.figs{display:flex;flex-wrap:wrap;gap:var(--sp-6);align-items:flex-start}
+.fig{flex:0 1 390px;min-width:0;width:100%;max-width:390px;display:grid;gap:var(--sp-3)}
+.fig.wide{flex:1 1 100%;max-width:1100px}
+.fig.mid{flex:1 1 300px;max-width:520px}
+.fig figcaption{font:600 var(--t-sm) var(--sans);display:grid;gap:2px}
+.fig figcaption small{font-weight:400;color:var(--mut);font-size:var(--t-xs)}
+.notes{flex:1 1 300px;max-width:520px;display:grid;gap:var(--sp-3);align-content:start}
+.notes h3{font:800 var(--t-lg) var(--head)}
+.notes ul{margin:0;padding-left:18px;display:grid;gap:8px;color:var(--ink);font-size:var(--t-sm)}
+.notes li span{color:var(--mut)}
+.legend2{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.legend2 li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;font-size:var(--t-sm);color:var(--mut)}
+
+/* ---- kontrolki ---- */
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:var(--r-pill);background:var(--surface);padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:var(--r-pill);padding:8px 14px;min-height:36px;font:600 var(--t-sm) var(--sans);cursor:pointer;color:var(--mut)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.btn{font:600 var(--t-sm) var(--sans);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;min-height:44px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.ghost{border-style:dashed;justify-content:space-between;width:100%}
+.btn.wide{width:100%}
+.lnk{font:600 var(--t-sm) var(--sans);color:var(--accent)}
+
+/* ---- chipy ---- */
+.chip{--c:var(--mut);display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:var(--r-pill);font:600 var(--t-xs)/1.4 var(--sans);background:color-mix(in srgb,var(--c) 13%,var(--surface));color:var(--c);border:1px solid color-mix(in srgb,var(--c) 26%,transparent);white-space:nowrap}
+.chip.g-ok{--c:var(--ok)}.chip.g-est{--c:var(--est)}.chip.g-dis{--c:var(--dis)}.chip.g-fc{--c:var(--fc)}
+.who{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-size:var(--t-sm)}
+.who dt{color:var(--mut)}
+.who dd{margin:0}
+.watch{display:flex;gap:8px;align-items:flex-start;font-size:var(--t-sm);margin:0}
+.watch svg{width:18px;height:18px;flex:none;margin-top:2px;fill:none;stroke:var(--dis);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.watch b{color:var(--dis)}
+.soon{font-size:var(--t-sm);color:var(--ink);background:var(--surface-2);border-radius:var(--r-md);padding:var(--sp-3)}
+.soon .soonh{display:block;font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-bottom:6px}
+.events{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.events li{display:grid;grid-template-columns:minmax(92px,auto) 1fr;gap:10px;align-items:baseline}
+.when{font:600 var(--t-xs) var(--sans);color:var(--dis);background:color-mix(in srgb,var(--dis) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--dis) 26%,transparent);border-radius:var(--r-pill);padding:2px 10px;text-align:center;white-space:nowrap}
+.askme{margin:var(--sp-3) 0 0;padding-top:var(--sp-2);border-top:1px dashed var(--line-strong)}
+.askme b{display:block;font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ind)}
+.legend2 .lg{font-weight:700;color:var(--ink);white-space:nowrap}
+.delta{display:inline-flex;align-items:center;gap:6px;justify-self:start;padding:3px 10px;border-radius:var(--r-pill);background:var(--surface-2);font:600 13px var(--sans);color:var(--ink)}
+.delta b{font-weight:700;color:var(--accent)}
+.tag{--c:var(--mut);display:inline-block;font:600 var(--t-xs) var(--sans);letter-spacing:.02em;padding:3px 10px;border-radius:var(--r-pill);background:color-mix(in srgb,var(--c) 12%,transparent);color:var(--c)}
+.tag.chain{--c:var(--chain)}.tag.oil{--c:var(--oil-ink)}.tag.ind{--c:var(--ind)}.tag.ext{--c:var(--ext)}
+.lbl{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+
+/* ---- ramka ekranu (kontener) ---- */
+.scr{container:scr/inline-size;background:var(--bg);border:1px solid var(--line-strong);border-radius:32px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 30px var(--shadow)}
+.scr-body{padding:var(--sp-5) var(--sp-4);display:grid;gap:var(--sp-4);min-width:0}
+.scr-body.tight{gap:var(--sp-3);padding-bottom:0}
+.apptop{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-3)}
+.wm{font:800 var(--t-lg)/1.05 var(--head);letter-spacing:-.02em}
+.asof{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:var(--t-sm);color:var(--mut)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--good);display:block}
+.chgb{font:600 13px var(--sans);display:inline-flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer}
+.chgb .n{min-width:20px;height:20px;padding:0 6px;border-radius:var(--r-pill);background:var(--accent);color:var(--bg);font:700 12px/20px var(--sans);text-align:center}
+.hello{display:grid;gap:6px}
+.hello h2{font:800 var(--t-2xl)/1.1 var(--head);letter-spacing:-.025em}
+.hello p{color:var(--mut);max-width:60ch}
+.tiles,.row2{display:grid;gap:var(--sp-4);min-width:0}
+.tiles>*,.row2>*{min-width:0}
+
+/* poziomy treści */
+.lv2{display:none!important}
+.lv2-on .lv2{display:grid!important;gap:var(--sp-2)}
+.lv2-on .lv1only{display:none!important}
+
+/* kafelek liczby */
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 1px 2px var(--shadow);padding:var(--sp-4);display:grid;gap:var(--sp-2);align-content:start}
+.stat header{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-2);flex-wrap:wrap}
+.tl{font:600 var(--t-sm) var(--sans);color:var(--mut)}
+.num{font:800 var(--t-num)/1.05 var(--head);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.num small{font-size:.45em;font-weight:700;color:var(--mut);margin-left:3px;letter-spacing:0}
+.cap-s{font-size:13px;color:var(--mut)}
+.plain{font-size:var(--t-md);max-width:52ch}
+.ctx{border-top:1px dashed var(--line-strong);padding-top:10px;display:grid;gap:6px}
+.ctxl{font-size:var(--t-xs);color:var(--mut)}
+.more{font-size:var(--t-sm);color:var(--mut)}
+.viz{display:block;width:100%;height:auto;overflow:visible}
+.viz text{font:500 11px var(--sans);fill:var(--mut)}
+.viz .gl{stroke:var(--line-strong);stroke-width:1}
+.viz .ar{fill:color-mix(in srgb,var(--accent) 14%,transparent)}
+.viz .ln{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.viz .pk{fill:var(--accent)}
+.viz .en{fill:var(--accent);stroke:var(--surface);stroke-width:2.5}
+.viz text.pkl{fill:var(--ink);font-weight:600}
+.viz .trk{fill:var(--surface-2);stroke:var(--line)}
+.viz .bnd{fill:color-mix(in srgb,var(--interp) 28%,transparent);stroke:var(--interp);stroke-width:1.2}
+.viz .mk{stroke:var(--ink);stroke-width:2}
+.viz .bar-a{fill:var(--accent)}
+.viz .bar-b{fill:var(--mut);opacity:.7}
+.viz text.bl,.viz text.bv{fill:var(--ink);font-size:12px}
+.viz text.bv{font-weight:700}
+
+/* karty */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 1px 2px var(--shadow);padding:var(--sp-4);display:grid;gap:var(--sp-3);align-content:start}
+.card header{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-2);flex-wrap:wrap}
+.card h3{font:800 var(--t-lg)/1.2 var(--head);letter-spacing:-.01em}
+.card .date{font-size:var(--t-xs);color:var(--mut)}
+.card footer{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-2);flex-wrap:wrap;font-size:13px}
+.hook{background:var(--surface-2);border-radius:var(--r-md);padding:var(--sp-3);display:grid;gap:2px}
+.hook b{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.hook p{font-size:var(--t-sm)}
+.ex{font:700 21px/1.2 var(--hand);color:var(--mut)}
+.interp{background:color-mix(in srgb,var(--interp) 10%,var(--surface));border-radius:var(--r-md);padding:var(--sp-3);display:grid;gap:4px}
+.interp b{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--interp)}
+.interp p{font-size:var(--t-sm)}
+.forme{background:var(--surface-2);border-radius:var(--r-md);padding:var(--sp-3);display:grid;gap:4px}
+.forme b{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.forme p{font-size:var(--t-sm)}
+h4{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-top:var(--sp-2)}
+.facts{margin:0;padding-left:18px;display:grid;gap:8px;font-size:15px}
+.hbars{display:grid;gap:8px}
+.hb{display:grid;grid-template-columns:104px 1fr 56px;gap:8px;align-items:center;font-size:13px}
+.hb b{text-align:right;font-variant-numeric:tabular-nums}
+.ht{height:10px;border-radius:5px;background:var(--surface-2)}
+.ht i{display:block;height:100%;border-radius:5px;background:var(--accent)}
+.ht i.neg{background:var(--mut)}
+.src{display:flex;gap:var(--sp-2);align-items:center;font-size:var(--t-xs);color:var(--mut)}
+
+/* nawigacja */
+.tnav{display:none}
+.bnav{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+.ni{display:grid;justify-items:center;gap:2px;padding:6px 4px;min-height:48px;font:600 var(--t-xs) var(--sans);color:var(--mut);text-decoration:none}
+.ni svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ni.on{color:var(--accent)}
+@container scr (min-width:760px){
+  .scr-body{padding:var(--sp-6) var(--sp-6) var(--sp-7);gap:var(--sp-5)}
+  .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .row2{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+  .bnav{display:none}
+  .tnav{display:flex;order:-1;gap:var(--sp-1);padding:var(--sp-3) var(--sp-6);border-bottom:1px solid var(--line);background:var(--surface)}
+  .tnav .ni{display:inline-flex;gap:8px;min-height:44px;padding:8px 16px;border-radius:var(--r-pill);font-size:var(--t-sm)}
+  .tnav .ni.on{background:var(--ink);color:var(--bg)}
+  .btn.wide{width:auto;justify-self:start}
+  .hello h2{font-size:var(--t-2xl)}
+}
+@container scr (max-width:759px){.btn.wide{width:100%}}
+
+/* słupek bilansu */
+.bal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-3) var(--sp-4)}
+.balh{display:flex;justify-content:space-between;gap:var(--sp-2);flex-wrap:wrap;font-size:var(--t-sm)}
+.balh span{color:var(--mut)}
+.balb{display:flex;height:12px;border-radius:6px;overflow:hidden;gap:2px}
+.balb i{display:block}
+.balb .s1{background:var(--accent)}.balb .s2{background:var(--interp)}.balb .s3{background:var(--line-strong)}
+.balk{display:flex;gap:var(--sp-4);flex-wrap:wrap;font-size:var(--t-xs);color:var(--mut)}
+.balk b{color:var(--ink)}
+
+/* mapa na telefonie */
+.mapcard{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 1px 2px var(--shadow)}
+.mapseg{display:flex;width:max-content;margin:var(--sp-3) var(--sp-3) 0}
+.mapv{display:block;width:100%;height:auto}
+.mapv[hidden]{display:none}
+.mask{fill:var(--surface);opacity:.82}
+.sel{fill:none;stroke:var(--accent);stroke-width:4}
+.schips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;margin-inline:-2px}
+.sc{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:6px 14px 6px 8px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);font:600 13px var(--sans);cursor:pointer}
+.sc b{--c:var(--ink);width:22px;height:22px;border-radius:50%;background:var(--c);color:var(--bg);display:grid;place-items:center;font:700 12px var(--sans)}
+.sc.oil b{--c:var(--oil)}.sc.chain b{--c:var(--chain)}.sc.ind b{--c:var(--ind)}.sc.ext b{--c:var(--ext)}
+.sc.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface));box-shadow:0 0 0 1px var(--accent)}
+.tour{display:flex;gap:var(--sp-2);flex-wrap:wrap}
+.variantb{border:1.5px dashed var(--line-strong);border-radius:var(--r-md);padding:var(--sp-2);display:grid;gap:6px}
+.vtag{font:700 11px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
+.strip{display:flex;gap:var(--sp-2);overflow-x:auto;align-items:stretch}
+.stl{font:700 21px var(--hand);color:var(--mut);align-self:center;padding-right:2px}
+.sp{flex:none;display:grid;gap:0;padding:6px 28px 6px 12px;border-radius:14px;background:var(--surface);border:1px solid var(--line);position:relative}
+.sp small{font-size:11px;color:var(--mut)}
+.sp b{font:700 var(--t-sm) var(--sans);font-variant-numeric:tabular-nums}
+.sp i{position:absolute;right:10px;top:22px;font-style:normal;font-weight:700;color:var(--accent)}
+.sp.good{background:color-mix(in srgb,var(--ok) 10%,var(--surface));max-width:220px;padding-right:12px}
+.sheet{background:var(--surface);border-top:1px solid var(--line-strong);border-radius:var(--r-lg) var(--r-lg) 0 0;box-shadow:0 -8px 24px var(--shadow);padding:var(--sp-2) var(--sp-4) var(--sp-4);display:grid;gap:var(--sp-2);margin-top:var(--sp-4)}
+.grip{width:40px;height:4px;border-radius:2px;background:var(--line-strong);margin:0 auto var(--sp-1)}
+.sh{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-2)}
+.sh>div:first-child{display:grid;gap:6px;justify-items:start}
+.sh h3{font:800 var(--t-xl)/1.1 var(--head);letter-spacing:-.02em}
+.arr{display:flex;gap:6px}
+.arr button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);font-size:22px;line-height:1;cursor:pointer}
+.wrow{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;font-size:var(--t-sm);color:var(--mut)}
+.wrow span:not(.chip){flex:1 1 200px}
+
+/* karta węzła (porównanie poziomów) */
+.ncard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 1px 2px var(--shadow);padding:var(--sp-4);display:grid;gap:var(--sp-2);align-content:start}
+.levf{display:flex;justify-content:space-between;gap:var(--sp-2);flex-wrap:wrap;border-top:1px dashed var(--line-strong);padding-top:var(--sp-2);font-size:var(--t-xs);color:var(--mut)}
+
+/* dementi, słowniczek */
+.myth .step{display:grid;gap:4px;padding-top:var(--sp-3);border-top:1px solid var(--line)}
+.k{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.k.fact{color:var(--ok)}.k.mit{color:var(--mut)}.k.mech{color:var(--interp)}
+.q{font:700 18px/1.25 var(--head);color:var(--mut)}
+.myth small{font-size:var(--t-xs);color:var(--mut)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.myth .ask{background:var(--surface-2);border-radius:var(--r-md);padding:var(--sp-3);display:grid;gap:2px;justify-content:start}
+.myth .ask span{font-size:var(--t-xs);color:var(--mut)}
+.myth .ask b{font-size:var(--t-md)}
+.tp{font-size:var(--t-lg)/1.5 var(--sans)}
+.term{border:0;border-bottom:2px dotted var(--accent);background:none;padding:0 0 1px;cursor:pointer;font:inherit;color:inherit}
+.pop-t{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-md);padding:var(--sp-3);box-shadow:0 8px 24px var(--shadow);display:grid;gap:6px}
+.pop-t p{font-size:var(--t-sm)}
+
+
+/* wskaźnik pewności danych */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.conf{--c:var(--ok);display:grid;gap:4px}
+.conf.c-mid{--c:var(--dis)}.conf.c-lo{--c:var(--ext)}
+.cmain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px}
+.cl{color:var(--mut)}
+.pips{display:inline-flex;gap:3px}
+.pips i{width:16px;height:8px;border-radius:3px;background:var(--line-strong)}
+.c-hi .pips i,.c-mid .pips i:nth-child(-n+2),.c-lo .pips i:nth-child(1){background:var(--c)}
+.cmain b{color:var(--c);font-weight:700}
+.why{font-size:var(--t-xs);color:var(--mut)}
+.lv2-on .cfac.lv2{display:grid!important;grid-template-columns:auto 1fr;gap:4px 12px;margin:6px 0 0;font-size:var(--t-xs)}
+.cfac dt{color:var(--mut)}
+.cfac dd{margin:0;display:flex;gap:6px;align-items:baseline}
+.cfac dd b{width:14px;flex:none;text-align:center;font-weight:700}
+.cfac .f-ok b{color:var(--ok)}.cfac .f-mid b{color:var(--dis)}.cfac .f-no b{color:var(--ext)}
+.confdemo hr{border:0;border-top:1px dashed var(--line-strong);margin:var(--sp-2) 0;width:100%}
+.stat .conf{margin-top:2px}
+.sheet .conf{padding-top:var(--sp-1)}
+
+/* nagłówek dnia (humor) */
+.hl header{align-items:center}
+.hlpg{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mut)}
+.hlpg button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);font-size:22px;line-height:1;cursor:pointer}
+.hli{display:grid;gap:var(--sp-3)}
+.hli[hidden]{display:none}
+.hl-a,.hl-b{display:grid;gap:var(--sp-3);align-content:start;min-width:0}
+.hype{font:800 var(--t-xl)/1.15 var(--head);letter-spacing:-.015em;text-wrap:balance}
+.meter{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:var(--t-xs);color:var(--mut)}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:14px;height:8px;border-radius:3px;background:var(--line-strong)}
+.dots[data-n="2"] i:nth-child(-n+2),.dots[data-n="3"] i:nth-child(-n+3),.dots[data-n="4"] i:nth-child(-n+4),.dots[data-n="5"] i{background:var(--dis)}
+.polu,.refl{display:grid;gap:4px;align-content:start;background:var(--surface-2);border-radius:var(--r-md);padding:var(--sp-3)}
+.refl b{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ind)}
+.emo{font-weight:700;color:var(--ind)}
+.refl p,.polu p{font-size:var(--t-sm)}
+.polu .quip{font-size:21px}
+.askq{font-size:var(--t-sm);color:var(--mut)}
+.parody{display:grid;gap:2px;border:1px dashed var(--line-strong);border-radius:var(--r-md);padding:var(--sp-2) var(--sp-3)}
+.parody span{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.parody q{font:600 var(--t-sm) var(--sans);color:var(--mut);quotes:'„' '”'}
+.lv2-on .askq.lv2{display:block!important}
+.polu b{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ok)}
+.quip{font:700 22px/1.2 var(--hand);color:var(--mut)}
+.fake{font-size:var(--t-xs);color:var(--mut);flex:1 1 180px}
+@container scr (min-width:760px){.hl-b{grid-template-columns:1fr 1fr}.hype{font-size:var(--t-2xl)}}
+
+/* ramowanie: ta sama liczba, dwa nagłówki */
+.frame{container:frm/inline-size}
+.fx{display:grid;gap:var(--sp-3)}
+.fpair{display:grid;gap:var(--sp-2)}
+.fb{--c:var(--interp);display:grid;gap:6px;align-content:start;border-radius:var(--r-md);padding:var(--sp-3);background:color-mix(in srgb,var(--c) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 26%,transparent)}
+.fb.b{--c:var(--ind)}
+.ftone{font:700 var(--t-xs) var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--c)}
+.fh{font:800 var(--t-lg)/1.2 var(--head);letter-spacing:-.01em;text-wrap:balance}
+.fb small{font-size:var(--t-xs);color:var(--mut)}
+.ffact{background:var(--surface-2);border-radius:var(--r-md);padding:var(--sp-3);display:grid;gap:2px}
+.ffact b{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.ffact p{font-size:var(--t-sm)}
+.frame hr{border:0;border-top:1px dashed var(--line-strong);margin:var(--sp-2) 0;width:100%}
+.sp.tq{max-width:200px;padding-right:12px}
+@container frm (min-width:520px){.fpair{grid-template-columns:1fr 1fr}}
+
+/* system */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:var(--sp-3)}
+.swatches>div{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--surface)}
+.swatches i{display:block;height:44px;border-bottom:1px solid var(--line)}
+.swatches span{display:grid;padding:6px 10px;font:var(--t-xs) var(--mono);gap:0}
+.swatches em{font:normal var(--t-xs) var(--sans);color:var(--mut)}
+.scale{display:grid;gap:0;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);overflow:hidden}
+.scale>div{display:grid;grid-template-columns:90px 1fr;gap:var(--sp-3);align-items:baseline;padding:var(--sp-3) var(--sp-4);border-top:1px solid var(--line)}
+.scale>div:first-child{border-top:0}
+.scale code{font:var(--t-xs) var(--mono);color:var(--mut)}
+.scale p{min-width:0}
+.scale small{display:block;font-size:var(--t-xs);color:var(--mut);font-family:var(--sans);font-weight:400;letter-spacing:0}
+.space{display:grid;gap:8px}
+.space div{display:grid;grid-template-columns:60px 1fr;align-items:center;gap:var(--sp-3);font:var(--t-xs) var(--mono);color:var(--mut)}
+.space i{display:block;height:12px;border-radius:3px;background:var(--accent);opacity:.7}
+.rules{margin:0;padding-left:18px;display:grid;gap:10px;max-width:78ch}
+.rules b{font-weight:700}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:var(--sp-6);align-items:start}
+.two>*{min-width:0}
+.fonts{display:grid;gap:var(--sp-2)}
+.fonts div{display:flex;align-items:baseline;gap:var(--sp-3);flex-wrap:wrap}
+.fonts .h{font:800 var(--t-2xl)/1 var(--head)}
+.fonts .b{font:500 var(--t-lg) var(--sans)}
+.fonts .c{font:700 26px var(--hand);color:var(--mut)}
+.fonts small{font-size:var(--t-xs);color:var(--mut)}
+
+/* mapa: reguły z aplikacji (bez animacji) */
+.node .chm{fill:var(--accent);stroke:var(--surface);stroke-width:2.5}
+__MAPCSS__
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">__MAPDEFS__</svg>
+
+<div class="page">
+  <div class="toolbar" role="toolbar" aria-label="Ustawienia podglądu">
+    <div class="grp"><span>Poziom treści</span>
+      <div class="seg g-level" role="group" aria-label="Poziom treści"><button type="button" data-level="1" aria-pressed="true">Podstawy</button><button type="button" data-level="2" aria-pressed="false">Więcej</button></div></div>
+    <div class="grp"><span>Motyw</span>
+      <div class="seg g-theme" role="group" aria-label="Motyw"><button type="button" data-theme="auto" aria-pressed="true">Auto</button><button type="button" data-theme="light" aria-pressed="false">Jasny</button><button type="button" data-theme="dark" aria-pressed="false">Ciemny</button></div></div>
+  </div>
+
+  <header class="intro">
+    <p class="eyebrow">Faza U, makiety wersja 1.0</p>
+    <h1>Gospodarka bez nerwów: mapa i warstwy</h1>
+    <p>Robocza propozycja układu. Liczby, teksty i mapa pochodzą z danych aplikacji z __ASOF__, więc można oceniać to, co użytkownik naprawdę zobaczy. Przełączniki u góry zmieniają poziom treści i motyw na wszystkich ekranach. Opisy „Decyduje” i „Dotyczy”, uwagi „Obserwuj”, bloki „Co może o tym zadecydować” i oznaczenia pewności to propozycje do zatwierdzenia, nie ustalone fakty.</p>
+    <div class="decide">
+      <h2>Decyzje fazy U (zatwierdzone 24.11.2026)</h2>
+      <ul>
+        <li>Kierunek „Mapa + warstwy”. Start jest pierwszą zakładką, poziomy na start to Podstawy i Więcej, „Uczę się” dopiero po ustabilizowaniu.</li>
+        <li>Nie ma dobrych i złych wiadomości. Pokazujemy ramowanie: ten sam fakt może wywołać ulgę albo niepokój.</li>
+        <li>Zamiast oceniać czytelnika: „Decyduje” i „Dotyczy” opisują świat, a „Co może o tym zadecydować” pokazuje najbliższe wydarzenia i zadaje jedno łatwe pytanie, bez nakłaniania do działania. Przy każdej liczbie wskaźnik pewności danych.</li>
+        <li>Nagłówek dnia: tytułem jest parodia, pod nią klikbajt, odzwierciedlenie i „Po ludzku”.</li>
+        <li>Tokeny, komponenty i zasady: <code>docs/design/</code>. Opisy „Decyduje / Dotyczy”, sytuacje i oceny pewności na tej stronie to przykłady redakcyjne do potwierdzenia przy migracji danych.</li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="sec" id="start" aria-labelledby="h-start">
+    <header>
+      <h2 id="h-start">1. Start: dziś w 60 sekund</h2>
+      <p>Pierwszy ekran odpowiada na pytanie „co się dzieje?”, zanim ktoś otworzy mapę. Trzy liczby z kontekstem, przesadzony nagłówek dla humoru, pokaz tego samego faktu opowiedzianego dwiema emocjami i technika dnia. Na telefonie nawigacja jest na dole, na komputerze u góry, a ten sam komponent układa się według szerokości ramki.</p>
+      <ul class="check"><li>Czy po 10 sekundach wiesz, czy jest powód do niepokoju?</li><li>Przełącz na „Więcej”: pod każdą liczbą pojawia się wyjaśnienie, rozbicie pewności danych i bilans zmian.</li><li>W „Nagłówku dnia” przełączaj strzałkami. W „Więcej” karta ramowania pokazuje drugi przykład.</li></ul>
+    </header>
+    <div class="figs">
+      <figure class="fig"><figcaption>Telefon, 390 px<small>Układ jednokolumnowy, cele dotykowe min. 44 px</small></figcaption>__START__</figure>
+      <figure class="fig wide"><figcaption>Komputer, ramka szeroka<small>Te same komponenty: 3 kafelki w rzędzie, nagłówek dnia na całą szerokość, ramowanie i technika obok siebie</small></figcaption>__STARTWIDE__</figure>
+    </div>
+  </section>
+
+  <section class="sec" id="mapa" aria-labelledby="h-mapa">
+    <header>
+      <h2 id="h-mapa">2. Mapa na telefonie</h2>
+      <p>Mapa zostaje kręgosłupem aplikacji. Na telefonie dostaje dwa widoki: „Polska” (łańcuch cen w dużej skali, jak dziś w lupie) i „Świat” (cała trasa ropy). Szczegóły węzła wysuwają się z dołu, więc mapa zostaje widoczna.</p>
+    </header>
+    <div class="figs">
+      <figure class="fig"><figcaption>Mapa, krok 3: Stacja paliw<small>Spróbuj: „Pokaż więcej” w panelu, przełącznik Polska / Świat</small></figcaption>__MAPSCREEN__</figure>
+      <div class="notes">
+        <h3>Co się zmienia względem dzisiejszej mapy</h3>
+        <ul>
+          <li><b>Kroki jako poziomy pasek</b> <span>zamiast długiej listy pod mapą. Aktywny krok podświetla węzeł.</span></li>
+          <li><b>Dolny panel zamiast okna</b> <span>(bottom sheet). Strzałki przechodzą do poprzedniego i następnego kroku bez zamykania.</span></li>
+          <li><b>Podstawy to jedna liczba i jedno zdanie.</b> <span>„Pokaż więcej” rozwija fakty, interpretację, wykres i „co to znaczy dla mnie”.</span></li>
+          <li><b>Decyduje i obserwacja:</b> <span>przy paliwach decyduje rząd i rynek ropy, a „Obserwuj” wskazuje decyzję o programie na 2027 r. w połowie grudnia.</span></li>
+          <li><b>„Prześledź łańcuch” i „Oprowadź mnie”</b> <span>zachowują dzisiejszą autoprezentację.</span></li>
+          <li><b>Wariant B</b> <span>(ramka przerywana) dodaje pasek „Dziś” nad mapą. W wariancie A tego paska nie ma, bo jest Start.</span></li>
+        </ul>
+        <p class="ctxl">Węzły i trasa to rzeczywista grafika z aplikacji. Na komputerze układ mapy zostaje taki jak dziś (mapa po lewej, panel po prawej).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="poziomy" aria-labelledby="h-poziomy">
+    <header>
+      <h2 id="h-poziomy">3. Ta sama karta na dwóch poziomach</h2>
+      <p>Poziom jest polem w danych, nie osobnym projektem. Podstawy mieszczą się w kilkunastu sekundach, Więcej dodaje fakty, interpretację i „co to znaczy dla mnie”. Miejsce na przyszły poziom Szczegóły to rozwijany blok „Źródła i metodologia”.</p>
+    </header>
+    <div class="figs">
+      <figure class="fig"><figcaption>Podstawy<small>liczba, kierunek, jedno zdanie, kto decyduje</small></figcaption>__NCARD1__</figure>
+      <figure class="fig"><figcaption>Więcej<small>dodaje fakty, interpretację, „dla mnie” i wejście do źródeł</small></figcaption>__NCARD2__</figure>
+    </div>
+  </section>
+
+  <section class="sec" id="manipulacja" aria-labelledby="h-man">
+    <header>
+      <h2 id="h-man">4. Pewność danych, manipulacja i ramowanie</h2>
+      <p>Wzorce, które pracują razem: wskaźnik pewności mówi, na ile ufać liczbie, dementi zaczyna się od faktu, a karta ramowania pokazuje, że ten sam fakt można opowiedzieć jako ulgę albo jako niepokój. Nie oceniamy faktów jako dobrych lub złych. Pojęcia tłumaczą się w miejscu, w którym się pojawiają.</p>
+    </header>
+    <div class="figs">
+      <figure class="fig"><figcaption>Wskaźnik pewności danych<small>Podsumowanie czterech czynników, liczone skryptem z rejestru źródeł</small></figcaption>__CONFDEMO__</figure>
+      <figure class="fig"><figcaption>Dementi: fakt, mit, mechanizm, fakt<small>Zamiast powtarzać mit, zaczynamy i kończymy faktem</small></figcaption>__MYTH__</figure>
+      <figure class="fig"><figcaption>Ta sama liczba, dwa nagłówki<small>„Dobry” i „zły” to ton autora, nie cecha faktu</small></figcaption>__GOOD__
+        <figcaption style="margin-top:12px">Słowniczek w kontekście<small>Dotknięcie pojęcia otwiera definicję w jednym zdaniu</small></figcaption>__TERMS__</figure>
+      <div class="notes">
+        <h3>Jak liczymy pewność danych</h3>
+        <ul><li><b>Źródło:</b> <span>pierwotne (GUS, NBP, Eurostat, WHO), agencje i duże media, wtórne.</span></li><li><b>Aktualność:</b> <span>względem rytmu publikacji źródła, nie kalendarza.</span></li><li><b>Zgodność źródeł:</b> <span>czy źródła podają to samo, czy różne wartości.</span></li><li><b>Rodzaj danych:</b> <span>pomiar, wyliczenie, szacunek albo prognoza.</span></li></ul>
+        <p class="ctxl">Wynik liczy skrypt z rejestru źródeł, nie model językowy, więc jest powtarzalny i sprawdzalny. Wskaźnik opisuje całą liczbę, a oznaczenia poniżej opisują rodzaj pojedynczego twierdzenia w tekście.</p>
+        <h3>Bez dobrych i złych wiadomości</h3>
+        <ul><li><b>Opisujemy fakt, nie nastrój.</b> <span>Kierunek strzałką i słowem, skala i kontekst. Nie „dobra” ani „zła”.</span></li><li><b>Pokazujemy ramowanie.</b> <span>Ten sam fakt zasila ulgę albo lęk. Nagłówek zdradza emocję autora albo to, jaką emocję chce w Tobie wywołać.</span></li><li><b>Radość też bywa manipulacją.</b> <span>„Pozytywny wykrzyknik” jest taką samą techniką jak katastrofizacja.</span></li><li><b>Opis świata, nie ocena czytelnika.</b> <span>„Decyduje” i „Dotyczy” są prawdziwe dla każdego. Własne wnioski zostawiamy czytelnikowi: blok „Co może o tym zadecydować” opisuje perspektywy i zadaje pytanie. „Obserwuj” wskazuje konkretne wydarzenie albo wskaźnik.</span></li><li><b>Haczyk uczciwości</b> <span>zmienia się w „Czego nagłówek nie mówi”.</span></li></ul>
+        <h3>Zasady humoru</h3>
+        <ul><li><span>Tytułem jest absurdalna parodia klikbajtu, pod nią widać, jaki prawdziwy klikbajt parodiuje.</span></li><li><span>Żartujemy z tonu nagłówka, nigdy z ludzi, wojny ani konkretnych redakcji.</span></li><li><span>Nagłówki są wymyślone i tak oznaczone. Liczby w nich i w wyjaśnieniu są prawdziwe.</span></li><li><span>Zawsze obok jest „Po ludzku” z faktem i źródłem.</span></li></ul>
+        <h3>Oznaczenia pewności</h3>
+        <ul class="legend2">__GR__</ul>
+        <h3>Kto decyduje, kogo dotyczy</h3>
+        <ul class="legend2">__WT__</ul>
+        <p class="ctxl">Pewność odróżnia nie tylko kolor, ale też liczba kropek i słowo, więc działa bez rozróżniania barw. Czerwień jest zarezerwowana dla naprawdę ważnych sygnałów i nie służy do pokazywania zmian cen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="system" aria-labelledby="h-system">
+    <header>
+      <h2 id="h-system">5. Szkic systemu: tokeny i zasady</h2>
+      <p>Kolory i czcionki zostają z aplikacji. Nowe są semantyczne kolory pewności i trzy skale (typografia, odstępy, promienie), które zastąpią dzisiejsze 11 rozmiarów czcionek i odstępy wpisane na sztywno.</p>
+    </header>
+    <div class="two">
+      <div class="fonts">
+        <h4>Kroje</h4>
+        <div><span class="h">Aa</span><small>Bricolage Grotesque 800: tytuły i liczby</small></div>
+        <div><span class="b">Aa Gospodarka</span><small>Geist 400–700: tekst i interfejs</small></div>
+        <div><span class="c">Aa odręczne</span><small>Caveat: tylko krótkie podpisy i cytaty</small></div>
+      </div>
+      <div class="space"><h4>Odstępy</h4>
+        <div>sp-1 · 4<i style="width:4px"></i></div><div>sp-2 · 8<i style="width:8px"></i></div><div>sp-3 · 12<i style="width:12px"></i></div><div>sp-4 · 16<i style="width:16px"></i></div><div>sp-5 · 24<i style="width:24px"></i></div><div>sp-6 · 32<i style="width:32px"></i></div><div>sp-7 · 48<i style="width:48px"></i></div>
+      </div>
+    </div>
+    <div class="scale" aria-label="Skala typografii">
+      <div><code>t-num 40</code><p style="font:800 var(--t-num)/1.05 var(--head);letter-spacing:-.03em">ok. 90 USD<small>Liczba główna kafelka</small></p></div>
+      <div><code>t-2xl 34</code><p style="font:800 var(--t-2xl)/1.1 var(--head)">Dziś w 60 sekund<small>Tytuł ekranu</small></p></div>
+      <div><code>t-xl 26</code><p style="font:800 var(--t-xl)/1.1 var(--head)">Stacja paliw<small>Tytuł panelu i karty węzła</small></p></div>
+      <div><code>t-lg 20</code><p style="font:800 var(--t-lg)/1.2 var(--head)">Pensje wyprzedzają ceny<small>Tytuł karty, logo</small></p></div>
+      <div><code>t-md 16</code><p style="font:400 var(--t-md)/1.55 var(--sans)">Taniej niż miesiąc temu, ale drożej niż w lutym.<small>Tekst podstawowy (poziom Podstawy)</small></p></div>
+      <div><code>t-sm 14</code><p style="font:400 var(--t-sm)/1.5 var(--sans)">Źródło: GUS, odczyt finalny z 13.11.<small>Tekst pomocniczy, opisy</small></p></div>
+      <div><code>t-xs 12</code><p style="font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)">Interpretacja<small style="text-transform:none;letter-spacing:0;font-weight:400">Etykiety, chipy, podpisy wykresów</small></p></div>
+    </div>
+    <div class="swatches" aria-label="Kolory">
+      <div><i style="background:var(--bg)"></i><span>--bg<em>tło strony</em></span></div>
+      <div><i style="background:var(--surface)"></i><span>--surface<em>karty</em></span></div>
+      <div><i style="background:var(--surface-2)"></i><span>--surface-2<em>wtórne pola</em></span></div>
+      <div><i style="background:var(--ink)"></i><span>--ink<em>tekst</em></span></div>
+      <div><i style="background:var(--mut)"></i><span>--mut<em>tekst pomocniczy</em></span></div>
+      <div><i style="background:var(--accent)"></i><span>--accent<em>akcja, kierunek</em></span></div>
+      <div><i style="background:var(--interp)"></i><span>--interp<em>interpretacja</em></span></div>
+      <div><i style="background:var(--ok)"></i><span>--ok<em>potwierdzone</em></span></div>
+      <div><i style="background:var(--est)"></i><span>--est<em>szacunek</em></span></div>
+      <div><i style="background:var(--dis)"></i><span>--dis<em>sporne, „Obserwuj”</em></span></div>
+      <div><i style="background:var(--fc)"></i><span>--fc<em>prognoza</em></span></div>
+      <div><i style="background:var(--oil)"></i><span>--oil<em>kategoria: energia</em></span></div>
+    </div>
+    <h3 style="font:800 var(--t-xl) var(--head)">Zasady, których pilnują agenci</h3>
+    <ul class="rules">
+      <li><b>Jedna liczba na 3 sekundy.</b> Kafelek ma jedną liczbę główną. Reszta jest kontekstem.</li>
+      <li><b>Liczba zawsze z kontekstem.</b> Zmiana, zakres lub norma i słowna ocena. Sama liczba nie wchodzi na ekran.</li>
+      <li><b>Fakt przed interpretacją.</b> Interpretacja jest zawsze oznaczona etykietą i kolorem morskim.</li>
+      <li><b>Kierunek strzałką i słowem, nie alarmem.</b> Czerwień jest zarezerwowana. Ceny w górę nie są „na czerwono”.</li>
+      <li><b>Podstawy mają do 40 słów.</b> Szczegóły i terminologia dopiero na wyższych poziomach.</li>
+      <li><b>Tylko tokeny i komponenty z biblioteki.</b> Nowy wzorzec wchodzi przez propozycję w <code>components.md</code>, nie przez nowy kolor lub rozmiar w CSS.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var live=[].slice.call(document.querySelectorAll('[data-live]'));
+  function setLevel(l){
+    live.forEach(function(e){e.classList.toggle('lv2-on',l===2);});
+    [].forEach.call(document.querySelectorAll('.g-level button'),function(b){b.setAttribute('aria-pressed',String(+b.getAttribute('data-level')===l));});
+  }
+  [].forEach.call(document.querySelectorAll('.g-level button'),function(b){b.addEventListener('click',function(){setLevel(+b.getAttribute('data-level'));});});
+  [].forEach.call(document.querySelectorAll('.g-theme button'),function(b){b.addEventListener('click',function(){
+    var t=b.getAttribute('data-theme');
+    if(t==='auto'){root.removeAttribute('data-theme');}else{root.setAttribute('data-theme',t);}
+    [].forEach.call(document.querySelectorAll('.g-theme button'),function(x){x.setAttribute('aria-pressed',String(x===b));});
+  });});
+  [].forEach.call(document.querySelectorAll('.more-btn'),function(b){b.addEventListener('click',function(){b.closest('.sheet').classList.add('lv2-on');});});
+  [].forEach.call(document.querySelectorAll('.mapseg'),function(seg){
+    var card=seg.parentNode;
+    [].forEach.call(seg.querySelectorAll('button'),function(b){b.addEventListener('click',function(){
+      var v=b.getAttribute('data-view');
+      [].forEach.call(seg.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',String(x===b));});
+      [].forEach.call(card.querySelectorAll('.mapv'),function(m){m.hidden=m.getAttribute('data-view')!==v;});
+    });});
+  });
+  [].forEach.call(document.querySelectorAll('.term'),function(t){t.addEventListener('click',function(){
+    var p=document.getElementById(t.getAttribute('aria-controls'));var open=t.getAttribute('aria-expanded')==='true';
+    t.setAttribute('aria-expanded',String(!open));p.hidden=open;
+  });});
+  [].forEach.call(document.querySelectorAll('.hl'),function(c){
+    var items=c.querySelectorAll('.hli'),cnt=c.querySelector('.cnt'),i=0;
+    function paint(){[].forEach.call(items,function(e,k){e.hidden=k!==i;});cnt.textContent=(i+1)+' / '+items.length;}
+    c.querySelector('.pv').addEventListener('click',function(){i=(i+items.length-1)%items.length;paint();});
+    c.querySelector('.nx').addEventListener('click',function(){i=(i+1)%items.length;paint();});
+  });
+  [].forEach.call(document.querySelectorAll('.schips'),function(c){var a=c.querySelector('.on');if(a){c.scrollLeft=Math.max(0,a.offsetLeft-c.offsetLeft-12);}});
+})();
+</script>
