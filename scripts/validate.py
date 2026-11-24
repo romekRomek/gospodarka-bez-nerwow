@@ -8,8 +8,8 @@
 
 Sprawdza: poprawność JSON, spójność identyfikatorów między plikami, wymagane pola,
 dziennik zmian, rejestr źródeł (src/data/sources.json) i to, że każdy adres URL w danych
-i w szablonie jest w rejestrze. Ostrzega o zaległościach migracji (zasada „nie ma dobrych
-i złych wiadomości”, brak pól src przy liczbach). Opis zasad: docs/design/principles.md.
+i w szablonie jest w rejestrze. Sprawdza pola węzłów dla nowego designu (decides, concerns, watch, soon, conf).
+Ostrzega o zaległościach migracji (zasada „nie ma dobrych i złych wiadomości”, brak pól src przy liczbach). Opis zasad: docs/design/principles.md.
 """
 import argparse, datetime, json, pathlib, re, sys
 from urllib.parse import urlparse
@@ -22,6 +22,19 @@ DATE_RE = re.compile(r'^(\d{2})\.(\d{2})\.(\d{4})$')
 URL_RE = re.compile(r'https?://[^"\s\\<>]+')
 BANNED = re.compile(r'dobr(a|ą|e|ych|ej)\s+wiadomo|zł(a|ą|e|ych|ej)\s+wiadomo', re.I)
 REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'sources']
+
+# Pola węzła dla nowego designu (docs/design/content-model.md, decyzje D11 i D13).
+LIM_DECIDES, LIM_WATCH, LIM_QUESTION, LIM_EVENT = 80, 90, 70, 110
+CONF_KINDS = {'measurement', 'calculation', 'market', 'estimate', 'forecast'}
+CONF_AGREE = {'agree', 'small', 'differ', 'single'}
+ASOF_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+# tryb rozkazujący, nakazy i porady (zasada T7: zaproszenie, nie nakaz)
+COMMAND = re.compile(r'\b(powinien|powinna|powinni|powinieneś|powinnaś|musisz|musicie|należy|trzeba|koniecznie|'
+                     r'nie przegap\w*|pamiętaj|sprawdź|zobacz|kup|sprzedaj|zainwestuj|zadbaj)\b', re.I)
+MONTHS_GEN = {'stycznia': 1, 'lutego': 2, 'marca': 3, 'kwietnia': 4, 'maja': 5, 'czerwca': 6, 'lipca': 7,
+              'sierpnia': 8, 'września': 9, 'października': 10, 'listopada': 11, 'grudnia': 12}
+MONTHS_NOM = {'styczeń': 1, 'luty': 2, 'marzec': 3, 'kwiecień': 4, 'maj': 5, 'czerwiec': 6, 'lipiec': 7,
+              'sierpień': 8, 'wrzesień': 9, 'październik': 10, 'listopad': 11, 'grudzień': 12}
 
 
 class Report:
@@ -124,6 +137,153 @@ def check_nodes(D, r):
             primary_cov += 1
     r.note(f'pokrycie źródłami liczb: {covered}/{len(steps)} węzłów w steps.json ma pole „src” (migracja: faza 0)')
     r.note(f'węzły z co najmniej jednym źródłem pierwotnym (poziom 1): {primary_cov}/{len(steps)}')
+    for s in steps:
+        if isinstance(s, dict) and 'src' not in s:
+            r.warn('steps.json', f'{s.get("id")}: brak „src” przy liczbie głównej (zasada I4, zaległość migracji)')
+
+
+def parse_when(when, year):
+    """Termin wydarzenia z `soon.events[].when` na klucz porządkowy (grupa, data) albo None, gdy format nieznany.
+
+    Grupy: 1 = konkretny termin (data, „połowa grudnia”, „grudzień”, „do końca roku”, „do 2028”),
+    2 = cyklicznie („co tydzień”, „co miesiąc”, „co kwartał”), 3 = „bez terminu”."""
+    w = (when or '').strip().lower()
+    if w == 'bez terminu':
+        return (3, datetime.date.max)
+    if re.fullmatch(r'co (tydzień|miesiąc|kwartał)', w):
+        return (2, datetime.date.max)
+    if w == 'do końca roku':
+        return (1, datetime.date(year, 12, 31))
+    m = re.fullmatch(r'do (?:końca )?(\d{4})', w)
+    if m:
+        return (1, datetime.date(int(m.group(1)), 12, 31))
+    m = re.fullmatch(r'połowa (\w+)', w)
+    if m and m.group(1) in MONTHS_GEN:
+        return (1, datetime.date(year, MONTHS_GEN[m.group(1)], 15))
+    if w in MONTHS_NOM:  # sam miesiąc: liczymy jako jego koniec, żeby nie zakładać dnia
+        mo = MONTHS_NOM[w]
+        nxt = datetime.date(year + (mo == 12), mo % 12 + 1, 1)
+        return (1, nxt - datetime.timedelta(days=1))
+    m = re.fullmatch(r'(\d{1,2})(?:[–-]\d{1,2})?\.(\d{1,2})(?:\.(\d{4}))?', w)
+    if m:
+        try:
+            return (1, datetime.date(int(m.group(3) or year), int(m.group(2)), int(m.group(1))))
+        except ValueError:
+            return None
+    return None
+
+
+def check_node_fields(D, r):
+    """Pola węzła dla nowego designu: decides, concerns, watch, soon, conf (decyzje D11, D13, zasady T3, T7)."""
+    steps = D.get('steps')
+    if not isinstance(steps, list):
+        return
+    year = 2026
+    last_update = None
+    cl = D.get('changelog')
+    if isinstance(cl, list) and cl and isinstance(cl[0], dict):
+        last_update = parse_date(cl[0].get('label'))
+        if last_update:
+            year = last_update.year
+    for s in steps:
+        if not isinstance(s, dict):
+            continue
+        w = f'steps.json {s.get("id")}'
+        texts = []
+
+        def text_field(key, limit, required):
+            v = s.get(key)
+            if v is None:
+                if required:
+                    r.err(w, f'brak pola „{key}”')
+                return None
+            if not is_str(v):
+                r.err(w, f'„{key}” musi być niepustym tekstem')
+                return None
+            if len(v) > limit:
+                r.err(w, f'„{key}” ma {len(v)} znaków, limit {limit}')
+            texts.append((key, v))
+            return v
+
+        decides = text_field('decides', LIM_DECIDES, True)
+        concerns = text_field('concerns', 10 ** 6, True)
+        watch = text_field('watch', LIM_WATCH, False)
+        if concerns:
+            groups = [g for g in concerns.split(',') if g.strip()]
+            if re.search(r'wszystkich', concerns, re.I):
+                r.err(w, '„concerns” wymienia „wszystkich”: podaj 2–3 konkretne grupy (zasada T3)')
+            if not 2 <= len(groups) <= 3:
+                r.err(w, f'„concerns” ma {len(groups)} grup, oczekiwano 2–3 oddzielonych przecinkami (zasada T3)')
+        if watch and decides and watch.strip().lower() == decides.strip().lower():
+            r.err(w, '„watch” powtarza „decides” (obserwuj tylko z konkretem, zasada T3)')
+
+        soon = s.get('soon')
+        if soon is None:
+            r.err(w, 'brak pola „soon”')
+        elif not isinstance(soon, dict):
+            r.err(w, '„soon” musi być obiektem {events, question}')
+        else:
+            events = soon.get('events')
+            if not isinstance(events, list) or not 1 <= len(events) <= 3:
+                r.err(w, '„soon.events” musi być listą 1–3 wydarzeń')
+                events = []
+            keys = []
+            for k, e in enumerate(events):
+                if not (isinstance(e, dict) and is_str(e.get('when')) and is_str(e.get('text'))):
+                    r.err(w, f'„soon.events[{k}]” musi mieć niepuste „when” i „text”')
+                    continue
+                texts.append((f'soon.events[{k}].when', e['when']))
+                texts.append((f'soon.events[{k}].text', e['text']))
+                if len(e['text']) > LIM_EVENT:
+                    r.err(w, f'„soon.events[{k}].text” ma {len(e["text"])} znaków, limit {LIM_EVENT}')
+                key = parse_when(e['when'], year)
+                if key is None:
+                    r.err(w, f'„soon.events[{k}].when” = „{e["when"]}”: oczekiwano daty, „połowa grudnia”, „grudzień”, '
+                             '„do końca roku”, „co miesiąc” albo „bez terminu”')
+                else:
+                    keys.append((k, e['when'], key))
+            for (k1, w1, a), (k2, w2, b) in zip(keys, keys[1:]):
+                if b < a:
+                    r.err(w, f'„soon.events” nie są chronologiczne: „{w2}” po „{w1}” (cykliczne po datach, „bez terminu” na końcu)')
+                    break
+            q = soon.get('question')
+            if not is_str(q):
+                r.err(w, 'brak „soon.question” (jedno łatwe pytanie „Dla Ciebie”)')
+            else:
+                texts.append(('soon.question', q))
+                if len(q) > LIM_QUESTION:
+                    r.err(w, f'„soon.question” ma {len(q)} znaków, limit {LIM_QUESTION}')
+                if q.count('?') != 1 or not q.strip().endswith('?'):
+                    r.err(w, '„soon.question” ma być jednym pytaniem zakończonym znakiem „?” (zasada T7)')
+
+        conf = s.get('conf')
+        if conf is None:
+            r.err(w, 'brak pola „conf” (dane wejściowe wskaźnika pewności)')
+        elif not isinstance(conf, dict):
+            r.err(w, '„conf” musi być obiektem {asof, kind, agree}')
+        else:
+            asof = conf.get('asof')
+            d = None
+            if isinstance(asof, str) and ASOF_RE.match(asof):
+                try:
+                    d = datetime.date.fromisoformat(asof)
+                except ValueError:
+                    d = None
+            if d is None:
+                r.err(w, f'„conf.asof” = „{asof}”: oczekiwano daty rrrr-mm-dd')
+            elif last_update and d > last_update:
+                r.err(w, f'„conf.asof” ({asof}) jest późniejsze niż ostatnia aktualizacja danych ({cl[0]["label"]})')
+            if conf.get('kind') not in CONF_KINDS:
+                r.err(w, f'„conf.kind” = „{conf.get("kind")}” spoza {sorted(CONF_KINDS)}')
+            if conf.get('agree') not in CONF_AGREE:
+                r.err(w, f'„conf.agree” = „{conf.get("agree")}” spoza {sorted(CONF_AGREE)}')
+
+        for key, v in texts:
+            if BANNED.search(v):
+                r.err(w, f'„{key}” zawiera ocenę „dobra/zła wiadomość” (zasada T1, decyzja D5)')
+            m = COMMAND.search(v)
+            if m:
+                r.err(w, f'„{key}” zawiera nakaz lub poradę („{m.group(0)}”): zaproszenie, nie nakaz (zasada T7)')
 
 
 def check_chart(r, where, c):
@@ -347,6 +507,7 @@ def run(data_dir, template, links=False):
     r = Report()
     D = load(data_dir, r)
     check_nodes(D, r)
+    check_node_fields(D, r)
     check_charts(D, r)
     check_news(D, r)
     check_content(D, r)

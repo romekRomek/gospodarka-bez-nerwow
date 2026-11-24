@@ -13,7 +13,9 @@ DATA = ROOT / 'src' / 'data'
 TPL = ROOT / 'src' / 'template.html'
 
 
-class ValidateTest(unittest.TestCase):
+class DataCase(unittest.TestCase):
+    """Kopia prawdziwych danych w katalogu tymczasowym, którą test psuje."""
+
     def setUp(self):
         self.tmp = pathlib.Path(tempfile.mkdtemp())
         self.data = self.tmp / 'data'
@@ -21,6 +23,11 @@ class ValidateTest(unittest.TestCase):
 
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def reset(self):
+        """Przywraca czyste dane (gdy test psuje je kilka razy)."""
+        shutil.rmtree(self.data)
+        shutil.copytree(DATA, self.data)
 
     def edit(self, name, fn):
         f = self.data / f'{name}.json'
@@ -33,6 +40,9 @@ class ValidateTest(unittest.TestCase):
 
     def assert_error(self, r, fragment):
         self.assertTrue(any(fragment in e for e in r.errors), f'brak błędu z „{fragment}”: {r.errors}')
+
+
+class ValidateTest(DataCase):
 
     def test_real_data_has_no_errors(self):
         r = self.run_v()
@@ -134,6 +144,148 @@ class ValidateTest(unittest.TestCase):
         r = self.run_v()
         self.assertEqual(r.errors, [])
         self.assertTrue(any('dobra/zła wiadomość' in w for w in r.warnings))
+
+
+class NodeFieldsTest(DataCase):
+    """Pola węzła dla nowego designu: decides, concerns, watch, soon, conf (D11, D13)."""
+
+    def step(self, fn, node='derrick'):
+        def apply(steps):
+            fn(next(s for s in steps if s['id'] == node))
+        self.edit('steps', apply)
+
+    def test_decides_is_required(self):
+        self.step(lambda s: s.pop('decides'))
+        self.assert_error(self.run_v(), 'brak pola „decides”')
+
+    def test_decides_length_limit(self):
+        self.step(lambda s: s.__setitem__('decides', 'x' * 81))
+        self.assert_error(self.run_v(), '„decides” ma 81 znaków')
+
+    def test_concerns_must_not_say_everyone(self):
+        self.step(lambda s: s.__setitem__('concerns', 'wszystkich kierowców, firmy'))
+        self.assert_error(self.run_v(), 'wszystkich')
+
+    def test_concerns_needs_two_or_three_groups(self):
+        self.step(lambda s: s.__setitem__('concerns', 'kierowców'))
+        self.assert_error(self.run_v(), '2–3')
+        self.reset()
+        self.step(lambda s: s.__setitem__('concerns', 'a, b, c, d'))
+        self.assert_error(self.run_v(), '2–3')
+
+    def test_watch_is_optional(self):
+        self.step(lambda s: s.pop('watch'))
+        self.assertEqual(self.run_v().errors, [])
+
+    def test_watch_length_limit(self):
+        self.step(lambda s: s.__setitem__('watch', 'x' * 91))
+        self.assert_error(self.run_v(), '„watch” ma 91 znaków')
+
+    def test_watch_must_not_repeat_decides(self):
+        self.step(lambda s: s.__setitem__('watch', s['decides']))
+        self.assert_error(self.run_v(), 'powtarza „decides”')
+
+    def test_soon_is_required(self):
+        self.step(lambda s: s.pop('soon'))
+        self.assert_error(self.run_v(), 'brak pola „soon”')
+
+    def test_soon_needs_one_to_three_events(self):
+        self.step(lambda s: s['soon'].__setitem__('events', []))
+        self.assert_error(self.run_v(), 'listą 1–3 wydarzeń')
+        ev = {'when': 'co miesiąc', 'text': 'x'}
+        self.step(lambda s: s['soon'].__setitem__('events', [ev, ev, ev, ev]))
+        self.assert_error(self.run_v(), 'listą 1–3 wydarzeń')
+
+    def test_event_needs_when_and_text(self):
+        self.step(lambda s: s['soon']['events'][0].pop('text'))
+        self.assert_error(self.run_v(), 'niepuste „when” i „text”')
+
+    def test_event_when_format(self):
+        self.step(lambda s: s['soon']['events'][0].__setitem__('when', 'niedługo'))
+        self.assert_error(self.run_v(), 'oczekiwano daty')
+
+    def test_events_must_be_chronological(self):
+        def swap(s):
+            s['soon']['events'] = [
+                {'when': 'bez terminu', 'text': 'a'}, {'when': '2.12', 'text': 'b'}]
+        self.step(swap)
+        self.assert_error(self.run_v(), 'nie są chronologiczne')
+
+    def test_dated_events_must_be_in_order(self):
+        def swap(s):
+            s['soon']['events'] = [
+                {'when': 'do końca roku', 'text': 'a'}, {'when': 'połowa grudnia', 'text': 'b'}]
+        self.step(swap)
+        self.assert_error(self.run_v(), 'nie są chronologiczne')
+
+    def test_question_is_required_and_limited(self):
+        self.step(lambda s: s['soon'].pop('question'))
+        self.assert_error(self.run_v(), 'soon.question')
+        self.reset()
+        self.step(lambda s: s['soon'].__setitem__('question', 'x' * 70 + '?'))
+        self.assert_error(self.run_v(), 'limit 70')
+
+    def test_question_must_be_one_question(self):
+        self.step(lambda s: s['soon'].__setitem__('question', 'Tankujesz? Często?'))
+        self.assert_error(self.run_v(), 'jednym pytaniem')
+        self.reset()
+        self.step(lambda s: s['soon'].__setitem__('question', 'Jak często tankujesz'))
+        self.assert_error(self.run_v(), 'jednym pytaniem')
+
+    def test_conf_is_required(self):
+        self.step(lambda s: s.pop('conf'))
+        self.assert_error(self.run_v(), 'brak pola „conf”')
+
+    def test_conf_kind_enum(self):
+        self.step(lambda s: s['conf'].__setitem__('kind', 'guess'))
+        self.assert_error(self.run_v(), '„conf.kind”')
+
+    def test_conf_agree_enum(self):
+        self.step(lambda s: s['conf'].__setitem__('agree', 'maybe'))
+        self.assert_error(self.run_v(), '„conf.agree”')
+
+    def test_conf_asof_format(self):
+        self.step(lambda s: s['conf'].__setitem__('asof', '23.11.2026'))
+        self.assert_error(self.run_v(), 'rrrr-mm-dd')
+        self.reset()
+        self.step(lambda s: s['conf'].__setitem__('asof', '2026-13-40'))
+        self.assert_error(self.run_v(), 'rrrr-mm-dd')
+
+    def test_conf_asof_not_after_last_update(self):
+        self.step(lambda s: s['conf'].__setitem__('asof', '2026-11-25'))
+        self.assert_error(self.run_v(), 'późniejsze niż ostatnia aktualizacja')
+
+    def test_good_bad_news_phrase_in_new_fields(self):
+        self.step(lambda s: s.__setitem__('decides', 'to zła wiadomość dla rynku'))
+        self.assert_error(self.run_v(), 'dobra/zła wiadomość')
+        self.reset()
+        self.step(lambda s: s['soon']['events'][0].__setitem__('text', 'dobra wiadomość o stopach'))
+        self.assert_error(self.run_v(), 'dobra/zła wiadomość')
+
+    def test_command_mood_in_new_fields(self):
+        self.step(lambda s: s['soon'].__setitem__('question', 'Sprawdź swój rachunek za prąd?'))
+        self.assert_error(self.run_v(), 'zaproszenie, nie nakaz')
+        self.reset()
+        self.step(lambda s: s.__setitem__('watch', 'Powinieneś śledzić decyzję w grudniu'))
+        self.assert_error(self.run_v(), 'zaproszenie, nie nakaz')
+
+    def test_missing_src_is_warning_not_error(self):
+        self.step(lambda s: s.pop('src'), node='shop')
+        r = self.run_v()
+        self.assertEqual(r.errors, [])
+        self.assertTrue(any('shop' in w and 'brak „src”' in w for w in r.warnings), r.warnings)
+
+    def test_parse_when_forms(self):
+        p = validate.parse_when
+        self.assertLess(p('2.12', 2026), p('8–9.12', 2026))
+        self.assertLess(p('8–9.12', 2026), p('połowa grudnia', 2026))
+        self.assertLess(p('połowa grudnia', 2026), p('do końca roku', 2026))
+        self.assertLess(p('do końca roku', 2026), p('21.04.2027', 2026))
+        self.assertLess(p('21.04.2027', 2026), p('do 2028', 2026))
+        self.assertLess(p('do 2028', 2026), p('co miesiąc', 2026))
+        self.assertLess(p('co miesiąc', 2026), p('bez terminu', 2026))
+        self.assertIsNone(p('kiedyś', 2026))
+        self.assertIsNone(p('31.02', 2026))
 
 
 class RegistryConsistencyTest(unittest.TestCase):
