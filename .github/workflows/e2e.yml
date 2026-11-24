@@ -1,0 +1,47 @@
+name: Test dymny (przeglądarka)
+# Dla pull requestów. Push na main obsługuje pages.yml.
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tests/e2e/package-lock.json
+      - name: Budowa strony
+        run: python3 scripts/build.py
+      - name: Zależności testu (tylko tests/e2e)
+        working-directory: tests/e2e
+        run: npm ci
+      - name: Przeglądarka (Chromium)
+        working-directory: tests/e2e
+        run: npx playwright-core install --with-deps chromium
+      - name: Test dymny
+        working-directory: tests/e2e
+        run: npm test
+      - name: Zrzuty (do zestawienia przed i po)
+        if: always()
+        working-directory: tests/e2e
+        run: npm run shots -- "$RUNNER_TEMP/zrzuty" --label po
+      - name: Zrzuty jako załącznik
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zrzuty-po
+          path: ${{ runner.temp }}/zrzuty/po
+          if-no-files-found: ignore
+          retention-days: 14
