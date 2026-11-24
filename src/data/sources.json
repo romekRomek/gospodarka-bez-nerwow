@@ -164,7 +164,7 @@
    "fetch": "page",
    "cadence": null,
    "checked": null,
-   "cites": null,
+   "cites": "PAP, rzecznik KE",
    "where": [
     "template"
    ]
@@ -275,7 +275,7 @@
     "problems.json"
    ],
    "primary": [
-    "gus-cpi"
+    "gus-cpi-2026-10"
    ]
   },
   {
@@ -470,9 +470,12 @@
    "fetch": "page",
    "cadence": null,
    "checked": null,
-   "cites": null,
+   "cites": "KE, Eurostat (notyfikacje EDP)",
    "where": [
     "template"
+   ],
+   "primary": [
+    "eurostat-edp-2026-10-21"
    ]
   },
   {
@@ -919,8 +922,7 @@
    "cites": null,
    "where": [
     "steps.json"
-   ],
-   "note": "Strona tematyczna. Konkretnego komunikatu za październik 2026 nie znaleziono automatycznie, do wskazania przez badacza danych. Liczby 3,5% i 4,1% potwierdzone w źródle wtórnym (Finwire), nie w tekście tej strony."
+   ]
   },
   {
    "id": "gus-wynagrodzenia-2026-10",
@@ -936,7 +938,8 @@
    "checked": "2026-11-24",
    "cites": null,
    "where": [
-    "steps.json"
+    "steps.json",
+    "template"
    ],
    "note": "Wzrost nominalny +6,1% potwierdzony w tekście strony. Kwoty 9 405 zł nie ma w tekście strony (sprawdzić załącznik)."
   },
@@ -954,7 +957,8 @@
    "checked": "2026-11-24",
    "cites": null,
    "where": [
-    "steps.json"
+    "steps.json",
+    "template"
    ],
    "note": "Wzrost +3,5% potwierdzony w tekście strony. Wartość z II kwartału (+4,1%) nie występuje w tekście tej strony ani stron szacunków II kwartału, do wyjaśnienia."
   },
@@ -977,6 +981,153 @@
     "charts.json"
    ],
    "note": "Cena spot (FOB), nie kontrakt terminowy ICE. Średnie roczne 2021–2024 w aplikacji zgadzają się z tą serią (różnice do 0,04 USD). Wartości 2026 w aplikacji (ICE) różnią się od niej średnio o −6 USD, maksymalnie o 26 USD. Szczegóły: docs/brent-eia-check.md."
+  },
+  {
+   "id": "gus-cpi-2026-10",
+   "name": "GUS: wskaźniki cen towarów i usług konsumpcyjnych w październiku 2026 r.",
+   "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
+   "org": "GUS",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "miesięczny",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json",
+    "template"
+   ]
+  },
+  {
+   "id": "gus-handel-2026-i-ix",
+   "name": "GUS: obroty towarowe handlu zagranicznego według krajów, styczeń–wrzesień 2026",
+   "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/handel/obroty-towarowe-handlu-zagranicznego-ogolem-i-wedlug-krajow-w-styczniu-wrzesniu-2026-r-,1,170.html",
+   "org": "GUS",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "miesięczny",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "note": "Komunikat z 13.11.2026. Wynik skumulowany od początku roku (eksport 1 248,1 mld zł, import 1 285,5 mld zł). Ranking krajów i miesięczne dane (lipiec) są w załącznikach, niesprawdzone. Nie stoi za liczbą „Chiny nr 1 w lipcu”."
+  },
+  {
+   "id": "money-pl-pkb-iii-kwartal-2026",
+   "name": "Money.pl: szybki szacunek PKB za III kwartał 2026, termin pierwszego regularnego szacunku",
+   "url": "https://www.money.pl/gospodarka/gospodarka-zmienia-bieg-na-nizszy-komunikat-gus-to-sygnal-ostrzegawczy-7350511919671328a.html",
+   "org": "Money.pl",
+   "kind": "portal informacyjny",
+   "tier": 2,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": "2026-11-24",
+   "cites": "GUS",
+   "where": [
+    "steps.json",
+    "template"
+   ],
+   "primary": [
+    "gus-pkb-szybki-szacunek-2026-q3"
+   ]
+  },
+  {
+   "id": "fed-fomc-2026-10-28",
+   "name": "Fed: komunikat FOMC z 28.10.2026",
+   "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+   "org": "Rezerwa Federalna (Fed)",
+   "kind": "bank centralny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json",
+    "template"
+   ]
+  },
+  {
+   "id": "fed-fomc-kalendarz",
+   "name": "Fed: kalendarz posiedzeń FOMC",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "org": "Rezerwa Federalna (Fed)",
+   "kind": "bank centralny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "8 posiedzeń w roku",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ]
+  },
+  {
+   "id": "eurostat-hicp-2026-10",
+   "name": "Eurostat: inflacja w strefie euro w październiku 2026",
+   "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-18112026-ap",
+   "org": "Eurostat",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "miesięczny",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json",
+    "template"
+   ]
+  },
+  {
+   "id": "eurostat-pkb-flash-2026-q3",
+   "name": "Eurostat: szybki szacunek PKB i zatrudnienia w III kwartale 2026",
+   "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap",
+   "org": "Eurostat",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "kwartalny",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json",
+    "template"
+   ],
+   "note": "Wydanie z 13.11.2026: PKB strefy euro +0,4% k/k (UE +0,5%). Rozbicie na kraje (Niemcy, Francja, Włochy) niesprawdzone na tej stronie."
+  },
+  {
+   "id": "eurostat-edp-2026-10-21",
+   "name": "Eurostat: deficyt i dług sektora instytucji rządowych za 2025 r. (druga notyfikacja 2026)",
+   "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-21102026-ap",
+   "org": "Eurostat",
+   "kind": "urząd statystyczny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "dwa razy w roku (kwiecień i październik)",
+   "checked": "2026-11-24",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "note": "Wydanie z 21.10.2026: deficyt Polski za 2025 r. −7,2% PKB (GUS w kwietniu: 7,3%). Prognoza 7,1% PKB na 2026 r. jest w tabelach notyfikacji, nie w tym komunikacie. Strona podaje „Next release: 21 April 2027”."
   }
  ]
 }
