@@ -11,7 +11,7 @@ dziennik zmian, rejestr źródeł (src/data/sources.json) i to, że każdy adres
 i w szablonie jest w rejestrze. Sprawdza pola węzłów dla nowego designu (decides, concerns, watch, soon, conf).
 Ostrzega o zaległościach migracji (zasada „nie ma dobrych i złych wiadomości”, brak pól src przy liczbach). Opis zasad: docs/design/principles.md.
 """
-import argparse, datetime, json, pathlib, re, sys
+import argparse, datetime, importlib.util, json, pathlib, re, sys
 from urllib.parse import urlparse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -504,6 +504,15 @@ def check_links(D, r, timeout=10):
         r.warn('linki', f'{s["id"]}: {st} ({s["url"][:90]})')
 
 
+def check_consistency(data_dir, r):
+    """Spójność, wyliczenia i język atrybucji (scripts/consistency.py), jako OSTRZEŻENIA."""
+    spec = importlib.util.spec_from_file_location('consistency', ROOT / 'scripts' / 'consistency.py')
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    for where, msg in mod.run(data_dir):
+        r.warn(where, msg)
+
+
 def run(data_dir, template, links=False):
     r = Report()
     D = load(data_dir, r)
@@ -516,6 +525,7 @@ def run(data_dir, template, links=False):
     urls = check_sources(D, r)
     check_registry_coverage(D, urls, template, r)
     check_policy(D, r)
+    check_consistency(data_dir, r)
     if links:
         check_links(D, r)
     return r

@@ -1,0 +1,405 @@
+{
+ "version": 1,
+ "description": "Rejestr twierdzeń (docs/verification.md, warstwa 1): liczba główna m i podpis mc każdego węzła steps.json. Pola: id, node, field, indicator, period, value, unit, src (id z sources.json, pierwotne pierwsze), anchor (fragment, który ma stać w źródle obok wartości; pusty = nie sprawdzany), kind. approx: wartość w tekście zaokrąglona. formula: twierdzenie pochodne (a/b-1 w %, tol w pp). groups: ta sama wielkość w wielu plikach (consistency.py).",
+ "claims": [
+  {
+   "id": "derrick-m-1",
+   "node": "derrick",
+   "field": "m",
+   "indicator": "Brent (kontrakt ICE), cena",
+   "period": "2026-11-23",
+   "value": 90,
+   "unit": "USD/bbl",
+   "src": [
+    "tvn24-ropa-2-11"
+   ],
+   "anchor": "baryłk",
+   "kind": "market",
+   "approx": true
+  },
+  {
+   "id": "derrick-mc-2",
+   "node": "derrick",
+   "field": "mc",
+   "indicator": "Brent, cena",
+   "period": "2026-10-27",
+   "value": 114,
+   "unit": "USD/bbl",
+   "src": [
+    "nation-thailand-brent-27-10"
+   ],
+   "anchor": "114",
+   "kind": "market"
+  },
+  {
+   "id": "derrick-mc-3",
+   "node": "derrick",
+   "field": "mc",
+   "indicator": "Brent, zmiana względem 27.10",
+   "period": "2026-11-23",
+   "value": -20,
+   "unit": "%",
+   "src": [],
+   "anchor": "",
+   "kind": "calculation",
+   "approx": true,
+   "formula": {
+    "a": 90,
+    "b": 114,
+    "tol": 2.0
+   }
+  },
+  {
+   "id": "gate-m-1",
+   "node": "gate",
+   "field": "m",
+   "indicator": "Ruch przez cieśninę Ormuz względem przedwojennego",
+   "period": "2026-W46",
+   "value": 35,
+   "unit": "%",
+   "src": [],
+   "anchor": "35",
+   "kind": "estimate",
+   "approx": true,
+   "note": "Węzeł nie ma pola src (do uzupełnienia)."
+  },
+  {
+   "id": "pump-m-1",
+   "node": "pump",
+   "field": "m",
+   "indicator": "Ceny paliw do prywatnych środków transportu, r/r",
+   "period": "2026-10",
+   "value": 21.7,
+   "unit": "%",
+   "src": [
+    "gus-cpi-2026-10",
+    "finwire-inflacja-cpi-pazdziernik"
+   ],
+   "anchor": "paliw",
+   "kind": "measurement"
+  },
+  {
+   "id": "shop-m-1",
+   "node": "shop",
+   "field": "m",
+   "indicator": "Inflacja CPI, r/r",
+   "period": "2026-10",
+   "value": 3.5,
+   "unit": "%",
+   "src": [
+    "gus-cpi-2026-10",
+    "finwire-inflacja-cpi-pazdziernik"
+   ],
+   "anchor": "3,5",
+   "kind": "measurement"
+  },
+  {
+   "id": "shop-mc-2",
+   "node": "shop",
+   "field": "mc",
+   "indicator": "Inflacja CPI, r/r",
+   "period": "2026-09",
+   "value": 4.1,
+   "unit": "%",
+   "src": [
+    "finwire-inflacja-cpi-wrzesien"
+   ],
+   "anchor": "4,1",
+   "kind": "measurement"
+  },
+  {
+   "id": "bank-m-1",
+   "node": "bank",
+   "field": "m",
+   "indicator": "Stopa referencyjna NBP",
+   "period": "2026-11-04",
+   "value": 3.75,
+   "unit": "%",
+   "src": [
+    "finwire-decyzja-rpp-4-11"
+   ],
+   "anchor": "3,75",
+   "kind": "measurement"
+  },
+  {
+   "id": "bank-mc-2",
+   "node": "bank",
+   "field": "mc",
+   "indicator": "Stopa Fed (górna granica przedziału)",
+   "period": "2026-10-28",
+   "value": 4.0,
+   "unit": "%",
+   "src": [],
+   "anchor": "4,00",
+   "kind": "measurement",
+   "note": "Węzeł nie ma źródła dla Fed i EBC w polu src."
+  },
+  {
+   "id": "bank-mc-3",
+   "node": "bank",
+   "field": "mc",
+   "indicator": "Stopa EBC (depozytowa)",
+   "period": "2026-10-29",
+   "value": 2.5,
+   "unit": "%",
+   "src": [],
+   "anchor": "2,50",
+   "kind": "measurement",
+   "note": "Jak wyżej."
+  },
+  {
+   "id": "worker-m-1",
+   "node": "worker",
+   "field": "m",
+   "indicator": "Realny wzrost przeciętnego wynagrodzenia, r/r",
+   "period": "2026-10",
+   "value": 2.4,
+   "unit": "%",
+   "src": [
+    "gus-wynagrodzenia-2026-10",
+    "finwire-wynagrodzenia-pazdziernik"
+   ],
+   "anchor": "realn",
+   "kind": "calculation",
+   "formula": {
+    "a": 106.1,
+    "b": 103.5,
+    "tol": 0.15,
+    "note": "(1+6,1%)/(1+3,5%)-1 = 2,5%; różnica 0,1 pp mieści się w zaokrągleniach wejść"
+   }
+  },
+  {
+   "id": "worker-mc-2",
+   "node": "worker",
+   "field": "mc",
+   "indicator": "Przeciętne wynagrodzenie, nominalnie, r/r",
+   "period": "2026-10",
+   "value": 6.1,
+   "unit": "%",
+   "src": [
+    "gus-wynagrodzenia-2026-10"
+   ],
+   "anchor": "6,1",
+   "kind": "measurement",
+   "note": "Strona GUS potwierdza +6,1% (sources.json)."
+  },
+  {
+   "id": "debt-m-1",
+   "node": "debt",
+   "field": "m",
+   "indicator": "Deficyt sektora finansów publicznych (plan)",
+   "period": "2026",
+   "value": 7.1,
+   "unit": "% PKB",
+   "src": [
+    "xyz-pl-notyfikacje-edp-deficyt-i-dlug"
+   ],
+   "anchor": "7,1",
+   "kind": "forecast"
+  },
+  {
+   "id": "tree-m-1",
+   "node": "tree",
+   "field": "m",
+   "indicator": "WIG20, zamknięcie",
+   "period": "2026-11-23",
+   "value": 4171,
+   "unit": "pkt",
+   "src": [
+    "wnp-wig20-zamkniecie-23-11"
+   ],
+   "anchor": "4170,92",
+   "kind": "market",
+   "approx": true,
+   "note": "Źródło podaje 4170,92 pkt."
+  },
+  {
+   "id": "tree-mc-2",
+   "node": "tree",
+   "field": "mc",
+   "indicator": "WIG20, rekord zamknięcia",
+   "period": "2026-11-13",
+   "value": 4320,
+   "unit": "pkt",
+   "src": [
+    "wnp-rekord-wig20-z-13-11-i-sesja-z-20-11"
+   ],
+   "anchor": "4 320",
+   "kind": "market"
+  },
+  {
+   "id": "tree-mc-3",
+   "node": "tree",
+   "field": "mc",
+   "indicator": "WIG20, zmiana od początku roku",
+   "period": "2026-11-23",
+   "value": 31,
+   "unit": "%",
+   "src": [],
+   "anchor": "",
+   "kind": "calculation",
+   "approx": true,
+   "note": "Brak źródła w src dla wartości początkowej."
+  },
+  {
+   "id": "sun-m-1",
+   "node": "sun",
+   "field": "m",
+   "indicator": "PKB Polski, r/r, szybki szacunek",
+   "period": "2026-Q3",
+   "value": 3.5,
+   "unit": "%",
+   "src": [
+    "gus-pkb-szybki-szacunek-2026-q3",
+    "finwire-pkb-iii-kwartal-szybki-szacunek"
+   ],
+   "anchor": "3,5",
+   "kind": "estimate"
+  },
+  {
+   "id": "sun-mc-2",
+   "node": "sun",
+   "field": "mc",
+   "indicator": "PKB Polski, r/r",
+   "period": "2026-Q2",
+   "value": 4.1,
+   "unit": "%",
+   "src": [],
+   "anchor": "4,1",
+   "kind": "measurement",
+   "note": "Notatka w sources.json: wartości 4,1% nie ma na stronach GUS szybkiego szacunku; changelog podaje 3,9%."
+  },
+  {
+   "id": "west-m-1",
+   "node": "west",
+   "field": "m",
+   "indicator": "Wzrost PKB strefy euro, prognoza MFW",
+   "period": "2026",
+   "value": 1.1,
+   "unit": "%",
+   "src": [
+    "xyz-pl-prognozy-mfw-dla-polski"
+   ],
+   "anchor": "1,1",
+   "kind": "forecast"
+  },
+  {
+   "id": "west-mc-2",
+   "node": "west",
+   "field": "mc",
+   "indicator": "Wzrost PKB Niemiec, prognoza MFW",
+   "period": "2026",
+   "value": 1.3,
+   "unit": "%",
+   "src": [
+    "xyz-pl-prognozy-mfw-dla-polski"
+   ],
+   "anchor": "1,3",
+   "kind": "forecast"
+  },
+  {
+   "id": "west-mc-3",
+   "node": "west",
+   "field": "mc",
+   "indicator": "Wzrost PKB Francji, prognoza MFW",
+   "period": "2026",
+   "value": 0.4,
+   "unit": "%",
+   "src": [
+    "xyz-pl-prognozy-mfw-dla-polski"
+   ],
+   "anchor": "0,4",
+   "kind": "forecast"
+  },
+  {
+   "id": "ukraine-m-1",
+   "node": "ukraine",
+   "field": "m",
+   "indicator": "Wydatki obronne Polski",
+   "period": "2026",
+   "value": 4.8,
+   "unit": "% PKB",
+   "src": [
+    "fundacja-pulaskiego-wydatki-obronne-2026"
+   ],
+   "anchor": "4,8",
+   "kind": "estimate"
+  },
+  {
+   "id": "ukraine-mc-2",
+   "node": "ukraine",
+   "field": "mc",
+   "indicator": "Wydatki obronne Polski",
+   "period": "2026",
+   "value": 201,
+   "unit": "mld zł",
+   "src": [
+    "fundacja-pulaskiego-wydatki-obronne-2026"
+   ],
+   "anchor": "201",
+   "kind": "estimate"
+  },
+  {
+   "id": "usa-m-1",
+   "node": "usa",
+   "field": "m",
+   "indicator": "Nowe cło USA na towary z UE",
+   "period": "2026-07-24",
+   "value": 10,
+   "unit": "%",
+   "src": [
+    "bank-pl-nowe-cla-usa",
+    "xyz-pl-cla-usa-a-polscy-eksporterzy-pie"
+   ],
+   "anchor": "10",
+   "kind": "measurement"
+  },
+  {
+   "id": "china-m-1",
+   "node": "china",
+   "field": "m",
+   "indicator": "Pozycja Chin wśród dostawców towarów do Polski (lipiec)",
+   "period": "2026-07",
+   "value": 1,
+   "unit": "miejsce",
+   "src": [
+    "wiadomosci-handlowe-chiny-dostawca-nr-1"
+   ],
+   "anchor": "Chiny",
+   "kind": "calculation",
+   "note": "Wartość „nr 1” zapisana jako 1."
+  }
+ ],
+ "groups": [
+  {
+   "id": "pkb-ii-kw",
+   "label": "PKB Polski, II kwartał, r/r",
+   "topic": "PKB",
+   "period": "(?<!I)II\\s*kw",
+   "canonical": [
+    4.1
+   ],
+   "not": "strefy\\s+euro|strefie\\s+euro|Eurostat|\\bUE\\b"
+  },
+  {
+   "id": "cpi-wrzesien",
+   "label": "Inflacja CPI, wrzesień",
+   "topic": "inflacj|CPI",
+   "period": "wrze[śs]ni",
+   "canonical": [
+    4.1
+   ],
+   "not": "strefy\\s+euro|strefie\\s+euro|Eurostat|\\bUE\\b"
+  },
+  {
+   "id": "cpi-pazdziernik",
+   "label": "Inflacja CPI, październik",
+   "topic": "inflacj|CPI",
+   "period": "pa[źz]dzierni",
+   "canonical": [
+    3.5
+   ],
+   "not": "strefy\\s+euro|strefie\\s+euro|Eurostat|\\bUE\\b"
+  }
+ ]
+}

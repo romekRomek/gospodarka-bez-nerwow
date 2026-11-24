@@ -21,7 +21,7 @@ css = ((SRC / 'tokens.css').read_text(encoding='utf-8') + (SRC / 'styles.css').r
 js = (SRC / 'app.js').read_text(encoding='utf-8').rstrip('\n')
 # dane z src/data/*.json trafiają do obiektu DATA (klucz = nazwa pliku), z którego czyta app.js
 # sources.json to rejestr dla walidatora i wskaźnika pewności; do strony trafi dopiero z generowaną listą „Źródła”
-NOT_SHIPPED = {'sources'}
+NOT_SHIPPED = {'sources', 'claims'}   # rejestr źródeł i twierdzeń to dane dla bramek, nie dla strony
 data = {f.stem: json.loads(f.read_text(encoding='utf-8')) for f in sorted((SRC / 'data').glob('*.json')) if f.stem not in NOT_SHIPPED}
 js = 'var DATA=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + ';\n' + js
 

@@ -1,0 +1,454 @@
+{
+ "date": "2026-11-24",
+ "summary": {
+  "potwierdzone": 0,
+  "rozbieżne": 0,
+  "brak w tekście": 0,
+  "niedostępne": 25
+ },
+ "claims": [
+  {
+   "id": "derrick-m-1",
+   "node": "derrick",
+   "field": "m",
+   "value": 90,
+   "unit": "USD/bbl",
+   "period": "2026-11-23",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "tvn24-ropa-2-11",
+     "url": "https://tvn24.pl/biznes/rynki/ceny-ropy-naftowej-2-listopada-2026-rynek-zmienia-kierunek-st9317548",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "derrick-mc-2",
+   "node": "derrick",
+   "field": "mc",
+   "value": 114,
+   "unit": "USD/bbl",
+   "period": "2026-10-27",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "nation-thailand-brent-27-10",
+     "url": "https://www.nationthailand.com/news/world/40072812",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "derrick-mc-3",
+   "node": "derrick",
+   "field": "mc",
+   "value": -20,
+   "unit": "%",
+   "period": "2026-11-23",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "gate-m-1",
+   "node": "gate",
+   "field": "m",
+   "value": 35,
+   "unit": "%",
+   "period": "2026-W46",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "pump-m-1",
+   "node": "pump",
+   "field": "m",
+   "value": 21.7,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "gus-cpi-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    },
+    {
+     "src": "finwire-inflacja-cpi-pazdziernik",
+     "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "shop-m-1",
+   "node": "shop",
+   "field": "m",
+   "value": 3.5,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "gus-cpi-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    },
+    {
+     "src": "finwire-inflacja-cpi-pazdziernik",
+     "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "shop-mc-2",
+   "node": "shop",
+   "field": "mc",
+   "value": 4.1,
+   "unit": "%",
+   "period": "2026-09",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "finwire-inflacja-cpi-wrzesien",
+     "url": "https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "bank-m-1",
+   "node": "bank",
+   "field": "m",
+   "value": 3.75,
+   "unit": "%",
+   "period": "2026-11-04",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "finwire-decyzja-rpp-4-11",
+     "url": "https://finwire.pl/artykuly/decyzja-rpp-4-listopad-2026-stopy-bez-zmian",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "bank-mc-2",
+   "node": "bank",
+   "field": "mc",
+   "value": 4.0,
+   "unit": "%",
+   "period": "2026-10-28",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "bank-mc-3",
+   "node": "bank",
+   "field": "mc",
+   "value": 2.5,
+   "unit": "%",
+   "period": "2026-10-29",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "worker-m-1",
+   "node": "worker",
+   "field": "m",
+   "value": 2.4,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "gus-wynagrodzenia-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    },
+    {
+     "src": "finwire-wynagrodzenia-pazdziernik",
+     "url": "https://finwire.pl/artykuly/przecietne-wynagrodzenie-pazdziernik-2026-sektor-przedsiebiorstw-gus",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "worker-mc-2",
+   "node": "worker",
+   "field": "mc",
+   "value": 6.1,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "gus-wynagrodzenia-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "debt-m-1",
+   "node": "debt",
+   "field": "m",
+   "value": 7.1,
+   "unit": "% PKB",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "xyz-pl-notyfikacje-edp-deficyt-i-dlug",
+     "url": "https://xyz.pl/?p=265113",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "tree-m-1",
+   "node": "tree",
+   "field": "m",
+   "value": 4171,
+   "unit": "pkt",
+   "period": "2026-11-23",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "wnp-wig20-zamkniecie-23-11",
+     "url": "https://www.wnp.pl/rynki/wig20-na-zamknieciu-wyniosl-4170-92-pkt-3-85,1122800.html",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "tree-mc-2",
+   "node": "tree",
+   "field": "mc",
+   "value": 4320,
+   "unit": "pkt",
+   "period": "2026-11-13",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "wnp-rekord-wig20-z-13-11-i-sesja-z-20-11",
+     "url": "https://www.wnp.pl/rynki/koszmarny-koniec-tygodnia-na-gpw-najgorsza-sesja-od-marca,1122059.html",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "tree-mc-3",
+   "node": "tree",
+   "field": "mc",
+   "value": 31,
+   "unit": "%",
+   "period": "2026-11-23",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "sun-m-1",
+   "node": "sun",
+   "field": "m",
+   "value": 3.5,
+   "unit": "%",
+   "period": "2026-Q3",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "gus-pkb-szybki-szacunek-2026-q3",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rachunki-narodowe/kwartalne-rachunki-narodowe/szybki-szacunek-produktu-krajowego-brutto-za-3-kwartal-2026-r-,1,55.html",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    },
+    {
+     "src": "finwire-pkb-iii-kwartal-szybki-szacunek",
+     "url": "https://finwire.pl/artykuly/pkb-szybki-szacunek-3-kwartal-2026-gus",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "sun-mc-2",
+   "node": "sun",
+   "field": "mc",
+   "value": 4.1,
+   "unit": "%",
+   "period": "2026-Q2",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "west-m-1",
+   "node": "west",
+   "field": "m",
+   "value": 1.1,
+   "unit": "%",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "west-mc-2",
+   "node": "west",
+   "field": "mc",
+   "value": 1.3,
+   "unit": "%",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "west-mc-3",
+   "node": "west",
+   "field": "mc",
+   "value": 0.4,
+   "unit": "%",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "ukraine-m-1",
+   "node": "ukraine",
+   "field": "m",
+   "value": 4.8,
+   "unit": "% PKB",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "fundacja-pulaskiego-wydatki-obronne-2026",
+     "url": "https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "ukraine-mc-2",
+   "node": "ukraine",
+   "field": "mc",
+   "value": 201,
+   "unit": "mld zł",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "fundacja-pulaskiego-wydatki-obronne-2026",
+     "url": "https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "usa-m-1",
+   "node": "usa",
+   "field": "m",
+   "value": 10,
+   "unit": "%",
+   "period": "2026-07-24",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "bank-pl-nowe-cla-usa",
+     "url": "https://bank.pl/?p=554635",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    },
+    {
+     "src": "xyz-pl-cla-usa-a-polscy-eksporterzy-pie",
+     "url": "https://xyz.pl/dzieje-sie/amerykanskie-cla-kontra-polscy-eksporterzy-skutki-sa-zroznicowane-3648",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  },
+  {
+   "id": "china-m-1",
+   "node": "china",
+   "field": "m",
+   "value": 1,
+   "unit": "miejsce",
+   "period": "2026-07",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "wiadomosci-handlowe-chiny-dostawca-nr-1",
+     "url": "https://www.wiadomoscihandlowe.pl/gospodarka-i-finanse/chiny-najwiekszym-dostawca-towarow-do-polski-deficyt-rosnie-2537961",
+     "result": "niedostępne",
+     "detail": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    }
+   ]
+  }
+ ]
+}
