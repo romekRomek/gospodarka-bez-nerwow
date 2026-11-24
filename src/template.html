@@ -12,7 +12,7 @@
 <body>
 <main>
   <header class="top">
-    <span class="eyebrow"><i></i>Dane z 28.10.2026</span>
+    <div class="asof"><span class="eyebrow"><i></i>Dane z <span id="asof">24.11.2026</span></span><button class="chgb" id="chgb" type="button" aria-haspopup="dialog">Co się zmieniło<span class="n" id="chgn" aria-hidden="true"></span></button></div>
     <h1>Gospodarka bez nerwów</h1>
     <p class="lead">Skąd bierze się cena w sklepie? Ropa, inflacja, stopy i pensje łączą się w jeden łańcuch, a Ukraina, USA i Chiny dorzucają swoje trzy grosze. Klikaj kafelki i zobacz, co się z czym łączy.</p>
   </header>
@@ -92,6 +92,7 @@
         <span><i style="background:var(--chain)"></i>Łańcuch cen</span>
         <span><i style="background:var(--ind)"></i>Osobne wskaźniki</span>
         <span><i style="background:var(--ext)"></i>Otoczenie i wpływy zewnętrzne</span>
+        <span><i class="chd"></i>Zmienione w ostatniej aktualizacji</span>
       </div>
     </section>
     <nav class="card steps" aria-label="Lista kroków" id="steps"></nav>
@@ -102,7 +103,7 @@
         <span class="tag chain" id="tag">Start</span>
         <h2 id="bt">Zacznij od ropy</h2>
         <p class="quip" id="qp">Kliknij kafelek na mapie, a opowiemy resztę.</p>
-        <div class="metric" id="mt"><b id="mn">28.10</b><span id="mc">Stan danych. Wybierz węzeł na mapie albo krok z listy.</span></div>
+        <div class="metric" id="mt"><b id="mn">24.11</b><span id="mc">Stan danych. Wybierz węzeł na mapie albo krok z listy.</span></div>
         <div class="sec" id="sf"><h3>Fakty</h3><ul id="fl"><li>Pomarańczowa linia to schematyczna trasa ropy z Zatoki Perskiej do Polski.</li><li>Niebieskie strzałki w powiększeniu Polski pokazują zależności widoczne w danych.</li></ul></div>
         <div class="interp" id="bi"><h3>Interpretacja</h3><p id="bp">Fioletowe i różowe węzły są pokazane osobno, bo w zebranych danych nie ma między nimi a cenami w sklepach bezpośredniego związku.</p></div>
         <button class="btn more" id="more" type="button">Szczegóły i wykresy</button>
@@ -116,7 +117,7 @@
     </aside>
   </div>
 
-  <p class="foot">Mapa jest uproszczona, a trasa tankowców schematyczna. Liczby pochodzą z przeglądu „Gospodarka Polski i świata” z 28.10.2026 oraz z dodatkowego researchu o Ukrainie, USA i Chinach. Granice krajów: Natural Earth. Ciemny tekst w panelu to fakty, tekst w kolorze morskim to interpretacja, czyli logiczny wniosek, a nie pewnik.</p>
+  <p class="foot">Mapa jest uproszczona, a trasa tankowców schematyczna. Liczby pochodzą z przeglądu „Gospodarka Polski i świata” z 28.10.2026, regularnie aktualizowanego o nowe dane (GUS, NBP, EBC, Fed, GPW i agencje), oraz z dodatkowego researchu o Ukrainie, USA i Chinach. Co się zmieniło w kolejnych aktualizacjach, pokazuje przycisk „Co się zmieniło” na górze strony. Granice krajów: Natural Earth. Ciemny tekst w panelu to fakty, tekst w kolorze morskim to interpretacja, czyli logiczny wniosek, a nie pewnik.</p>
 
   <details>
     <summary>Źródła</summary>
@@ -127,6 +128,7 @@
       <li><a href="https://biznes.interia.pl/gospodarka/news-drony-artyleria-rakiety-polska-gospodarka-wystrzeli-na-pozyc,nId,23520876">Interia: SAFE i PKB</a></li>
       <li><a href="https://www.daily-sun.com/world/905163">Reuters: lokalne zawieszenie broni</a></li>
       <li><a href="https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/">Africanews: rozmowy w listopadzie</a></li>
+      <li><a href="https://www.cbsnews.com/news/us-russia-ukraine-war-talks-peace-abu-dhabi-deal/">CBS News: rozmowy w Abu Dhabi</a></li>
       <li><a href="https://xyz.pl/dzieje-sie/amerykanskie-cla-kontra-polscy-eksporterzy-skutki-sa-zroznicowane-3648">xyz.pl: cła USA a polscy eksporterzy (PIE)</a></li>
       <li><a href="https://bank.pl/?p=554635">bank.pl: nowe cła USA</a></li>
       <li><a href="https://forsal.pl/kraj/bezpieczenstwo/artykuly/11273678,zolnierze-usa-wroca-do-polski-szef-mon-wskazal-szczegoly.html">Forsal: żołnierze USA w Polsce</a></li>
@@ -134,6 +136,16 @@
       <li><a href="https://xyz.pl/nanoanalizy/chinski-walec-nie-chce-zwolnic-1540-1540">xyz.pl: import z Chin</a></li>
       <li><a href="https://xyz.pl/?p=261350">xyz.pl: prognozy MFW dla Polski</a></li>
       <li><a href="https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus">Finwire: inflacja CPI, wrzesień</a></li>
+      <li><a href="https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus">Finwire: inflacja CPI, październik</a></li>
+      <li><a href="https://finwire.pl/artykuly/przecietne-wynagrodzenie-pazdziernik-2026-sektor-przedsiebiorstw-gus">Finwire: wynagrodzenia, październik</a></li>
+      <li><a href="https://finwire.pl/artykuly/pkb-szybki-szacunek-3-kwartal-2026-gus">Finwire: PKB, III kwartał (szybki szacunek)</a></li>
+      <li><a href="https://finwire.pl/artykuly/decyzja-rpp-4-listopad-2026-stopy-bez-zmian">Finwire: decyzja RPP 4.11</a></li>
+      <li><a href="https://managerplus.pl/fed-utrzymal-stopy-na-poziomie-375-4-proc-dwie-czlonkinie-fomc-chcialy-podwyzki-2026">Manager Plus: decyzja Fed 28.10</a></li>
+      <li><a href="https://managerplus.pl/pkb-strefy-euro-iii-kwartal-2026-eurostat-43133">Manager Plus: PKB strefy euro, III kwartał</a></li>
+      <li><a href="https://www.wnp.pl/rynki/wig20-na-zamknieciu-wyniosl-4170-92-pkt-3-85,1122800.html">PAP/WNP: WIG20, zamknięcie 23.11</a></li>
+      <li><a href="https://www.wnp.pl/rynki/koszmarny-koniec-tygodnia-na-gpw-najgorsza-sesja-od-marca,1122059.html">WNP: rekord WIG20 z 13.11 i sesja z 20.11</a></li>
+      <li><a href="https://motoryzacja.interia.pl/wiadomosci/news-kiedy-koniec-programu-cpn-decyzja-zapadnie-w-polowie-grudnia,nId,23578035">Interia: program CPN w 2027 r.</a></li>
+      <li><a href="https://tvn24.pl/biznes/rynki/ceny-ropy-naftowej-2-listopada-2026-rynek-zmienia-kierunek-st9317548">tvn24: ropa 2.11</a></li>
       <li><a href="https://www.nationthailand.com/news/world/40072812">Nation Thailand: Brent 27.10</a></li>
       <li><a href="https://xyz.pl/?p=265113">xyz.pl: notyfikacje EDP, deficyt i dług</a></li>
       <li><a href="https://www.gpw.pl/pub/GPW/files/PDF/raporty/R2026/Q2/Komunikat_Prasowy_GPW_Q2_2026.pdf">GPW: wyniki indeksów 2026</a></li>
@@ -249,6 +261,11 @@
     <div class="interp"><h3>Interpretacja</h3><p id="plint"></p></div>
   </div>
 </main>
+
+<dialog class="md cg" id="cg" aria-labelledby="cg-t">
+  <div class="mh"><div class="tt"><span class="tag chain">Dziennik zmian</span><h2 id="cg-t">Co się zmieniło</h2><p class="quip">Strzałki pokazują kierunek zmiany liczby, nie ocenę, czy to dobrze, czy źle.</p></div><button class="mx" id="cgx" type="button" aria-label="Zamknij">✕</button></div>
+  <div class="mb" id="cgbody"></div>
+</dialog>
 
 <dialog class="md" id="md" aria-labelledby="mt-t">
   <div class="mh"><div class="big node" id="mbig" aria-hidden="true"></div><div class="tt"><span class="tag chain" id="mtag"></span><h2 id="mt-t"></h2><p class="quip" id="mq"></p></div><button class="mx" id="mx" type="button" aria-label="Zamknij">✕</button></div>

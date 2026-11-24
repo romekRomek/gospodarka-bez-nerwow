@@ -34,8 +34,9 @@ python3 -m http.server -d dist 8080 # podgląd na http://localhost:8080
 - `cost.json`, `good.json`, `techniques.json` – karty kosztów emocji, dobrych wiadomości i technik.
 - `news.json` – nagłówki w oknie szczegółów każdego węzła: `pos` (z haczykiem uczciwości `hk`), `neu`, `neg` (przerysowane, z faktem `f`).
 - `problems.json` – zakładka „Z czym zmaga się Polska”: wykresy (`charts`), karty problemów (`cards`, każda z linkami w `src`) i interpretacja (`interp`).
+- `changelog.json` – dziennik aktualizacji, najnowsza na górze: `label` (data), `summary` i `changes` (`id` węzła, `t` nazwa, `from`, `to`, `dir` = up/down/flat, `note`, `m:true` gdy zmiana dotyczy dużej liczby węzła). Z niego biorą się: data „Dane z …”, przycisk „Co się zmieniło”, kropki przy zmienionych węzłach i etykieta „Poprzednio …” pod metryką.
 - W `app.js` zostały elementy związane z wyglądem i logiką: ikony (`ICON`), emoji i cytaty węzłów (`EMO`, `Q`), reguły skanera (`RULES`).
-- Liczby z daty 28.10.2026. Zaktualizuj `Dane z …` w `template.html` po odświeżeniu danych.
+- Przy każdej aktualizacji danych dopisz na górze `changelog.json` nowy wpis (nie edytuj starych). Daty na stronie ustawiają się same z najnowszego wpisu.
 
 ## Zasady redakcyjne (ważne przy rozwoju)
 
