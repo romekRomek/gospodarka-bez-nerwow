@@ -62,18 +62,91 @@ Węzeł i kafelek ma pole `src`: niepusta lista id z `sources.json`, **źródło
 
 `id`, `name`, `url`, `org`, `tier` (1 pierwotne, 2 agencje i duże media, 3 wtórne), `fetch` (api / page / pdf), `cadence` (rytm publikacji), `checked` (data ostatniego sprawdzenia, rrrr-mm-dd), `cites` (kogo cytuje źródło wtórne), `primary` (lista id źródeł pierwotnych, które źródło wtórne przywołuje).
 
-## Wskaźnik pewności (reguła do implementacji)
+## Wskaźnik pewności
 
-Cztery czynniki, każdy `ok` / `mid` / `no`:
+Liczy go `scripts/confidence.py`, deterministycznie (bez modelu językowego), z rejestru źródeł (`sources.json`) i pól wejściowych węzła. Ten sam wynik dla tych samych danych i tej samej daty „dzisiaj”. Cztery czynniki, każdy `ok` / `mid` / `no`:
 
 | Czynnik | ok | mid | no |
 |---|---|---|---|
-| Źródło | `tier` 1 | `tier` 2 | `tier` 3 lub brak |
-| Aktualność | w rytmie publikacji źródła | do 1 cyklu opóźnienia | starsze |
-| Zgodność | wszystkie źródła zgodne | małe różnice | różne wartości |
-| Rodzaj | pomiar | wyliczenie lub cena rynkowa | szacunek lub prognoza |
+| Źródło | `tier` 1 | `tier` 2 | `tier` 3 lub brak `src` |
+| Aktualność | wiek wartości w rytmie publikacji źródła | do dwóch rytmów lub brak rytmu w rejestrze | starsze |
+| Zgodność | `agree`: wszystkie źródła zgodne | `small` (małe różnice) lub `single` (jedno źródło) | `differ`: różne wartości |
+| Rodzaj | `measurement`: pomiar | `calculation`: wyliczenie, `market`: cena rynkowa | `estimate`: szacunek, `forecast`: prognoza |
 
-Wynik: **Wysoka** = brak `no` i najwyżej jedno `mid`; **Średnia** = jedno `no` lub dwa i więcej `mid`; **Niska** = dwa i więcej `no`. Reguła ma testy w `validate.py`, a progi można zmienić tylko decyzją w `docs/decisions.md`.
+Wynik: **Wysoka** = brak `no` i najwyżej jedno `mid`; **Średnia** = jedno `no` albo dwa i więcej `mid`; **Niska** = dwa i więcej `no`. Reguła ma testy w `tests/test_confidence.py`, a progi można zmienić tylko decyzją w `docs/decisions.md`.
+
+### Pola wejściowe węzła
+
+Do `src` (patrz „Źródła przy liczbach”) węzeł dopisuje obiekt `conf`:
+
+```json
+"conf": {"asof": "2026-11-23", "kind": "market", "agree": "small"}
+```
+
+| Pole | Wartości | Znaczenie |
+|---|---|---|
+| `asof` | `rrrr-mm-dd` | Data, której dotyczy liczba główna (`m`): dla notowań dzień notowania, dla danych okresowych data odczytu lub publikacji. Nie może być w przyszłości. |
+| `kind` | `measurement`, `calculation`, `market`, `estimate`, `forecast` | Rodzaj liczby głównej: pomiar urzędowy lub instytucji, wyliczenie z innych danych, cena rynkowa, szacunek, prognoza. |
+| `agree` | `agree`, `small`, `single`, `differ` | Zgodność źródeł liczby głównej: zgodne, małe różnice, jedno źródło (brak porównania), różne wartości. |
+
+Wszystkie trzy pola są wymagane. Brak całego `conf` daje wynik „brak danych wejściowych” (`level: null`, bez błędu). Niepoprawna wartość, data w przyszłości albo nieznane id w `src` daje `level: null` i niepustą listę `problems` (kod wyjścia skryptu 1). Brak `src` przy poprawnym `conf` nie jest błędem: czynnik „Źródło” to `no`.
+
+### Źródło
+
+Liczy się najlepszy (najniższy) `tier` ze źródeł w `src`. Przy remisie „najlepsze” jest pierwsze na liście (stąd zasada: źródło pierwotne pierwsze). To źródło wyznacza też rytm publikacji w czynniku „Aktualność”.
+
+### Aktualność i mapowanie `cadence`
+
+Wiek = liczba dni od `conf.asof` do „dzisiaj”. Pole `cadence` najlepszego źródła jest tekstem. Skrypt rozpoznaje w nim okres (bez rozróżniania wielkości liter, po rdzeniu słowa, tylko w części przed frazą „opóźnieni…”) i opcjonalne opóźnienie publikacji:
+
+| Fragment `cadence` | Okres (dni) |
+|---|---|
+| `dzienn…` | 1 |
+| `tygodni…` | 7 |
+| `miesięczn…` | 30 |
+| `kwartaln…` | 91 |
+| `półroczn…` | 182 |
+| `roczn…` | 365 |
+
+Opóźnienie: fraza `opóźnieni… [ok.] N dni` (lub `N tygodni`), np. „dzienny, z opóźnieniem ok. 7 dni” = okres 1 + opóźnienie 7. **Rytm** R = okres + opóźnienie. Tolerancja weekendu T = 3 dni tylko dla okresu dziennego (notowanie z piątku w poniedziałek), w pozostałych przypadkach 0.
+
+| Stan | Warunek |
+|---|---|
+| `ok` | wiek ≤ R + T |
+| `mid` | wiek ≤ 2 × R + T |
+| `no` | wiek > 2 × R + T |
+| `mid` (z powodem „Brak rytmu publikacji w rejestrze”) | `cadence` puste (`null`) |
+| `mid` (z powodem „Nierozpoznany rytm…”) | `cadence` ma tekst, którego skrypt nie umie odczytać |
+
+Przykłady: `miesięczny` ok do 30 dni, mid do 60; `dzienny` ok do 4 dni, mid do 5; `dzienny, z opóźnieniem ok. 7 dni` ok do 11 dni, mid do 19; `kwartalny` ok do 91 dni, mid do 182. Nowy opis rytmu w rejestrze trzeba najpierw dopisać do mapowania w `confidence.py` (z testem), inaczej wynik to „nierozpoznany rytm”.
+
+### Powód (`why`)
+
+Krótkie zdanie po polsku z najsłabszych czynników: fraza czynnika ze stanem `no`, a gdy takiego nie ma, ze stanem `mid` (najwyżej dwie, w kolejności Źródło, Aktualność, Zgodność, Rodzaj, połączone średnikiem). Gdy wszystko jest `ok`: „Źródło pierwotne, aktualne, zgodne, pomiar”. Pełny opis każdego czynnika jest w jego polu `text`.
+
+### Wynik
+
+`python3 scripts/confidence.py --write` zapisuje plik pochodny `src/data/confidence.json` (nie edytować ręcznie), `--json` drukuje to samo na stdout, a `--today rrrr-mm-dd` ustawia datę „dzisiaj” (testy). Struktura odpowiada argumentom `conf()` w makietach (`level` = `hi` / `mid` / `lo`, `why`, cztery czynniki z nazwą, stanem i tekstem):
+
+```json
+{
+  "computed": "2026-11-24",
+  "nodes": {
+    "pump": {
+      "level": "hi", "label": "Wysoka",
+      "why": "Źródło pierwotne, aktualne, zgodne, pomiar",
+      "factors": [
+        {"name": "Źródło", "state": "ok", "text": "Źródło pierwotne (poziom 1)"},
+        {"name": "Aktualność", "state": "ok", "text": "Wiek wartości: 11 dni, rytm: miesięczny"},
+        {"name": "Zgodność źródeł", "state": "ok", "text": "Źródła zgodne"},
+        {"name": "Rodzaj danych", "state": "ok", "text": "Pomiar, nie szacunek"}
+      ],
+      "problems": []
+    },
+    "gate": {"level": null, "label": null, "why": "Brak danych wejściowych (pole conf)", "factors": [], "problems": []}
+  }
+}
+```
 
 ## Ramowanie (`frame`)
 
