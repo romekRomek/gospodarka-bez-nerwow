@@ -187,10 +187,10 @@ Faza 0 jest wąskim gardłem. Bez niej agenci nie mają czego sprawdzać.
 | Przegląd poziomów źródeł przez redaktora, naprawa etykiety „Reuters” | do zrobienia |
 | Generowana sekcja „Źródła” z rejestru | do zrobienia |
 | Architektura źródeł danych i API ([`data-sources-architecture.md`](data-sources-architecture.md)) | osobne zadanie badawcze po fazie 0 |
-| `confidence.py` (wskaźnik pewności z rejestru) | do zrobienia |
+| `confidence.py` (wskaźnik pewności z rejestru), 32 testy; czeka na pola `conf` w danych (W3) | **gotowe (skrypt)** |
 | Migracja `src/data/` na model treści, w tym `good.json` i `news.json` (D5) | do zrobienia |
-| `src/tokens.css` z `tokens.json`, `design-lint.py` | do zrobienia |
-| Test dymny Playwright, szablon PR ze zrzutami | do zrobienia |
+| `src/tokens.css` generowany z `tokens.json`, migracja `styles.css` na tokeny bez zmiany wyglądu, `design-lint.py` z testami i krokiem w CI (wyjątki z uzasadnieniem w `EXCEPTIONS`) | **gotowe** |
+| Test dymny w przeglądarce (231 asercji), narzędzie zrzutów przed/po, szablon PR, workflow `e2e.yml` (nieuruchomiony w Actions) | **gotowe** |
 | Ujednolicenie danych Brent (90 vs 92,6 USD) | do zrobienia |
 
 ## 7. Co zostaje ustalić

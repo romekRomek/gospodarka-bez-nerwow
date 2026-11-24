@@ -10,6 +10,9 @@ python3 -m http.server -d dist 8080      # podgląd
 python3 scripts/validate.py              # walidacja danych i rejestru źródeł (błędy = kod 1)
 python3 -m unittest discover -s tests    # testy walidatora
 python3 docs/design/tokens.py check      # kontrast tokenów (AA) w obu motywach
+python3 scripts/design-lint.py           # surowe wartości w CSS poza tokenami (blok mapy pominięty)
+npm --prefix tests/e2e test              # test dymny w przeglądarce (opis: docs/testing.md)
+python3 scripts/confidence.py            # wskaźnik pewności danych (wymaga pól conf w steps.json)
 python3 docs/design/mockups/build.py     # odświeża makiety z danych i tokenów
 ```
 
