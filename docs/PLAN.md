@@ -183,9 +183,9 @@ Faza 0 jest wąskim gardłem. Bez niej agenci nie mają czego sprawdzać.
 | Zestawienie źródeł poziomu 3 ([`sources-tier3-review.md`](sources-tier3-review.md)) | **gotowe** |
 | Źródła pierwotne GUS (CPI, płace, PKB) w rejestrze, `primary` przy Finwire, `src` w 4 z 13 węzłów (`shop`, `pump`, `worker`, `sun`) | **gotowe** |
 | EIA (Brent): źródło, porównanie i skrypt `check_brent_eia.py`, `src` dla `derrick`. Wniosek: dane to kontrakt ICE, EIA to spot (patrz [`brent-eia-check.md`](brent-eia-check.md)). Decyzja D14 (opcja C) wykonana: podpisy miar, fakt z EIA, poprawiony wykres, EIA na liście „Źródła” | **zrobione** |
-| Pozostałe źródła pierwotne (Fed, Eurostat, KE, handel GUS, PNAS) i `src` przy 8 węzłach | do zrobienia |
+| Pozostałe źródła pierwotne (GUS CPI i handel, Fed, Eurostat) i `src` w 12 z 13 węzłów (brak tylko `gate`); pola `decides`, `concerns`, `watch`, `soon`, `conf` we wszystkich 13 węzłach (treści robocze do przeglądu redaktora: [`node-fields-review.md`](node-fields-review.md)); `validate.py` sprawdza nowe pola (26 testów) | **gotowe (treści robocze)** |
 | Przegląd poziomów źródeł przez redaktora, naprawa etykiety „Reuters” | do zrobienia |
-| Generowana sekcja „Źródła” z rejestru | do zrobienia |
+| Generowana sekcja „Źródła” z rejestru (dziś lista w szablonie, 7 pozycji dopisanych ręcznie) | do zrobienia |
 | Architektura źródeł danych i API ([`data-sources-architecture.md`](data-sources-architecture.md)) | osobne zadanie badawcze po fazie 0 |
 | `confidence.py` (wskaźnik pewności z rejestru), 32 testy; czeka na pola `conf` w danych (W3) | **gotowe (skrypt)** |
 | Migracja `src/data/` na model treści, w tym `good.json` i `news.json` (D5) | do zrobienia |

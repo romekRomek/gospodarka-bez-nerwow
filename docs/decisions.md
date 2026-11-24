@@ -62,6 +62,16 @@ Zatwierdzone przez właściciela na podstawie makiet `docs/design/mockups/index.
 
 ### Do poprawy przy migracji danych (faza 0)
 
-- Brent: dwie wartości w danych (ok. 90 USD i 92,6 USD).
+- Brent: dwie wartości w danych (ok. 90 USD i 92,6 USD): wyjaśnione w D14 (zaokrąglenie, miary ICE i spot).
+- **Niezgodności znalezione przez W3 (szczegóły w `docs/node-fields-review.md`, sekcja 5), do decyzji redaktora:**
+  - `sun.f` oraz `news.json`: „rynek oczekiwał +3,6% r/r": w źródłach +3,6% to wzrost wyrównany sezonowo, nie konsensus rynku (prawdopodobna pomyłka, **treść widoczna na żywej stronie**);
+  - PKB II kwartału: `steps.json` +4,1%, ale `changelog.json` +3,9%; jedna z wartości jest błędna lub dotyczy innego szacunku;
+  - `west.f`: wartości dla Niemiec, Francji i Włoch w III kwartale niezweryfikowane;
+  - `debt.mc`: „plan 2026 i 2027": 7,1% potwierdzone tylko dla 2026 r.;
+  - deficyt 2025: 7,3% (GUS) vs 7,2% (Eurostat, po rewizji);
+  - `worker.m` (+2,4% realnie): prosta różnica płac i CPI daje 2,5–2,6 pp, więc Finwire użył innej deflacji;
+  - `tree.mc`: „od początku roku ok. +31%" wymaga przeliczenia (WNP: +26% do 20.11);
+  - `ukraine.m`: 4,8% PKB (Pułaski) vs 4,81% (FZZ), dwie wartości jednego wskaźnika.
+- Pytanie „Dla Ciebie” przy węźle `ukraine` („Czy w Twojej okolicy mieszkają osoby z Ukrainy?") dotyka tematu wojny i uchodźców: do decyzji, czy zostawić, zmienić na neutralne czy pominąć.
 - Etykieta „Reuters” prowadzi do domeny `daily-sun.com`.
 - Źródła poziomu 3 przy kluczowych liczbach (do zastąpienia pierwotnymi, gdzie się da).
