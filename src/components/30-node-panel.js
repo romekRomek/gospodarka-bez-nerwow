@@ -12,6 +12,7 @@ function show(i,scroll){
   document.querySelectorAll('.node').forEach(function(n){n.classList.toggle('on',n.id==='n-'+s.id);});
   document.querySelectorAll('.step').forEach(function(b){b.classList.toggle('on',b.id==='st-'+s.id);});
   renderPanelV2(i);
+  depsRender(i);
   if(scroll&&!isPhone()&&window.innerWidth<=1020){document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});}
 }
 document.querySelectorAll('.node').forEach(function(g){

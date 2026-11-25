@@ -253,8 +253,11 @@ async function runScenario(browser, base, width, theme, { functional }) {
         await page.keyboard.press('Escape');
         check(await page.locator('#side.open').count() === 0, 'telefon: Escape zamyka dolny panel');
         await page.locator('#' + firstId).click();
-        await page.click('#more');
+      } else {
+        check(!(await modalIsOpen(page)), 'komputer: klik w węzeł nie otwiera okna modalnego, tylko zaznacza go i pokazuje panel obok mapy');
+        check(await page.locator('#pv2 .who').isVisible() && await page.locator('#pv2 .deps').isVisible(), 'komputer: panel obok mapy ma „Decyduje” i „Zależności”');
       }
+      await page.click('#more');
       check(await modalIsOpen(page), 'szczegóły węzła ' + firstId + ' otwierają okno z wykresem');
       const title = (await page.locator('#mt-t').textContent() || '').trim();
       check(title.length > 0, 'okno szczegółów ma tytuł', 'tytuł: "' + title + '"');
@@ -290,13 +293,43 @@ async function runScenario(browser, base, width, theme, { functional }) {
 
       // nawigacja Następny/Poprzedni nie psuje okna
       await page.locator('#nodes g.node').nth(2).click();
-      if (phone) await page.click('#more');
+      await page.click('#more');
       const t1 = await page.locator('#mt-t').textContent();
       await page.click('#mnext');
       const t2 = await page.locator('#mt-t').textContent();
       check(t1 !== t2, 'przycisk „Następny” zmienia węzeł w oknie', '"' + t1 + '" → "' + t2 + '"');
       await page.keyboard.press('Escape');
       check(!(await modalIsOpen(page)), 'Escape zamyka okno także po nawigacji');
+
+      // zależności: klik w węzeł podświetla jego krawędzie, wygasza resztę i pokazuje listy w panelu (bez okna modalnego)
+      const deps = () => page.evaluate(() => ({
+        modal: document.getElementById('md').open,
+        on: document.querySelectorAll('#deps .dep.on').length, inn: document.querySelectorAll('#deps .dep.on.in').length,
+        dim: document.querySelectorAll('#nodes .node.dim').length, rel: document.querySelectorAll('#nodes .node.rel').length,
+        groups: [...document.querySelectorAll('#pv2 .dpg')].map(g => g.querySelector('h4').textContent + ':' + g.querySelectorAll('.dpi').length),
+        title: document.getElementById('bt').textContent.trim(), note: (document.querySelector('#pv2 .deps .cgs') || {}).textContent || '',
+        pressed: [...document.querySelectorAll('#nodes .node')].filter(n => n.getAttribute('aria-pressed') === 'true').map(n => n.id),
+      }));
+      await page.locator('#n-derrick').click();
+      const d1 = await deps();
+      check(!d1.modal, 'Zależności: klik w węzeł nie otwiera okna modalnego', JSON.stringify(d1));
+      check(d1.on === 4 && d1.inn === 1 && d1.rel === 4 && d1.dim === 8, 'Zależności: Studnia ropy ma 4 krawędzie (3 wychodzące, 1 przychodząca), 4 powiązane węzły, 8 wygaszonych', JSON.stringify(d1));
+      check(d1.groups.join('|') === 'Wpływa na:3|Zależy od:1' && d1.pressed.join() === 'n-derrick', 'Zależności: panel ma listy „Wpływa na” (3) i „Zależy od” (1), zaznaczony węzeł ma aria-pressed', JSON.stringify(d1));
+      await page.locator('#pv2 .dpi').first().click();
+      const d2 = await deps();
+      check(d2.title === 'Stacja paliw' && d2.on === 2 && d2.dim === 10, 'Zależności: klik pozycji na liście przechodzi do tego węzła i przesuwa podświetlenie', JSON.stringify(d2));
+      if (phone) {
+        await page.locator('#n-derrick').click();
+        await page.click('#pv2 .dpmap');
+        const afterMap = await deps();
+        check((await page.locator('#side.open').count()) === 0 && afterMap.on === 4 && afterMap.dim === 8, 'telefon: „Pokaż na mapie” zamyka panel i zostawia podświetlone zależności', JSON.stringify(afterMap));
+      } else {
+        check(!(await page.locator('#pv2 .dpmap').isVisible()), 'komputer: przycisk „Pokaż na mapie” jest ukryty (panel nie zasłania mapy)');
+      }
+      await page.locator('#n-debt').click();
+      const d3 = await deps();
+      check(d3.on === 0 && d3.dim === 0 && /nie mamy jeszcze/.test(d3.note), 'Zależności: węzeł bez zapisanych zależności nie wygasza mapy i mówi o braku wprost', JSON.stringify(d3));
+      await checkNoHScroll(page, 'mapa z podświetlonymi zależnościami');
     }
 
     // konsola i wyjątki przez cały scenariusz

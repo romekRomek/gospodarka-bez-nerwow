@@ -195,6 +195,10 @@ Zakładka to lista sekcji, a sekcja to komponent z biblioteki plus źródło dan
 - Ropa Brent ma dwie wartości w danych: „ok. 90 USD” (`steps.json`) i 92,6 USD (ostatni punkt w `charts.json`). Do ujednolicenia albo oznaczenia jako różnica źródeł (wskaźnik pewności już ją pokazuje).
 - Etykieta źródła „Reuters” prowadzi do domeny `daily-sun.com`. Do zweryfikowania przy tworzeniu `sources.json`.
 
+## Zależności między węzłami (`links.json`)
+
+Krawędź skierowana: zmiana w `from` przenosi się na `to`. Pola: `id` (`od-do`), `from`, `to`, `kind` (`wplyw` albo `skladnik`: część większej całości), `sense` (zawsze `bezposrednie`), `why` (jedno zdanie do 120 znaków, bez ocen), `basis` (`node`, `field`, `quote`: **cytat z istniejącego tekstu węzła, który walidator sprawdza kodem**). Zasady: **zapisujemy tylko krawędzie bezpośrednie** (jedno przejście), pośrednie liczy kod z grafu; do 6 krawędzi w każdą stronę na węzeł; bez pętli do samego siebie i duplikatów; węzeł bez żadnej zależności to ostrzeżenie. Cytat ma oparcie w treści, która przeszła redakcję i ma źródła; **zewnętrzne potwierdzenie mechanizmu źródłem jest osobnym zadaniem (M0-6)**. Siłę krawędzi zapisujemy tylko z liczby ze źródła, inaczej pokazujemy sam kierunek.
+
 ## Hasło glosariusza (`terms.json`): potwierdzenie definicji
 
 Hasło: `id`, `forms` (formy w tekście), `name`, `def` (jedno zdanie, do 220 znaków), `src` (id z rejestru), `verified`. **`verified: true` wymaga `evidence`**: `quote` (cytat ze strony źródła, w języku źródła) i `checked` (data sprawdzenia), a w `claims.json` twierdzenia `kind: "definition"` (`node` = id hasła, `field: "def"`, `anchor` = cytat), które `verify_claims.py` sprawdza na stronie źródła. Hasło niepotwierdzone wymaga `note` i jest w oknie oznaczone jako „robocze”. **Walidator zgłasza ostrzeżenie dla każdego skrótu w tekstach strony bez hasła** (zasada 7); skróty znane wszystkim (np. USA, USD) są na liście `ABBR_OK` w `validate.py`.

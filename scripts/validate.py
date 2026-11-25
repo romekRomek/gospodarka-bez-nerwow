@@ -21,11 +21,14 @@ FETCH = {'page', 'pdf', 'api'}
 DATE_RE = re.compile(r'^(\d{2})\.(\d{2})\.(\d{4})$')
 URL_RE = re.compile(r'https?://[^"\s\\<>]+')
 BANNED = re.compile(r'dobr(a|ą|e|ych|ej)\s+wiadomo|zł(a|ą|e|ych|ej)\s+wiadomo', re.I)
-REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'start', 'method', 'sources']
+REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'start', 'method', 'links', 'sources']
 
 # Pola węzła dla nowego designu (docs/design/content-model.md, decyzje D11 i D13).
 LIM_DECIDES, LIM_WATCH, LIM_QUESTION, LIM_EVENT = 80, 90, 70, 110
 LIM_AFFECTS = 190
+LIM_WHY, MAX_DEGREE = 120, 6
+LINK_KINDS = {'wplyw', 'skladnik'}
+LINK_FIELDS = {'m', 'mc', 'i', 'decides', 'concerns', 'watch', 'plain', 'f'}
 CONF_KINDS = {'measurement', 'calculation', 'market', 'estimate', 'forecast'}
 CONF_AGREE = {'agree', 'small', 'differ', 'single'}
 ASOF_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
@@ -544,6 +547,59 @@ def check_abbreviations(D, r):
         r.warn('glosariusz', f'skrót „{a}” ({n}×, w: {", ".join(sorted(fs))}) nie ma hasła w terms.json (zasada 7)')
 
 
+def check_deps(D, r):
+    """Zależności między węzłami mapy (links.json): tylko krawędzie bezpośrednie, każda z cytatem z tekstu węzła sprawdzanym kodem."""
+    d = D.get('links')
+    if not isinstance(d, dict) or not isinstance(d.get('links'), list):
+        if 'links' in D:
+            r.err('links.json', 'oczekiwano obiektu z listą „links”')
+        return
+    steps = {s.get('id'): s for s in (D.get('steps') or []) if isinstance(s, dict)}
+    seen_id, seen_pair, out_n, in_n = set(), set(), {}, {}
+    for i, l in enumerate(d['links']):
+        w = f'links.json[{i}]'
+        if not need(r, w, l, ['id', 'from', 'to', 'kind', 'sense', 'why', 'basis']):
+            continue
+        if l['id'] != f"{l['from']}-{l['to']}":
+            r.err(w, f'id „{l["id"]}” musi być „od-do” ({l["from"]}-{l["to"]})')
+        if l['id'] in seen_id or (l['from'], l['to']) in seen_pair:
+            r.err(w, f'powtórzona krawędź {l["from"]} → {l["to"]}')
+        seen_id.add(l['id'])
+        seen_pair.add((l['from'], l['to']))
+        if l['from'] == l['to']:
+            r.err(w, 'krawędź do samego siebie')
+        for end in ('from', 'to'):
+            if l[end] not in steps:
+                r.err(w, f'„{end}”: nieznany węzeł „{l[end]}”')
+        if l['kind'] not in LINK_KINDS:
+            r.err(w, f'„kind” „{l["kind"]}” spoza {sorted(LINK_KINDS)}')
+        if l['sense'] != 'bezposrednie':
+            r.err(w, 'zapisujemy tylko krawędzie bezpośrednie („sense”: „bezposrednie”); pośrednie liczy kod z grafu')
+        if not is_str(l['why']) or len(l['why']) > LIM_WHY:
+            r.err(w, f'„why” musi być jednym zdaniem do {LIM_WHY} znaków')
+        b = l['basis']
+        if not (isinstance(b, dict) and all(is_str(b.get(k)) for k in ('node', 'field', 'quote'))):
+            r.err(w, '„basis” wymaga pól „node”, „field”, „quote”')
+        elif b['field'] not in LINK_FIELDS or b['node'] not in steps:
+            r.err(w, f'„basis”: nieznane pole „{b["field"]}” albo węzeł „{b["node"]}”')
+        else:
+            v = steps[b['node']].get(b['field'])
+            txt = ' '.join(v) if isinstance(v, list) else (v or '')
+            if b['quote'] not in txt:
+                r.err(w, f'cytat „{b["quote"]}” nie występuje w polu „{b["field"]}” węzła „{b["node"]}” (krawędź nie ma oparcia w treści)')
+        out_n[l['from']] = out_n.get(l['from'], 0) + 1
+        in_n[l['to']] = in_n.get(l['to'], 0) + 1
+    for nid, n in out_n.items():
+        if n > MAX_DEGREE:
+            r.err('links.json', f'węzeł „{nid}” ma {n} krawędzi wychodzących, limit {MAX_DEGREE} (czytelność)')
+    for nid, n in in_n.items():
+        if n > MAX_DEGREE:
+            r.err('links.json', f'węzeł „{nid}” ma {n} krawędzi przychodzących, limit {MAX_DEGREE} (czytelność)')
+    isolated = [nid for nid in steps if nid not in out_n and nid not in in_n]
+    if isolated:
+        r.warn('links.json', f'węzły bez żadnej zależności: {", ".join(isolated)}')
+
+
 def check_method(D, r):
     m = D.get('method')
     if not isinstance(m, dict):
@@ -725,6 +781,7 @@ def run(data_dir, template, links=False):
     check_terms(D, r)
     check_changelog(D, r)
     check_method(D, r)
+    check_deps(D, r)
     check_abbreviations(D, r)
     urls = check_sources(D, r)
     check_registry_coverage(D, urls, template, r)

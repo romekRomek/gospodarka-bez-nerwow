@@ -10,21 +10,22 @@ Pełne listy w `.claude/agents/product-owner-mapy.md`. Skrót: **Ready** = liczb
 
 | # | Pytanie | Rekomendacja | Odpowiedź |
 |---|---|---|---|
-| Q1 | Widoki: osobny „Codzienność” obok „Świat”, czy jedna mapa z warstwami? | Osobny widok | — |
-| Q2 | Kolejność fal: M0, M1 (Dom i kredyty), M2 (Jedzenie)? | Tak | — |
-| Q3 | Tematy wrażliwe (pożyczki pozabankowe, zdrowie) z neutralnym tonem (D19)? | Tak | — |
-| Q4 | PO uruchamiany ręcznie czy harmonogram w chmurze? | Ręcznie na start | — |
+| Q1 | Widoki: osobny „Codzienność” obok „Świat”, czy jedna mapa z warstwami? | Osobny widok | **Tak** (25.11.2026) |
+| Q2 | Kolejność fal: M0, M1 (Dom i kredyty), M2 (Jedzenie)? | Tak | **Tak** (25.11.2026) |
+| Q3 | Tematy wrażliwe (pożyczki pozabankowe, zdrowie) z neutralnym tonem (D19)? | Tak | **Tak** (25.11.2026) |
+| Q4 | PO uruchamiany ręcznie czy harmonogram w chmurze? | Ręcznie na start | **Tak, ręcznie** (25.11.2026) |
 
 ## Fala M0: zależności i interakcja dla istniejących 13 węzłów
 
 | ID | Pozycja | Status | Zależność | Uwagi |
 |---|---|---|---|---|
-| M0-1 | Model `links.json`: schemat, walidacja (id, `why` ≤ 120, `src`, limit krawędzi), testy | Pomysł | Q1 nie blokuje | Schemat w `map-expansion.md` pkt 2 |
-| M0-2 | Zapis krawędzi dla 13 węzłów (tylko bezpośrednie) z testem sensu i źródłem | Pomysł | M0-1 | Strzałki łańcucha z grafiki przenieść do danych |
-| M0-3 | Komponent `LinkLayer` (podświetlenie krawędzi, wygaszanie węzłów) i `DepsBlock` (sekcja „Zależności” w panelu) | Pomysł | M0-1 | A2, A5, L6; telefon: dolny panel |
+| M0-1 | Model `links.json`: schemat, walidacja (id, `why` ≤ 120, `src`, limit krawędzi), testy | Przegląd | Q1 nie blokuje | Schemat w `map-expansion.md` pkt 2 |
+| M0-2 | Zapis krawędzi dla 13 węzłów (tylko bezpośrednie) z testem sensu i źródłem | Przegląd | M0-1 | Strzałki łańcucha z grafiki przenieść do danych |
+| M0-3 | Komponent `LinkLayer` (podświetlenie krawędzi, wygaszanie węzłów) i `DepsBlock` (sekcja „Zależności” w panelu) | Przegląd | M0-1 | A2, A5, L6; telefon: dolny panel |
 | M0-4 | Przełącznik „Pokaż 2 kroki” (ścieżki z grafu) | Pomysł | M0-3 | Oznaczone jako pośrednie |
-| M0-5 | Testy w przeglądarce (klik, klawiatura, Esc, brak przewijania, kontrast) i zrzuty | Pomysł | M0-3 | S4 |
-| M0-6 | Twierdzenia o krawędziach w `claims.json` (kod sprawdza tam, gdzie źródło na to pozwala) | Pomysł | M0-2 | Jak daty w kalendarzu |
+| M0-5 | Testy w przeglądarce (klik, klawiatura, Esc, brak przewijania, kontrast) i zrzuty | Przegląd | M0-3 | S4 |
+| M0-6 | Zewnętrzne źródła mechanizmów krawędzi (dziś oparcie to cytat z treści węzła, sprawdzany kodem) i twierdzenia w `claims.json` | Pomysł | M0-2 | Jak mechanizmy w kalendarzu (EBC, Fed) |
+| M0-7 | Zależności dla węzła „Dług publiczny” (dziś bez krawędzi) i uzupełnienie brakujących | Pomysł | M0-2 | Wymaga cytowalnego związku w treści |
 
 ## Fala M1: Dom i kredyty (widok „Codzienność”)
 
@@ -66,4 +67,4 @@ Pełne listy w `.claude/agents/product-owner-mapy.md`. Skrót: **Ready** = liczb
 
 ## Dziennik PO
 
-- 25.11.2026: założono backlog i definicję roli (research i plan: `docs/map-expansion.md`). Brak pozycji w toku. Oczekuje na odpowiedzi Q1-Q4.
+- 25.11.2026: założono backlog i definicję roli (research i plan: `docs/map-expansion.md`). Właściciel odpowiedział „tak” na Q1–Q4. M0-1, M0-2, M0-3 i M0-5 zrobione w PR (16 krawędzi, `LinkLayer`, `DepsBlock`, testy); decyzja D25 zmienia klik na komputerze (zaznacza zamiast otwierać modal). Następne: M0-4 („Pokaż 2 kroki”), M0-6, M0-7, potem M1-1 (badanie NBP).
