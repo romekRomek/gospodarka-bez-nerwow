@@ -28,6 +28,7 @@ def css(tok=None):
     base = _decls(tok, 'light')
     base += [f'--{k}:{v["value"]};' for k, v in tok['font'].items()]
     base += [f'--t-{k}:{v["value"]};' for k, v in tok['type'].items()]
+    base += [f'--lh-{k}:{v["value"]};' for k, v in tok['leading'].items()]
     base += [f'--sp-{k}:{v["value"]};' for k, v in tok['space'].items()]
     base += [f'--r-{k}:{v["value"]};' for k, v in tok['radius'].items()]
     dark = _decls(tok, 'dark')

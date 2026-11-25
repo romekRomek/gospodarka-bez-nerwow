@@ -38,6 +38,8 @@ Odbiorca: dorosły laik, telefon najpierw, ok. 2 minuty. Cel: rozumieć gospodar
 | L3 | **Brak poziomego przewijania strony.** Wyjątki: pasek kroków i mapa, każde w swoim kontenerze. | Test `scrollWidth ≤ innerWidth`. |
 | L4 | **Szczegóły w dolnym panelu na telefonie** zamiast okna modalnego. Mapa zostaje widoczna. | Przegląd wzorca. |
 | L5 | **Poziom treści zapamiętany lokalnie**, domyślnie Podstawy. | Test działania. |
+| L7 | **Interlinia.** Tekst ciągły: min. 1,5 (WCAG 1.4.12), token `--lh-body`. Krótkie wieloliniowe etykiety i tytuły: 1,3–1,4. Duże nagłówki (od 24 px): nie mniej niż 1,2. Pismo odręczne (Caveat): min. 1,4, bo ma niską wysokość liter. Interlinię ustawia token `--lh-*`; skrót `font:` bez interlinii zeruje ją do „normal” (ok. 1,2). | test dymny: wieloliniowy tekst do 16 px ma interlinię ≥ 1,4, każdy ≥ 1,2. |
+| L8 | **Grupowanie przez odstępy (bliskość).** Odstęp między blokami (sekcjami, kartami) jest wyraźnie większy niż wewnątrz bloku. Elementy powiązane trzymamy blisko, niepowiązane oddzielamy odstępem, a nie obramowaniem. Ekran główny: między blokami co najmniej `--sp-4` (`--sp-5` od 760 px kontenera). | test dymny: między blokami ekranu Start min. 12 px; przegląd zrzutu. |
 | L6 | **Ruch tylko funkcjonalny.** `prefers-reduced-motion` respektowane. | design-lint, test. |
 
 ## Zasady dostępności

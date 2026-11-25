@@ -104,6 +104,23 @@ async function runScenario(browser, base, width, theme, { functional }) {
     await page.mouse.click(5, 5);
     check((await page.locator('.tpop').count()) === 0, 'klik poza okienkiem zamyka definicję');
 
+    // rytm pionowy (L7, L8): bloki ekranu Start nie stykają się, a wieloliniowy tekst ma czytelną interlinię
+    const rhythm = await page.evaluate(() => {
+      const kids = [...document.querySelectorAll('#tab-start .scr-body > *')].filter(e => e.offsetParent);
+      let minGap = 1e9;
+      for (let i = 1; i < kids.length; i++) minGap = Math.min(minGap, kids[i].getBoundingClientRect().top - kids[i - 1].getBoundingClientRect().bottom);
+      const tight = [];
+      document.querySelectorAll('#tab-start *').forEach(el => {
+        if (!el.offsetParent || ![...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 25)) return;
+        const cs = getComputedStyle(el), fs = parseFloat(cs.fontSize), lh = cs.lineHeight === 'normal' ? 1.2 : parseFloat(cs.lineHeight) / fs;
+        if (Math.round(el.getBoundingClientRect().height / (lh * fs)) < 2) return;
+        if (lh < 1.2 || (fs <= 16 && lh < 1.4)) tight.push(el.tagName.toLowerCase() + '.' + el.className + ' ' + lh.toFixed(2));
+      });
+      return { minGap, tight };
+    });
+    check(rhythm.minGap >= 12, 'Start: odstęp między blokami min. 12 px (L8)', 'jest: ' + rhythm.minGap + ' px');
+    check(rhythm.tight.length === 0, 'Start: wieloliniowy tekst ma czytelną interlinię (L7)', rhythm.tight.join(', '));
+
     // okno „Jak to sprawdzamy”: otwiera się, ma dziennik korekt ze źródłami, zamyka się Escape
     await page.click('#mthb');
     check(await page.evaluate(() => document.getElementById('mth').open), 'Jak to sprawdzamy: okno się otwiera');
