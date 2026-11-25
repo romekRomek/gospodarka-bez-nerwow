@@ -161,6 +161,16 @@ async function runScenario(browser, base, width, theme, { functional }) {
       await page.click('#mx');
       check(!(await modalIsOpen(page)), 'przycisk ✕ zamyka okno szczegółów');
 
+      // węzeł PKB: „Czego ta liczba nie mówi” i „Spójrz też na” (limits, also) na poziomie Więcej
+      await page.click('#lvl button[data-level="2"]');
+      await page.locator('#st-sun').click();
+      check(await page.locator('#pv3 .limits li').count() === 3, 'PKB: trzy zdania „Czego ta liczba nie mówi”');
+      check(await page.locator('#pv3 .acell').count() === 3, 'PKB: trzy komórki „Spójrz też na”');
+      await page.click('#lvl button[data-level="1"]');
+      await page.locator('#st-sun').click();
+      check(!(await page.locator('#pv3 .limits').isVisible()), 'PKB, Podstawy: blok granic ukryty');
+      await page.keyboard.press('Escape');
+
       // nawigacja Następny/Poprzedni nie psuje okna
       await page.locator('#nodes g.node').nth(2).click();
       if (phone) await page.click('#more');
