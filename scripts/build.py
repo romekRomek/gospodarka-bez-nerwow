@@ -25,6 +25,18 @@ js = '\n'.join(f.read_text(encoding='utf-8').rstrip('\n') for f in COMPONENTS + 
 # sources.json to rejestr dla walidatora i wskaźnika pewności; do strony trafi dopiero z generowaną listą „Źródła”
 NOT_SHIPPED = {'sources', 'claims'}   # rejestr źródeł i twierdzeń to dane dla bramek, nie dla strony
 data = {f.stem: json.loads(f.read_text(encoding='utf-8')) for f in sorted((SRC / 'data').glob('*.json')) if f.stem not in NOT_SHIPPED}
+# wskaźnik pewności (scripts/confidence.py) liczony w buildzie, z „dzisiaj” = data najnowszego wpisu dziennika zmian,
+# żeby build był powtarzalny (ta sama data i dane = ten sam wynik)
+_cs = importlib.util.spec_from_file_location('confidence', ROOT / 'scripts' / 'confidence.py')
+confidence = importlib.util.module_from_spec(_cs)
+_cs.loader.exec_module(confidence)
+_d, _m, _y = data['changelog'][0]['label'].split('.')
+_today = confidence.parse_date(f'{_y}-{_m}-{_d}')
+_conf = confidence.compute_all(confidence.load_nodes(SRC / 'data'), confidence.load_sources(SRC / 'data'), _today)
+data['confidence'] = {'computed': _today.isoformat(), 'nodes': _conf}
+# źródła haseł glosariusza (nazwa i adres z rejestru) dla okienka definicji; reszta rejestru nie trafia na stronę
+_reg = {x['id']: x for x in json.loads((SRC / 'data' / 'sources.json').read_text(encoding='utf-8'))['sources']}
+data['termsrc'] = {i: {'name': _reg[i]['name'], 'url': _reg[i]['url']} for t in data['terms'] for i in t['src'] if i in _reg}
 js = 'var DATA=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + ';\n' + js
 
 cls = {'pl': 'land pl', 'west': 'land west', 'me': 'land me', 'oth': 'land oth'}

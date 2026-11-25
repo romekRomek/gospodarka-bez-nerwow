@@ -1,0 +1,51 @@
+{
+ "hello": {
+  "title": "Dziś w 60 sekund",
+  "lead": "Trzy liczby z kontekstem, przesadzony nagłówek dla śmiechu i technika manipulacji. Tu nie ma dobrych i złych wiadomości, są fakty i sposoby ich opowiadania."
+ },
+ "tiles": [
+  "derrick",
+  "shop",
+  "worker"
+ ],
+ "headlines": [
+  0,
+  1,
+  7
+ ],
+ "technique": 0,
+ "frames": [
+  {
+   "topic": "Inflacja CPI",
+   "node": "shop",
+   "fact": "3,5% w październiku r/r, we wrześniu 4,1%. Cel NBP: 2,5% ±1 pp.",
+   "a": {
+    "h": "Inflacja hamuje: 3,5% zamiast 4,1%!",
+    "accent": "spadek z 4,1%",
+    "emotion": "ulgę"
+   },
+   "b": {
+    "h": "Inflacja wciąż powyżej celu NBP, ceny dalej rosną",
+    "accent": "poziom ponad celem 2,5%",
+    "emotion": "niepokój"
+   },
+   "calm": "Ceny rosną wolniej niż miesiąc wcześniej, ale nadal rosną. Ani powód do ulgi, ani do alarmu."
+  },
+  {
+   "topic": "Ropa Brent",
+   "node": "derrick",
+   "fact": "ok. 90 USD: ok. 24 USD mniej niż 27.10 (114 USD) i ok. 22 USD więcej niż w lutym (68 USD).",
+   "a": {
+    "h": "Ropa tanieje o ok. 24 USD w niecały miesiąc!",
+    "accent": "spadek od 27.10",
+    "emotion": "ulgę"
+   },
+   "b": {
+    "h": "Ropa wciąż o ok. 22 USD droższa niż w lutym",
+    "accent": "wzrost od lutego",
+    "emotion": "niepokój"
+   },
+   "calm": "Cena spadła od końca października, ale jest wyraźnie wyższa niż w lutym. Wniosek zależy od tego, od kiedy patrzysz."
+  }
+ ]
+}

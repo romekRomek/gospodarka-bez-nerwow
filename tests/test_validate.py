@@ -339,3 +339,36 @@ class TermsTest(DataCase):
     def test_brak_pola(self):
         self.edit('terms', lambda t: t[0].pop('name'))
         self.assert_error(self.run_v(), 'name')
+
+
+class V2Test(DataCase):
+    def test_czyste_dane(self):
+        self.assertEqual(self.run_v().errors, [])
+
+    def test_limits_za_duzo(self):
+        self.edit('steps', lambda s: [n.update(limits=['a', 'b', 'c', 'd']) for n in s if n['id'] == 'sun'])
+        self.assert_error(self.run_v(), '„limits”')
+
+    def test_also_nieznany_wezel(self):
+        self.edit('steps', lambda s: [n['also'].__setitem__(0, {'node': 'nie-ma', 'role': 'x'}) for n in s if n['id'] == 'sun'])
+        self.assert_error(self.run_v(), '„also”')
+
+    def test_plain_za_dlugi(self):
+        self.edit('steps', lambda s: s[0].update(plain='x' * 201))
+        self.assert_error(self.run_v(), '„plain”')
+
+    def test_start_nieznany_kafelek(self):
+        self.edit('start', lambda s: s.update(tiles=['derrick', 'brak']))
+        self.assert_error(self.run_v(), '„tiles”')
+
+    def test_start_za_duzo_kafelkow(self):
+        self.edit('start', lambda s: s.update(tiles=['derrick', 'shop', 'worker', 'pump', 'bank']))
+        self.assert_error(self.run_v(), '„tiles”')
+
+    def test_start_zly_indeks_naglowka(self):
+        self.edit('start', lambda s: s.update(headlines=[99]))
+        self.assert_error(self.run_v(), '„headlines”')
+
+    def test_ramka_bez_pola(self):
+        self.edit('start', lambda s: s['frames'][0].pop('calm'))
+        self.assert_error(self.run_v(), 'calm')

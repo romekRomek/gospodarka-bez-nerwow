@@ -21,7 +21,7 @@ FETCH = {'page', 'pdf', 'api'}
 DATE_RE = re.compile(r'^(\d{2})\.(\d{2})\.(\d{4})$')
 URL_RE = re.compile(r'https?://[^"\s\\<>]+')
 BANNED = re.compile(r'dobr(a|ą|e|ych|ej)\s+wiadomo|zł(a|ą|e|ych|ej)\s+wiadomo', re.I)
-REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'sources']
+REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'start', 'sources']
 
 # Pola węzła dla nowego designu (docs/design/content-model.md, decyzje D11 i D13).
 LIM_DECIDES, LIM_WATCH, LIM_QUESTION, LIM_EVENT = 80, 90, 70, 110
@@ -351,6 +351,57 @@ def check_content(D, r):
 
 
 # ---------- dziennik zmian ----------
+def check_v2(D, r):
+    """Pola nowego interfejsu: plain, limits, also, alsoNote w steps.json oraz start.json (ekran Start)."""
+    steps = D.get('steps') if isinstance(D.get('steps'), list) else []
+    ids = {n.get('id') for n in steps if isinstance(n, dict)}
+    for n in steps:
+        w = f'steps.json:{n.get("id")}'
+        if 'plain' in n and not (is_str(n['plain']) and len(n['plain']) <= 200):
+            r.err(w, '„plain” musi być tekstem do 200 znaków')
+        if 'limits' in n:
+            L = n['limits']
+            if not (isinstance(L, list) and 1 <= len(L) <= 3 and all(is_str(x) for x in L)):
+                r.err(w, '„limits” musi być listą 1-3 tekstów')
+        if 'also' in n:
+            A = n['also']
+            if not (isinstance(A, list) and 2 <= len(A) <= 3):
+                r.err(w, '„also” musi mieć 2-3 pozycje')
+            else:
+                for a in A:
+                    if not (isinstance(a, dict) and a.get('node') in ids and is_str(a.get('role'))):
+                        r.err(w, f'„also”: pozycja {a!r} wymaga istniejącego „node” i „role”')
+        if 'alsoNote' in n and not is_str(n['alsoNote']):
+            r.err(w, '„alsoNote” musi być tekstem')
+    st = D.get('start')
+    if st is None:
+        return
+    if not isinstance(st, dict):
+        r.err('start.json', 'oczekiwano obiektu')
+        return
+    if not (isinstance(st.get('hello'), dict) and is_str(st['hello'].get('title')) and is_str(st['hello'].get('lead'))):
+        r.err('start.json', '„hello” wymaga „title” i „lead”')
+    tiles = st.get('tiles')
+    if not (isinstance(tiles, list) and 1 <= len(tiles) <= 4 and all(t in ids for t in tiles)):
+        r.err('start.json', '„tiles”: 1-4 istniejące id węzłów (zasada I6: maksimum 4)')
+    hl = D.get('headlines') if isinstance(D.get('headlines'), list) else []
+    hs = st.get('headlines')
+    if not (isinstance(hs, list) and hs and all(isinstance(i, int) and 0 <= i < len(hl) for i in hs)):
+        r.err('start.json', '„headlines”: niepusta lista poprawnych indeksów headlines.json')
+    te = D.get('techniques') if isinstance(D.get('techniques'), list) else []
+    if not (isinstance(st.get('technique'), int) and 0 <= st['technique'] < len(te)):
+        r.err('start.json', '„technique”: poprawny indeks techniques.json')
+    for i, f in enumerate(st.get('frames') or []):
+        w = f'start.json frames[{i}]'
+        if not (isinstance(f, dict) and need(r, w, f, ['topic', 'node', 'fact', 'a', 'b', 'calm'])):
+            continue
+        if f['node'] not in ids:
+            r.err(w, f'nieznany węzeł „{f["node"]}”')
+        for k in ('a', 'b'):
+            if not (isinstance(f[k], dict) and all(is_str(f[k].get(x)) for x in ('h', 'accent', 'emotion'))):
+                r.err(w, f'„{k}” wymaga h, accent, emotion')
+
+
 def check_terms(D, r):
     """Glosariusz (zasada redakcyjna 7): id, formy, nazwa, definicja w jednym zdaniu, źródło z rejestru albo notatka."""
     terms = D.get('terms')
@@ -571,6 +622,7 @@ def run(data_dir, template, links=False):
     check_charts(D, r)
     check_news(D, r)
     check_content(D, r)
+    check_v2(D, r)
     check_terms(D, r)
     check_changelog(D, r)
     urls = check_sources(D, r)
