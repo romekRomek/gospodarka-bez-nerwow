@@ -481,6 +481,7 @@ main{container:scr/inline-size}
   .side.open{transform:none;visibility:visible}
   .pclose{display:inline-flex;align-items:center;justify-content:center}
   .side .panel{border-radius:var(--r-lg) var(--r-lg) 0 0}
+  body.sheet-open{padding-bottom:75vh}
 }
 @media (prefers-reduced-motion:reduce){.side{transition:none}}
 .ni{background:none;border:0;cursor:pointer}

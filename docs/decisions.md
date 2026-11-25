@@ -87,3 +87,9 @@ Zatwierdzone przez właściciela na podstawie makiet `docs/design/mockups/index.
 - ~~Pytanie „Dla Ciebie” przy węźle `ukraine`~~: rozstrzygnięte w D16 (bez pytania).
 - Etykieta „Reuters” prowadzi do domeny `daily-sun.com`.
 - Źródła poziomu 3 przy kluczowych liczbach (do zastąpienia pierwotnymi, gdzie się da).
+
+## 25.11.2026: przegląd PR #1 i poprawki przed scaleniem
+
+- **Poprawione:** nagłówek o inflacji w `news.json` („niżej niż oczekiwano”, „Rynek liczył na 3,7%”): źródło (Finwire) podaje 3,7% jako średnią z trzech ostatnich odczytów, a nie oczekiwanie rynku. Przepisane na „niżej niż we wrześniu” (4,1%). Starsza notatka w `changelog.json` („Niżej niż oczekiwane 3,7%”) to historia i nie jest edytowana, ale ma ten sam błąd.
+- **Otwarte:** liczba główna Brenta „ok. 90 USD (23–24.11)” nie ma w rejestrze źródła, które by ją potwierdzało (`verify_claims.py`: rozbieżne). `tvn24-ropa-2-11` to artykuł z 2.11 (ok. 110 USD). Wyszukiwanie nie dało wiarygodnego źródła. Do uzupełnienia (np. strona z notowaniem ICE z 23–24.11).
+- **Poprawione narzędzia:** panel węzła na telefonie nie zasłania już listy kroków (odstęp pod panelem), a `verify_claims.py` toleruje zaokrąglenia do precyzji wartości i grupy tysięcy (4170,92 → 4171). Po poprawkach: 16 potwierdzonych, 8 niedostępnych (blokady), 1 rozbieżne (Brent).

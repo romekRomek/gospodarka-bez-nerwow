@@ -28,7 +28,7 @@
    "src": [
     "nation-thailand-brent-27-10"
    ],
-   "anchor": "114",
+   "anchor": "Brent settled",
    "kind": "market"
   },
   {
@@ -360,12 +360,12 @@
    "field": "m",
    "indicator": "Pozycja Chin wśród dostawców towarów do Polski (lipiec)",
    "period": "2026-07",
-   "value": 1,
+   "value": "nr 1",
    "unit": "miejsce",
    "src": [
     "wiadomosci-handlowe-chiny-dostawca-nr-1"
    ],
-   "anchor": "Chiny",
+   "anchor": "największym dostawcą",
    "kind": "calculation",
    "note": "Wartość „nr 1” zapisana jako 1."
   }

@@ -63,16 +63,41 @@ def variants(v):
     return sorted(out, key=len, reverse=True)
 
 
+def _norm(s):
+    """Scala grupy tysięcy zapisane ze spacją: „4 320” -> „4320”."""
+    return re.sub(r'(?<=\d)[ \u00a0](?=\d{3}(?!\d))', '', s)
+
+
+def _near_numbers(text, centers):
+    out = []
+    for a in centers:
+        seg = text[max(0, a - WINDOW):a + WINDOW]
+        for m in re.finditer(r'(?<![\d.,])\d+(?:[.,]\d+)?(?![\d])', seg):
+            try:
+                out.append(float(m.group(0).replace(',', '.')))
+            except ValueError:
+                pass
+    return out
+
+
+def _rounds_to(x, v):
+    """Czy x po zaokrągleniu do precyzji wartości v daje v (np. 4170,92 -> 4171, 113,88 -> 114)."""
+    s = repr(float(v))
+    dec = len(s.split('.')[1].rstrip('0')) if '.' in s else 0
+    return abs(round(x, dec) - float(v)) < 1e-9
+
+
 def _find(text, needle):
     return [m.start() for m in re.finditer(r'(?<![\d,.])' + re.escape(needle) + r'(?![\d])', text)]
 
 
 def evaluate(claim, text):
     """Czysta funkcja: (twierdzenie, tekst źródła) -> (wynik, fragment)."""
+    text = _norm(text)
     low = text.lower()
     vals = variants(claim.get('value'))
     pos = sorted({p for v in vals for p in _find(text, v)})
-    anchor = (claim.get('anchor') or '').strip()
+    anchor = _norm((claim.get('anchor') or '').strip())
     if not anchor:
         if pos:
             return 'potwierdzone', text[max(0, pos[0] - 80):pos[0] + 80]
@@ -87,6 +112,9 @@ def evaluate(claim, text):
                 return 'potwierdzone', text[lo:max(a, p) + 100]
     if not vals:   # wartość nieliczbowa: sama kotwica
         return 'potwierdzone', text[max(0, apos[0] - 60):apos[0] + 120]
+    v = claim.get('value')
+    if isinstance(v, (int, float)) and any(_rounds_to(x, v) for x in _near_numbers(text, apos)):
+        return 'potwierdzone', text[max(0, apos[0] - 60):apos[0] + 140]
     return 'rozbieżne', text[max(0, apos[0] - 60):apos[0] + 140]
 
 

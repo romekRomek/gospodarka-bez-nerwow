@@ -124,5 +124,26 @@ class Evaluate(unittest.TestCase):
         self.assertTrue(ev['sha256'] and ev['url'].startswith('http') and ev['fragment'])
 
 
+class VerifyClaimsRoundingTest(unittest.TestCase):
+    def test_value_matches_rounded_number_next_to_anchor(self):
+        r, _ = verify_claims.evaluate({'value': 4171, 'anchor': '4170,92'}, 'WIG20 na zamknięciu wyniósł 4170,92 pkt (3,85%)')
+        self.assertEqual(r, 'potwierdzone')
+
+    def test_rounding_respects_precision_of_claimed_value(self):
+        r, _ = verify_claims.evaluate({'value': 114, 'anchor': 'Brent settled'}, 'Brent settled at US$113.88 a barrel')
+        self.assertEqual(r, 'potwierdzone')
+        r, _ = verify_claims.evaluate({'value': 90, 'anchor': 'Brent settled'}, 'Brent settled at US$113.88 a barrel')
+        self.assertEqual(r, 'rozbieżne')
+
+    def test_thousands_separator_is_normalized(self):
+        r, _ = verify_claims.evaluate({'value': 4320, 'anchor': '4 320'}, 'rekord zamknięcia 4320 pkt z 13.11')
+        self.assertEqual(r, 'potwierdzone')
+
+    def test_non_numeric_claim_uses_anchor_only(self):
+        r, _ = verify_claims.evaluate({'value': 'nr 1', 'anchor': 'największym dostawcą'}, 'Chiny największym dostawcą towarów do Polski')
+        self.assertEqual(r, 'potwierdzone')
+
+
+
 if __name__ == '__main__':
     unittest.main()

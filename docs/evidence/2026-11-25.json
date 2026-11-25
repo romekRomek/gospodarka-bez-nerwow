@@ -1,0 +1,498 @@
+{
+ "date": "2026-11-25",
+ "summary": {
+  "potwierdzone": 16,
+  "rozbieżne": 1,
+  "brak w tekście": 0,
+  "niedostępne": 8
+ },
+ "claims": [
+  {
+   "id": "derrick-m-1",
+   "node": "derrick",
+   "field": "m",
+   "value": 90,
+   "unit": "USD/bbl",
+   "period": "2026-11-23",
+   "result": "rozbieżne",
+   "evidence": [
+    {
+     "src": "tvn24-ropa-2-11",
+     "url": "https://tvn24.pl/biznes/rynki/ceny-ropy-naftowej-2-listopada-2026-rynek-zmienia-kierunek-st9317548",
+     "result": "rozbieżne",
+     "fragment": "iedziałek rano notowania ropy kształtowały się następująco: baryłka ropy West Texas Intermediate kosztowała na NYMEX w Nowym Jorku około 100,76 dolara - spadek o 3,23 procent; Brent na ICE była wyceni",
+     "sha256": "93c096aa37d0bd6e0d467d1a4cc7709a06ea91cfd37d485e2a889e07d13e0ae3",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "derrick-mc-2",
+   "node": "derrick",
+   "field": "mc",
+   "value": 114,
+   "unit": "USD/bbl",
+   "period": "2026-10-27",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "nation-thailand-brent-27-10",
+     "url": "https://www.nationthailand.com/news/world/40072812",
+     "result": "potwierdzone",
+     "fragment": "e Nation Editorial Team สลับเป็นเสียงผู้ชาย Play Loading... Brent settled at US$113.88 a barrel as Middle East talks continued, but attacks near the Strait of Hormuz kept oil supply risks in focus. Br",
+     "sha256": "0195b03b04952e11357787a050933f85a60c61ae2184983b97ee9979e7280615",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "derrick-mc-3",
+   "node": "derrick",
+   "field": "mc",
+   "value": -20,
+   "unit": "%",
+   "period": "2026-11-23",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "gate-m-1",
+   "node": "gate",
+   "field": "m",
+   "value": 35,
+   "unit": "%",
+   "period": "2026-W46",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "pump-m-1",
+   "node": "pump",
+   "field": "m",
+   "value": 21.7,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-cpi-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
+     "result": "brak w tekście",
+     "fragment": "",
+     "sha256": "c381830fdc96a4c9dcff23c70aa2e43e2b583e7de2f3598603cbc0284b934efe",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    },
+    {
+     "src": "finwire-inflacja-cpi-pazdziernik",
+     "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
+     "result": "potwierdzone",
+     "fragment": "enchmark Metodologia → Sprostowanie Poprawiliśmy zmianę cen paliw do prywatnych środków transportu w październiku 2026 r.: było 21,8% r/r i -9,8% m/m, jest 21,7% r/r i -9,7% m/m (GUS, tablica wskaźników cen z 13 listopada 2026 r.). Sprostowanie z 21 listop",
+     "sha256": "5e9329e782a79ead90b1ea14745547fa88903639c3bb8afa904c620aadb3cf65",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "shop-m-1",
+   "node": "shop",
+   "field": "m",
+   "value": 3.5,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-cpi-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
+     "result": "potwierdzone",
+     "fragment": "rów i usług konsumpcyjnych w październiku 2026 r. wzrosły o 3,5% w porównaniu z analogicznym miesiącem ub. roku (przy wzroście cen usług o 4,9% i towarów o 2,9%",
+     "sha256": "c381830fdc96a4c9dcff23c70aa2e43e2b583e7de2f3598603cbc0284b934efe",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    },
+    {
+     "src": "finwire-inflacja-cpi-pazdziernik",
+     "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
+     "result": "potwierdzone",
+     "fragment": "Inflacja w październiku 2026 spadła do 3,5% (dane finalne) Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa inwestycji C",
+     "sha256": "5e9329e782a79ead90b1ea14745547fa88903639c3bb8afa904c620aadb3cf65",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "shop-mc-2",
+   "node": "shop",
+   "field": "mc",
+   "value": 4.1,
+   "unit": "%",
+   "period": "2026-09",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "finwire-inflacja-cpi-wrzesien",
+     "url": "https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus",
+     "result": "potwierdzone",
+     "fragment": "Inflacja we wrześniu 2026: 4,1% r/r w odczycie finalnym GUS Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa",
+     "sha256": "69a0ea519baa80427396cc958315c9be12a8847cd9b2cad6e34da59e5d64233b",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "bank-m-1",
+   "node": "bank",
+   "field": "m",
+   "value": 3.75,
+   "unit": "%",
+   "period": "2026-11-04",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "finwire-decyzja-rpp-4-11",
+     "url": "https://finwire.pl/artykuly/decyzja-rpp-4-listopad-2026-stopy-bez-zmian",
+     "result": "potwierdzone",
+     "fragment": "RPP w listopadzie 2026: stopy bez zmian, referencyjna 3,75% Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa inwestycji Co się buduje: ",
+     "sha256": "d586aad65cb8cefa3b97999cf9cfba0ce582f3cd046cc089d1de8ce0711ea14f",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "bank-mc-2",
+   "node": "bank",
+   "field": "mc",
+   "value": 4.0,
+   "unit": "%",
+   "period": "2026-10-28",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "bank-mc-3",
+   "node": "bank",
+   "field": "mc",
+   "value": 2.5,
+   "unit": "%",
+   "period": "2026-10-29",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "worker-m-1",
+   "node": "worker",
+   "field": "m",
+   "value": 2.4,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-wynagrodzenia-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
+     "result": "brak w tekście",
+     "fragment": "",
+     "sha256": "c0ee6f97e1396dcfbebaa2bae20955d1a6c00cd58fab4cf77eb94287ec7a4cbb",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    },
+    {
+     "src": "finwire-wynagrodzenia-pazdziernik",
+     "url": "https://finwire.pl/artykuly/przecietne-wynagrodzenie-pazdziernik-2026-sektor-przedsiebiorstw-gus",
+     "result": "potwierdzone",
+     "fragment": "1% więcej niż przed rokiem. Po uwzględnieniu inflacji płace realnie wzrosły o 2,4% r/r. Skrajne przeciętne płace wśród 16 województw w październiku 2026 to 10770,95 zł w wojewódz",
+     "sha256": "43d0885297a95d4da3a44f473fbfc6e0789075b8fac889959f796bf4e6de4bf8",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "worker-mc-2",
+   "node": "worker",
+   "field": "mc",
+   "value": 6.1,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-wynagrodzenia-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
+     "result": "potwierdzone",
+     "fragment": "26 r. było nominalnie wyższe o 1,5% niż we wrześniu br. i o 6,1% wyższe w porównaniu z październikiem 2025 r. Przeciętne zatrudnienie po przeliczeniu wymiarów e",
+     "sha256": "c0ee6f97e1396dcfbebaa2bae20955d1a6c00cd58fab4cf77eb94287ec7a4cbb",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "debt-m-1",
+   "node": "debt",
+   "field": "m",
+   "value": 7.1,
+   "unit": "% PKB",
+   "period": "2026",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "xyz-pl-notyfikacje-edp-deficyt-i-dlug",
+     "url": "https://xyz.pl/?p=265113",
+     "result": "potwierdzone",
+     "fragment": "miast w 2026 r. prognozowany jest jego nieznaczny spadek do 7,1 proc. PKB. Wynik za 2025 jest nieco lepszy, niż prognozowano wcześniej (7,3 proc.). Jest to w du",
+     "sha256": "2a0a6ce6854c963af8181bdf4ef01dce36983ce634dbe8f7ff9fb5960dc1a177",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "tree-m-1",
+   "node": "tree",
+   "field": "m",
+   "value": 4171,
+   "unit": "pkt",
+   "period": "2026-11-23",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "wnp-wig20-zamkniecie-23-11",
+     "url": "https://www.wnp.pl/rynki/wig20-na-zamknieciu-wyniosl-4170-92-pkt-3-85,1122800.html",
+     "result": "potwierdzone",
+     "fragment": "WIG20 na zamknięciu wyniósł 4170,92 pkt (3,85%) Partnerzy portalu Pokaż wyszukiwarkę Wyszukaj Zamknij wyszukiwarkę Logowanie Zamknij panel logowania Login: Hasło: Przyp",
+     "sha256": "208472dd2f55d48274e87b1a0c43e3fbd740921de2e7ad9accfd63bdf7cc3640",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "tree-mc-2",
+   "node": "tree",
+   "field": "mc",
+   "value": 4320,
+   "unit": "pkt",
+   "period": "2026-11-13",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "wnp-rekord-wig20-z-13-11-i-sesja-z-20-11",
+     "url": "https://www.wnp.pl/rynki/koszmarny-koniec-tygodnia-na-gpw-najgorsza-sesja-od-marca,1122059.html",
+     "result": "potwierdzone",
+     "fragment": "przed tygodniem, 13 listopada, poprawił historyczny rekord (4320 pkt.) . W ujęciu od początku roku stopy zwrotu (do dnia 20 listopada włącznie) stopniały i prez",
+     "sha256": "ac27d9a258fe0e146614632fd4cdb358c2134dfadf0417d95d2cb0b394d5e76b",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "tree-mc-3",
+   "node": "tree",
+   "field": "mc",
+   "value": 31,
+   "unit": "%",
+   "period": "2026-11-23",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "sun-m-1",
+   "node": "sun",
+   "field": "m",
+   "value": 3.5,
+   "unit": "%",
+   "period": "2026-Q3",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-pkb-szybki-szacunek-2026-q3",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rachunki-narodowe/kwartalne-rachunki-narodowe/szybki-szacunek-produktu-krajowego-brutto-za-3-kwartal-2026-r-,1,55.html",
+     "result": "potwierdzone",
+     "fragment": "wnany sezonowo w 3 kwartale 2026 r. zwiększył się realnie o 3,5% rok do roku (wobec wzrostu o 4,0% w analogicznym okresie 2025 r.). W 3 kwartale 2026 r. realny ",
+     "sha256": "282cf8c10abe6f544df880376505a4afdc1ab0105723551b893191b04c0c3eb5",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    },
+    {
+     "src": "finwire-pkb-iii-kwartal-szybki-szacunek",
+     "url": "https://finwire.pl/artykuly/pkb-szybki-szacunek-3-kwartal-2026-gus",
+     "result": "potwierdzone",
+     "fragment": "PKB wzrósł o 3,5% r/r w 3 kwartale 2026 (szybki szacunek) Przejdź do treści finwire .pl Mieszkania Najczęściej ot",
+     "sha256": "4e1e1fc395d489eb495bd503a9a33479969463de16807ffd2dc625c3d186d2f4",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "sun-mc-2",
+   "node": "sun",
+   "field": "mc",
+   "value": 4.1,
+   "unit": "%",
+   "period": "2026-Q2",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "west-m-1",
+   "node": "west",
+   "field": "m",
+   "value": 1.1,
+   "unit": "%",
+   "period": "2026",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "potwierdzone",
+     "fragment": "ie szybciej niż największe gospodarki unijne, w tym Niemcy (1,1 proc.), Francja (0,7 proc.), Włochy (0,6 proc.) i Hiszpania (1,8 proc.). Wykres interaktywny Peł",
+     "sha256": "d401741c630e97616cf3805b6fde8f796d5864ffda837f4d8055f960ef49ceb0",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "west-mc-2",
+   "node": "west",
+   "field": "mc",
+   "value": 1.3,
+   "unit": "%",
+   "period": "2026",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "potwierdzone",
+     "fragment": "znacznie szybciej niż największe gospodarki unijne: Niemcy (1,3 proc.), Hiszpania (2,5 proc.), Włochy (0,8 proc.) i Francja (0,4 proc.). Na drugim końcu zestawi",
+     "sha256": "d401741c630e97616cf3805b6fde8f796d5864ffda837f4d8055f960ef49ceb0",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "west-mc-3",
+   "node": "west",
+   "field": "mc",
+   "value": 0.4,
+   "unit": "%",
+   "period": "2026",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "potwierdzone",
+     "fragment": "roc.), Hiszpania (2,5 proc.), Włochy (0,8 proc.) i Francja (0,4 proc.). Na drugim końcu zestawienia znajdują się Irlandia i Rumunia, dla których MFW przewiduje ",
+     "sha256": "d401741c630e97616cf3805b6fde8f796d5864ffda837f4d8055f960ef49ceb0",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "ukraine-m-1",
+   "node": "ukraine",
+   "field": "m",
+   "value": 4.8,
+   "unit": "% PKB",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "fundacja-pulaskiego-wydatki-obronne-2026",
+     "url": "https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf",
+     "result": "niedostępne",
+     "detail": "PDF/XLSX bez parsera"
+    }
+   ]
+  },
+  {
+   "id": "ukraine-mc-2",
+   "node": "ukraine",
+   "field": "mc",
+   "value": 201,
+   "unit": "mld zł",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "fundacja-pulaskiego-wydatki-obronne-2026",
+     "url": "https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf",
+     "result": "niedostępne",
+     "detail": "PDF/XLSX bez parsera"
+    }
+   ]
+  },
+  {
+   "id": "usa-m-1",
+   "node": "usa",
+   "field": "m",
+   "value": 10,
+   "unit": "%",
+   "period": "2026-07-24",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "bank-pl-nowe-cla-usa",
+     "url": "https://bank.pl/?p=554635",
+     "result": "potwierdzone",
+     "fragment": "czna Szkoła Polskiego Sektora Bankowości Spółdzielczej 2027 10-11 marca 2027 r. Pozostało: 104 dni 12 godzin 34 minut Aktualności Konferencje Multimedia Bankowo",
+     "sha256": "b2f2287f60495270058743bc4889d59f162c64888f9c090db8a941b3978e17dc",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    },
+    {
+     "src": "xyz-pl-cla-usa-a-polscy-eksporterzy-pie",
+     "url": "https://xyz.pl/dzieje-sie/amerykanskie-cla-kontra-polscy-eksporterzy-skutki-sa-zroznicowane-3648",
+     "result": "potwierdzone",
+     "fragment": "redniego wpływu doświadczyło 14 proc. firm, a pośredniego – 10 proc . Z kolei 27 proc. odczuło osłabienie koniunktury na rynku unijnym wywołane wzrostem ameryka",
+     "sha256": "dd77061b593d72d313e7ed016b842bca221701dc9a8a08964f353fe748829325",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  },
+  {
+   "id": "china-m-1",
+   "node": "china",
+   "field": "m",
+   "value": "nr 1",
+   "unit": "miejsce",
+   "period": "2026-07",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "wiadomosci-handlowe-chiny-dostawca-nr-1",
+     "url": "https://www.wiadomoscihandlowe.pl/gospodarka-i-finanse/chiny-najwiekszym-dostawca-towarow-do-polski-deficyt-rosnie-2537961",
+     "result": "potwierdzone",
+     "fragment": "Chiny największym dostawcą towarów do Polski. Deficyt w handlu rośnie wiadomoscihandlowe.pl WSPÓŁPRACA NEWSLETTER Zaloguj się ",
+     "sha256": "7e95095031175a29c4b4925a83e4b5de795ba0292f11bac0326944ea9c8cfdf8",
+     "fetched": "2026-11-25T10:29:50+00:00"
+    }
+   ]
+  }
+ ]
+}

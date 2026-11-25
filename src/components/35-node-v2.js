@@ -5,7 +5,7 @@ function syncPanelLevel(){
   ['pv2','pv3'].forEach(function(id){var e=document.getElementById(id);if(e)e.classList.toggle('lv2-on',on);});
   document.querySelectorAll('#panel .lv2src').forEach(function(e){e.hidden=!on;});
 }
-function sheet(on){document.getElementById('side').classList.toggle('open',on);}
+function sheet(on){document.getElementById('side').classList.toggle('open',on);document.body.classList.toggle('sheet-open',on);}
 function nodeOpen(i){stop();if(isPhone()){show(i);sheet(true);}else openModal(i);}
 function renderPanelV2(i){
   var s=STEPS[i],top=document.getElementById('pv2'),bot=document.getElementById('pv3');
