@@ -73,12 +73,31 @@ def check_claims(D, out):
                 out.append((w, f'brak pola „{k}”'))
         if c.get('kind') == 'attribution':
             continue
+        if c.get('kind') == 'definition':   # definicja hasła glosariusza: node = id hasła, pole „def”
+            terms = {t['id'] for t in D.get('terms', [])} if isinstance(D.get('terms'), list) else set()
+            if c.get('node') not in terms:
+                out.append((w, f'definicja dotyczy nieznanego hasła „{c.get("node")}”'))
+            if c.get('field') != 'def':
+                out.append((w, 'pole definicji musi być „def”'))
+            for sid in c.get('src', []):
+                if reg and sid not in reg:
+                    out.append((w, f'źródło „{sid}” spoza rejestru'))
+            if not c.get('src') or not c.get('anchor'):
+                out.append((w, 'definicja bez źródła lub kotwicy (cytatu)'))
+            continue
         n = steps.get(c.get('node'))
         if not n:
             out.append((w, f'nieznany węzeł „{c.get("node")}”'))
             continue
-        if c.get('field') not in ('m', 'mc'):
-            out.append((w, 'pole musi być „m” lub „mc”'))
+        if c.get('field') not in ('m', 'mc', 'soon'):
+            out.append((w, 'pole musi być „m”, „mc” lub „soon” (termin wydarzenia)'))
+            continue
+        if c.get('field') == 'soon':        # termin wydarzenia: musi istnieć wydarzenie z tym źródłem w węźle
+            evs = (n.get('soon') or {}).get('events', [])
+            if not any(set(c.get('src', [])) & set(e.get('src', [])) for e in evs):
+                out.append((w, f'węzeł {c["node"]} nie ma wydarzenia ze źródłem {c.get("src")} (soon.events[].src)'))
+            if not c.get('src'):
+                out.append((w, 'termin bez źródła'))
             continue
         for s in c.get('src', []):
             if reg and s not in reg:

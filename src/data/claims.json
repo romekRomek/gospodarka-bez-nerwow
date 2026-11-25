@@ -439,6 +439,104 @@
    ],
    "anchor": "na 30 listopada",
    "kind": "measurement"
+  },
+  {
+   "id": "def-pkb",
+   "node": "pkb",
+   "field": "def",
+   "indicator": "Definicja hasła „PKB” w słowniku",
+   "period": "2026-11-25",
+   "value": "definicja",
+   "unit": "tekst",
+   "src": [
+    "eurostat-glossary-gdp"
+   ],
+   "anchor": "a basic measure of the overall size of a country's economy",
+   "kind": "definition"
+  },
+  {
+   "id": "def-flash",
+   "node": "flash",
+   "field": "def",
+   "indicator": "Definicja hasła „szybki szacunek” w słowniku",
+   "period": "2026-11-25",
+   "value": "definicja",
+   "unit": "tekst",
+   "src": [
+    "eurostat-glossary-flash"
+   ],
+   "anchor": "A flash estimate is an early estimate for an economic variable of interest over the most recent reference period",
+   "kind": "definition"
+  },
+  {
+   "id": "def-fed",
+   "node": "fed",
+   "field": "def",
+   "indicator": "Definicja hasła „Fed” w słowniku",
+   "period": "2026-11-25",
+   "value": "definicja",
+   "unit": "tekst",
+   "src": [
+    "fed-o-fedzie"
+   ],
+   "anchor": "the central bank of the United States",
+   "kind": "definition"
+  },
+  {
+   "id": "def-fomc",
+   "node": "fomc",
+   "field": "def",
+   "indicator": "Definicja hasła „FOMC” w słowniku",
+   "period": "2026-11-25",
+   "value": "definicja",
+   "unit": "tekst",
+   "src": [
+    "fed-o-fomc"
+   ],
+   "anchor": "The FOMC holds eight regularly scheduled meetings per year. At these meetings, the Committee reviews economic and financial conditions, determines the",
+   "kind": "definition"
+  },
+  {
+   "id": "def-ebc",
+   "node": "ebc",
+   "field": "def",
+   "indicator": "Definicja hasła „EBC” w słowniku",
+   "period": "2026-11-25",
+   "value": "definicja",
+   "unit": "tekst",
+   "src": [
+    "ecb-o-ebc"
+   ],
+   "anchor": "The ECB is the central bank of the euro area, which comprises European Union countries that have the euro as their currency. Our main task is to maintain price stability.",
+   "kind": "definition"
+  },
+  {
+   "id": "def-edp",
+   "node": "edp",
+   "field": "def",
+   "indicator": "Definicja hasła „EDP” w słowniku",
+   "period": "2026-11-25",
+   "value": "definicja",
+   "unit": "tekst",
+   "src": [
+    "eurostat-glossary-edp"
+   ],
+   "anchor": "against any European Union (EU) Member State that exceeds the budgetary deficit ceiling",
+   "kind": "definition"
+  },
+  {
+   "id": "def-safe",
+   "node": "safe",
+   "field": "def",
+   "indicator": "Definicja hasła „SAFE” w słowniku",
+   "period": "2026-11-25",
+   "value": "definicja",
+   "unit": "tekst",
+   "src": [
+    "ec-safe"
+   ],
+   "anchor": "loans to Member States to support urgent and strategic investments in defence",
+   "kind": "definition"
   }
  ],
  "groups": [

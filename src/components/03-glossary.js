@@ -23,7 +23,7 @@ function openTerm(btn){
   var t=TERMS.filter(function(x){return x.id===btn.dataset.t;})[0];if(!t)return;closeTerm(false);
   var id='tp'+(++tSeq),body=[h('b',null,t.name),h('p',null,t.def)];
   (t.src||[]).forEach(function(s){var r=TSRC[s];if(r)body.push(h('p','ctxl',['Źródło: ',h('a',null,r.name,{href:r.url,target:'_blank',rel:'noopener'})]));});
-  if(!t.verified)body.push(h('p','ctxl','Definicja robocza, jeszcze niepotwierdzona w źródle.'));
+  body.push(h('p','ctxl',t.verified&&t.evidence?'Definicja potwierdzona w źródle ('+t.evidence.checked.split('-').reverse().join('.')+').':'Definicja robocza, jeszcze niepotwierdzona w źródle.'));
   var x=h('button','x','✕',{type:'button','aria-label':'Zamknij definicję'});
   var pop=h('div','tpop',[x].concat(body),{role:'note',id:id});
   var host=btn.closest('p,li,dd')||btn.parentElement;host.insertAdjacentElement('afterend',pop);

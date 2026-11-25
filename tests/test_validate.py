@@ -66,6 +66,23 @@ class ValidateTest(DataCase):
         self.edit('changelog', lambda c: c[0]['changes'][0].__setitem__('id', 'nie-ma-takiego'))
         self.assert_error(self.run_v(), 'nieistniejącego węzła')
 
+    def test_verified_term_needs_evidence(self):
+        def bad(terms):
+            x = next(x for x in terms if x['verified'])
+            x.pop('evidence')
+        self.edit('terms', bad)
+        self.assert_error(self.run_v(), '„evidence”')
+
+    def test_abbreviation_without_term_is_reported(self):
+        self.edit('steps', lambda s: s[0]['f'].append('Dodatkowo ZZQQ coś mierzy.'))
+        r = self.run_v()
+        self.assertTrue(any('ZZQQ' in w and 'terms.json' in w for w in r.warnings), r.warnings[:3])
+        self.assertEqual([e for e in r.errors if 'ZZQQ' in e], [])
+
+    def test_abbreviation_with_term_is_not_reported(self):
+        r = self.run_v()
+        self.assertFalse(any('„FOMC”' in w for w in r.warnings))
+
     def test_event_src_must_exist_in_registry(self):
         def bad(steps):
             ev = steps[0]['soon']['events'][0]
@@ -347,12 +364,12 @@ class TermsTest(DataCase):
 
     def test_niepotwierdzona_wymaga_notatki(self):
         def fn(t):
-            t[0].pop('note', None)
+            next(x for x in t if not x['verified']).pop('note', None)
         self.edit('terms', fn)
         self.assert_error(self.run_v(), 'wymaga notatki')
 
     def test_potwierdzona_wymaga_zrodla(self):
-        self.edit('terms', lambda t: t[1].update(verified=True))
+        self.edit('terms', lambda t: next(x for x in t if x['verified']).update(src=[]))
         self.assert_error(self.run_v(), 'wymaga źródła')
 
     def test_za_dluga_definicja(self):

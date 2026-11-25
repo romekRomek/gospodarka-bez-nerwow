@@ -2,6 +2,12 @@
 
 Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca do odrzuconych pomysłów bez nowego argumentu. Nowy wpis: data, decyzja, powód, skutek.
 
+## 25.11.2026: D21, słownik pojęć (fala A, 3/4)
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D21 | **Słownik pojęć jako okno** otwierane ze stopki (nagłówek na telefonie jest zajęty, piąta zakładka nawigacji zajęta przez Kalendarz). **Definicja jest „potwierdzona” tylko wtedy, gdy ma cytat ze strony źródła pierwotnego i twierdzenie sprawdzane kodem.** Potwierdzone: PKB, szybki szacunek (Eurostat), Fed, FOMC (Fed), EBC (EBC), EDP (Eurostat), SAFE (Komisja Europejska). 12 haseł z makiety pozostaje „roboczych”. | Wcześniej żadna z 14 definicji nie była potwierdzona, a słownik pokazujący je jako pewne łamałby zasadę 8. | **Backlog haseł** (ostrzeżenia walidatora, zasada 7): UE, CPN, WIG20, MFW, UKMTO, PIE, GW, VAT, FOMO, IEA, IRENA, KE, PMI, GPW. Strony MFW, UKMTO i GPW blokowały pobranie, więc ich definicje czekają na źródło. **Poprawka własna:** twierdzenia o datach z kalendarza (D20) łamały kontrolę spójności (5 nowych znalezisk); `consistency.py` zna teraz pola `soon` i `def`. |
+
 ## 25.11.2026: D20, zakładka „Kalendarz” (fala A, 2/4)
 
 | # | Decyzja | Powód | Skutek |

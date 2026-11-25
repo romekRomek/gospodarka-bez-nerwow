@@ -5,12 +5,15 @@
    "PKB"
   ],
   "name": "Produkt krajowy brutto",
-  "def": "Łączna wartość towarów i usług wytworzonych w kraju w danym okresie.",
+  "def": "Podstawowa miara wielkości gospodarki kraju: wartość tego, co w niej wytworzono w danym okresie.",
   "src": [
-   "gus-pkb-szybki-szacunek-2026-q3"
+   "eurostat-glossary-gdp"
   ],
-  "verified": false,
-  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+  "verified": true,
+  "evidence": {
+   "quote": "a basic measure of the overall size of a country's economy",
+   "checked": "2026-11-25"
+  }
  },
  {
   "id": "rr",
@@ -100,12 +103,15 @@
    "szybkiego szacunku"
   ],
   "name": "Szybki szacunek",
-  "def": "Wstępne dane publikowane szybko po zakończeniu okresu. Mogą zostać później skorygowane.",
+  "def": "Wczesny, wstępny szacunek wskaźnika za ostatni okres, liczony głównie modelem statystycznym.",
   "src": [
-   "gus-pkb-szybki-szacunek-2026-q3"
+   "eurostat-glossary-flash"
   ],
-  "verified": false,
-  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+  "verified": true,
+  "evidence": {
+   "quote": "A flash estimate is an early estimate for an economic variable of interest over the most recent reference period",
+   "checked": "2026-11-25"
+  }
  },
  {
   "id": "ice",
@@ -174,5 +180,85 @@
   ],
   "verified": false,
   "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+ },
+ {
+  "id": "fed",
+  "forms": [
+   "Fed"
+  ],
+  "name": "System Rezerwy Federalnej",
+  "def": "Bank centralny Stanów Zjednoczonych.",
+  "src": [
+   "fed-o-fedzie"
+  ],
+  "verified": true,
+  "evidence": {
+   "quote": "the central bank of the United States",
+   "checked": "2026-11-25"
+  }
+ },
+ {
+  "id": "fomc",
+  "forms": [
+   "FOMC"
+  ],
+  "name": "Federalny Komitet Otwartego Rynku",
+  "def": "Komitet Fedu, który osiem razy w roku ocenia sytuację gospodarczą i ustala kierunek polityki pieniężnej.",
+  "src": [
+   "fed-o-fomc"
+  ],
+  "verified": true,
+  "evidence": {
+   "quote": "The FOMC holds eight regularly scheduled meetings per year. At these meetings, the Committee reviews economic and financial conditions, determines the",
+   "checked": "2026-11-25"
+  }
+ },
+ {
+  "id": "ebc",
+  "forms": [
+   "EBC"
+  ],
+  "name": "Europejski Bank Centralny",
+  "def": "Bank centralny strefy euro, czyli państw Unii Europejskiej, które mają euro. Jego głównym zadaniem jest stabilność cen.",
+  "src": [
+   "ecb-o-ebc"
+  ],
+  "verified": true,
+  "evidence": {
+   "quote": "The ECB is the central bank of the euro area, which comprises European Union countries that have the euro as their currency. Our main task is to maintain price stability.",
+   "checked": "2026-11-25"
+  }
+ },
+ {
+  "id": "edp",
+  "forms": [
+   "EDP"
+  ],
+  "name": "Procedura nadmiernego deficytu",
+  "def": "Działanie Komisji Europejskiej wobec kraju Unii Europejskiej, który przekracza unijny limit deficytu budżetowego. Może zakończyć się sankcjami.",
+  "src": [
+   "eurostat-glossary-edp"
+  ],
+  "verified": true,
+  "evidence": {
+   "quote": "against any European Union (EU) Member State that exceeds the budgetary deficit ceiling",
+   "checked": "2026-11-25"
+  }
+ },
+ {
+  "id": "safe",
+  "forms": [
+   "SAFE"
+  ],
+  "name": "Security Action for Europe (SAFE)",
+  "def": "Unijny instrument pożyczek dla państw członkowskich na pilne inwestycje w obronność, w sumie do 150 mld euro.",
+  "src": [
+   "ec-safe"
+  ],
+  "verified": true,
+  "evidence": {
+   "quote": "loans to Member States to support urgent and strategic investments in defence",
+   "checked": "2026-11-25"
+  }
  }
 ]

@@ -459,6 +459,10 @@ def check_terms(D, r):
             r.err(w, 'definicja niepotwierdzona wymaga notatki „note”')
         elif t['verified'] and not t['src']:
             r.err(w, 'definicja potwierdzona wymaga źródła w „src”')
+        if t.get('verified') is True:
+            ev = t.get('evidence')
+            if not (isinstance(ev, dict) and is_str(ev.get('quote')) and is_str(ev.get('checked'))):
+                r.err(w, 'definicja potwierdzona („verified”: true) wymaga „evidence” z polami „quote” (cytat ze źródła) i „checked” (data)')
     unv = sum(1 for t in terms if isinstance(t, dict) and t.get('verified') is False)
     if unv:
         r.warn('terms.json', f'{unv}/{len(terms)} definicji niepotwierdzonych w źródle')
@@ -489,6 +493,42 @@ def check_changelog(D, r):
                     r.err(w, f'{c["id"]}: kierunek „{c["dir"]}” spoza {sorted(DIRS)}')
                 if c['id'] not in node_ids:
                     r.err(w, f'zmiana dotyczy nieistniejącego węzła „{c["id"]}”')
+
+
+# skróty, które znają wszyscy albo nie są terminami (kraje, organizacje spoza ekonomii, liczebniki rzymskie, krzyk parodii)
+ABBR_OK = {'USD', 'USA', 'NATO', 'WHO', 'NASA', 'SZOK', 'WSZYSCY'}
+ABBR_FILES = ['steps', 'news', 'headlines', 'start', 'problems', 'techniques', 'good', 'cost', 'charts']
+ABBR_SKIP_KEYS = {'src', 'id', 'u', 'url', 'node', 'cat', 'dir', 'kind', 'icon', 'conf', 'forms', 'emoti', 'tag', 'k'}
+
+
+def check_abbreviations(D, r):
+    """Zasada 7: skrót w tekście strony ma mieć hasło w glosariuszu. Ostrzeżenie zbiorcze na skrót (backlog haseł)."""
+    terms = D.get('terms')
+    if not isinstance(terms, list):
+        return
+    known = {f for t in terms if isinstance(t, dict) for f in t.get('forms', [])}
+    found = {}
+
+    def walk(o, fname):
+        if isinstance(o, str):
+            for m in re.finditer(r'(?<![\w/])([A-ZĄĆĘŁŃÓŚŹŻ]{2,}[0-9+]*|[A-Z][a-z]+[A-Z0-9]\w*|Fed)(?![\w/])', o):
+                a = m.group(1)
+                if a in known or a in ABBR_OK or re.fullmatch(r'[IVXL]+', a):
+                    continue
+                n, fs = found.get(a, (0, set()))
+                found[a] = (n + 1, fs | {fname})
+        elif isinstance(o, list):
+            for v in o:
+                walk(v, fname)
+        elif isinstance(o, dict):
+            for k, v in o.items():
+                if k not in ABBR_SKIP_KEYS:
+                    walk(v, fname)
+    for f in ABBR_FILES:
+        if f in D:
+            walk(D[f], f + '.json')
+    for a, (n, fs) in sorted(found.items(), key=lambda x: -x[1][0]):
+        r.warn('glosariusz', f'skrót „{a}” ({n}×, w: {", ".join(sorted(fs))}) nie ma hasła w terms.json (zasada 7)')
 
 
 def check_method(D, r):
@@ -672,6 +712,7 @@ def run(data_dir, template, links=False):
     check_terms(D, r)
     check_changelog(D, r)
     check_method(D, r)
+    check_abbreviations(D, r)
     urls = check_sources(D, r)
     check_registry_coverage(D, urls, template, r)
     check_policy(D, r)
