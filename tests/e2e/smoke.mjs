@@ -140,6 +140,19 @@ async function runScenario(browser, base, width, theme, { functional }) {
       for (const [sel, d] of Object.entries(al.spread)) check(d <= 1, 'kafelki obok siebie: ' + sel + ' w jednej linii (rozrzut ≤ 1 px)', 'rozrzut: ' + d + ' px');
     }
 
+    // nawigacja: ikona i podpis wyśrodkowane w pionie względem przycisku (widoczny pasek, górny lub dolny)
+    const navAl = await page.evaluate(() => {
+      const nav = [...document.querySelectorAll('#tnav,#bnav')].find(n => n.offsetParent);
+      const cy = e => { const r = e.getBoundingClientRect(); return r.top + r.height / 2; };
+      return [...nav.querySelectorAll('.ni')].map(b => {
+        const ic = b.querySelector('svg'), lb = b.querySelector('span:not(.navic)'), top = b.closest('#tnav') !== null;
+        // górny pasek: ikona i podpis w jednym wierszu, oba na środku przycisku; dolny: ikona nad podpisem, para wyśrodkowana
+        const mid = top ? Math.max(Math.abs(cy(ic) - cy(b)), Math.abs(cy(lb) - cy(b))) : Math.abs((ic.getBoundingClientRect().top + lb.getBoundingClientRect().bottom) / 2 - cy(b));
+        return mid;
+      });
+    });
+    check(navAl.every(d => d <= 1), 'nawigacja: ikona i podpis wyśrodkowane w pionie (≤ 1 px)', 'odchyłki: ' + navAl.map(d => d.toFixed(1)).join(', '));
+
     // okno „Jak to sprawdzamy”: otwiera się, ma dziennik korekt ze źródłami, zamyka się Escape
     await page.click('#mthb');
     check(await page.evaluate(() => document.getElementById('mth').open), 'Jak to sprawdzamy: okno się otwiera');
