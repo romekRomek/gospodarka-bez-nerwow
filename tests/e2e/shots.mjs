@@ -20,9 +20,10 @@ const BASE = process.env.INIT_CWD || process.cwd();
 const WIDTHS = [360, 768, 1280];
 const THEMES = [['light', 'jasny'], ['dark', 'ciemny']];
 const TABS = [
-  { file: 'mapa', btn: '#tb-map' },
-  { file: 'newsy', btn: '#tb-emo' },
-  { file: 'polska', btn: '#tb-pl' },
+  { file: 'start', btn: 'nav:visible [data-tab="start"]' },
+  { file: 'mapa', btn: 'nav:visible [data-tab="map"]' },
+  { file: 'newsy', btn: 'nav:visible [data-tab="emo"]' },
+  { file: 'polska', btn: 'nav:visible [data-tab="pl"]' },
 ];
 
 function parseArgs(argv) {
@@ -102,7 +103,7 @@ async function main() {
             await page.click(t.btn);
             await shot(t.file, true);
           }
-          await page.click(TABS[0].btn);
+          await page.click(TABS[1].btn);
           const node = page.locator('#n-' + opt.node);
           if (!(await node.count())) throw new Error('Nie ma węzła o id „' + opt.node + '” (opcja --node).');
           await node.click();
