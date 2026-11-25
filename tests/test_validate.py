@@ -97,6 +97,38 @@ class ValidateTest(DataCase):
         self.edit('steps', bad)
         self.assert_error(self.run_v(), 'nie ma wpisu w sources.json')
 
+    def _links(self, fn):
+        self.edit('links', lambda d: fn(d['links']))
+        return self.run_v()
+
+    def test_link_unknown_node(self):
+        def bad(ls):
+            ls[0]['to'] = 'nie-ma'
+            ls[0]['id'] = ls[0]['from'] + '-nie-ma'
+        self.assert_error(self._links(bad), 'nieznany węzeł')
+
+    def test_link_quote_must_exist_in_node(self):
+        self.assert_error(self._links(lambda ls: ls[0]['basis'].update(quote='tego nie ma w tekście węzła')), 'nie występuje w polu')
+
+    def test_link_self_loop_and_duplicate(self):
+        def bad(ls):
+            ls.append(dict(ls[0]))
+        self.assert_error(self._links(bad), 'powtórzona krawędź')
+
+    def test_link_only_direct(self):
+        self.assert_error(self._links(lambda ls: ls[0].update(sense='posrednie')), 'tylko krawędzie bezpośrednie')
+
+    def test_link_why_limit(self):
+        self.assert_error(self._links(lambda ls: ls[0].update(why='x' * 130)), 'jednym zdaniem')
+
+    def test_link_degree_limit(self):
+        def bad(ls):
+            base = next(l for l in ls if l['to'] == 'shop')
+            for k, n in enumerate(['derrick', 'gate', 'pump', 'worker', 'debt', 'tree', 'sun']):
+                if n != 'shop' and not any(l['from'] == n and l['to'] == 'shop' for l in ls):
+                    ls.append({**base, 'id': n + '-shop', 'from': n})
+        self.assert_error(self._links(bad), 'limit 6')
+
     def test_event_src_must_exist_in_registry(self):
         def bad(steps):
             ev = steps[0]['soon']['events'][0]

@@ -6,13 +6,13 @@ function syncPanelLevel(){
   document.querySelectorAll('#panel .lv2src').forEach(function(e){e.hidden=!on;});
 }
 function sheet(on){document.getElementById('side').classList.toggle('open',on);document.body.classList.toggle('sheet-open',on);}
-function nodeOpen(i){stop();if(isPhone()){show(i);sheet(true);}else openModal(i);}
+function nodeOpen(i){selectNode(i);}
 function renderPanelV2(i){
   var s=STEPS[i],top=document.getElementById('pv2'),bot=document.getElementById('pv3');
   closeTerm(false);pLocal=false;top.innerHTML='';bot.innerHTML='';
   var more=h('button','btn lv1only','Pokaż więcej',{type:'button','aria-label':'Pokaż więcej o tym kroku'});
   more.addEventListener('click',function(){pLocal=true;syncPanelLevel();});
-  [deltaEl(s.id),s.plain?h('p','plain',s.plain):null,whoEl(s),watchEl(s),confEl(s.id),more].forEach(function(e){if(e)top.appendChild(e);});
+  [deltaEl(s.id),s.plain?h('p','plain',s.plain):null,whoEl(s),watchEl(s),depsEl(s),confEl(s.id),more].forEach(function(e){if(e)top.appendChild(e);});
   [soonEl(s),limitsEl(s),alsoEl(s)].forEach(function(e){if(e)bot.appendChild(e);});
   syncPanelLevel();termify(document.getElementById('panel'));
 }

@@ -1,0 +1,215 @@
+{
+ "version": 1,
+ "updated": "2026-11-25",
+ "description": "Zależności między węzłami mapy. Tylko krawędzie bezpośrednie (jedno przejście), kierunek: zmiana w „from” przenosi się na „to”. Każda krawędź ma cytat z istniejącego tekstu węzła (basis), który walidator sprawdza kodem. Ścieżki wielokrokowe liczy kod, nie zapisujemy ich.",
+ "links": [
+  {
+   "id": "derrick-pump",
+   "from": "derrick",
+   "to": "pump",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Cena ropy jest jednym z czynników, które decydują o cenach na stacjach.",
+   "basis": {
+    "node": "pump",
+    "field": "decides",
+    "quote": "ceny ropy"
+   }
+  },
+  {
+   "id": "gate-derrick",
+   "from": "gate",
+   "to": "derrick",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Prawie cała ropa z Zatoki płynie przez tę cieśninę, więc ruch w niej wpływa na rynek ropy.",
+   "basis": {
+    "node": "gate",
+    "field": "f",
+    "quote": "Prawie cała ropa z Zatoki płynie przez jedną wąską cieśninę"
+   }
+  },
+  {
+   "id": "pump-shop",
+   "from": "pump",
+   "to": "shop",
+   "kind": "skladnik",
+   "sense": "bezposrednie",
+   "why": "Ceny paliw są częścią koszyka, z którego liczy się inflacja.",
+   "basis": {
+    "node": "shop",
+    "field": "i",
+    "quote": "efekt tańszych paliw"
+   }
+  },
+  {
+   "id": "bank-shop",
+   "from": "bank",
+   "to": "shop",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Stopy NBP wpływają pośrednio na ceny w gospodarce.",
+   "basis": {
+    "node": "shop",
+    "field": "decides",
+    "quote": "pośrednio NBP"
+   }
+  },
+  {
+   "id": "shop-bank",
+   "from": "shop",
+   "to": "bank",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Poziom inflacji jest argumentem w decyzjach o stopach.",
+   "basis": {
+    "node": "bank",
+    "field": "i",
+    "quote": "Spadek inflacji osłabił argument za podwyżką"
+   }
+  },
+  {
+   "id": "shop-worker",
+   "from": "shop",
+   "to": "worker",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Inflacja decyduje o tym, ile realnie wart jest wzrost płac.",
+   "basis": {
+    "node": "worker",
+    "field": "decides",
+    "quote": "a realnie także inflacja"
+   }
+  },
+  {
+   "id": "bank-tree",
+   "from": "bank",
+   "to": "tree",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Wyższe stopy mogą pośrednio sprzyjać zyskom banków, a to wpływa na giełdę.",
+   "basis": {
+    "node": "tree",
+    "field": "i",
+    "quote": "Wyższe stopy mogą pośrednio sprzyjać zyskom banków"
+   }
+  },
+  {
+   "id": "derrick-tree",
+   "from": "derrick",
+   "to": "tree",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Ceny ropy i nerwowość wokół niej wpływają na nastroje na giełdzie.",
+   "basis": {
+    "node": "tree",
+    "field": "decides",
+    "quote": "nastroje wokół ropy"
+   }
+  },
+  {
+   "id": "derrick-sun",
+   "from": "derrick",
+   "to": "sun",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Utrzymująca się wysoka cena energii może obniżyć wzrost gospodarczy.",
+   "basis": {
+    "node": "sun",
+    "field": "i",
+    "quote": "Jeśli energia pozostanie droga, wzrost może okazać się niższy"
+   }
+  },
+  {
+   "id": "west-sun",
+   "from": "west",
+   "to": "sun",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Słabszy wzrost u partnerów handlowych może ograniczać popyt na polski eksport.",
+   "basis": {
+    "node": "west",
+    "field": "i",
+    "quote": "Słabszy wzrost Niemiec i Francji może ograniczać popyt na polski eksport"
+   }
+  },
+  {
+   "id": "usa-bank",
+   "from": "usa",
+   "to": "bank",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Decyzje Fed o stopach są tłem dla decyzji o stopach w Polsce.",
+   "basis": {
+    "node": "bank",
+    "field": "decides",
+    "quote": "w tle Fed"
+   }
+  },
+  {
+   "id": "west-bank",
+   "from": "west",
+   "to": "bank",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Decyzje EBC o stopach są tłem dla decyzji o stopach w Polsce.",
+   "basis": {
+    "node": "bank",
+    "field": "decides",
+    "quote": "EBC"
+   }
+  },
+  {
+   "id": "usa-west",
+   "from": "usa",
+   "to": "west",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Cła USA uderzają w polski eksport głównie pośrednio, przez gospodarkę Niemiec.",
+   "basis": {
+    "node": "usa",
+    "field": "i",
+    "quote": "cła uderzają głównie pośrednio, przez Niemcy i podzespoły"
+   }
+  },
+  {
+   "id": "china-shop",
+   "from": "china",
+   "to": "shop",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Tani import może hamować ceny towarów w sklepach.",
+   "basis": {
+    "node": "china",
+    "field": "i",
+    "quote": "Tani import może hamować ceny towarów"
+   }
+  },
+  {
+   "id": "ukraine-sun",
+   "from": "ukraine",
+   "to": "sun",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Zbrojenia i pożyczka SAFE wspierają inwestycje, a te są częścią wzrostu gospodarczego.",
+   "basis": {
+    "node": "ukraine",
+    "field": "i",
+    "quote": "Zbrojenia i SAFE wspierają inwestycje"
+   }
+  },
+  {
+   "id": "ukraine-worker",
+   "from": "ukraine",
+   "to": "worker",
+   "kind": "wplyw",
+   "sense": "bezposrednie",
+   "why": "Uchodźcy łagodzą braki pracowników na rynku pracy.",
+   "basis": {
+    "node": "ukraine",
+    "field": "i",
+    "quote": "Uchodźcy łagodzą braki pracowników"
+   }
+  }
+ ]
+}

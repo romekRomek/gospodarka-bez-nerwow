@@ -14,6 +14,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D20 | **Nowa zakładka „Kalendarz”** („Najbliższe 30 dni”), zasilana z `soon.events` (bez nowego pola z datą). **Termin trafia do kalendarza z oznaczeniem poziomu źródła** (pierwotne/wtórne); konkretna data bez źródła daje ostrzeżenie. Daty sprawdzone 25.11: EBC 16–17.12 oraz inflacja HICP 1.12 (szybki szacunek) i 17.12 (pełne dane) z kalendarzy EBC (poziom 1), Fed 8–9.12 (rejestr), RPP 1–2.12 (harmonogram za NBP, wtórne), GUS 30.11 (analizy.pl, wtórne). | Pozycja #3 z `docs/expansion-ideas.md`: znane daty uspokajają i pokazują „co może o tym zadecydować”. D19 dopuszcza nowe pozycje w nawigacji. | **Korekta danych:** węzły `bank` i `west` miały „grudzień” dla EBC (jest 16–17.12), a `west` tylko 17.12 jako „inflacja za listopad” (1.12 to szybki szacunek, 17.12 pełne dane). Strony NBP i GUS nie dały dat maszynowo, więc RPP i GUS są wtórne. Pozostałe wydarzenia z datą bez źródła to ostrzeżenia walidatora (backlog). |
 
+## 25.11.2026: D25, mapa: klik zaznacza węzeł i pokazuje zależności (M0)
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D25 | **Kliknięcie węzła na mapie zaznacza go, podświetla jego zależności (`links.json`) i pokazuje je w panelu; okno szczegółów otwiera przycisk „Szczegóły i wykresy”.** Na komputerze oznacza to **zmianę dotychczasowego zachowania** (klik otwierał okno modalne, które zasłaniało mapę). Odpowiedzi na Q1–Q4 z `docs/map-backlog.md`: tak (widok „Codzienność”, kolejność M0 → M1 → M2, tematy wrażliwe z neutralnym tonem, PO uruchamiany ręcznie). | Uwaga właściciela: mapa ma być interaktywna i pokazywać zależności klikniętego węzła; modal uniemożliwiał to na komputerze. | 16 krawędzi dla 13 węzłów, każda z cytatem w treści węzła sprawdzanym kodem. „Dług publiczny” nie ma jeszcze zależności (brak cytowalnego bezpośredniego związku; ostrzeżenie walidatora). Do zrobienia: „Pokaż 2 kroki” (M0-4), zewnętrzne źródła mechanizmów (M0-6), widok „Codzienność” (M1-0). |
+
 ## 25.11.2026: D24, zakładka Newsy: „jeden wpis naraz” zamiast karuzeli
 
 | # | Decyzja | Powód | Skutek |
