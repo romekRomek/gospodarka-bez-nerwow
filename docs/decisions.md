@@ -74,7 +74,8 @@ Zatwierdzone przez właściciela na podstawie makiet `docs/design/mockups/index.
 
 ### Do poprawy przy migracji danych (faza 0)
 
-- Brent: dwie wartości w danych (ok. 90 USD i 92,6 USD): wyjaśnione w D14 (zaokrąglenie, miary ICE i spot).
+- Brent: dwie wartości w danych (ok. 90 USD i 92,6 USD): **korekta 25.11.2026 (poprawia ocenę z D14)**. Wyjaśnienie „zaokrąglenie” było błędne: Trading Economics podaje 24.11 = 90,99 USD (+1,81% d/d), czyli 23.11 ok. 89,4 USD, więc „ok. 90” jest poprawne, a **92,6 przypisane do 23.11 było nieaktualne**. Poprawione: ostatni słupek i punkt wykresu 2026 (24.11: 91,0), tekst faktu z EIA, nowe źródło `tradingeconomics-brent` (poziom 3, strona zmienna, dowód w `docs/evidence/2026-11-25-brent-tradingeconomics.json`).
+- Dziennik zmian: w najnowszym wpisie poprawiono notatkę przy inflacji (usunięto fałszywe „Niżej niż oczekiwane 3,7%”, bo 3,7% to średnia z trzech odczytów). Wpis `sun` „+3,9% (II kw.)” zostaje: aplikacja 28.10 faktycznie pokazywała +3,9%.
 - **Niezgodności znalezione przez W3 (szczegóły w `docs/node-fields-review.md`, sekcja 5), do decyzji redaktora:**
   - `sun.f` oraz `news.json`: „rynek oczekiwał +3,6% r/r": w źródłach +3,6% to wzrost wyrównany sezonowo, nie konsensus rynku (prawdopodobna pomyłka, **treść widoczna na żywej stronie**);
   - PKB II kwartału: `steps.json` +4,1%, ale `changelog.json` +3,9%; jedna z wartości jest błędna lub dotyczy innego szacunku;

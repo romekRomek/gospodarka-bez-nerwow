@@ -88,7 +88,7 @@ def _rounds_to(x, v):
 
 
 def _find(text, needle):
-    return [m.start() for m in re.finditer(r'(?<![\d,.])' + re.escape(needle) + r'(?![\d])', text)]
+    return [m.start() for m in re.finditer(r'(?<![\d,.])' + re.escape(needle) + r'(?![\d]|[.,]\d)', text)]
 
 
 def evaluate(claim, text):
@@ -114,6 +114,9 @@ def evaluate(claim, text):
         return 'potwierdzone', text[max(0, apos[0] - 60):apos[0] + 120]
     v = claim.get('value')
     if isinstance(v, (int, float)) and any(_rounds_to(x, v) for x in _near_numbers(text, apos)):
+        return 'potwierdzone', text[max(0, apos[0] - 60):apos[0] + 140]
+    tol = claim.get('tol')
+    if isinstance(v, (int, float)) and isinstance(tol, (int, float)) and any(abs(x - v) <= tol for x in _near_numbers(text, apos)):
         return 'potwierdzone', text[max(0, apos[0] - 60):apos[0] + 140]
     return 'rozbieżne', text[max(0, apos[0] - 60):apos[0] + 140]
 

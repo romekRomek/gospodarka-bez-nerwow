@@ -139,6 +139,11 @@ class VerifyClaimsRoundingTest(unittest.TestCase):
         r, _ = verify_claims.evaluate({'value': 4320, 'anchor': '4 320'}, 'rekord zamknięcia 4320 pkt z 13.11')
         self.assertEqual(r, 'potwierdzone')
 
+    def test_absolute_tolerance_for_approximate_claims(self):
+        text = 'Cena ropy Brent wzrosła 24 listopada 2026 r. do 90,99 USD za baryłkę'
+        self.assertEqual(verify_claims.evaluate({'value': 90, 'anchor': 'Cena ropy Brent', 'tol': 1.5}, text)[0], 'potwierdzone')
+        self.assertEqual(verify_claims.evaluate({'value': 90, 'anchor': 'Cena ropy Brent'}, text)[0], 'rozbieżne')
+
     def test_non_numeric_claim_uses_anchor_only(self):
         r, _ = verify_claims.evaluate({'value': 'nr 1', 'anchor': 'największym dostawcą'}, 'Chiny największym dostawcą towarów do Polski')
         self.assertEqual(r, 'potwierdzone')

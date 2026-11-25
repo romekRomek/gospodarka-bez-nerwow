@@ -1,5 +1,7 @@
 # Brent: porównanie danych aplikacji z EIA
 
+> **Korekta 25.11.2026:** wniosek 1 poniżej („to zaokrąglenie”) był błędny. Trading Economics podaje 24.11 = 90,99 USD (23.11 ok. 89,4), więc „ok. 90” jest poprawne, a wartość 92,6 przypisana do 23.11 była nieaktualna i została zastąpiona wartością 91,0 z 24.11. Szczegóły: `docs/decisions.md`.
+
 Stan: 24.11.2026. Narzędzie: `python3 scripts/check_brent_eia.py` (sieć, bez klucza). Źródło pierwotne: EIA, seria dzienna „Europe Brent Spot Price FOB" (`eia-brent-spot` w rejestrze).
 
 ## 1. Wnioski

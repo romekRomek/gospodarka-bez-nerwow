@@ -1128,6 +1128,25 @@
     "steps.json"
    ],
    "note": "Wydanie z 21.10.2026: deficyt Polski za 2025 r. −7,2% PKB (GUS w kwietniu: 7,3%). Prognoza 7,1% PKB na 2026 r. jest w tabelach notyfikacji, nie w tym komunikacie. Strona podaje „Next release: 21 April 2027”."
+  },
+  {
+   "id": "tradingeconomics-brent",
+   "name": "Trading Economics: ropa Brent (notowanie dzienne)",
+   "url": "https://pl.tradingeconomics.com/commodity/brent-crude-oil",
+   "org": "Trading Economics",
+   "kind": "agregator notowań",
+   "tier": 3,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": "dzienny",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "steps.json",
+    "charts.json"
+   ],
+   "note": "Strona zmienia się codziennie (pokazuje ostatnie notowanie). Dowód z 25.11.2026 (24.11: 90,99 USD, +1,81% d/d) w docs/evidence/2026-11-25-brent-tradingeconomics.json."
   }
  ]
 }

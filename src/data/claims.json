@@ -11,11 +11,12 @@
    "value": 90,
    "unit": "USD/bbl",
    "src": [
-    "tvn24-ropa-2-11"
+    "tradingeconomics-brent"
    ],
-   "anchor": "baryłk",
+   "anchor": "Cena ropy Brent",
    "kind": "market",
-   "approx": true
+   "approx": true,
+   "tol": 1.5
   },
   {
    "id": "derrick-mc-2",

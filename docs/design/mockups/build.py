@@ -162,7 +162,7 @@ def tile(label, who_html, num, cap, dlt, plain, viz, more, note='', conf_html=''
 brent = tile('Ropa Brent', who('rynek światowy, negocjacje USA–Iran', 'kierowców, firm zależnych od paliw'), 'ok. 90 <small>USD</small>', 'za baryłkę, 23–24.11',
              delta('down', 'ok. 20% od 27.10 (114 USD)'),
              'Taniej niż miesiąc temu, ale drożej niż w lutym (68 USD).',
-             spark([70.9, 100.9, 82.5, 80.5, 92.6], ['2021', '2022', '2023', '2024', 'dziś']),
+             spark([70.9, 100.9, 82.5, 80.5, 91.0], ['2021', '2022', '2023', '2024', 'dziś']),
              'Cena nadal zawiera premię za ryzyko wokół Iranu. Porozumienie mogłoby ją obniżyć, a kolejne ataki na tankowce podbić.',
              'Średnie roczne 2021–2024: cena spot (EIA). Ostatnia wartość: kontrakt ICE z jednego dnia.',
              conf('mid', 'Kontrakt giełdowy z mediów, cena zmienna', [

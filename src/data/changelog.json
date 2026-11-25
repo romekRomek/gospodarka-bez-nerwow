@@ -4,7 +4,7 @@
    {"id":"derrick","m":true,"t":"Ropa Brent","from":"114 USD","to":"ok. 90 USD","dir":"down","note":"Spadek po doniesieniach o dodatkowym czasie na negocjacje z Iranem. W lutym było ok. 68 USD."},
    {"id":"gate","m":true,"t":"Ruch tankowców przez Ormuz","from":"ok. 60%","to":"ok. 35%","dir":"down","note":"Inny pomiar (UKMTO, tydzień do 18.11: ruch o 65% mniejszy niż przed wojną), więc porównanie jest przybliżone."},
    {"id":"pump","m":true,"t":"Ceny paliw r/r","from":"+24% (sierpień)","to":"+21,7% (październik)","dir":"down","note":"W październiku paliwa potaniały o 9,7% m/m dzięki programowi CPN."},
-   {"id":"shop","m":true,"t":"Inflacja CPI","from":"4,1% (wrzesień)","to":"3,5% (październik)","dir":"down","note":"Niżej niż oczekiwane 3,7%. Spadek to głównie efekt tańszych paliw."},
+   {"id":"shop","m":true,"t":"Inflacja CPI","from":"4,1% (wrzesień)","to":"3,5% (październik)","dir":"down","note":"Spadek to głównie efekt tańszych paliw."},
    {"id":"bank","m":true,"t":"Stopa referencyjna NBP","from":"3,75%","to":"3,75%","dir":"flat","note":"RPP 4.11 nie zmieniła stóp. Fed (28.10) i EBC (29.10) też bez zmian."},
    {"id":"worker","m":true,"t":"Realny wzrost płac","from":"+1,6%","to":"+2,4%","dir":"up","note":"Płace nominalnie +6,1% (9 405 zł), inflacja 3,5%. Zatrudnienie w firmach −0,7% r/r."},
    {"id":"tree","m":true,"t":"WIG20","from":"4 267 pkt (21.10)","to":"4 171 pkt (23.11)","dir":"down","note":"Nowy rekord 4 320 pkt z 13.11. 20.11 indeks stracił 4,5%, a 23.11 odrobił 3,9%."},

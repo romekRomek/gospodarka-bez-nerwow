@@ -1,0 +1,8 @@
+{
+ "claim": "Brent (kontrakt ICE), 24.11.2026: 90,99 USD; zmiana d/d +1,81% (zatem 23.11 ok. 89,4 USD)",
+ "url": "https://pl.tradingeconomics.com/commodity/brent-crude-oil",
+ "fetched": "2026-11-25T10:55:53Z",
+ "fragment": "Cena ropy Brent wzrosła 24 listopada 2026 r. do 90,99 USD za baryłkę, czyli o 1,81% w porównaniu z poprzednim dniem.",
+ "sha256_page_text": "45db254b038561dbfc48fc5025df4e94a866eca427516e6dfc42b0a4fc32baaf",
+ "note": "Strona zmienia się codziennie; ten plik jest dowodem stanu z chwili pobrania."
+}
