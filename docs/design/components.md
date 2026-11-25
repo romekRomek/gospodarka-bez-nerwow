@@ -43,6 +43,7 @@ Poziomy: **P** = Podstawy (zawsze), **W** = Więcej (tylko przy poziomie 2 albo 
 | `MythCard` (`.myth`) | Dementi: fakt → mit → mechanizm → fakt | `headlines.json` | P. |
 | `TechniqueCard` (`.tech`) | Technika dnia | `techniques.json` | P. |
 | `GlossaryTerm` (`.term`, `.tpop`) | Skrót lub termin fachowy w tekście jako przycisk z definicją w jednym zdaniu | `terms.json`: `{id, forms[], name, def, src[]}`; mechanizm sam wyszukuje `forms` w tekście bloku | Pierwsze wystąpienie w bloku. Pomija nagłówki, etykiety, chipy i parodie nagłówków. `aria-expanded`, okienko `role=note`, Escape i klik poza nim zamykają, przycisk zamknięcia 44 px. |
+| `MethodDialog` (`#mth`, `.mths`, `.mthl`, `.mthc`) | „Jak to sprawdzamy”: poziomy źródeł, zasady pewności, warstwy sprawdzania i dziennik korekt (błędy, które trafiły na stronę). To **ten sam wzorzec okna** co dziennik zmian, otwierany przyciskiem obok „Co się zmieniło”; bez nowej zakładki nawigacji | `method.json` | P. Korekty od najnowszej, każda z linkiem do źródła. |
 | `ChangeSummary` (`.bal`) | Bilans zmian z aktualizacji (↓ ↑ →) | `changelog[0].changes` | W. Kolory neutralne (bez oceny). |
 | `Calculator` | „Ile Cię to kosztuje” | `cost.json` | P. |
 | `ScannerTool` | Skaner nagłówków | reguły w danych | P. |
@@ -86,6 +87,7 @@ Każdy komponent z danymi ma: **pusty** (brak danych: nazwany powód i co zrobi�
 | `40-charts.js` | wykresy (Chart.js): `mdChart`, wtyczka etykiet, tabela danych wykresu |
 | `50-node-modal.js` | okno szczegółów węzła, nagłówki w oknie (pos/neu/neg) |
 | `60-changelog.js` | dziennik zmian: przycisk „Co się zmieniło” i okno |
+| `65-method.js` | `MethodDialog`: okno „Jak to sprawdzamy” z dziennikiem korekt (dane: `method.json`) |
 | `35-node-v2.js` | `NodePanel` v2: poziomy Podstawy/Więcej, dolny panel na telefonie (`#side.open`) |
 | `70-tabs.js` | nawigacja `Nav` (Start / Mapa / Newsy / Polska): dolny pasek, górny od 760 px kontenera |
 | `80-poland.js` | zakładka Polska |

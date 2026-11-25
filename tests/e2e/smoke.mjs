@@ -104,6 +104,15 @@ async function runScenario(browser, base, width, theme, { functional }) {
     await page.mouse.click(5, 5);
     check((await page.locator('.tpop').count()) === 0, 'klik poza okienkiem zamyka definicję');
 
+    // okno „Jak to sprawdzamy”: otwiera się, ma dziennik korekt ze źródłami, zamyka się Escape
+    await page.click('#mthb');
+    check(await page.evaluate(() => document.getElementById('mth').open), 'Jak to sprawdzamy: okno się otwiera');
+    check((await page.locator('#mthbody .mthc').count()) >= 1, 'Jak to sprawdzamy: dziennik korekt ma wpisy');
+    check((await page.locator('#mthbody .mthc a[href^="http"]').count()) === (await page.locator('#mthbody .mthc').count()), 'Jak to sprawdzamy: każda korekta ma link do źródła');
+    await checkNoHScroll(page, 'okno Jak to sprawdzamy');
+    await page.keyboard.press('Escape');
+    check(!(await page.evaluate(() => document.getElementById('mth').open)), 'Jak to sprawdzamy: Escape zamyka okno');
+
     // 13 węzłów na mapie, 13 kroków na liście
     const nodes = await page.locator('#nodes g.node').count();
     check(nodes === EXPECTED_NODES, 'węzły na mapie: ' + EXPECTED_NODES, 'jest: ' + nodes);
