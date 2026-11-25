@@ -39,8 +39,8 @@ function frameCard(){
 }
 function techniqueCard(){
   var t=DATA.techniques[ST.technique||0];if(!t)return null;
-  var a=h('a','lnk','Sprawdź nagłówek w skanerze →',{href:'#'});
-  a.addEventListener('click',function(e){e.preventDefault();tab('emo');var i=document.getElementById('scin');if(i)i.focus();});
+  var a=h('a','lnk','Zobacz więcej sztuczek →',{href:'#'});
+  a.addEventListener('click',function(e){e.preventDefault();tab('emo');var n=document.getElementById('ns2');if(n)n.scrollIntoView({block:'start'});});
   return h('article','card tech',[h('header',null,h('span','lbl','Technika dnia')),h('h3',null,t[0]),h('p',null,t[1]),h('p','ex',t[2]),a]);
 }
 function balanceEl(){

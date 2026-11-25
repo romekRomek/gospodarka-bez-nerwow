@@ -181,6 +181,21 @@ async function runScenario(browser, base, width, theme, { functional }) {
     await page.waitForTimeout(150);
     const fp0 = await page.evaluate(() => ({ n: document.querySelectorAll('#tab-emo .fp').length, c: document.querySelector('#tab-emo .fpc').textContent, total: document.querySelectorAll('#cmps > *').length }));
     check(fp0.n === 6 && fp0.c === '1 / ' + fp0.total && fp0.total === 8, 'Newsy: sześć grup „jeden wpis naraz”, pierwsza ma licznik 1 / 8', JSON.stringify(fp0));
+    const order = await page.evaluate(() => ({
+      steps: [...document.querySelectorAll('#tab-emo .nstep .nk')].map(e => e.textContent),
+      nav: [...document.querySelectorAll('#tab-emo .npath a')].map(a => a.textContent),
+      firstH2: document.querySelector('#tab-emo .nstep h2').textContent,
+      firstLab: document.querySelector('#cmps .cmp .lab').textContent,
+      firstAbs: !!document.querySelector('#cmps .cmp:first-child .w .absd'),
+      humorBeforeOriginal: (() => { const c = document.querySelector('#cmps .cmp'); return c.querySelector('.w').compareDocumentPosition(c.querySelector('.o')) & Node.DOCUMENT_POSITION_FOLLOWING; })(),
+      h2s: [...document.querySelectorAll('#tab-emo h2')].map(e => e.textContent),
+    }));
+    check(order.steps.length === 6 && order.steps[0].includes('Zobacz') && order.steps[1].includes('Rozpoznaj') && order.steps[2].includes('Sprawdź') && order.steps[3].includes('Zrozum') && order.steps[4].includes('Odtrutka') && order.steps[5].includes('Źródła'), 'Newsy: sześć kroków w kolejności Zobacz, Rozpoznaj, Sprawdź, Zrozum, Odtrutka, Źródła', order.steps.join(' | '));
+    check(order.nav.length === 6, 'Newsy: nawigacja po ścieżce ma sześć odnośników');
+    check(/Podkręcone/.test(order.firstH2) && order.firstLab === 'Podkręcony nagłówek' && order.firstAbs && order.humorBeforeOriginal, 'Newsy: zakładka zaczyna się od humoru, a karta od podkręconego nagłówka przed oryginałem', order.firstH2 + ' / ' + order.firstLab);
+    const hi = order.h2s.map(t => t.replace(/\s+/g, ' '));
+    check(await page.evaluate(() => { const sc = document.querySelector('#tab-emo .scan'); const sec = [...document.querySelectorAll('#tab-emo section')].find(s => /Skaner/.test(s.textContent)); return !!sc && sc.hidden && !sc.offsetParent && !!sec && sec.hidden && !sec.offsetParent; }), 'Newsy: skaner nagłówków jest schowany (do czasu naprawy, docs/backlog.md)');
+    check(hi.findIndex(t => /sztuczek/.test(t)) < hi.findIndex(t => /Pięć pytań/.test(t)) && hi.findIndex(t => /Pięć pytań/.test(t)) < hi.findIndex(t => /Skaner/.test(t)) && hi.findIndex(t => /badania/.test(t)) < hi.findIndex(t => /kosztuje/.test(t)) && hi.findIndex(t => /Odtrutka/.test(t)) < hi.findIndex(t => /Narzędzia/.test(t)), 'Newsy: logiczna kolejność sekcji (sztuczki → pytania → skaner; badania → koszt; odtrutka → źródła)', hi.join(' | '));
     const fp = page.locator('#tab-emo .fp').first();
     await fp.locator('.fpbot .fpb2').nth(1).click();
     await page.waitForFunction(() => document.querySelector('#tab-emo .fpc').textContent === '2 / 8', null, { timeout: 3000 }).catch(() => {});
@@ -190,6 +205,14 @@ async function runScenario(browser, base, width, theme, { functional }) {
     await page.waitForFunction(() => document.querySelector('#tab-emo .fpc').textContent === '3 / 8', null, { timeout: 3000 }).catch(() => {});
     check((await fp.locator('.fpc').textContent()) === '3 / 8', 'Newsy: strzałka w prawo przechodzi do wpisu 3 / 8');
     check((await fp.locator('.fpb').first().isEnabled()) && !(await fp.locator('.fpbot .fpb2').first().isDisabled()), 'Newsy: przycisk „Poprzedni” dostępny po przejściu dalej');
+    // ostatni wpis: przewija się do lewej krawędzi od jednego kliknięcia i licznik nie wraca do poprzedniego
+    const total0 = fp0.total;
+    for (let k = 3; k < total0; k++) { await fp.locator('.fpbot .fpb2').nth(1).click(); await page.waitForTimeout(450); }
+    await page.waitForTimeout(500);
+    const last = await fp.evaluate(el => { const box = el.querySelector('.fp-on'), cards = [...box.children], l = cards[cards.length - 1]; return { c: el.querySelector('.fpc').textContent, gap: Math.round(l.getBoundingClientRect().left - box.getBoundingClientRect().left), nextDisabled: el.querySelector('.fpbot .fpb2:last-child').disabled }; });
+    check(last.c === total0 + ' / ' + total0 && Math.abs(last.gap) <= 3 && last.nextDisabled, 'Newsy: ostatni wpis staje przy lewej krawędzi po jednym kliknięciu (licznik ' + total0 + ' / ' + total0 + ', „Następny” wyłączony)', JSON.stringify(last));
+    await fp.locator('.fpbot .fpb2').first().click(); await page.waitForTimeout(500);
+    check((await fp.locator('.fpc').textContent()) === (total0 - 1) + ' / ' + total0, 'Newsy: z ostatniego wpisu „Poprzedni” wraca do przedostatniego');
     await fp.locator('.fpall').click();
     check(!(await fp.locator('.fpc').isVisible()) && (await fp.locator('.fp-on').count()) === 0 && (await fp.locator('.fpall').getAttribute('aria-pressed')) === 'true', 'Newsy: „Pokaż wszystkie” wyłącza pas i pokazuje całą listę');
     await fp.locator('.fpall').click();
@@ -231,6 +254,8 @@ async function runScenario(browser, base, width, theme, { functional }) {
 
     for (const t of TABS) {
       await activeTab(page, t);
+      const lvlVisible = await page.locator('#lvl').isVisible();
+      check(lvlVisible === (t.id === 'start' || t.id === 'map'), 'przełącznik Podstawy/Więcej jest widoczny tylko tam, gdzie działa (Start, Mapa): zakładka „' + t.name + '”', 'widoczny: ' + lvlVisible);
       await checkNoHScroll(page, t.name);
       if (functional && t.id === 'pl') {
         const canvases = await page.locator('#plch canvas').count();
