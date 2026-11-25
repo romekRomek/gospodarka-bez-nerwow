@@ -170,6 +170,21 @@ async function runScenario(browser, base, width, theme, { functional }) {
     check((await page.locator('#tab-cal .calempty').count()) === 1, 'Kalendarz: poza oknem danych pokazuje stan pusty z datą aktualizacji');
     await page.evaluate(() => window.calRender());
 
+    // słownik pojęć: wejście ze stopki, wyszukiwarka, status potwierdzenia definicji
+    await page.click('#glsb');
+    check(await page.evaluate(() => document.getElementById('gls').open), 'Słownik: okno otwiera się ze stopki');
+    const total = await page.locator('#glsbody li.gt').count();
+    check(total >= 19, 'Słownik: są wszystkie hasła (≥ 19)', 'jest: ' + total);
+    check((await page.locator('#glsbody li.gt').filter({ hasText: /potwierdzona w źródle|robocza/ }).count()) === total, 'Słownik: każde hasło ma status potwierdzenia definicji');
+    await page.fill('.gsearch', 'FOMC');
+    check((await page.locator('#glsbody li.gt:not([hidden])').count()) === 1, 'Słownik: wyszukiwarka znajduje hasło po skrócie (FOMC)');
+    await page.fill('.gsearch', 'zzzzqq');
+    check(await page.locator('#glsbody li.gt:not([hidden])').count() === 0 && await page.locator('#glsbody p.cgs:not([hidden])').count() >= 2, 'Słownik: brak wyników pokazuje komunikat');
+    await page.fill('.gsearch', '');
+    await checkNoHScroll(page, 'okno Słownik pojęć');
+    await page.keyboard.press('Escape');
+    check(!(await page.evaluate(() => document.getElementById('gls').open)), 'Słownik: Escape zamyka okno');
+
     // okno „Jak to sprawdzamy”: otwiera się, ma dziennik korekt ze źródłami, zamyka się Escape
     await page.click('#mthb');
     check(await page.evaluate(() => document.getElementById('mth').open), 'Jak to sprawdzamy: okno się otwiera');

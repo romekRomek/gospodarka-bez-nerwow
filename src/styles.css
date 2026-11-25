@@ -550,3 +550,12 @@ main{container:scr/inline-size}
 .v2 .calund dt{color:var(--mut);font-weight:600}
 .v2 .calund dd{margin:0}
 .v2 .calempty{padding:var(--sp-4);color:var(--mut)}
+
+/* stopka z odnośnikami (Footer) i okno „Słownik pojęć” (GlossaryDialog) */
+.foot{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--sp-1) var(--sp-5);padding:var(--sp-5) 0 var(--sp-4);border-top:1px solid var(--line)}
+.flnk{font:600 var(--t-sm)/var(--lh-label) var(--sans);color:var(--mut);background:none;border:0;min-height:44px;padding:0 var(--sp-2);text-decoration:underline;cursor:pointer}
+.flnk:hover{color:var(--ink)}
+.gsearch{width:100%;box-sizing:border-box;min-height:44px;padding:0 var(--sp-4);border:1px solid var(--line-strong);border-radius:var(--r-pill);background:var(--surface);color:var(--ink);font:var(--t-md)/var(--lh-label) var(--sans)}
+.mthl li.gt .gforms{font-size:var(--t-xs);color:var(--mut)}
+.mthl li.gt .glsm{font-size:var(--t-xs);color:var(--mut);line-height:var(--lh-label)}
+.mthl li.gt .glsm a{color:inherit}

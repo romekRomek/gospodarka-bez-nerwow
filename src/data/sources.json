@@ -1217,6 +1217,125 @@
     "steps.json"
    ],
    "note": "Źródło wtórne: „GUS zapowiada publikację pierwszego regularnego szacunku za III kwartał na 30 listopada”. Strona kalendarium GUS dla 30.11 nie wymienia tej publikacji w pobranej treści."
+  },
+  {
+   "id": "eurostat-glossary-gdp",
+   "name": "Eurostat: słownik, produkt krajowy brutto (GDP)",
+   "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Gross_domestic_product_(GDP)",
+   "org": "Eurostat",
+   "kind": "słownik",
+   "cadence": "bez stałego rytmu (słownik)",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "terms.json"
+   ]
+  },
+  {
+   "id": "eurostat-glossary-flash",
+   "name": "Eurostat: słownik, szybki szacunek (flash estimate)",
+   "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Flash_estimate",
+   "org": "Eurostat",
+   "kind": "słownik",
+   "cadence": "bez stałego rytmu (słownik)",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "terms.json"
+   ]
+  },
+  {
+   "id": "eurostat-glossary-edp",
+   "name": "Eurostat: słownik, procedura nadmiernego deficytu (EDP)",
+   "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Excessive_deficit_procedure_(EDP)",
+   "org": "Eurostat",
+   "kind": "słownik",
+   "cadence": "bez stałego rytmu (słownik)",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "terms.json"
+   ]
+  },
+  {
+   "id": "fed-o-fedzie",
+   "name": "Fed: o Systemie Rezerwy Federalnej",
+   "url": "https://www.federalreserve.gov/aboutthefed.htm",
+   "org": "Rezerwa Federalna (Fed)",
+   "kind": "bank centralny",
+   "cadence": "bez stałego rytmu (opis instytucji)",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "terms.json"
+   ]
+  },
+  {
+   "id": "fed-o-fomc",
+   "name": "Fed: o Federalnym Komitecie Otwartego Rynku (FOMC)",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomc.htm",
+   "org": "Rezerwa Federalna (Fed)",
+   "kind": "bank centralny",
+   "cadence": "bez stałego rytmu (opis instytucji)",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "terms.json"
+   ]
+  },
+  {
+   "id": "ecb-o-ebc",
+   "name": "EBC: strona główna, o Europejskim Banku Centralnym",
+   "url": "https://www.ecb.europa.eu/ecb/html/index.en.html",
+   "org": "Europejski Bank Centralny (EBC)",
+   "kind": "bank centralny",
+   "cadence": "bez stałego rytmu (opis instytucji)",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "terms.json"
+   ]
+  },
+  {
+   "id": "ec-safe",
+   "name": "Komisja Europejska: SAFE (Security Action for Europe)",
+   "url": "https://defence-industry-space.ec.europa.eu/eu-defence-industry/safe-security-action-europe_en",
+   "org": "Komisja Europejska",
+   "kind": "instytucja UE",
+   "cadence": "bez stałego rytmu (strona instrumentu)",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "terms.json"
+   ]
   }
  ]
 }
