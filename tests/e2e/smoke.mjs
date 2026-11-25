@@ -11,6 +11,7 @@ const THEMES = ['light', 'dark'];
 const TABS = [
   { id: 'start', btn: 'nav:visible [data-tab="start"]', panel: '#tab-start', name: 'Start' },
   { id: 'map', btn: 'nav:visible [data-tab="map"]', panel: '#tab-map', name: 'Mapa' },
+  { id: 'cal', btn: 'nav:visible [data-tab="cal"]', panel: '#tab-cal', name: 'Kalendarz' },
   { id: 'emo', btn: 'nav:visible [data-tab="emo"]', panel: '#tab-emo', name: 'Newsy' },
   { id: 'pl', btn: 'nav:visible [data-tab="pl"]', panel: '#tab-pl', name: 'Polska' },
 ];
@@ -152,6 +153,22 @@ async function runScenario(browser, base, width, theme, { functional }) {
       });
     });
     check(navAl.every(d => d <= 1), 'nawigacja: ikona i podpis wyśrodkowane w pionie (≤ 1 px)', 'odchyłki: ' + navAl.map(d => d.toFixed(1)).join(', '));
+
+    // kalendarz „Najbliższe 30 dni”: stały „dziś” (25.11.2026), daty w porządku, każda z linkiem do źródła i oznaczeniem poziomu
+    await page.evaluate(() => window.calRender('2026-11-25'));
+    const cal = await page.evaluate(() => ({
+      days: [...document.querySelectorAll('#tab-cal .calday h3')].map(e => e.textContent),
+      noSrc: [...document.querySelectorAll('#tab-cal .calev')].filter(e => !e.querySelector('a[href^="http"]')).length,
+      tiers: [...document.querySelectorAll('#tab-cal .calev .calmeta')].every(e => /źródło (pierwotne|wtórne)/.test(e.textContent)),
+      und: document.querySelectorAll('#tab-cal .calund dt').length,
+    }));
+    check(cal.days.length >= 5, 'Kalendarz: są dni z datą w oknie 30 dni', 'jest: ' + cal.days.length);
+    check(cal.days[0].includes('30 listopada') && cal.days.some(d => d.includes('16–17 grudnia')), 'Kalendarz: GUS 30.11 na początku, EBC 16–17.12 w oknie', cal.days.join(' | '));
+    check(cal.noSrc === 0 && cal.tiers, 'Kalendarz: każde wydarzenie ma link do źródła i oznaczenie poziomu (pierwotne/wtórne)', 'bez linku: ' + cal.noSrc);
+    check(cal.und >= 1, 'Kalendarz: sekcja „Bez konkretnej daty”');
+    await page.evaluate(() => window.calRender('2027-03-01'));
+    check((await page.locator('#tab-cal .calempty').count()) === 1, 'Kalendarz: poza oknem danych pokazuje stan pusty z datą aktualizacji');
+    await page.evaluate(() => window.calRender());
 
     // okno „Jak to sprawdzamy”: otwiera się, ma dziennik korekt ze źródłami, zamyka się Escape
     await page.click('#mthb');

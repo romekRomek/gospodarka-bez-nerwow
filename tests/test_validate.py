@@ -66,6 +66,19 @@ class ValidateTest(DataCase):
         self.edit('changelog', lambda c: c[0]['changes'][0].__setitem__('id', 'nie-ma-takiego'))
         self.assert_error(self.run_v(), 'nieistniejącego węzła')
 
+    def test_event_src_must_exist_in_registry(self):
+        def bad(steps):
+            ev = steps[0]['soon']['events'][0]
+            ev['src'] = ['nie-ma-takiego-zrodla']
+        self.edit('steps', bad)
+        self.assert_error(self.run_v(), 'nie ma wpisu w sources.json')
+
+    def test_event_src_must_be_nonempty_list(self):
+        def bad(steps):
+            steps[0]['soon']['events'][0]['src'] = 'fed-fomc-kalendarz'
+        self.edit('steps', bad)
+        self.assert_error(self.run_v(), 'niepustą listą id źródeł')
+
     def test_method_corrections_must_be_newest_first(self):
         def swap(m):
             m['corrections'][0]['date'], m['corrections'][-1]['date'] = m['corrections'][-1]['date'], m['corrections'][0]['date']

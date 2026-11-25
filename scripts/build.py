@@ -37,6 +37,9 @@ data['confidence'] = {'computed': _today.isoformat(), 'nodes': _conf}
 # źródła haseł glosariusza (nazwa i adres z rejestru) dla okienka definicji; reszta rejestru nie trafia na stronę
 _reg = {x['id']: x for x in json.loads((SRC / 'data' / 'sources.json').read_text(encoding='utf-8'))['sources']}
 data['termsrc'] = {i: {'name': _reg[i]['name'], 'url': _reg[i]['url']} for t in data['terms'] for i in t['src'] if i in _reg}
+# źródła terminów wydarzeń (soon.events[].src): nazwa, adres i poziom z rejestru, dla kalendarza
+data['evsrc'] = {i: {'name': _reg[i]['name'], 'url': _reg[i]['url'], 'tier': _reg[i]['tier']}
+                 for s in data['steps'] for e in (s.get('soon') or {}).get('events', []) for i in e.get('src', []) if i in _reg}
 js = 'var DATA=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + ';\n' + js
 
 cls = {'pl': 'land pl', 'west': 'land west', 'me': 'land me', 'oth': 'land oth'}

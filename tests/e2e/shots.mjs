@@ -22,6 +22,7 @@ const THEMES = [['light', 'jasny'], ['dark', 'ciemny']];
 const TABS = [
   { file: 'start', btn: 'nav:visible [data-tab="start"]' },
   { file: 'mapa', btn: 'nav:visible [data-tab="map"]' },
+  { file: 'kalendarz', btn: 'nav:visible [data-tab="cal"]' },
   { file: 'newsy', btn: 'nav:visible [data-tab="emo"]' },
   { file: 'polska', btn: 'nav:visible [data-tab="pl"]' },
 ];

@@ -179,6 +179,8 @@ def check_node_fields(D, r):
     if not isinstance(steps, list):
         return
     year = 2026
+    reg = D.get('sources')
+    src_ids = {x.get('id') for x in (reg.get('sources') if isinstance(reg, dict) else []) or [] if isinstance(x, dict)}
     last_update = None
     cl = D.get('changelog')
     if isinstance(cl, list) and cl and isinstance(cl[0], dict):
@@ -236,7 +238,17 @@ def check_node_fields(D, r):
                 texts.append((f'soon.events[{k}].text', e['text']))
                 if len(e['text']) > LIM_EVENT:
                     r.err(w, f'„soon.events[{k}].text” ma {len(e["text"])} znaków, limit {LIM_EVENT}')
+                ev_src = e.get('src')
+                if ev_src is not None:
+                    if not (isinstance(ev_src, list) and ev_src and all(is_str(x) for x in ev_src)):
+                        r.err(w, f'„soon.events[{k}].src” musi być niepustą listą id źródeł')
+                    else:
+                        for sid in ev_src:
+                            if sid not in src_ids:
+                                r.err(w, f'„soon.events[{k}].src”: źródło „{sid}” nie ma wpisu w sources.json')
                 key = parse_when(e['when'], year)
+                if key is not None and key[0] == 1 and re.search(r'\d\.\d', e['when']) and ev_src is None:
+                    r.warn(w, f'„soon.events[{k}]” ({e["when"]}) ma konkretną datę bez „src” (zasada 8: termin do sprawdzenia w źródle)')
                 if key is None:
                     r.err(w, f'„soon.events[{k}].when” = „{e["when"]}”: oczekiwano daty, „połowa grudnia”, „grudzień”, '
                              '„do końca roku”, „co miesiąc” albo „bez terminu”')
