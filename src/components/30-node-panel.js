@@ -11,12 +11,13 @@ function show(i,scroll){
   document.getElementById('bp').textContent=s.i;
   document.querySelectorAll('.node').forEach(function(n){n.classList.toggle('on',n.id==='n-'+s.id);});
   document.querySelectorAll('.step').forEach(function(b){b.classList.toggle('on',b.id==='st-'+s.id);});
-  if(scroll&&window.innerWidth<=1020){document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});}
+  renderPanelV2(i);
+  if(scroll&&!isPhone()&&window.innerWidth<=1020){document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});}
 }
 document.querySelectorAll('.node').forEach(function(g){
   var id=g.id.slice(2);
-  g.addEventListener('click',function(){stop();openModal(byId[id]);});
-  g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();stop();openModal(byId[id]);}});
+  g.addEventListener('click',function(){nodeOpen(byId[id]);});
+  g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();nodeOpen(byId[id]);}});
 });
 function go(d){stop();var i=cur<0?(d>0?0:STEPS.length-1):(cur+d+STEPS.length)%STEPS.length;show(i);}
 document.getElementById('prev').addEventListener('click',function(){go(-1);});

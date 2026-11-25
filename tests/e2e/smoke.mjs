@@ -7,10 +7,12 @@ import {
 
 const WIDTHS = [360, 390, 768, 1280];
 const THEMES = ['light', 'dark'];
+// nawigacja: dolny pasek (telefon) albo górny (komputer); widoczny jest zawsze jeden z nich
 const TABS = [
-  { id: 'map', btn: '#tb-map', panel: '#tab-map', name: 'Mapa gospodarcza' },
-  { id: 'emo', btn: '#tb-emo', panel: '#tab-emo', name: 'Newsy bez nerwów' },
-  { id: 'pl', btn: '#tb-pl', panel: '#tab-pl', name: 'Z czym zmaga się Polska' },
+  { id: 'start', btn: 'nav:visible [data-tab="start"]', panel: '#tab-start', name: 'Start' },
+  { id: 'map', btn: 'nav:visible [data-tab="map"]', panel: '#tab-map', name: 'Mapa' },
+  { id: 'emo', btn: 'nav:visible [data-tab="emo"]', panel: '#tab-emo', name: 'Newsy' },
+  { id: 'pl', btn: 'nav:visible [data-tab="pl"]', panel: '#tab-pl', name: 'Polska' },
 ];
 const EXPECTED_NODES = 13;
 const liveCdn = process.argv.includes('--live-cdn');
@@ -43,8 +45,8 @@ async function activeTab(page, t) {
     const shown = await visible(page, o.panel);
     check(shown === (o.id === t.id), 'zakładka „' + t.name + '”: panel ' + o.panel + (o.id === t.id ? ' widoczny' : ' ukryty'));
   }
-  const sel = await page.getAttribute(t.btn, 'aria-selected');
-  check(sel === 'true', 'zakładka „' + t.name + '”: aria-selected=true');
+  const sel = await page.getAttribute(t.btn, 'aria-current');
+  check(sel === 'page', 'zakładka „' + t.name + '”: aria-current=page');
 }
 
 async function modalIsOpen(page) {
@@ -70,6 +72,38 @@ async function runScenario(browser, base, width, theme, { functional }) {
     const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     (runScenario.bg ||= {})[theme] = bg;
 
+    // Start jest pierwszą zakładką i jest widoczny na starcie
+    const firstTab = await page.locator('nav:visible [data-tab]').first().getAttribute('data-tab');
+    check(firstTab === 'start', 'pierwsza pozycja nawigacji to Start', 'jest: ' + firstTab);
+    check(await visible(page, '#tab-start') && !(await visible(page, '#tab-map')), 'po załadowaniu widoczny jest ekran Start, nie Mapa');
+    check((await page.locator('#tab-start .stat').count()) === 3, 'Start: trzy kafelki liczb');
+    check(await page.locator('#tab-start .hld-card .hli:not([hidden])').count() === 1, 'Start: jeden widoczny nagłówek dnia (pager)');
+    const mw = await page.evaluate(() => document.querySelector('main').clientWidth);
+    const nav = await page.evaluate(() => ({ b: getComputedStyle(document.getElementById('bnav')).display, t: getComputedStyle(document.getElementById('tnav')).display }));
+    check(mw < 760 ? (nav.b !== 'none' && nav.t === 'none') : (nav.t !== 'none' && nav.b === 'none'), 'nawigacja (próg 760 px kontenera, main ' + mw + ' px): ' + (mw < 760 ? 'dolny pasek na telefonie' : 'górny pasek na komputerze'), JSON.stringify(nav));
+
+    // przełącznik poziomu Podstawy/Więcej: domyślnie Podstawy, „Więcej” pokazuje bloki poziomu 2, wybór jest zapamiętany
+    check((await page.getAttribute('#lvl button[data-level="1"]', 'aria-pressed')) === 'true', 'poziom domyślny: Podstawy');
+    check(!(await page.locator('#tab-start .stat .soon').first().isVisible()), 'Podstawy: blok „Co może o tym zadecydować” ukryty');
+    await page.click('#lvl button[data-level="2"]');
+    check(await page.locator('#tab-start .stat .soon').first().isVisible(), 'Więcej: blok „Co może o tym zadecydować” widoczny');
+    check((await page.evaluate(() => localStorage.getItem('gbn-level'))) === '2', 'poziom Więcej zapamiętany w localStorage');
+    await checkNoHScroll(page, 'Start, poziom Więcej');
+    await page.click('#lvl button[data-level="1"]');
+
+    // glosariusz: skrót to przycisk, klik otwiera definicję, Escape zamyka i zwraca fokus, klik poza też zamyka
+    const term = page.locator('#tab-start .term').first();
+    check((await term.count()) > 0, 'Start: są klikalne skróty (glosariusz)');
+    await term.click();
+    check((await term.getAttribute('aria-expanded')) === 'true', 'skrót: aria-expanded=true po kliknięciu');
+    check(await page.locator('.tpop[role="note"]').isVisible(), 'okienko definicji (role=note) jest widoczne');
+    await page.keyboard.press('Escape');
+    check((await term.getAttribute('aria-expanded')) === 'false' && (await page.locator('.tpop').count()) === 0, 'Escape zamyka definicję');
+    check(await page.evaluate(() => document.activeElement && document.activeElement.classList.contains('term')), 'po Escape fokus wraca na skrót');
+    await term.click();
+    await page.mouse.click(5, 5);
+    check((await page.locator('.tpop').count()) === 0, 'klik poza okienkiem zamyka definicję');
+
     // 13 węzłów na mapie, 13 kroków na liście
     const nodes = await page.locator('#nodes g.node').count();
     check(nodes === EXPECTED_NODES, 'węzły na mapie: ' + EXPECTED_NODES, 'jest: ' + nodes);
@@ -86,14 +120,25 @@ async function runScenario(browser, base, width, theme, { functional }) {
         check(canvases > 0, 'zakładka Polska: wykresy się narysowały (canvas w #plch)', 'jest: ' + canvases);
       }
     }
-    await activeTab(page, TABS[0]);
+    await activeTab(page, TABS[1]);
 
     if (functional) {
       // okno szczegółów: otwarcie węzła z mapy, zamknięcie Escape
       const firstId = await page.locator('#nodes g.node').first().getAttribute('id');
       check(!(await modalIsOpen(page)), 'okno szczegółów jest zamknięte na starcie');
+      const phone = width <= 760;
       await page.locator('#' + firstId).click();
-      check(await modalIsOpen(page), 'klik w węzeł ' + firstId + ' otwiera okno szczegółów');
+      if (phone) {
+        check(!(await modalIsOpen(page)), 'telefon: klik w węzeł nie otwiera okna modalnego');
+        check(await page.locator('#side.open').count() === 1 && await visible(page, '#panel'), 'telefon: klik w węzeł otwiera dolny panel');
+        check(await page.locator('#pv2 .who').isVisible(), 'panel węzła: „Decyduje” i „Dotyczy”');
+        check(await page.locator('#pv2 .conf').isVisible(), 'panel węzła: wskaźnik pewności');
+        await page.keyboard.press('Escape');
+        check(await page.locator('#side.open').count() === 0, 'telefon: Escape zamyka dolny panel');
+        await page.locator('#' + firstId).click();
+        await page.click('#more');
+      }
+      check(await modalIsOpen(page), 'szczegóły węzła ' + firstId + ' otwierają okno z wykresem');
       const title = (await page.locator('#mt-t').textContent() || '').trim();
       check(title.length > 0, 'okno szczegółów ma tytuł', 'tytuł: "' + title + '"');
       const mcanv = await page.locator('#md canvas').count();
@@ -118,6 +163,7 @@ async function runScenario(browser, base, width, theme, { functional }) {
 
       // nawigacja Następny/Poprzedni nie psuje okna
       await page.locator('#nodes g.node').nth(2).click();
+      if (phone) await page.click('#more');
       const t1 = await page.locator('#mt-t').textContent();
       await page.click('#mnext');
       const t2 = await page.locator('#mt-t').textContent();

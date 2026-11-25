@@ -77,13 +77,17 @@ Każdy komponent z danymi ma: **pusty** (brak danych: nazwany powód i co zrobi�
 | Plik | Komponent |
 |---|---|
 | `00-core.js` | wspólne: ikony SVG, dane (`DATA` → `NODES`, `STEPS`, `CL`), znaczniki zmian, pomocnik `el()`, indeks `byId` |
+| `01-ui.js` | pomocniki v2: `h()`, poziom treści (localStorage w try/catch), `Delta`, `WhoBlock`, `WatchNote`, `ConfidenceMeter`, `SoonBlock`, `LimitsBlock`, `AlsoBlock` |
+| `03-glossary.js` | `GlossaryTerm`: skróty z `terms.json`, okienko definicji (A5) |
+| `04-start.js` | ekran Start: `StatTile`, `HeadlineOfDay`, `FrameCard`, `TechniqueCard`, `ChangeSummary` (dane: `start.json`) |
 | `10-map.js` | mapa: węzły na mapie świata, podpis Polski |
 | `20-steps-list.js` | lista kroków pod mapą |
 | `30-node-panel.js` | panel węzła na stronie: `show()`, nawigacja, odtwarzanie |
 | `40-charts.js` | wykresy (Chart.js): `mdChart`, wtyczka etykiet, tabela danych wykresu |
 | `50-node-modal.js` | okno szczegółów węzła, nagłówki w oknie (pos/neu/neg) |
 | `60-changelog.js` | dziennik zmian: przycisk „Co się zmieniło” i okno |
-| `70-tabs.js` | nawigacja zakładek (Mapa / Newsy / Polska) |
+| `35-node-v2.js` | `NodePanel` v2: poziomy Podstawy/Więcej, dolny panel na telefonie (`#side.open`) |
+| `70-tabs.js` | nawigacja `Nav` (Start / Mapa / Newsy / Polska): dolny pasek, górny od 760 px kontenera |
 | `80-poland.js` | zakładka Polska |
 | `90-headlines.js` | zakładka Newsy: tłumacz nagłówków i quiz |
 | `91-cost-calc.js` | zakładka Newsy: koszt emocji i kalkulator |
@@ -92,3 +96,11 @@ Każdy komponent z danymi ma: **pusty** (brak danych: nazwany powód i co zrobi�
 | `95-scanner.js` | zakładka Newsy: skaner nagłówków |
 
 Nowy komponent = nowy plik z prefiksem w odpowiednim miejscu kolejności. Ograniczenie świadome: brak izolacji zakresu (IIFE) i modułów, żeby krok pozostał czystym refaktorem.
+
+### Odstępstwa od makiet w kroku 3 (do decyzji właściciela)
+
+- Kafelki Startu nie mają wizualizacji (`Sparkline`, `RangeBand`, `PairBars`): nie ma dla nich pól w danych, a nie wymyślamy treści.
+- Zdanie „plain” kafelka to nowe pole `plain` w `steps.json` (4 węzły, teksty z makiet); pozostałe węzły nie mają go i panel pokazuje wtedy resztę bloków.
+- Etykieta kafelka i zdanie `Delta` pochodzą z najnowszego wpisu `changelog.json` (`t`, `from`), więc różnią się od ręcznych opisów w makiecie.
+- Na komputerze klik w węzeł nadal otwiera okno szczegółów (jak dziś); dolny panel dotyczy telefonu (≤ 760 px okna).
+- Próg układu to 760 px **kontenera** (`main`), więc przy oknie 768 px układ jest jeszcze telefonowy (dolna nawigacja).
