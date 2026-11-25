@@ -1,0 +1,64 @@
+name: Weryfikacja treści (warstwa 1)
+# Warstwa 1 z docs/verification.md: kod, bez modelu językowego i bez kluczy API.
+# Pull request: bramki. Co tydzień: deterministyczny raport do docs/runs/ jako osobny PR (nigdy push na main).
+on:
+  pull_request:
+  schedule:
+    - cron: '17 5 * * 1'   # poniedziałek, 05:17 UTC
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  gates:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Walidacja danych i rejestru źródeł (błędy blokują, spójność i atrybucja to ostrzeżenia)
+        run: python3 scripts/validate.py
+      - name: Spójność, wyliczenia, język atrybucji (pełna lista znalezisk)
+        run: python3 scripts/consistency.py
+      - name: Testy (walidator, V1, złoty zbiór, tokeny)
+        run: python3 -m unittest discover -s tests
+      - name: Kontrast tokenów (AA, oba motywy)
+        run: python3 docs/design/tokens.py check
+      - name: design-lint (tylko tokeny)
+        run: python3 scripts/design-lint.py
+      - name: Build jest powtarzalny (dist zgodny ze źródłami)
+        run: |
+          python3 scripts/build.py
+          git diff --exit-code -- dist/index.html src/tokens.css
+  weekly-report:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Raport (bez modelu, bez sieci)
+        run: python3 scripts/weekly_report.py || true
+      - name: PR z raportem (nie main)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          day=$(date -u +%F)
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout -b "auto/raport-$day"
+          git add docs/runs
+          git diff --cached --quiet && exit 0
+          git commit -m "Raport tygodniowy warstwy 1 ($day)"
+          git push origin "auto/raport-$day"
+          gh pr create --base main --head "auto/raport-$day" --title "Raport tygodniowy warstwy 1 ($day)" \
+            --body "Deterministyczny raport z scripts/weekly_report.py (bez modelu językowego). Ocena sensu treści jest poza zakresem CI: patrz docs/verification.md."

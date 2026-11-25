@@ -1,6 +1,6 @@
 # Weryfikacja treści bez udziału właściciela
 
-Status: **projekt** (24.11.2026), decyzja D17. Cel: informacje w aplikacji (liczby, twierdzenia, pytania, teksty) mają być sprawdzane automatycznie, **z dowodem**, a człowiek ma dostawać tylko decyzje, których nie da się podjąć regułą. Dziś robi to w większości ręcznie koordynator (tak wyszły niezgodności z `docs/node-fields-review.md`), więc potrzebujemy to zautomatyzować.
+Status: **V1, V2 i V3 wdrożone w repozytorium** (25.11.2026; agenci nieskalibrowani na żywo, patrz „Jak uruchomić agentów”), decyzja D17. Cel: informacje w aplikacji (liczby, twierdzenia, pytania, teksty) mają być sprawdzane automatycznie, **z dowodem**, a człowiek ma dostawać tylko decyzje, których nie da się podjąć regułą. Dziś robi to w większości ręcznie koordynator (tak wyszły niezgodności z `docs/node-fields-review.md`), więc potrzebujemy to zautomatyzować.
 
 ## Zasada
 
@@ -99,3 +99,26 @@ Agenty testujemy na przypadkach, które już znamy. Agent musi je poprawnie ocen
 | V2 | agenty `weryfikator-faktow` i `redaktor` z rubrykami, złoty zbiór jako test kalibracyjny | agenci oceniają złoty zbiór poprawnie, a ich raport zawiera dowody |
 | V3 | integracja z CI i PR, przegląd cykliczny, raporty `docs/runs/` | PR z błędną treścią jest blokowany z dowodem, a raport tygodniowy powstaje sam |
 | V4 | dostęp do źródeł przez API i migawki | zniknięcie wyjątków dla zablokowanych źródeł |
+
+
+## Stan wdrożenia (25.11.2026)
+
+| Element | Gdzie | Uwagi |
+|---|---|---|
+| Rejestr twierdzeń | `src/data/claims.json` (25 twierdzeń: `m` i `mc` 13 węzłów, ze źródłem tam, gdzie `src` je ma) | Kotwice (`anchor`) **nie były sprawdzone na stronach źródeł** (brak dostępu do sieci w sesji budującej). |
+| Weryfikacja źródeł | `scripts/verify_claims.py` → `docs/evidence/rrrr-mm-dd.json` | Wyniki: potwierdzone / rozbieżne / brak w tekście / niedostępne. Sieć opcjonalna, CI od niej nie zależy. PDF i XLSX: „niedostępne” (brak parsera). |
+| Spójność, wyliczenia, atrybucja | `scripts/consistency.py`, podpięte do `validate.py` jako ostrzeżenia | Heurystyka: wielkości opisuje `groups` w `claims.json`. |
+| Agenci | `.claude/agents/weryfikator-faktow.md`, `.claude/agents/redaktor.md` | Rubryki z tego dokumentu. |
+| Złoty zbiór | `tests/golden/cases.json`, test `tests/test_golden.py` | Test sprawdza poprawność formalną i to, że kod łapie przypadki oznaczone `code`. **Nie uruchamia modelu.** |
+| CI | `.github/workflows/verify.yml` | PR: validate, consistency, testy, kontrast tokenów, design-lint, powtarzalność buildu. Co tydzień: `scripts/weekly_report.py` → PR z `docs/runs/rrrr-mm-dd.md`. |
+
+### Jak uruchomić agentów ręcznie
+
+W Claude Code w katalogu repozytorium: `claude` i polecenie, np. „Użyj agenta `redaktor` do oceny pól `soon.question` i `limits` w `src/data/steps.json`” albo „Użyj agenta `weryfikator-faktow` do oceny wyników z `docs/evidence/<data>.json`” (najpierw `python3 scripts/verify_claims.py`, gdy jest sieć). Agent dostaje treść i dowód, nie rozumowanie autora. Kalibracja: poproś agenta o ocenę każdego przypadku z `tests/golden/cases.json` (bez kolumny `expected`) i porównaj z oczekiwanym werdyktem; dopiero zgodność ze wszystkimi przypadkami uprawnia go do blokowania PR. Ta kalibracja **nie została jeszcze wykonana**.
+
+### Czego CI nie robi
+
+- Nie ocenia sensu treści (bezpośrednie / naciągane / wypełniacz / graniczne): to wymaga modelu i jest ręczne (agenci powyżej).
+- Nie pobiera źródeł ani nie sprawdza linków (wymaga sieci; `verify_claims.py` i `validate.py --links` uruchamia się osobno).
+- Nie zna kontekstu poza regułami: niespójność wykryje tylko dla wielkości opisanych w `groups`.
+- Raport tygodniowy nie zmienia danych; otwiera PR do przeglądu człowieka.

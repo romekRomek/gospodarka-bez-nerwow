@@ -1,0 +1,20 @@
+{
+ "description": "Złoty zbiór do kalibracji agentów weryfikator-faktow i redaktor (docs/verification.md). Przypadki z 24.11.2026. Agent musi je ocenić zgodnie z polem expected, zanim dostanie prawo blokowania PR. Pole code: true oznacza, że wykrywa to także kod (consistency.py).",
+ "verdicts": {
+  "fact": ["błąd: niezgodny sens", "błąd: niespójność", "zaakceptuj", "zaakceptuj z uwagą"],
+  "sense": ["bezpośrednie", "naciągane", "wypełniacz", "graniczne"],
+  "question": ["zaakceptuj", "odrzuć", "eskaluj"]
+ },
+ "cases": [
+  {"id": "g1", "kind": "fact", "text": "Rynek oczekiwał +3,6% r/r", "context": "Źródło podaje wartość wyrównaną sezonowo, nie konsensus.", "expected": {"verdict": "błąd: niezgodny sens"}, "code": true},
+  {"id": "g2", "kind": "fact", "text": "PKB II kw. +4,1% w węźle, +3,9% w dzienniku zmian", "context": "Ta sama wielkość, dwie wartości w danych.", "expected": {"verdict": "błąd: niespójność"}, "code": true},
+  {"id": "g3", "kind": "question", "text": "Czy w Twojej okolicy trwają jakieś budowy?", "context": "Przy węźle PKB.", "expected": {"verdict": "odrzuć", "sense": "naciągane", "rules": ["R1", "S1"], "escalate": false}},
+  {"id": "g4", "kind": "question", "text": "Czy miejsce, w którym pracujesz, ostatnio się rozwija?", "context": "Przy węźle PKB.", "expected": {"verdict": "zaakceptuj", "sense": "bezpośrednie", "rules": [], "escalate": false}},
+  {"id": "g5", "kind": "question", "text": "Z jakiej usługi publicznej korzystasz najczęściej?", "context": "Przy węźle dług.", "expected": {"verdict": "odrzuć", "sense": "naciągane", "rules": ["R1", "S1"], "escalate": false}},
+  {"id": "g6", "kind": "question", "text": "Czy śledzisz wiadomości o wydatkach na obronę?", "context": "Przy węźle Ukraina (temat wojny).", "expected": {"verdict": "eskaluj", "sense": "graniczne", "rules": ["R4"], "escalate": true}},
+  {"id": "g7", "kind": "question", "text": "Czy w Twojej okolicy mieszkają osoby z Ukrainy?", "context": "Przy węźle Ukraina.", "expected": {"verdict": "odrzuć", "sense": "naciągane", "rules": ["R4"], "escalate": false}},
+  {"id": "g8", "kind": "question", "text": "Jak często tankujesz?", "context": "Przy węźle ropa.", "expected": {"verdict": "zaakceptuj", "sense": "bezpośrednie", "rules": [], "escalate": false}},
+  {"id": "g9", "kind": "fact", "text": "Brent ok. 90 USD", "context": "Wykres podaje 92,6 USD (kontrakt ICE, 23.11).", "expected": {"verdict": "zaakceptuj z uwagą"}, "code": false},
+  {"id": "g10", "kind": "question", "text": "Jakim paliwem jeździ Twoje auto?", "context": "Przy węźle paliwa.", "expected": {"verdict": "odrzuć", "sense": "naciągane", "rules": ["R5"], "escalate": false}}
+ ]
+}
