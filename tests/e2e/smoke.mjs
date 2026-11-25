@@ -121,6 +121,25 @@ async function runScenario(browser, base, width, theme, { functional }) {
     check(rhythm.minGap >= 12, 'Start: odstęp między blokami min. 12 px (L8)', 'jest: ' + rhythm.minGap + ' px');
     check(rhythm.tight.length === 0, 'Start: wieloliniowy tekst ma czytelną interlinię (L7)', rhythm.tight.join(', '));
 
+    // wyrównanie (L8): przyciski nagłówka mają tę samą wysokość, a kafelki obok siebie układają zawartość w jednej linii
+    const al = await page.evaluate(() => {
+      const r = s => document.querySelector(s).getBoundingClientRect();
+      const a = r('#chgb'), b = r('#mthb');
+      const tiles = [...document.querySelectorAll('#tab-start .stat')];
+      const cols = getComputedStyle(document.querySelector('#tab-start .tiles')).gridTemplateColumns.split(' ').length;
+      const spread = {};
+      if (cols > 1) for (const sel of ['.who', '.watch', '.cmain', '.why']) {
+        const ys = tiles.map(t => { const e = t.querySelector(sel); return e ? e.getBoundingClientRect().top - t.getBoundingClientRect().top : null; }).filter(y => y !== null);
+        spread[sel] = Math.max(...ys) - Math.min(...ys);
+      }
+      return { dh: Math.abs(a.height - b.height), sameRow: Math.abs(a.top - b.top) < 2, dw: Math.abs(a.width - b.width), cols, spread };
+    });
+    check(al.dh < 1, 'nagłówek: „Co się zmieniło” i „Jak to sprawdzamy” mają tę samą wysokość', 'różnica: ' + al.dh + ' px');
+    check(al.sameRow, 'nagłówek: oba przyciski w jednym wierszu');
+    if (al.cols > 1) {
+      for (const [sel, d] of Object.entries(al.spread)) check(d <= 1, 'kafelki obok siebie: ' + sel + ' w jednej linii (rozrzut ≤ 1 px)', 'rozrzut: ' + d + ' px');
+    }
+
     // okno „Jak to sprawdzamy”: otwiera się, ma dziennik korekt ze źródłami, zamyka się Escape
     await page.click('#mthb');
     check(await page.evaluate(() => document.getElementById('mth').open), 'Jak to sprawdzamy: okno się otwiera');
