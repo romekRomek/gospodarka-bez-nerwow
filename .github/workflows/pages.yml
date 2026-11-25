@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment3.outputs.page_url || steps.deployment2.outputs.page_url || steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,5 +34,21 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+      # Krok publikacji bywa nieudany z przejściowym błędem GitHuba („Found 0 artifacts”, artefakt wgrany w tym samym przebiegu
+      # nie jest jeszcze widoczny). Ponawiamy go z przerwą, najwyżej dwa razy; trzecia próba decyduje o wyniku przebiegu.
       - id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Przerwa przed ponowieniem (1)
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 20
+      - id: deployment2
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Przerwa przed ponowieniem (2)
+        if: steps.deployment.outcome == 'failure' && steps.deployment2.outcome == 'failure'
+        run: sleep 45
+      - id: deployment3
+        if: steps.deployment.outcome == 'failure' && steps.deployment2.outcome == 'failure'
         uses: actions/deploy-pages@v4
