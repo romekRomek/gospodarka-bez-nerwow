@@ -14,6 +14,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D20 | **Nowa zakładka „Kalendarz”** („Najbliższe 30 dni”), zasilana z `soon.events` (bez nowego pola z datą). **Termin trafia do kalendarza z oznaczeniem poziomu źródła** (pierwotne/wtórne); konkretna data bez źródła daje ostrzeżenie. Daty sprawdzone 25.11: EBC 16–17.12 oraz inflacja HICP 1.12 (szybki szacunek) i 17.12 (pełne dane) z kalendarzy EBC (poziom 1), Fed 8–9.12 (rejestr), RPP 1–2.12 (harmonogram za NBP, wtórne), GUS 30.11 (analizy.pl, wtórne). | Pozycja #3 z `docs/expansion-ideas.md`: znane daty uspokajają i pokazują „co może o tym zadecydować”. D19 dopuszcza nowe pozycje w nawigacji. | **Korekta danych:** węzły `bank` i `west` miały „grudzień” dla EBC (jest 16–17.12), a `west` tylko 17.12 jako „inflacja za listopad” (1.12 to szybki szacunek, 17.12 pełne dane). Strony NBP i GUS nie dały dat maszynowo, więc RPP i GUS są wtórne. Pozostałe wydarzenia z datą bez źródła to ostrzeżenia walidatora (backlog). |
 
+## 25.11.2026: D24, zakładka Newsy: „jeden wpis naraz” zamiast karuzeli
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D24 | **Newsy pokazują grupy kart po jednym wpisie naraz (FocusPager), nie klasyczną karuzelę.** Wybór po przeglądzie wytycznych: klasyczne karuzele z automatycznym przewijaniem są pomijane przez użytkowników i wymagają wstrzymania (WCAG 2.2.2), gest przeciągania wymaga przycisków jako alternatywy (WCAG 2.5.1), a dostęp „po kolei” jest nieefektywny przy ośmiu pozycjach ([NN/g](https://www.nngroup.com/articles/mobile-carousels/), [WebAIM](https://webaim.org/techniques/carousels/), [Smashing Magazine](https://www.smashingmagazine.com/2022/04/designing-better-carousel-ux)). Dlatego: bez automatu, z przyciskami i licznikiem, z przygaszonym skrajem następnej karty, z przełącznikiem „Pokaż wszystkie” (bezpośredni dostęp) i dużymi przyciskami „Następny” pod kartą (naturalne „kliknij dalej”). | Uwaga właściciela: czytelnik ma skupić się na jednym wpisie i kliknąć dalej, jeśli go to zainteresuje. Strona Newsy miała na telefonie 17 504 px; po zmianie ok. 6 600 px. | Zastosowane do 6 grup (8 par nagłówków, 4 koszty, 6 dobrych wiadomości, 8 sztuczek, 5 badań, 5 pytań). NN/g zaleca, by użytkownik dotarł do końca w 3–4 krokach, więc dla grup po 8 jest przełącznik „Pokaż wszystkie” i licznik pozycji. |
+
 ## 25.11.2026: D22, mapa z zależnościami i rozbudowa o codzienne tematy (plan)
 
 | # | Decyzja | Powód | Skutek |

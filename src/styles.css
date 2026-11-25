@@ -559,3 +559,24 @@ main{container:scr/inline-size}
 .mthl li.gt .gforms{font-size:var(--t-xs);color:var(--mut)}
 .mthl li.gt .glsm{font-size:var(--t-xs);color:var(--mut);line-height:var(--lh-label)}
 .mthl li.gt .glsm a{color:inherit}
+
+/* FocusPager: jeden wpis naraz (zakładka Newsy) */
+.fp{display:grid;gap:var(--sp-2)}
+.fph{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);flex-wrap:wrap}
+.fpn{display:flex;align-items:center;gap:var(--sp-2)}
+.fpc{font:700 var(--t-sm)/var(--lh-label) var(--sans);color:var(--mut);min-width:5ch;text-align:center;font-variant-numeric:tabular-nums}
+.fpb{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font:700 var(--t-lg)/1 var(--sans);cursor:pointer}
+.fpb:disabled{opacity:.4;cursor:default}
+.fpall{font:600 var(--t-sm)/var(--lh-label) var(--sans);color:var(--mut);background:none;border:0;min-height:44px;padding:0 var(--sp-2);text-decoration:underline;cursor:pointer}
+.fpd{display:flex;gap:var(--sp-1)}
+.fpd i{display:block;width:var(--sp-2);height:var(--sp-2);border-radius:50%;background:var(--line-strong)}
+.fpd i.on{background:var(--accent);width:var(--sp-4);border-radius:var(--sp-1)}
+.fp .fp-on{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:flex-start;gap:var(--sp-3);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0;transition:height .2s ease}
+.fp .fp-on::-webkit-scrollbar{display:none}
+.fp .fp-on>*{flex:0 0 min(88%,760px);min-width:0;scroll-snap-align:start;margin:0;transition:opacity .2s ease}
+.fp .fp-on>*:not(.fp-act){opacity:.4;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.fp .fp-on,.fp .fp-on>*{transition:none}}
+.fpbot{display:flex;gap:var(--sp-2);max-width:min(88%,760px)}
+.fpbot[hidden]{display:none}
+.fpb2{flex:1;min-height:44px;border:1px solid var(--line-strong);border-radius:var(--r-pill);background:var(--surface);color:var(--ink);font:600 var(--t-sm)/var(--lh-label) var(--sans);cursor:pointer}
+.fpb2:disabled{opacity:.4;cursor:default}

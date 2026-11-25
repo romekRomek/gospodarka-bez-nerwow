@@ -170,6 +170,27 @@ async function runScenario(browser, base, width, theme, { functional }) {
     check((await page.locator('#tab-cal .calempty').count()) === 1, 'Kalendarz: poza oknem danych pokazuje stan pusty z datą aktualizacji');
     await page.evaluate(() => window.calRender());
 
+    // Newsy: „jeden wpis naraz” (FocusPager): licznik, przyciski, klawisze, przełącznik „Pokaż wszystkie”
+    await page.click(TABS.find(t => t.id === 'emo').btn);
+    await page.waitForTimeout(150);
+    const fp0 = await page.evaluate(() => ({ n: document.querySelectorAll('#tab-emo .fp').length, c: document.querySelector('#tab-emo .fpc').textContent, total: document.querySelectorAll('#cmps > *').length }));
+    check(fp0.n === 6 && fp0.c === '1 / ' + fp0.total && fp0.total === 8, 'Newsy: sześć grup „jeden wpis naraz”, pierwsza ma licznik 1 / 8', JSON.stringify(fp0));
+    const fp = page.locator('#tab-emo .fp').first();
+    await fp.locator('.fpbot .fpb2').nth(1).click();
+    await page.waitForFunction(() => document.querySelector('#tab-emo .fpc').textContent === '2 / 8', null, { timeout: 3000 }).catch(() => {});
+    check((await fp.locator('.fpc').textContent()) === '2 / 8', 'Newsy: przycisk „Następny” pod kartą przechodzi do wpisu 2 / 8');
+    await fp.locator('.fp-on').focus();
+    await page.keyboard.press('ArrowRight');
+    await page.waitForFunction(() => document.querySelector('#tab-emo .fpc').textContent === '3 / 8', null, { timeout: 3000 }).catch(() => {});
+    check((await fp.locator('.fpc').textContent()) === '3 / 8', 'Newsy: strzałka w prawo przechodzi do wpisu 3 / 8');
+    check((await fp.locator('.fpb').first().isEnabled()) && !(await fp.locator('.fpbot .fpb2').first().isDisabled()), 'Newsy: przycisk „Poprzedni” dostępny po przejściu dalej');
+    await fp.locator('.fpall').click();
+    check(!(await fp.locator('.fpc').isVisible()) && (await fp.locator('.fp-on').count()) === 0 && (await fp.locator('.fpall').getAttribute('aria-pressed')) === 'true', 'Newsy: „Pokaż wszystkie” wyłącza pas i pokazuje całą listę');
+    await fp.locator('.fpall').click();
+    check((await fp.locator('.fp-on').count()) === 1 && (await fp.locator('.fpc').isVisible()), 'Newsy: „Wracaj do jednego wpisu” przywraca pas');
+    await checkNoHScroll(page, 'Newsy z pasem wpisów');
+    await page.click(TABS[0].btn);
+
     // słownik pojęć: wejście ze stopki, wyszukiwarka, status potwierdzenia definicji
     await page.click('#glsb');
     check(await page.evaluate(() => document.getElementById('gls').open), 'Słownik: okno otwiera się ze stopki');
