@@ -13,7 +13,7 @@ Poziomy: **P** = Podstawy (zawsze), **W** = Więcej (tylko przy poziomie 2 albo 
 | `Screen` (`.scr`) | Kontener ekranu. Układ zależy od jego szerokości, próg 760 px | — | `container-type: inline-size`. Dolna nawigacja poniżej progu, górna powyżej. |
 | `AppTop` (`.apptop`, `.asof`) | Logo, przełącznik poziomu, „Dane z…”, „Co się zmieniło” | `changelog[0].label`, liczba zmian | Przełącznik: `role=group`, `aria-pressed`. |
 | `Nav` (`.bnav`, `.tnav`) | Start · Mapa · Kalendarz · Newsy · Polska | — | `aria-current="page"`, cel min. 44 px. |
-| `LevelSwitch` (`.seg.g-level`) | Podstawy / Więcej | `level` w stanie | Zapis w pamięci lokalnej (try/catch). |
+| `LevelSwitch` (`.seg.g-level`) | Podstawy / Więcej. **Widoczny tylko na Start i Mapie** (tam poziom działa: kafelki Start i panel węzła); na pozostałych zakładkach schowany, bo nic by nie zmieniał | `level` w stanie | Zapis w pamięci lokalnej (try/catch). |
 
 ## Liczby i kontekst
 
@@ -52,7 +52,7 @@ Poziomy: **P** = Podstawy (zawsze), **W** = Więcej (tylko przy poziomie 2 albo 
 | `MethodDialog` (`#mth`, `.mths`, `.mthl`, `.mthc`) | „Jak to sprawdzamy”: poziomy źródeł, zasady pewności, warstwy sprawdzania i dziennik korekt (błędy, które trafiły na stronę). To **ten sam wzorzec okna** co dziennik zmian, otwierany przyciskiem obok „Co się zmieniło”; bez nowej zakładki nawigacji | `method.json` | P. Korekty od najnowszej, każda z linkiem do źródła. |
 | `ChangeSummary` (`.bal`) | Bilans zmian z aktualizacji (↓ ↑ →) | `changelog[0].changes` | W. Kolory neutralne (bez oceny). |
 | `Calculator` | „Ile Cię to kosztuje” | `cost.json` | P. |
-| `ScannerTool` | Skaner nagłówków | reguły w danych | P. |
+| `ScannerTool` | Skaner nagłówków. **Ukryty od 25.11.2026** (`hidden` w szablonie, kod zostaje), czeka na naprawę: patrz `docs/backlog.md` | reguły w kodzie | P. |
 
 ## Mapa
 

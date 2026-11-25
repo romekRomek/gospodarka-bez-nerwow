@@ -369,8 +369,9 @@ html:has(dialog.md[open]){overflow:hidden}
 .note .ic{flex:none;width:34px;height:34px;border-radius:12px;background:color-mix(in srgb,var(--ext) 16%,transparent);display:grid;place-items:center;font-size:18px}
 .toolbar{display:flex;gap:var(--sp-3);align-items:center;flex-wrap:wrap}
 .cmps{display:flex;flex-direction:column;gap:var(--sp-4)}
-.cmp{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);overflow:hidden;padding:0}
-.cmp .w{padding:var(--sp-4) var(--sp-5);background:color-mix(in srgb,var(--ext) 8%,var(--surface));border-right:1px dashed var(--line-strong);display:flex;flex-direction:column;gap:var(--sp-3)}
+.cmp{display:grid;grid-template-columns:minmax(0,1fr);overflow:hidden;padding:0}
+.cmp .w{padding:var(--sp-4) var(--sp-5);background:color-mix(in srgb,var(--ext) 8%,var(--surface));border-bottom:1px dashed var(--line-strong);display:flex;flex-direction:column;gap:var(--sp-3)}
+.cmp .o{padding:var(--sp-4) var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-2);border-bottom:1px dashed var(--line-strong)}
 .cmp .m{padding:var(--sp-4) var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-2);position:relative}
 .lab{font-size:var(--t-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
 .hl{font:600 var(--t-md)/1.4 var(--sans);color:var(--ink)}
@@ -744,6 +745,7 @@ main{container:scr/inline-size}
 .fpd i.on{background:var(--accent);width:var(--sp-4);border-radius:var(--sp-1)}
 .fp .fp-on{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:flex-start;gap:var(--sp-3);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0;transition:height .2s ease}
 .fp .fp-on::-webkit-scrollbar{display:none}
+.fp .fp-on::after{content:'';flex:0 0 calc(100% - min(88%,760px));min-width:0}
 .fp .fp-on>*{flex:0 0 min(88%,760px);min-width:0;scroll-snap-align:start;margin:0;transition:opacity .2s ease}
 .fp .fp-on>*:not(.fp-act){opacity:.4;cursor:pointer}
 @media (prefers-reduced-motion:reduce){.fp .fp-on,.fp .fp-on>*{transition:none}}
@@ -782,6 +784,17 @@ main{container:scr/inline-size}
 .v2 .dpi .dpw{font-size:var(--t-xs);line-height:var(--lh-label);color:var(--mut)}
 @media (min-width:761px){.v2 .dpmap{display:none}}
 .v2 .dpmap{justify-self:start}
+
+/* zakładka Newsy: ścieżka w sześciu krokach (etykieta kroku, nawigacja) */
+.nstep{display:grid;gap:var(--sp-4);scroll-margin-top:var(--sp-4)}
+.nstep+.nstep{padding-top:var(--sp-5);border-top:1px solid var(--line)}
+.nk{font:700 var(--t-xs)/var(--lh-label) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--interp)}
+.npath{display:grid;gap:var(--sp-2)}
+.npath ol{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:var(--sp-2);counter-reset:np}
+.npath li{counter-increment:np}
+.npath a{display:inline-flex;align-items:center;gap:var(--sp-1);min-height:44px;padding:0 var(--sp-4);border:1px solid var(--line-strong);border-radius:var(--r-pill);background:var(--surface);color:var(--ink);font:600 var(--t-sm)/var(--lh-label) var(--sans);text-decoration:none}
+.npath a::before{content:counter(np) '.';color:var(--mut)}
+.npath a:hover{background:var(--surface-2)}
 </style>
 </head>
 <body>
@@ -940,14 +953,67 @@ main{container:scr/inline-size}
   <div id="tab-cal" class="v2" role="tabpanel" aria-label="Kalendarz" hidden></div>
 
   <div id="tab-emo" role="tabpanel" aria-label="Newsy" hidden>
-    <div class="card note"><span class="ic">🧭</span><div><b>Dlaczego nie ma tu listy serwisów i autorów</b><p>Szukałem rzetelnych danych, które wskazywałyby konkretne serwisy albo osoby jako tych, którzy najczęściej stosują clickbait i naciski emocjonalne. Nie znalazłem żadnego wiarygodnego, publicznego rankingu, a wskazanie nazwisk bez takich danych byłoby oskarżeniem, a nie faktem. Dlatego zamiast listy osób dostajesz: tłumacz nagłówków, listę technik, wyniki badań i narzędzia, którymi sprawdzisz każdy serwis sam.</p></div></div>
+    <nav class="npath" aria-label="Ścieżka w tej zakładce"><p class="secp">Od uśmiechu do narzędzi: zobacz, rozpoznaj, sprawdź, zrozum.</p><ol><li><a href="#ns1">Zobacz</a></li><li><a href="#ns2">Rozpoznaj</a></li><li><a href="#ns3">Sprawdź</a></li><li><a href="#ns4">Zrozum</a></li><li><a href="#ns5">Odtrutka</a></li><li><a href="#ns6">Źródła i zasady</a></li></ol></nav>
 
+    <div class="nstep" id="ns1">
+      <p class="nk">Krok 1 z 6 · Zobacz</p>
     <section>
-      <h2 class="sech">Co napisano, a co to naprawdę znaczy</h2>
-      <p class="secp">Osiem wymyślonych nagłówków zbudowanych według typowych wzorców, z gospodarczymi liczbami z mapy. To nie są cytaty z konkretnych serwisów. Po lewej to, co widzisz, po prawej to, co wynika z danych.</p>
+      <h2 class="sech">Podkręcone nagłówki i to, co naprawdę znaczą</h2>
+      <p class="secp">Osiem wymyślonych nagłówków zbudowanych według typowych wzorców, z gospodarczymi liczbami z mapy. To nie są cytaty z konkretnych serwisów. Najpierw podkręcona wersja, dla uśmiechu, a potem to, co naprawdę wynika z danych.</p>
     </section>
     <div class="toolbar"><button class="btn" id="quizb" type="button" aria-pressed="false">Tryb zgadywania</button><span class="secp" style="margin:0;font-size:13.5px">Ukrywa tłumaczenia, dopóki ich nie odkryjesz.</span></div>
     <div class="cmps" id="cmps"></div>
+    </div>
+
+    <div class="nstep" id="ns2">
+      <p class="nk">Krok 2 z 6 · Rozpoznaj</p>
+    <section>
+      <h2 class="sech">Osiem sztuczek w pigułce</h2>
+      <p class="secp">Nagłówki z pierwszego kroku korzystają z kilku tych samych zabiegów. Nie każdy z nich jest nieuczciwy. Problem zaczyna się, gdy nagłówek obiecuje więcej, niż daje treść, albo mówi Ci, co masz czuć.</p>
+    </section>
+    <div class="techs" id="techs"></div>
+    </div>
+
+    <div class="nstep" id="ns3">
+      <p class="nk">Krok 3 z 6 · Sprawdź</p>
+    <section>
+      <h2 class="sech">Pięć pytań, zanim klikniesz</h2>
+      <p class="secp">Kilka pytań, które da się zadać w kilka sekund przy każdym nagłówku.</p>
+    </section>
+    <div class="techs">
+      <div class="card tc"><b>1. Co teraz czuję?</b><p>Jeśli nagłówek najpierw wywołał strach lub złość, zatrzymaj się. To sygnał, że ktoś mógł celować w emocje.</p></div>
+      <div class="card tc"><b>2. Gdzie jest liczba?</b><p>Rzetelny nagłówek o gospodarce zwykle ma liczbę, okres i źródło. Samo „rośnie”, „eksploduje” albo „tonie” niczego nie mierzy.</p></div>
+      <div class="card tc"><b>3. Kim są „eksperci”?</b><p>Ilu ich jest, jak się nazywają i kto im płaci? Anonimowa zbiorowość to nie źródło.</p></div>
+      <div class="card tc"><b>4. Czy tytuł zgadza się z treścią?</b><p>Przeczytaj pierwszy akapit. Jeśli odpowiedź z nagłówka tam nie pada, to była przynęta.</p></div>
+      <div class="card tc"><b>5. Co to znaczy dla mnie?</b><p>Przełóż wiadomość na swoje pieniądze: rata, rachunek, pensja. Jeśli się nie da, to prawdopodobnie szum.</p></div>
+    </div>
+
+    <section hidden>
+      <h2 class="sech">Skaner nagłówków</h2>
+      <p class="secp">Wklej dowolny nagłówek. Skaner szuka znanych wzorców w słowach. Nie ocenia, czy nagłówek jest prawdziwy ani jaka była intencja autora.</p>
+    </section>
+    <div class="card scan" hidden>
+      <label class="lab" for="scin">Nagłówek</label>
+      <textarea id="scin" placeholder="np. SZOK! Eksperci biją na alarm. Zobacz, ile zapłacisz za prąd!"></textarea>
+      <div class="temp" aria-hidden="true"><i id="scbar"></i></div>
+      <div><b id="sclab" style="font:700 16px var(--sans)">Wpisz nagłówek</b></div>
+      <div class="chips" id="scchips"></div>
+    </div>
+    </div>
+
+    <div class="nstep" id="ns4">
+      <p class="nk">Krok 4 z 6 · Zrozum</p>
+    <section>
+      <h2 class="sech">Co mówią badania</h2>
+      <p class="secp">Dlaczego to działa. Ostrożnie: to pojedyncze badania, a próbki bywają małe.</p>
+    </section>
+    <div class="facts">
+      <div class="card fc"><b>+10–17%</b><span>więcej udostępnień dla postów z mocnym, moralno-emocjonalnym językiem. Słowa o „drugiej stronie” działały jeszcze mocniej (+35–57%). Badanie postów mediów na Facebooku i Twitterze (Rathje i in., PNAS 2021).</span></div>
+      <div class="card fc"><b>ok. 20%</b><span>więcej rozpowszechniania na każde dodatkowe słowo moralno-emocjonalne w wiadomości na tematy polaryzujące (Brady i in., PNAS 2017, ponad 560 tys. wiadomości).</span></div>
+      <div class="card fc"><b>54,5%</b><span>z 99 polskich nagłówków o zdrowiu z jednego tygodnia lipca 2025 miało choć jedną cechę clickbaitu. Najczęściej: listy i liczby oraz niedopowiedzenia (po 19,2%). Mała próbka, jeden temat (Laskowska 2026).</span></div>
+      <div class="card fc"><b>59%</b><span>linków udostępnionych na Twitterze nigdy nie zostało kliknięte. Ludzie częściej udostępniają, niż czytają (badanie z 2016 r., cytowane przez Demagoga).</span></div>
+      <div class="card fc"><b>39%</b><span>Polaków ufa większości wiadomości (spadek o 8 pkt), a 46% unika newsów czasem lub często (Reuters Institute, Digital News Report 2026).</span></div>
+    </div>
 
     <section>
       <h2 class="sech">Ile Cię to kosztuje</h2>
@@ -964,53 +1030,20 @@ main{container:scr/inline-size}
       </div>
       <div class="res"><span class="lab">W ciągu roku</span><span class="big2" id="r1">0 h</span><p id="r2"></p><p class="lol" id="r3"></p></div>
     </div>
+    </div>
 
+    <div class="nstep" id="ns5">
+      <p class="nk">Krok 5 z 6 · Odtrutka</p>
     <section>
       <h2 class="sech">Odtrutka: dobre wiadomości z ostatnich tygodni</h2>
       <p class="secp">Prawdziwe, sprawdzone i z linkiem. Każda ma też „haczyk uczciwości”, czyli to, co psuje zbyt różowy obraz. Dobre wiadomości też można podkręcać, więc tu niczego nie podkręcam.</p>
     </section>
     <div class="good" id="good"></div>
-
-    <section>
-      <h2 class="sech">Osiem sztuczek w pigułce</h2>
-      <p class="secp">Nie każdy z tych zabiegów jest nieuczciwy. Problem zaczyna się, gdy nagłówek obiecuje więcej, niż daje treść, albo mówi Ci, co masz czuć.</p>
-    </section>
-    <div class="techs" id="techs"></div>
-
-    <section>
-      <h2 class="sech">Co mówią badania</h2>
-      <p class="secp">Ostrożnie: to pojedyncze badania, a próbki bywają małe.</p>
-    </section>
-    <div class="facts">
-      <div class="card fc"><b>+10–17%</b><span>więcej udostępnień dla postów z mocnym, moralno-emocjonalnym językiem. Słowa o „drugiej stronie” działały jeszcze mocniej (+35–57%). Badanie postów mediów na Facebooku i Twitterze (Rathje i in., PNAS 2021).</span></div>
-      <div class="card fc"><b>ok. 20%</b><span>więcej rozpowszechniania na każde dodatkowe słowo moralno-emocjonalne w wiadomości na tematy polaryzujące (Brady i in., PNAS 2017, ponad 560 tys. wiadomości).</span></div>
-      <div class="card fc"><b>54,5%</b><span>z 99 polskich nagłówków o zdrowiu z jednego tygodnia lipca 2025 miało choć jedną cechę clickbaitu. Najczęściej: listy i liczby oraz niedopowiedzenia (po 19,2%). Mała próbka, jeden temat (Laskowska 2026).</span></div>
-      <div class="card fc"><b>59%</b><span>linków udostępnionych na Twitterze nigdy nie zostało kliknięte. Ludzie częściej udostępniają, niż czytają (badanie z 2016 r., cytowane przez Demagoga).</span></div>
-      <div class="card fc"><b>39%</b><span>Polaków ufa większości wiadomości (spadek o 8 pkt), a 46% unika newsów czasem lub często (Reuters Institute, Digital News Report 2026).</span></div>
     </div>
 
-    <section>
-      <h2 class="sech">Skaner nagłówków</h2>
-      <p class="secp">Wklej dowolny nagłówek. Skaner szuka znanych wzorców w słowach. Nie ocenia, czy nagłówek jest prawdziwy ani jaka była intencja autora.</p>
-    </section>
-    <div class="card scan">
-      <label class="lab" for="scin">Nagłówek</label>
-      <textarea id="scin" placeholder="np. SZOK! Eksperci biją na alarm. Zobacz, ile zapłacisz za prąd!"></textarea>
-      <div class="temp" aria-hidden="true"><i id="scbar"></i></div>
-      <div><b id="sclab" style="font:700 16px var(--sans)">Wpisz nagłówek</b></div>
-      <div class="chips" id="scchips"></div>
-    </div>
-
-    <section>
-      <h2 class="sech">Pięć pytań, zanim klikniesz</h2>
-    </section>
-    <div class="techs">
-      <div class="card tc"><b>1. Co teraz czuję?</b><p>Jeśli nagłówek najpierw wywołał strach lub złość, zatrzymaj się. To sygnał, że ktoś mógł celować w emocje.</p></div>
-      <div class="card tc"><b>2. Gdzie jest liczba?</b><p>Rzetelny nagłówek o gospodarce zwykle ma liczbę, okres i źródło. Samo „rośnie”, „eksploduje” albo „tonie” niczego nie mierzy.</p></div>
-      <div class="card tc"><b>3. Kim są „eksperci”?</b><p>Ilu ich jest, jak się nazywają i kto im płaci? Anonimowa zbiorowość to nie źródło.</p></div>
-      <div class="card tc"><b>4. Czy tytuł zgadza się z treścią?</b><p>Przeczytaj pierwszy akapit. Jeśli odpowiedź z nagłówka tam nie pada, to była przynęta.</p></div>
-      <div class="card tc"><b>5. Co to znaczy dla mnie?</b><p>Przełóż wiadomość na swoje pieniądze: rata, rachunek, pensja. Jeśli się nie da, to prawdopodobnie szum.</p></div>
-    </div>
+    <div class="nstep" id="ns6">
+      <p class="nk">Krok 6 z 6 · Źródła i zasady</p>
+    <div class="card note"><span class="ic">🧭</span><div><b>Dlaczego nie ma tu listy serwisów i autorów</b><p>Szukałem rzetelnych danych, które wskazywałyby konkretne serwisy albo osoby jako tych, którzy najczęściej stosują clickbait i naciski emocjonalne. Nie znalazłem żadnego wiarygodnego, publicznego rankingu, a wskazanie nazwisk bez takich danych byłoby oskarżeniem, a nie faktem. Dlatego zamiast listy osób dostajesz: tłumacz nagłówków, listę technik, wyniki badań i narzędzia, którymi sprawdzisz każdy serwis sam.</p></div></div>
 
     <section>
       <h2 class="sech">Narzędzia i źródła do samodzielnego sprawdzania</h2>
@@ -1031,7 +1064,9 @@ main{container:scr/inline-size}
       <li><a href="https://www.rmf24.pl/fakty/ekonomia/news-dobre-wiesci-ws-polskiej-gospodarki-w-tle-kryzys-na-bliskim-,nId,8089250">RMF24/PAP: PIE o odporności polskiej gospodarki</a>, <a href="https://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/">Africanews: rozmowy w listopadzie</a></li>
       <li><a href="https://mediabiasfactcheck.com/">Media Bias/Fact Check</a> i <a href="https://www.newsguardtech.com/">NewsGuard</a>: zagraniczne oceny wiarygodności serwisów. To oceny redakcyjne, więc traktuj je jak jedną z opinii.</li>
     </ul>
+    </div>
   </div>
+
   <div id="tab-pl" role="tabpanel" aria-label="Polska" hidden>
     <div class="card note"><span class="ic">⚖️</span><div><b>Nie ma jednego rankingu</b><p>Ekonomiści i badania opinii wskazują trochę co innego. Poniżej zestawiamy to, co Polacy mówią w sondażu, z tym, co pokazują dane. Każda liczba ma link do źródła.</p></div></div>
     <section>
@@ -1223,8 +1258,8 @@ function frameCard(){
 }
 function techniqueCard(){
   var t=DATA.techniques[ST.technique||0];if(!t)return null;
-  var a=h('a','lnk','Sprawdź nagłówek w skanerze →',{href:'#'});
-  a.addEventListener('click',function(e){e.preventDefault();tab('emo');var i=document.getElementById('scin');if(i)i.focus();});
+  var a=h('a','lnk','Zobacz więcej sztuczek →',{href:'#'});
+  a.addEventListener('click',function(e){e.preventDefault();tab('emo');var n=document.getElementById('ns2');if(n)n.scrollIntoView({block:'start'});});
   return h('article','card tech',[h('header',null,h('span','lbl','Technika dnia')),h('h3',null,t[0]),h('p',null,t[1]),h('p','ex',t[2]),a]);
 }
 function balanceEl(){
@@ -1538,6 +1573,7 @@ var TO=NAV.map(function(n){return n[0];});
 function tab(n){
   TO.forEach(function(k){document.getElementById('tab-'+k).hidden=k!==n;});
   document.querySelectorAll('[data-tab]').forEach(function(b){var on=b.dataset.tab===n;b.classList.toggle('on',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+  var lv=document.getElementById('lvl');if(lv)lv.hidden=(n!=='start'&&n!=='map'); /* poziom Podstawy/Więcej działa tylko na Start i w panelu węzła na mapie */
   if(n==='pl')plCharts();
   if(md.open)md.close();
   closeTerm(false);sheet(false);
@@ -1669,7 +1705,7 @@ var CMP=DATA.headlines;
 function nfo(h){var n=(h.match(/\d+/g)||[]).length+(/(jeden|dwa|trzy|cztery|pięć)\b/i.test(h)?1:0);var s=/(według|wg |dane |GUS|NBP|raport|badanie)/i.test(h)?'tak':'brak';var o=/(20\d\d|r\/r|w \w+ rok|miesiąc|kwartał)/i.test(h)?'tak':'brak';return 'Liczby: '+n+' · Źródło: '+s+' · Okres: '+o;}
 var cm=document.getElementById('cmps');
 CMP.forEach(function(c,i){var d=document.createElement('article');d.className='card cmp';
-  d.innerHTML='<div class="w"><span class="lab">Napisano</span><p class="hl"></p><div class="chips"></div><div class="abs"><span class="lab">Podkręćmy to jeszcze bardziej</span><p class="absd"></p><p class="lol"></p></div></div><div class="m"><span class="lab">Naprawdę znaczy</span><ul></ul><p class="it"></p><div class="calm"><span class="lab">Wersja spokojna</span><p></p></div><p class="q"></p><button class="btn cover" type="button">Odkryj, co to znaczy</button></div>';
+  d.innerHTML='<div class="w"><span class="lab">Podkręcony nagłówek</span><div class="abs"><p class="absd"></p><p class="lol"></p></div></div><div class="o"><span class="lab">Parodiuje taki nagłówek</span><p class="hl"></p><div class="chips"></div></div><div class="m"><span class="lab">Naprawdę znaczy</span><ul></ul><p class="it"></p><div class="calm"><span class="lab">Wersja spokojna</span><p></p></div><p class="q"></p><button class="btn cover" type="button">Odkryj, co to znaczy</button></div>';
   d.querySelector('.hl').textContent='„'+c.h+'”';
   var ch=d.querySelector('.chips');c.t.forEach(function(x){var s=document.createElement('span');s.className='chip';s.textContent=x;ch.appendChild(s);});
   var se=document.createElement('span');se.className='chip e';se.textContent='Celuje w: '+c.e;ch.appendChild(se);

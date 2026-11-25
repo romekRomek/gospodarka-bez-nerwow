@@ -12,6 +12,7 @@ var TO=NAV.map(function(n){return n[0];});
 function tab(n){
   TO.forEach(function(k){document.getElementById('tab-'+k).hidden=k!==n;});
   document.querySelectorAll('[data-tab]').forEach(function(b){var on=b.dataset.tab===n;b.classList.toggle('on',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+  var lv=document.getElementById('lvl');if(lv)lv.hidden=(n!=='start'&&n!=='map'); /* poziom Podstawy/Więcej działa tylko na Start i w panelu węzła na mapie */
   if(n==='pl')plCharts();
   if(md.open)md.close();
   closeTerm(false);sheet(false);

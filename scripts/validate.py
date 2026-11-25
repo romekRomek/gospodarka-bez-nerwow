@@ -696,7 +696,7 @@ def check_registry_coverage(D, urls, template, r):
         t = template.read_text(encoding='utf-8')
         a = t.find('<summary>Źródła</summary>')
         if a != -1:
-            in_tpl = set(re.findall(r'<li><a href="([^"]+)"', t[a:a + 20000]))
+            in_tpl = {u for u in re.findall(r'<li><a href="([^"]+)"', t[a:a + 20000]) if not u.startswith('#')}
         for u in sorted(in_tpl):
             if u not in urls:
                 r.err('template.html', f'adres z sekcji „Źródła” spoza rejestru: {u}')
