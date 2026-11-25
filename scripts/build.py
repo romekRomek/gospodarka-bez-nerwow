@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Składa dist/index.html z src/: template.html + tokens.css + styles.css + data/*.json + app.js + geo.json (kształty map).
+"""Składa dist/index.html z src/: template.html + tokens.css + styles.css + data/*.json + components/*.js + app.js + geo.json (kształty map).
 
 src/tokens.css jest generowany z docs/design/tokens.json (docs/design/tokens.py, funkcja css()). Plik jest commitowany,
 a build zawsze go odtwarza; test tests/test_tokens.py pilnuje, że wersja w repo zgadza się z tokens.json.
@@ -18,7 +18,9 @@ TOKENS_HEADER = '/* GENEROWANY z docs/design/tokens.json (python3 scripts/build.
 g = json.loads((SRC / 'geo.json').read_text(encoding='utf-8'))
 tpl = (SRC / 'template.html').read_text(encoding='utf-8')
 css = ((SRC / 'tokens.css').read_text(encoding='utf-8') + (SRC / 'styles.css').read_text(encoding='utf-8')).rstrip('\n')
-js = (SRC / 'app.js').read_text(encoding='utf-8').rstrip('\n')
+# komponenty interfejsu (src/components/*.js) w kolejności nazw plików, potem app.js (inicjalizacja); jeden wspólny zakres globalny
+COMPONENTS = sorted((SRC / 'components').glob('*.js'), key=lambda f: f.name)
+js = '\n'.join(f.read_text(encoding='utf-8').rstrip('\n') for f in COMPONENTS + [SRC / 'app.js'])
 # dane z src/data/*.json trafiają do obiektu DATA (klucz = nazwa pliku), z którego czyta app.js
 # sources.json to rejestr dla walidatora i wskaźnika pewności; do strony trafi dopiero z generowaną listą „Źródła”
 NOT_SHIPPED = {'sources', 'claims'}   # rejestr źródeł i twierdzeń to dane dla bramek, nie dla strony

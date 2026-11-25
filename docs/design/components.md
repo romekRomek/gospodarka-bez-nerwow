@@ -69,3 +69,26 @@ Każdy komponent z danymi ma: **pusty** (brak danych: nazwany powód i co zrobi�
 2. Kolor kategorii (`oil`, `chain`, `ind`, `ext`) oznacza kategorię węzła, nie ocenę.
 3. Pewność i kierunek są oznaczone liczbą kropek, słowem lub strzałką, nie tylko kolorem (A2).
 4. Treść nie jest wpisywana w komponent. Komponent czyta blok z danych (`content-model.md`).
+
+## Struktura kodu interfejsu (krok 2, 25.11.2026)
+
+`src/app.js` zawiera tylko inicjalizację. Komponenty są w `src/components/*.js`, a `scripts/build.py` skleja je **w kolejności nazw plików** (stąd prefiksy liczbowe), a na końcu `app.js`, do jednego `<script>` w `dist/index.html`. Bez bundlera i bez nowych zależności: wszystkie pliki dzielą jeden zakres globalny, tak jak dotąd, więc kolejność plików to kolejność wykonania. Zmiana struktury nie zmienia wyglądu ani zachowania (test dymny: 231 asercji bez zmian).
+
+| Plik | Komponent |
+|---|---|
+| `00-core.js` | wspólne: ikony SVG, dane (`DATA` → `NODES`, `STEPS`, `CL`), znaczniki zmian, pomocnik `el()`, indeks `byId` |
+| `10-map.js` | mapa: węzły na mapie świata, podpis Polski |
+| `20-steps-list.js` | lista kroków pod mapą |
+| `30-node-panel.js` | panel węzła na stronie: `show()`, nawigacja, odtwarzanie |
+| `40-charts.js` | wykresy (Chart.js): `mdChart`, wtyczka etykiet, tabela danych wykresu |
+| `50-node-modal.js` | okno szczegółów węzła, nagłówki w oknie (pos/neu/neg) |
+| `60-changelog.js` | dziennik zmian: przycisk „Co się zmieniło” i okno |
+| `70-tabs.js` | nawigacja zakładek (Mapa / Newsy / Polska) |
+| `80-poland.js` | zakładka Polska |
+| `90-headlines.js` | zakładka Newsy: tłumacz nagłówków i quiz |
+| `91-cost-calc.js` | zakładka Newsy: koszt emocji i kalkulator |
+| `92-good.js` | zakładka Newsy: dobre wiadomości |
+| `93-techniques.js` | zakładka Newsy: techniki manipulacji |
+| `95-scanner.js` | zakładka Newsy: skaner nagłówków |
+
+Nowy komponent = nowy plik z prefiksem w odpowiednim miejscu kolejności. Ograniczenie świadome: brak izolacji zakresu (IIFE) i modułów, żeby krok pozostał czystym refaktorem.
