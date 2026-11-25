@@ -369,6 +369,76 @@
    "anchor": "największym dostawcą",
    "kind": "calculation",
    "note": "Wartość „nr 1” zapisana jako 1."
+  },
+  {
+   "id": "ecb-posiedzenie-17-12",
+   "node": "bank",
+   "field": "soon",
+   "indicator": "EBC: drugi dzień posiedzenia polityki pieniężnej, konferencja",
+   "period": "2026-12-17",
+   "value": "termin",
+   "unit": "data",
+   "src": [
+    "ecb-kalendarz-posiedzen"
+   ],
+   "anchor": "17/12/2026 Governing Council of the ECB: monetary policy meeting in Frankfurt (Day 2)",
+   "kind": "measurement"
+  },
+  {
+   "id": "hicp-flash-1-12",
+   "node": "west",
+   "field": "soon",
+   "indicator": "Eurostat: szybki szacunek inflacji HICP za listopad 2026",
+   "period": "2026-12-01",
+   "value": "termin",
+   "unit": "data",
+   "src": [
+    "ecb-kalendarz-hicp"
+   ],
+   "anchor": "01/12/2026 15:00 Euro area seasonally adjusted HICP flash estimate",
+   "kind": "measurement"
+  },
+  {
+   "id": "hicp-final-17-12",
+   "node": "west",
+   "field": "soon",
+   "indicator": "Eurostat: dane o inflacji HICP za listopad 2026",
+   "period": "2026-12-17",
+   "value": "termin",
+   "unit": "data",
+   "src": [
+    "ecb-kalendarz-hicp"
+   ],
+   "anchor": "17/12/2026 12:00 Euro area seasonally adjusted HICP",
+   "kind": "measurement"
+  },
+  {
+   "id": "rpp-posiedzenie-1-2-12",
+   "node": "bank",
+   "field": "soon",
+   "indicator": "RPP: posiedzenie decyzyjne w grudniu 2026",
+   "period": "2026-12-02",
+   "value": "termin",
+   "unit": "data",
+   "src": [
+    "infor-harmonogram-rpp-2026"
+   ],
+   "anchor": "grudzień 1-2",
+   "kind": "measurement"
+  },
+  {
+   "id": "gus-pkb-30-11",
+   "node": "sun",
+   "field": "soon",
+   "indicator": "GUS: pierwszy regularny szacunek PKB za III kwartał 2026",
+   "period": "2026-11-30",
+   "value": "termin",
+   "unit": "data",
+   "src": [
+    "analizy-pkb-iii-kwartal-2026"
+   ],
+   "anchor": "na 30 listopada",
+   "kind": "measurement"
   }
  ],
  "groups": [

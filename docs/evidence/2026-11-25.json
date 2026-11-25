@@ -1,7 +1,7 @@
 {
  "date": "2026-11-25",
  "summary": {
-  "potwierdzone": 17,
+  "potwierdzone": 22,
   "rozbieżne": 0,
   "brak w tekście": 0,
   "niedostępne": 8
@@ -20,9 +20,9 @@
      "src": "tradingeconomics-brent",
      "url": "https://pl.tradingeconomics.com/commodity/brent-crude-oil",
      "result": "potwierdzone",
-     "fragment": "y naftowej wzrosły o 100000 baryłek. Brent oil - Statystyka Cena ropy Brent wzrosła 24 listopada 2026 r. do 90,99 USD za baryłkę, czyli o 1,81% w porównaniu z poprzednim dniem. W ciągu ostatniego mies",
-     "sha256": "6d8a1dca67e00f1b0a7c824d5217c16ba913724ea4fed6468730feb4c8971a17",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fragment": "ej w USA wzrosły o 126 tys. baryłek. Brent oil - Statystyka Cena ropy Brent wzrosła 24 listopada 2026 r. do 90,99 USD za baryłkę, czyli o 1,81% w porównaniu z poprzednim dniem. W ciągu ostatniego mies",
+     "sha256": "047e6ae66d8b2dd1163ef22936aded1ea71bfedcf29585a653c1f454f0dab842",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -40,8 +40,8 @@
      "url": "https://www.nationthailand.com/news/world/40072812",
      "result": "potwierdzone",
      "fragment": "e Nation Editorial Team สลับเป็นเสียงผู้ชาย Play Loading... Brent settled at US$113.88 a barrel as Middle East talks continued, but attacks near the Strait of Hormuz kept oil supply risks in focus. Br",
-     "sha256": "0195b03b04952e11357787a050933f85a60c61ae2184983b97ee9979e7280615",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "585dd3f17f17a60b3700aeb6e877d6e8699449fe55e0a53c86a821595b6b3fb7",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -89,16 +89,16 @@
      "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
      "result": "brak w tekście",
      "fragment": "",
-     "sha256": "51a1ae1430be0e0c6bc154f7b42a1cf59dbfe7d697db15bb6db6723421452f27",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "b092c32f473df0263ee48dd558a34245913beb8967083fd50edea7f2e39ea7e7",
+     "fetched": "2026-11-25T12:04:16+00:00"
     },
     {
      "src": "finwire-inflacja-cpi-pazdziernik",
      "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
      "result": "potwierdzone",
      "fragment": "enchmark Metodologia → Sprostowanie Poprawiliśmy zmianę cen paliw do prywatnych środków transportu w październiku 2026 r.: było 21,8% r/r i -9,8% m/m, jest 21,7% r/r i -9,7% m/m (GUS, tablica wskaźników cen z 13 listopada 2026 r.). Sprostowanie z 21 listop",
-     "sha256": "5e9329e782a79ead90b1ea14745547fa88903639c3bb8afa904c620aadb3cf65",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "1abf45a6d04bc6002fc0bd0ced6a65b5c1d4d9ec2848948cc0c38b5bf9333288",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -116,16 +116,16 @@
      "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
      "result": "potwierdzone",
      "fragment": "rów i usług konsumpcyjnych w październiku 2026 r. wzrosły o 3,5% w porównaniu z analogicznym miesiącem ub. roku (przy wzroście cen usług o 4,9% i towarów o 2,9%",
-     "sha256": "51a1ae1430be0e0c6bc154f7b42a1cf59dbfe7d697db15bb6db6723421452f27",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "b092c32f473df0263ee48dd558a34245913beb8967083fd50edea7f2e39ea7e7",
+     "fetched": "2026-11-25T12:04:16+00:00"
     },
     {
      "src": "finwire-inflacja-cpi-pazdziernik",
      "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
      "result": "potwierdzone",
      "fragment": "Inflacja w październiku 2026 spadła do 3,5% (dane finalne) Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa inwestycji C",
-     "sha256": "5e9329e782a79ead90b1ea14745547fa88903639c3bb8afa904c620aadb3cf65",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "1abf45a6d04bc6002fc0bd0ced6a65b5c1d4d9ec2848948cc0c38b5bf9333288",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -143,8 +143,8 @@
      "url": "https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus",
      "result": "potwierdzone",
      "fragment": "Inflacja we wrześniu 2026: 4,1% r/r w odczycie finalnym GUS Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa",
-     "sha256": "69a0ea519baa80427396cc958315c9be12a8847cd9b2cad6e34da59e5d64233b",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "b672171200dd8165ec591cd3d1e0c0ce3630ee13286399aa39d688afc82ab1e4",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -163,7 +163,7 @@
      "result": "potwierdzone",
      "fragment": "RPP w listopadzie 2026: stopy bez zmian, referencyjna 3,75% Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa inwestycji Co się buduje: ",
      "sha256": "d586aad65cb8cefa3b97999cf9cfba0ce582f3cd046cc089d1de8ce0711ea14f",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -211,16 +211,16 @@
      "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
      "result": "brak w tekście",
      "fragment": "",
-     "sha256": "5f882a5fb693889439142e7c18146de3ed87df1688be197ca7ef4302d1ab5f5f",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "7c206dafa72503eea926e1351e6db6a908870579dcc24089d3b5b10c91ec914a",
+     "fetched": "2026-11-25T12:04:16+00:00"
     },
     {
      "src": "finwire-wynagrodzenia-pazdziernik",
      "url": "https://finwire.pl/artykuly/przecietne-wynagrodzenie-pazdziernik-2026-sektor-przedsiebiorstw-gus",
      "result": "potwierdzone",
      "fragment": "1% więcej niż przed rokiem. Po uwzględnieniu inflacji płace realnie wzrosły o 2,4% r/r. Skrajne przeciętne płace wśród 16 województw w październiku 2026 to 10770,95 zł w wojewódz",
-     "sha256": "43d0885297a95d4da3a44f473fbfc6e0789075b8fac889959f796bf4e6de4bf8",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "5b1999d4b5897d6e76df3e55f053921e948dfa27e2a4b90400d9c570612f5ca0",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -238,8 +238,8 @@
      "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
      "result": "potwierdzone",
      "fragment": "26 r. było nominalnie wyższe o 1,5% niż we wrześniu br. i o 6,1% wyższe w porównaniu z październikiem 2025 r. Przeciętne zatrudnienie po przeliczeniu wymiarów e",
-     "sha256": "5f882a5fb693889439142e7c18146de3ed87df1688be197ca7ef4302d1ab5f5f",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "7c206dafa72503eea926e1351e6db6a908870579dcc24089d3b5b10c91ec914a",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -257,8 +257,8 @@
      "url": "https://xyz.pl/?p=265113",
      "result": "potwierdzone",
      "fragment": "miast w 2026 r. prognozowany jest jego nieznaczny spadek do 7,1 proc. PKB. Wynik za 2025 jest nieco lepszy, niż prognozowano wcześniej (7,3 proc.). Jest to w du",
-     "sha256": "2a0a6ce6854c963af8181bdf4ef01dce36983ce634dbe8f7ff9fb5960dc1a177",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "ba42e6adbb42e473427dd357b117251163d46f8d6aacd74d22bee440a9cf9fcb",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -276,8 +276,8 @@
      "url": "https://www.wnp.pl/rynki/wig20-na-zamknieciu-wyniosl-4170-92-pkt-3-85,1122800.html",
      "result": "potwierdzone",
      "fragment": "WIG20 na zamknięciu wyniósł 4170,92 pkt (3,85%) Partnerzy portalu Pokaż wyszukiwarkę Wyszukaj Zamknij wyszukiwarkę Logowanie Zamknij panel logowania Login: Hasło: Przyp",
-     "sha256": "ef6d1a8eaea5cac61157c75d793677aa84448abbdd3726fddb9d55c11e59d6e0",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "2423de2393703049bcd249f39fe9bf587128037c7670d237c7c159fc51b7b909",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -295,8 +295,8 @@
      "url": "https://www.wnp.pl/rynki/koszmarny-koniec-tygodnia-na-gpw-najgorsza-sesja-od-marca,1122059.html",
      "result": "potwierdzone",
      "fragment": "przed tygodniem, 13 listopada, poprawił historyczny rekord (4320 pkt.) . W ujęciu od początku roku stopy zwrotu (do dnia 20 listopada włącznie) stopniały i prez",
-     "sha256": "33598f38272e636f51f2e9a404e0d0a8e2844dec6b340e830226083657a0ad18",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "sha256": "c15e9b7d9a2ffd69a9be87ce33850995f967faba1b030a80ce1926216c978caf",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -330,7 +330,7 @@
      "result": "potwierdzone",
      "fragment": "wnany sezonowo w 3 kwartale 2026 r. zwiększył się realnie o 3,5% rok do roku (wobec wzrostu o 4,0% w analogicznym okresie 2025 r.). W 3 kwartale 2026 r. realny ",
      "sha256": "3e3e2a0c7545fdd360746406b1c3fc18b35b808eb0013b927252f2e66369a33e",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fetched": "2026-11-25T12:04:16+00:00"
     },
     {
      "src": "finwire-pkb-iii-kwartal-szybki-szacunek",
@@ -338,7 +338,7 @@
      "result": "potwierdzone",
      "fragment": "PKB wzrósł o 3,5% r/r w 3 kwartale 2026 (szybki szacunek) Przejdź do treści finwire .pl Mieszkania Najczęściej ot",
      "sha256": "4e1e1fc395d489eb495bd503a9a33479969463de16807ffd2dc625c3d186d2f4",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -372,7 +372,7 @@
      "result": "potwierdzone",
      "fragment": "ie szybciej niż największe gospodarki unijne, w tym Niemcy (1,1 proc.), Francja (0,7 proc.), Włochy (0,6 proc.) i Hiszpania (1,8 proc.). Wykres interaktywny Peł",
      "sha256": "d401741c630e97616cf3805b6fde8f796d5864ffda837f4d8055f960ef49ceb0",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -391,7 +391,7 @@
      "result": "potwierdzone",
      "fragment": "znacznie szybciej niż największe gospodarki unijne: Niemcy (1,3 proc.), Hiszpania (2,5 proc.), Włochy (0,8 proc.) i Francja (0,4 proc.). Na drugim końcu zestawi",
      "sha256": "d401741c630e97616cf3805b6fde8f796d5864ffda837f4d8055f960ef49ceb0",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -410,7 +410,7 @@
      "result": "potwierdzone",
      "fragment": "roc.), Hiszpania (2,5 proc.), Włochy (0,8 proc.) i Francja (0,4 proc.). Na drugim końcu zestawienia znajdują się Irlandia i Rumunia, dla których MFW przewiduje ",
      "sha256": "d401741c630e97616cf3805b6fde8f796d5864ffda837f4d8055f960ef49ceb0",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -461,9 +461,9 @@
      "src": "bank-pl-nowe-cla-usa",
      "url": "https://bank.pl/?p=554635",
      "result": "potwierdzone",
-     "fragment": "czna Szkoła Polskiego Sektora Bankowości Spółdzielczej 2027 10-11 marca 2027 r. Pozostało: 104 dni 12 godzin 34 minut Aktualności Konferencje Multimedia Bankowo",
-     "sha256": "b2f2287f60495270058743bc4889d59f162c64888f9c090db8a941b3978e17dc",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fragment": "czna Szkoła Polskiego Sektora Bankowości Spółdzielczej 2027 10-11 marca 2027 r. Pozostało: 104 dni 11 godzin 5 minut Aktualności Konferencje Multimedia Bankowoś",
+     "sha256": "92eb4124bd182dcf6a31f5700628d8e5c210ece3c1f1a7892f990fac58a64f0a",
+     "fetched": "2026-11-25T12:04:16+00:00"
     },
     {
      "src": "xyz-pl-cla-usa-a-polscy-eksporterzy-pie",
@@ -471,7 +471,7 @@
      "result": "potwierdzone",
      "fragment": "redniego wpływu doświadczyło 14 proc. firm, a pośredniego – 10 proc . Z kolei 27 proc. odczuło osłabienie koniunktury na rynku unijnym wywołane wzrostem ameryka",
      "sha256": "dd77061b593d72d313e7ed016b842bca221701dc9a8a08964f353fe748829325",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   },
@@ -490,7 +490,102 @@
      "result": "potwierdzone",
      "fragment": "Chiny największym dostawcą towarów do Polski. Deficyt w handlu rośnie wiadomoscihandlowe.pl WSPÓŁPRACA NEWSLETTER Zaloguj się ",
      "sha256": "7e95095031175a29c4b4925a83e4b5de795ba0292f11bac0326944ea9c8cfdf8",
-     "fetched": "2026-11-25T10:56:23+00:00"
+     "fetched": "2026-11-25T12:04:16+00:00"
+    }
+   ]
+  },
+  {
+   "id": "ecb-posiedzenie-17-12",
+   "node": "bank",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-12-17",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-kalendarz-posiedzen",
+     "url": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html",
+     "result": "potwierdzone",
+     "fragment": "il of the ECB: monetary policy meeting in Frankfurt (Day 1) 17/12/2026 Governing Council of the ECB: monetary policy meeting in Frankfurt (Day 2), followed by press conference 03/0",
+     "sha256": "1e4f82508cd8276aa72eb246d0ad268abbcc16db69836b64c2e9b71fc68c75d2",
+     "fetched": "2026-11-25T12:04:16+00:00"
+    }
+   ]
+  },
+  {
+   "id": "hicp-flash-1-12",
+   "node": "west",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-12-01",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-kalendarz-hicp",
+     "url": "https://www.ecb.europa.eu/press/calendars/statscal/ges/html/sthicp.en.html",
+     "result": "potwierdzone",
+     "fragment": "ly adjusted HICP (Dataset: HICP) Reference period: Oct-2026 01/12/2026 15:00 Euro area seasonally adjusted HICP flash estimate (Dataset: HICP) Reference period: Nov-2026 17/12/2026",
+     "sha256": "a5b5f66f4c1c71d04288a7851ef880953bff5f5889dea4f3d46e152d0ea46410",
+     "fetched": "2026-11-25T12:04:16+00:00"
+    }
+   ]
+  },
+  {
+   "id": "hicp-final-17-12",
+   "node": "west",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-12-17",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-kalendarz-hicp",
+     "url": "https://www.ecb.europa.eu/press/calendars/statscal/ges/html/sthicp.en.html",
+     "result": "potwierdzone",
+     "fragment": "P flash estimate (Dataset: HICP) Reference period: Nov-2026 17/12/2026 12:00 Euro area seasonally adjusted HICP (Dataset: HICP) Reference period: Nov-2026 06/01/2027 15:00 Euro are",
+     "sha256": "a5b5f66f4c1c71d04288a7851ef880953bff5f5889dea4f3d46e152d0ea46410",
+     "fetched": "2026-11-25T12:04:16+00:00"
+    }
+   ]
+  },
+  {
+   "id": "rpp-posiedzenie-1-2-12",
+   "node": "bank",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-12-02",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "infor-harmonogram-rpp-2026",
+     "url": "https://ksiegowosc.infor.pl/obrot-gospodarczy/finanse-i-inwestycje/7451398,harmonogram-posiedzen-rady-polityki-pienieznej-w-2026-roku.html",
+     "result": "potwierdzone",
+     "fragment": " październik 6-7 (wtorek-środa) listopad 3-4 (wtorek-środa) grudzień 1-2 (wtorek-środa) * posiedzenie jednodniowe niedecyzyjne Harmonogram publikacji opisów dyskusji z posiedzeń de",
+     "sha256": "3f5ea197736bb4654a516bf9a47b213ad476305b34f9e7d1d20a325c5405a5b3",
+     "fetched": "2026-11-25T12:04:16+00:00"
+    }
+   ]
+  },
+  {
+   "id": "gus-pkb-30-11",
+   "node": "sun",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-11-30",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "analizy-pkb-iii-kwartal-2026",
+     "url": "https://www.analizy.pl/puls-rynku/41173/pkb-polski-iii-kwartal-2026-dane-wstepne",
+     "result": "potwierdzone",
+     "fragment": "a publikację pierwszego regularnego szacunku za III kwartał na 30 listopada. Dzisiejsze dane mają charakter wstępny i mogą zostać zrewidowane. Makroekonomia Puls rynku 13.11.2026 F",
+     "sha256": "c89f45ccfd6f3ad54ba2a29e23969e4aae0f8405650636f9ce2f7beed248241d",
+     "fetched": "2026-11-25T12:04:16+00:00"
     }
    ]
   }

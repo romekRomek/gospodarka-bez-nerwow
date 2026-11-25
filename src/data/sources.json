@@ -1147,6 +1147,76 @@
     "charts.json"
    ],
    "note": "Strona zmienia się codziennie (pokazuje ostatnie notowanie). Dowód z 25.11.2026 (24.11: 90,99 USD, +1,81% d/d) w docs/evidence/2026-11-25-brent-tradingeconomics.json."
+  },
+  {
+   "id": "ecb-kalendarz-posiedzen",
+   "name": "EBC: kalendarz posiedzeń Rady Prezesów",
+   "url": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html",
+   "org": "Europejski Bank Centralny (EBC)",
+   "kind": "bank centralny",
+   "tier": 1,
+   "cadence": "rocznie (kalendarz na kolejne lata)",
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ]
+  },
+  {
+   "id": "ecb-kalendarz-hicp",
+   "name": "EBC: kalendarz publikacji inflacji HICP (Eurostat)",
+   "url": "https://www.ecb.europa.eu/press/calendars/statscal/ges/html/sthicp.en.html",
+   "org": "Europejski Bank Centralny (EBC)",
+   "kind": "kalendarz statystyk",
+   "tier": 1,
+   "cadence": "miesięczny",
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ]
+  },
+  {
+   "id": "infor-harmonogram-rpp-2026",
+   "name": "Harmonogram posiedzeń RPP w 2026 r. (za NBP)",
+   "url": "https://ksiegowosc.infor.pl/obrot-gospodarczy/finanse-i-inwestycje/7451398,harmonogram-posiedzen-rady-polityki-pienieznej-w-2026-roku.html",
+   "org": "Infor (cytuje NBP)",
+   "kind": "portal branżowy",
+   "tier": 3,
+   "cadence": "rocznie",
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "note": "Źródło wtórne, podaje „Źródło: Narodowy Bank Polski”. Strona harmonogramu NBP nie dała się pobrać maszynowo (ładuje treść skryptem)."
+  },
+  {
+   "id": "analizy-pkb-iii-kwartal-2026",
+   "name": "Analizy.pl: PKB Polski w III kwartale 2026, dane wstępne",
+   "url": "https://www.analizy.pl/puls-rynku/41173/pkb-polski-iii-kwartal-2026-dane-wstepne",
+   "org": "Analizy.pl",
+   "kind": "portal analityczny",
+   "tier": 3,
+   "cadence": "jednorazowy artykuł (13.11.2026)",
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "note": "Źródło wtórne: „GUS zapowiada publikację pierwszego regularnego szacunku za III kwartał na 30 listopada”. Strona kalendarium GUS dla 30.11 nie wymienia tej publikacji w pobranej treści."
   }
  ]
 }

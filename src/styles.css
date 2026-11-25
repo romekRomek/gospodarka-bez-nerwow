@@ -349,7 +349,7 @@ html:has(dialog.md[open]){overflow:hidden}
 .v2 .ht i{display:block;height:100%;border-radius:var(--r-pill);background:var(--accent)}
 .v2 .ht i.neg{background:var(--mut)}
 .tnav{display:none}
-.bnav{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+.bnav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
 .ni{display:grid;justify-items:center;gap:2px;padding:6px 4px;min-height:48px;font:600 var(--t-xs) var(--sans);color:var(--mut);text-decoration:none}
 .ni svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .ni.on{color:var(--accent)}
@@ -533,3 +533,20 @@ main{container:scr/inline-size}
 .plc>ul{grid-row:3}
 .plc>.src{grid-row:4;align-self:start}
 }
+
+/* Kalendarz „Najbliższe 30 dni” (CalendarList): dni z datą jako równe karty, bez terminu osobno */
+.v2 .cal{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:var(--sp-4)}
+.v2 .calday{padding:var(--sp-4);display:grid;gap:var(--sp-3)}
+.v2 .calh{display:grid;gap:var(--sp-1)}
+.v2 .calh h3{font:800 var(--t-lg)/var(--lh-heading) var(--head);letter-spacing:-.01em}
+.v2 .calh .rel{font-size:var(--t-sm);color:var(--mut)}
+.v2 .calev{display:grid;gap:var(--sp-1)}
+.v2 .calev+.calev{border-top:1px dashed var(--line-strong);padding-top:var(--sp-3)}
+.v2 .calev p{font-size:var(--t-md);line-height:var(--lh-body)}
+.v2 .calev .calmeta{font-size:var(--t-xs);color:var(--mut);line-height:var(--lh-label)}
+.v2 .calev .calmeta a{color:inherit}
+.v2 .calund{padding:var(--sp-4);display:grid;gap:var(--sp-3)}
+.v2 .calund dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--sp-2) var(--sp-4);font-size:var(--t-sm);line-height:var(--lh-label)}
+.v2 .calund dt{color:var(--mut);font-weight:600}
+.v2 .calund dd{margin:0}
+.v2 .calempty{padding:var(--sp-4);color:var(--mut)}
