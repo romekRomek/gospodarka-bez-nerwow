@@ -180,9 +180,9 @@ h1{font:800 var(--t-2xl)/1.1 var(--head);letter-spacing:-.025em;margin:0;text-wr
 h2,h3,p,ul{margin:0}
 .top{display:flex;flex-direction:column;gap:var(--sp-3)}
 .asof{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-2) var(--sp-4)}
-.chgb{font:600 13px var(--sans);display:inline-flex;align-items:center;gap:var(--sp-2);padding:5px 6px 5px var(--sp-3);border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer}
+.chgb{font:600 13px/var(--lh-label) var(--sans);display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);min-height:36px;padding:0 var(--sp-3);border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer}
 .chgb:hover{background:var(--surface-2)}
-.chgb .n{min-width:20px;height:20px;padding:0 6px;border-radius:var(--r-pill);background:var(--accent);color:var(--on-color);font:700 var(--t-xs)/20px var(--sans);text-align:center}
+.chgb .n{margin-right:calc(var(--sp-1) * -1);min-width:20px;height:20px;padding:0 6px;border-radius:var(--r-pill);background:var(--accent);color:var(--on-color);font:700 var(--t-xs)/20px var(--sans);text-align:center}
 .eyebrow{display:inline-flex;align-items:center;gap:var(--sp-2);font:700 19px var(--hand);color:var(--mut)}
 .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--good);display:block}
 .lead{color:var(--mut);max-width:70ch}
@@ -464,7 +464,7 @@ html:has(dialog.md[open]){overflow:hidden}
 .v2 .delta{display:inline-flex;align-items:center;gap:var(--sp-2);justify-self:start;padding:3px 10px;border-radius:var(--r-pill);background:var(--surface-2);font:600 13px var(--sans);color:var(--ink)}
 .v2 .delta b{font-weight:700;color:var(--accent)}
 .v2 .lbl{font:700 var(--t-xs) var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
-.apptop{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-3)}
+.apptop{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-3)}
 .wm{font:800 var(--t-lg)/1.05 var(--head);letter-spacing:-.02em}
 .v2 .hello{display:grid;gap:var(--sp-2)}
 .v2 .hello h2{font:800 var(--t-2xl)/var(--lh-display) var(--head);letter-spacing:-.025em}
@@ -531,7 +531,7 @@ html:has(dialog.md[open]){overflow:hidden}
 .v2 .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
 .v2 .row2{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
 .bnav{display:none}
-.tnav{display:flex;order:-1;gap:var(--sp-1);padding:var(--sp-3) var(--sp-6);border-bottom:1px solid var(--line);background:var(--surface)}
+.tnav{display:flex;order:-1;gap:var(--sp-1);padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--line);background:var(--surface)}
 .tnav .ni{display:inline-flex;gap:8px;min-height:44px;padding:8px 16px;border-radius:var(--r-pill);font-size:var(--t-sm)}
 .tnav .ni.on{background:var(--ink);color:var(--bg)}
 .v2 .btn.wide{width:auto;justify-self:start}
@@ -671,6 +671,42 @@ main{container:scr/inline-size}
 .mthc .mthw s{color:var(--mut)}
 .mthc .mths-src{font-size:var(--t-xs);color:var(--mut)}
 .mthc .mths-src a{color:inherit}
+
+/* przyciski „Dane z…”: na telefonie dwa równe przyciski w jednym wierszu pod podpisem daty, cel dotykowy 44 px (L2) */
+@media (max-width:760px){
+.asof{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-2)}
+.asof .eyebrow{grid-column:1/-1}
+.chgb{min-height:44px}
+}
+
+/* karty obok siebie: te same elementy leżą w jednej linii (subgrid); bez obsługi subgrid zostaje układ sprzed zmiany */
+@supports (grid-template-rows:subgrid){
+@container scr (min-width:760px){
+.v2 .tiles{row-gap:0}
+.v2 .tiles>.stat{grid-row:span 12;grid-template-rows:subgrid;row-gap:0;align-content:normal}
+.v2 .stat>*{margin-top:var(--sp-2)}
+.v2 .stat>header{grid-row:1;margin-top:0}
+.v2 .stat>.num{grid-row:2}
+.v2 .stat>.cap-s{grid-row:3}
+.v2 .stat>.delta{grid-row:4}
+.v2 .stat>.plain{grid-row:5}
+.v2 .stat>.who{grid-row:6;align-content:start}
+.v2 .stat>.watch{grid-row:7}
+.v2 .stat>.ctx,.v2 .stat>.ctx>.conf{display:contents}
+.v2 .stat .cmain{grid-row:8;margin-top:var(--sp-2);border-top:1px dashed var(--line-strong);padding-top:var(--sp-3)}
+.v2 .stat .why{grid-row:9;margin-top:var(--sp-1)}
+.v2 .stat .cfac{grid-row:10}
+.v2 .stat>.interp{grid-row:11}
+.v2 .stat>.soon{grid-row:12}
+}
+.pls{row-gap:0;margin-bottom:calc(var(--sp-4) * -1)}
+.pls>.plc{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:0;align-content:normal;margin-bottom:var(--sp-4)}
+.plc>*{margin-top:var(--sp-3)}
+.plc>h3{grid-row:1;margin-top:0}
+.plc>.metric{grid-row:2}
+.plc>ul{grid-row:3}
+.plc>.src{grid-row:4;align-self:start}
+}
 </style>
 </head>
 <body>
