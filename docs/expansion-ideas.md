@@ -67,7 +67,14 @@ Wartość: ★ niska, ★★ średnia, ★★★ wysoka dla celu „rozumieć go
 8. **Tryb nauczyciela** (#10), po zweryfikowaniu podstawy programowej i ewentualnej konsultacji z nauczycielami.
 9. **Pytanie zwrotne** (#13), gdy zdecydujesz o formie zbierania. **EN** (#14) na końcu.
 
-## 6. Do Twojej decyzji (tylko to, czego nie rozstrzygnie reguła)
+## 6. Decyzje właściciela (25.11.2026, zapisane jako D18)
+
+1. Kolejność: **fala A** pierwsza.
+2. Opinia odbiorców: **zwykły feedback** (pozycja #13 bez miar zaangażowania).
+3. Dziennik korekt: jawny na stronie (rekomendacja, do potwierdzenia przy wdrożeniu).
+4. Tryb nauczyciela: bez decyzji, odłożony.
+
+### Pierwotne pytania (zachowane dla kontekstu)
 
 1. **Kolejność:** czy fala A jako pierwsza, czy ważniejsze jest od razu „Uczę się" (największa wartość, największy koszt)?
 2. **Pytanie zwrotne (#13):** czy chcesz w ogóle jakąkolwiek miarę odbioru (nawet anonimową), czy strona ma pozostać zupełnie bez zbierania danych?

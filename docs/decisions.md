@@ -2,6 +2,13 @@
 
 Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca do odrzuconych pomysłów bez nowego argumentu. Nowy wpis: data, decyzja, powód, skutek.
 
+## 25.11.2026: D18 i D19, kierunek rozbudowy i nowe grupy tematów
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D19 | **Nowe tematy (nieruchomości, ziemia, woda i pogoda) wchodzą jako osobne grupy w nawigacji obok łańcucha cen** (np. „Dom i pieniądze”, „Woda i pogoda”), nie jako kolejne węzły łańcucha. Otwarte: czy temat wody i suszy wchodzi teraz (ryzyko tonu alarmowego) i czy IMGW jest pilotażem danych automatycznych. | Nieruchomości łączą się bezpośrednio ze stopami i płacami, a woda i opady mają z cenami żywności dwa przejścia (test sensu: „graniczne”). Szczegóły: `docs/data-topics.md`. | Przed budową grup: krótka decyzja o układzie nawigacji, sprawdzenie licencji i dostępu (NBP, GUS, IMGW), zgodnie z `docs/data-topics.md` pkt 8. |
+| D18 | **Rozbudowa idzie według `docs/expansion-ideas.md`, zaczynamy od fali A** (Jak to sprawdzamy + dziennik korekt, kalendarz 30 dni, słownik pojęć, tryb spokojny i dostępność). **Opinia odbiorców: zwykły feedback** (np. zwykły formularz lub kontakt z pytaniem otwartym), bez analityki zaangażowania i bez śledzenia. Dziennik korekt publikujemy jawnie (rekomendacja, do potwierdzenia). **Tryb nauczyciela: bez decyzji, odłożony.** | Badania: unikanie newsów wynika głównie z braku zaufania, więc przejrzystość najtaniej podnosi wartość. Właściciel wybrał zwykły feedback zamiast miar odbioru. | Fala B i C po fali A. Formę feedbacku (kanał, treść pytania) ustalamy przy wdrożeniu, bez zbierania danych bez zgody odbiorcy. |
+
 ## 24.11.2026 (faza 0): D17, weryfikacja treści bez udziału właściciela
 
 | # | Decyzja | Powód | Skutek |

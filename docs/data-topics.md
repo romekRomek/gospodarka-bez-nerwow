@@ -72,6 +72,8 @@ Poniższe to **propozycje z własnej wiedzy, bez weryfikacji dostępności**. Ka
 
 ## 7. Do Twojej decyzji
 
+> **25.11.2026:** pytanie 1 rozstrzygnięte (nowe grupy w nawigacji, D19). Pytania 2 (woda i susza teraz czy później) i 3 (IMGW jako pilotaż) pozostają otwarte.
+
 1. Czy wprowadzamy **nową grupę tematów poza łańcuchem cen** („Dom i pieniądze”, „Woda i pogoda”)? To wymaga decyzji o nawigacji, bo obecny model to jedna mapa z kategoriami cen. Rekomendacja: tak, jako osobne grupy w nawigacji.
 2. Czy temat **wody i suszy** ma być częścią strony, czy tylko „na później”? Ryzyko tonu alarmowego jest tu najwyższe, a korzyść edukacyjna realna (okres odniesienia, definicje).
 3. Czy **dane automatyczne z IMGW** to dobry pilotaż dla „samorozwijającej się” aplikacji (kosztem większej złożoności i konserwacji)?
