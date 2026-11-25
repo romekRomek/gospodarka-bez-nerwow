@@ -21,7 +21,7 @@ FETCH = {'page', 'pdf', 'api'}
 DATE_RE = re.compile(r'^(\d{2})\.(\d{2})\.(\d{4})$')
 URL_RE = re.compile(r'https?://[^"\s\\<>]+')
 BANNED = re.compile(r'dobr(a|ą|e|ych|ej)\s+wiadomo|zł(a|ą|e|ych|ej)\s+wiadomo', re.I)
-REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'sources']
+REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'sources']
 
 # Pola węzła dla nowego designu (docs/design/content-model.md, decyzje D11 i D13).
 LIM_DECIDES, LIM_WATCH, LIM_QUESTION, LIM_EVENT = 80, 90, 70, 110
@@ -351,6 +351,56 @@ def check_content(D, r):
 
 
 # ---------- dziennik zmian ----------
+def check_terms(D, r):
+    """Glosariusz (zasada redakcyjna 7): id, formy, nazwa, definicja w jednym zdaniu, źródło z rejestru albo notatka."""
+    terms = D.get('terms')
+    if terms is None:
+        return
+    if not isinstance(terms, list) or not terms:
+        r.err('terms.json', 'oczekiwano niepustej listy')
+        return
+    reg = {x.get('id') for x in (D.get('sources') or {}).get('sources', [])} if isinstance(D.get('sources'), dict) else set()
+    ids, forms = set(), {}
+    for i, t in enumerate(terms):
+        w = f'terms.json[{i}]'
+        if not need(r, w, t, ['id', 'forms', 'name', 'def']):
+            continue
+        if 'src' not in t or 'verified' not in t:
+            r.err(w, 'brak pola „src” lub „verified”')
+            continue
+        if not re.fullmatch(r'[a-z0-9-]+', str(t['id'])):
+            r.err(w, 'id musi być małymi literami, cyframi i myślnikami')
+        if t['id'] in ids:
+            r.err(w, f'powtórzone id „{t["id"]}”')
+        ids.add(t['id'])
+        if not (isinstance(t['forms'], list) and t['forms'] and all(is_str(x) for x in t['forms'])):
+            r.err(w, '„forms” musi być niepustą listą tekstów')
+        else:
+            for f in t['forms']:
+                if f in forms and forms[f] != t['id']:
+                    r.err(w, f'forma „{f}” należy już do „{forms[f]}”')
+                forms[f] = t['id']
+        if not is_str(t['def']) or len(t['def']) > 220:
+            r.err(w, 'definicja: tekst do 220 znaków')
+        elif len(re.findall(r'[.!?](?:\s|$)', t['def'])) > 1:
+            r.warn(w, 'definicja ma więcej niż jedno zdanie (zasada 7: jedno zdanie)')
+        if not isinstance(t['src'], list):
+            r.err(w, '„src” musi być listą id z rejestru')
+        else:
+            for sid in t['src']:
+                if reg and sid not in reg:
+                    r.err(w, f'źródło „{sid}” spoza rejestru')
+        if not isinstance(t['verified'], bool):
+            r.err(w, '„verified” musi być true lub false')
+        elif not t['verified'] and not is_str(t.get('note')):
+            r.err(w, 'definicja niepotwierdzona wymaga notatki „note”')
+        elif t['verified'] and not t['src']:
+            r.err(w, 'definicja potwierdzona wymaga źródła w „src”')
+    unv = sum(1 for t in terms if isinstance(t, dict) and t.get('verified') is False)
+    if unv:
+        r.warn('terms.json', f'{unv}/{len(terms)} definicji niepotwierdzonych w źródle')
+
+
 def check_changelog(D, r):
     cl, nodes = D.get('changelog'), D.get('nodes')
     if not isinstance(cl, list) or not cl or not isinstance(nodes, list):
@@ -521,6 +571,7 @@ def run(data_dir, template, links=False):
     check_charts(D, r)
     check_news(D, r)
     check_content(D, r)
+    check_terms(D, r)
     check_changelog(D, r)
     urls = check_sources(D, r)
     check_registry_coverage(D, urls, template, r)

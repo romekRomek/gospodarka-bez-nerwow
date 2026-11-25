@@ -300,3 +300,42 @@ class RegistryConsistencyTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class TermsTest(DataCase):
+    def test_czyste_dane_bez_bledow(self):
+        self.assertEqual(self.run_v().errors, [])
+
+    def test_powtorzone_id(self):
+        self.edit('terms', lambda t: t.append(dict(t[0], forms=['inna'])))
+        self.assert_error(self.run_v(), 'powtórzone id')
+
+    def test_powtorzona_forma(self):
+        self.edit('terms', lambda t: t[1].update(forms=['PKB']))
+        self.assert_error(self.run_v(), 'należy już do')
+
+    def test_zrodlo_spoza_rejestru(self):
+        self.edit('terms', lambda t: t[0].update(src=['nie-ma']))
+        self.assert_error(self.run_v(), 'spoza rejestru')
+
+    def test_niepotwierdzona_wymaga_notatki(self):
+        def fn(t):
+            t[0].pop('note', None)
+        self.edit('terms', fn)
+        self.assert_error(self.run_v(), 'wymaga notatki')
+
+    def test_potwierdzona_wymaga_zrodla(self):
+        self.edit('terms', lambda t: t[1].update(verified=True))
+        self.assert_error(self.run_v(), 'wymaga źródła')
+
+    def test_za_dluga_definicja(self):
+        self.edit('terms', lambda t: t[0].update({'def': 'x' * 250}))
+        self.assert_error(self.run_v(), '220 znaków')
+
+    def test_dwa_zdania_to_ostrzezenie(self):
+        r = self.run_v()
+        self.assertTrue(any('więcej niż jedno zdanie' in w for w in r.warnings))
+
+    def test_brak_pola(self):
+        self.edit('terms', lambda t: t[0].pop('name'))
+        self.assert_error(self.run_v(), 'name')

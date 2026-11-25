@@ -1,0 +1,178 @@
+[
+ {
+  "id": "pkb",
+  "forms": [
+   "PKB"
+  ],
+  "name": "Produkt krajowy brutto",
+  "def": "Łączna wartość towarów i usług wytworzonych w kraju w danym okresie.",
+  "src": [
+   "gus-pkb-szybki-szacunek-2026-q3"
+  ],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+ },
+ {
+  "id": "rr",
+  "forms": [
+   "r/r"
+  ],
+  "name": "Rok do roku",
+  "def": "Porównanie z tym samym okresem rok wcześniej, np. października z poprzednim październikiem.",
+  "src": [],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Brak w rejestrze źródła, które ją potwierdza; do uzupełnienia po sprawdzeniu strony (np. słownik GUS lub NBP)."
+ },
+ {
+  "id": "mm",
+  "forms": [
+   "m/m"
+  ],
+  "name": "Miesiąc do miesiąca",
+  "def": "Porównanie z poprzednim miesiącem.",
+  "src": [],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Brak w rejestrze źródła, które ją potwierdza; do uzupełnienia po sprawdzeniu strony (np. słownik GUS lub NBP)."
+ },
+ {
+  "id": "cpi",
+  "forms": [
+   "CPI"
+  ],
+  "name": "Wskaźnik cen towarów i usług konsumpcyjnych (CPI)",
+  "def": "Miara inflacji: pokazuje, jak zmieniają się ceny typowego koszyka zakupów gospodarstw domowych.",
+  "src": [
+   "gus-cpi"
+  ],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+ },
+ {
+  "id": "gus",
+  "forms": [
+   "GUS"
+  ],
+  "name": "Główny Urząd Statystyczny",
+  "def": "Państwowa instytucja, która publikuje oficjalne dane statystyczne o Polsce.",
+  "src": [],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Brak w rejestrze źródła, które ją potwierdza; do uzupełnienia po sprawdzeniu strony (np. słownik GUS lub NBP)."
+ },
+ {
+  "id": "nbp",
+  "forms": [
+   "NBP"
+  ],
+  "name": "Narodowy Bank Polski",
+  "def": "Bank centralny Polski. Stopy procentowe ustala jego Rada Polityki Pieniężnej.",
+  "src": [],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Brak w rejestrze źródła, które ją potwierdza; do uzupełnienia po sprawdzeniu strony (np. słownik GUS lub NBP)."
+ },
+ {
+  "id": "rpp",
+  "forms": [
+   "RPP"
+  ],
+  "name": "Rada Polityki Pieniężnej",
+  "def": "Ciało przy NBP, które ustala stopy procentowe.",
+  "src": [],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Brak w rejestrze źródła, które ją potwierdza; do uzupełnienia po sprawdzeniu strony (np. słownik GUS lub NBP)."
+ },
+ {
+  "id": "pp",
+  "forms": [
+   "pp",
+   "pkt proc."
+  ],
+  "name": "Punkt procentowy",
+  "def": "Różnica między dwiema wartościami podanymi w procentach. Przejście z 3% na 4% to 1 punkt procentowy.",
+  "src": [],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Brak w rejestrze źródła, które ją potwierdza; do uzupełnienia po sprawdzeniu strony (np. słownik GUS lub NBP)."
+ },
+ {
+  "id": "flash",
+  "forms": [
+   "szybki szacunek",
+   "Szybki szacunek",
+   "szybkiego szacunku"
+  ],
+  "name": "Szybki szacunek",
+  "def": "Wstępne dane publikowane szybko po zakończeniu okresu. Mogą zostać później skorygowane.",
+  "src": [
+   "gus-pkb-szybki-szacunek-2026-q3"
+  ],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+ },
+ {
+  "id": "ice",
+  "forms": [
+   "kontrakt ICE",
+   "kontraktu ICE",
+   "ICE"
+  ],
+  "name": "Kontrakt terminowy ICE",
+  "def": "Cena ropy Brent z giełdy ICE, ustalana w umowach na przyszłą dostawę. To inna miara niż cena spot.",
+  "src": [],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Brak w rejestrze źródła, które ją potwierdza; do uzupełnienia po sprawdzeniu strony (np. słownik GUS lub NBP)."
+ },
+ {
+  "id": "spot",
+  "forms": [
+   "cena spot",
+   "ceny spot",
+   "spot"
+  ],
+  "name": "Cena spot",
+  "def": "Cena ropy przy bieżącej dostawie, w odróżnieniu od ceny kontraktu na przyszłość.",
+  "src": [
+   "eia-brent-spot"
+  ],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+ },
+ {
+  "id": "eia",
+  "forms": [
+   "EIA"
+  ],
+  "name": "Amerykańska Agencja Informacji Energetycznej (EIA)",
+  "def": "Publikuje m.in. dzienne ceny ropy naftowej.",
+  "src": [
+   "eia-brent-spot"
+  ],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+ },
+ {
+  "id": "brent",
+  "forms": [
+   "Brent"
+  ],
+  "name": "Brent",
+  "def": "Gatunek ropy, którego cena jest światowym punktem odniesienia.",
+  "src": [
+   "eia-brent-spot"
+  ],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+ },
+ {
+  "id": "deficyt",
+  "forms": [
+   "deficyt",
+   "deficytu"
+  ],
+  "name": "Deficyt sektora finansów publicznych",
+  "def": "Różnica między wydatkami a dochodami państwa i samorządów w danym roku.",
+  "src": [
+   "gus-deficyt-i-dlug-20222025"
+  ],
+  "verified": false,
+  "note": "Definicja z makiety (robocza). Strony źródła nie sprawdzono (brak dostępu do sieci w środowisku agenta, 25.11.2026), więc nie jest potwierdzona."
+ }
+]

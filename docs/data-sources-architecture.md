@@ -46,3 +46,19 @@ Poniższa lista pochodzi z ogólnej wiedzy o tych serwisach, nie z weryfikacji w
 ## Kolejny krok
 
 Osobna faza badawcza (po fazie 0): przejść po liście kandydatów, sprawdzić dokumentację i zapytania testowe, wypełnić pola `fetch` i `cadence` w `sources.json`, zdecydować o warstwie migawek i zaprojektować `badacz-danych` na tym fundamencie.
+
+## Badanie API: próba z 25.11.2026 (krok 1C)
+
+**Wynik: nic nie zweryfikowano.** Środowisko agenta (sesja chmurowa) ma ograniczoną listę dozwolonych hostów. Każde zapytanie testowe zakończyło się odmową sieci (curl: kod 000, proxy: `connect_rejected 403`; WebFetch: `ENOTFOUND`), więc nie wiadomo, czy API działają bez klucza, jaki mają format i limity. Poniższa tabela zawiera **tylko hipotezy** (adresy i założenia z ogólnej wiedzy, nie z odpowiedzi serwera) oraz zapis, co próbowano. Do ponowienia po dopuszczeniu hostów w ustawieniach sieci środowiska (albo lokalnie przez właściciela).
+
+| Źródło | Adres testowy (hipoteza, niesprawdzony) | Próba 25.11.2026 | Status | Do sprawdzenia |
+|---|---|---|---|---|
+| GUS BDL | `https://bdl.stat.gov.pl/api/v1/subjects?format=json&page-size=1` | host niedostępny z sesji | **niezweryfikowane** | czy działa bez klucza, limity, id zmiennej CPI, warunki licencji (strona API BDL) |
+| dane.gov.pl | `https://api.dane.gov.pl/1.4/datasets?per_page=1` | host niedostępny | **niezweryfikowane** | format, limity, licencja zbiorów (różna per zbiór) |
+| NBP | `https://api.nbp.pl/api/exchangerates/rates/a/eur/?format=json` | host niedostępny (WebFetch: `ENOTFOUND`) | **niezweryfikowane** | czy stopa referencyjna jest w API, limity, warunki użycia |
+| Eurostat | `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr?format=JSON&geo=PL&coicop=CP00&lastTimePeriod=1` | host niedostępny | **niezweryfikowane** | kody zbiorów (HICP, PKB, EDP), format JSON-stat, limity, licencja ponownego użycia |
+| EIA | strona historii `https://www.eia.gov/dnav/pet/hist/RBRTEd.htm` (tabela, sprawdzona ręcznie 24.11.2026 wg [`brent-eia-check.md`](brent-eia-check.md)); API v2 wymaga klucza (hipoteza) | host niedostępny | tabela HTML: sprawdzona wcześniej (inna sesja), **API: niezweryfikowane** | klucz, limity, licencja |
+| FRED | `https://api.stlouisfed.org/fred/series?series_id=FEDFUNDS` | host niedostępny | **niezweryfikowane** | wymóg klucza (hipoteza: tak), limity, warunki użycia |
+| MFW | `https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/POL` | host niedostępny | **niezweryfikowane** | blokady botów, format, warunki użycia |
+
+Reguła z `verification.md` zostaje: bez odpowiedzi serwera i linku do warunków licencji nie wpisujemy `fetch: api` ani `cadence` w `sources.json`. Z tego powodu w kroku 1B nie uzupełniono pól `cadence`.
