@@ -12,7 +12,7 @@ Poziomy: **P** = Podstawy (zawsze), **W** = Więcej (tylko przy poziomie 2 albo 
 |---|---|---|---|
 | `Screen` (`.scr`) | Kontener ekranu. Układ zależy od jego szerokości, próg 760 px | — | `container-type: inline-size`. Dolna nawigacja poniżej progu, górna powyżej. |
 | `AppTop` (`.apptop`, `.asof`) | Logo, przełącznik poziomu, „Dane z…”, „Co się zmieniło” | `changelog[0].label`, liczba zmian | Przełącznik: `role=group`, `aria-pressed`. |
-| `Nav` (`.bnav`, `.tnav`) | Start · Mapa · Newsy · Polska | — | `aria-current="page"`, cel min. 44 px. |
+| `Nav` (`.bnav`, `.tnav`) | Start · Mapa · Kalendarz · Newsy · Polska | — | `aria-current="page"`, cel min. 44 px. |
 | `LevelSwitch` (`.seg.g-level`) | Podstawy / Więcej | `level` w stanie | Zapis w pamięci lokalnej (try/catch). |
 
 ## Liczby i kontekst
@@ -43,6 +43,7 @@ Poziomy: **P** = Podstawy (zawsze), **W** = Więcej (tylko przy poziomie 2 albo 
 | `MythCard` (`.myth`) | Dementi: fakt → mit → mechanizm → fakt | `headlines.json` | P. |
 | `TechniqueCard` (`.tech`) | Technika dnia | `techniques.json` | P. |
 | `GlossaryTerm` (`.term`, `.tpop`) | Skrót lub termin fachowy w tekście jako przycisk z definicją w jednym zdaniu | `terms.json`: `{id, forms[], name, def, src[]}`; mechanizm sam wyszukuje `forms` w tekście bloku | Pierwsze wystąpienie w bloku. Pomija nagłówki, etykiety, chipy i parodie nagłówków. `aria-expanded`, okienko `role=note`, Escape i klik poza nim zamykają, przycisk zamknięcia 44 px. |
+| `CalendarList` (`#tab-cal`, `.cal`, `.calday`, `.calund`) | Zakładka „Kalendarz”: „Najbliższe 30 dni”. Wydarzenia z `soon.events` z konkretną datą, w kolejności dat, jako równe karty dni; wydarzenia bez konkretnej daty osobno („Bez konkretnej daty”). Przy każdym wydarzeniu: których węzłów dotyczy, link do źródła terminu i oznaczenie „źródło pierwotne” lub „wtórne”. Okno 30 dni liczone od dzisiejszej daty w przeglądarce; poza zakresem danych stan pusty z datą ostatniej aktualizacji | `steps.json` (`soon.events[].when`, `.src`), `evsrc` z buildu | P. Bez przewidywania: tylko daty. |
 | `MethodDialog` (`#mth`, `.mths`, `.mthl`, `.mthc`) | „Jak to sprawdzamy”: poziomy źródeł, zasady pewności, warstwy sprawdzania i dziennik korekt (błędy, które trafiły na stronę). To **ten sam wzorzec okna** co dziennik zmian, otwierany przyciskiem obok „Co się zmieniło”; bez nowej zakładki nawigacji | `method.json` | P. Korekty od najnowszej, każda z linkiem do źródła. |
 | `ChangeSummary` (`.bal`) | Bilans zmian z aktualizacji (↓ ↑ →) | `changelog[0].changes` | W. Kolory neutralne (bez oceny). |
 | `Calculator` | „Ile Cię to kosztuje” | `cost.json` | P. |
@@ -87,6 +88,7 @@ Każdy komponent z danymi ma: **pusty** (brak danych: nazwany powód i co zrobi�
 | `40-charts.js` | wykresy (Chart.js): `mdChart`, wtyczka etykiet, tabela danych wykresu |
 | `50-node-modal.js` | okno szczegółów węzła, nagłówki w oknie (pos/neu/neg) |
 | `60-changelog.js` | dziennik zmian: przycisk „Co się zmieniło” i okno |
+| `75-calendar.js` | `CalendarList`: zakładka Kalendarz (daty z `soon.events`, źródła z `DATA.evsrc`) |
 | `65-method.js` | `MethodDialog`: okno „Jak to sprawdzamy” z dziennikiem korekt (dane: `method.json`) |
 | `35-node-v2.js` | `NodePanel` v2: poziomy Podstawy/Więcej, dolny panel na telefonie (`#side.open`) |
 | `70-tabs.js` | nawigacja `Nav` (Start / Mapa / Newsy / Polska): dolny pasek, górny od 760 px kontenera |
