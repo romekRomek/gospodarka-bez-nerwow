@@ -52,8 +52,6 @@ EXCEPTIONS = {
     ('odstęp', '10'): 'odstęp spoza skali --sp-*; do decyzji człowieka, propozycja: 8 (--sp-2) albo 12 (--sp-3)',
     ('odstęp', '14'): 'odstęp spoza skali --sp-*; do decyzji człowieka, propozycja: 12 (--sp-3) albo 16 (--sp-4)',
     ('odstęp', '18'): 'odstęp spoza skali --sp-*; do decyzji człowieka, propozycja: 16 (--sp-4)',
-    ('odstęp', '20'): 'odstęp spoza skali --sp-*; do decyzji człowieka, propozycja: 16 (--sp-4) albo 24 (--sp-5)',
-    ('odstęp', '22'): 'odstęp spoza skali --sp-*; do decyzji człowieka, propozycja: 24 (--sp-5)',
     ('odstęp', '28'): 'odstęp spoza skali --sp-*; do decyzji człowieka, propozycja: 24 (--sp-5) albo 32 (--sp-6)',
     ('promień', '3'): 'promień spoza skali --r-*; do decyzji człowieka, propozycja: połowa wysokości paska 3px; zostawić albo dodać token',
     ('promień', '12'): 'promień spoza skali --r-*; do decyzji człowieka, propozycja: 10 (--r-sm)',
