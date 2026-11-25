@@ -14,6 +14,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D20 | **Nowa zakładka „Kalendarz”** („Najbliższe 30 dni”), zasilana z `soon.events` (bez nowego pola z datą). **Termin trafia do kalendarza z oznaczeniem poziomu źródła** (pierwotne/wtórne); konkretna data bez źródła daje ostrzeżenie. Daty sprawdzone 25.11: EBC 16–17.12 oraz inflacja HICP 1.12 (szybki szacunek) i 17.12 (pełne dane) z kalendarzy EBC (poziom 1), Fed 8–9.12 (rejestr), RPP 1–2.12 (harmonogram za NBP, wtórne), GUS 30.11 (analizy.pl, wtórne). | Pozycja #3 z `docs/expansion-ideas.md`: znane daty uspokajają i pokazują „co może o tym zadecydować”. D19 dopuszcza nowe pozycje w nawigacji. | **Korekta danych:** węzły `bank` i `west` miały „grudzień” dla EBC (jest 16–17.12), a `west` tylko 17.12 jako „inflacja za listopad” (1.12 to szybki szacunek, 17.12 pełne dane). Strony NBP i GUS nie dały dat maszynowo, więc RPP i GUS są wtórne. Pozostałe wydarzenia z datą bez źródła to ostrzeżenia walidatora (backlog). |
 
+## 25.11.2026: D23, kalendarz: „na co może wpłynąć” i wpisy bez daty w rodzajach
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D23 | **Wydarzenie w kalendarzu ma opis skutku** (`affects`, tryb przypuszczający, tylko skutek bezpośredni, bez prognoz) **ze źródłem mechanizmu** (`affects_src`); mechanizmy są potwierdzone cytatami ze stron EBC i Fed (wyższe stopy zniechęcają do kredytów, stopy mogą zmieniać ceny akcji i kurs waluty, stopa Fed określa koszt kredytu krótkoterminowego, zadaniem EBC jest stabilność cen) i sprawdzane kodem. **Wpisy bez konkretnej daty** są podzielone na 4 rodzaje i mają samowystarczalne teksty oraz „Dotyczy: …”. | Uwagi właściciela: brakowało informacji, na co wydarzenie może wpłynąć, a tabela „Bez konkretnej daty” była niezrozumiała bez kontekstu. | **Własny błąd:** pierwsza wersja scalała różne wpisy po 22 znakach tekstu (znikały m.in. dane o handlu zagranicznym Chin), a klasa `.foot` kolidowała z istniejącą; poprawione i objęte testem. Opisy skutków dla RPP odwołują się do mechanizmu opisanego przez EBC (ogólny dla banków centralnych), bo strona NBP nie dała się pobrać. |
+
 ## 25.11.2026: D22, mapa z zależnościami i rozbudowa o codzienne tematy (plan)
 
 | # | Decyzja | Powód | Skutek |

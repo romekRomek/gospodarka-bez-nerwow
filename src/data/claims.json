@@ -537,6 +537,90 @@
    ],
    "anchor": "loans to Member States to support urgent and strategic investments in defence",
    "kind": "definition"
+  },
+  {
+   "id": "aff-ecb-loans",
+   "node": "bank",
+   "field": "soon",
+   "indicator": "Stopy a kredyty (EBC o mechanizmie)",
+   "period": "2026-11-25",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "src": [
+    "ecb-transmisja"
+   ],
+   "anchor": "higher interest rates make it less attractive to take out loans for financing consumption or investment",
+   "kind": "measurement"
+  },
+  {
+   "id": "aff-ecb-assets",
+   "node": "bank",
+   "field": "soon",
+   "indicator": "Stopy a ceny akcji i kurs waluty (EBC)",
+   "period": "2026-11-25",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "src": [
+    "ecb-transmisja"
+   ],
+   "anchor": "may lead to adjustments in asset prices (e.g. stock market prices) and the exchange rate",
+   "kind": "measurement"
+  },
+  {
+   "id": "aff-fed-credit",
+   "node": "bank",
+   "field": "soon",
+   "indicator": "Stopa Fed a koszt kredytu krótkoterminowego",
+   "period": "2026-11-25",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "src": [
+    "fed-cele-polityki"
+   ],
+   "anchor": "how it helps determine the cost of short-term credit",
+   "kind": "measurement"
+  },
+  {
+   "id": "aff-ecb-prices",
+   "node": "west",
+   "field": "soon",
+   "indicator": "EBC: główne zadanie to stabilność cen",
+   "period": "2026-11-25",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "src": [
+    "ecb-o-ebc"
+   ],
+   "anchor": "Our main task is to maintain price stability",
+   "kind": "measurement"
+  },
+  {
+   "id": "aff-flash-model",
+   "node": "west",
+   "field": "soon",
+   "indicator": "Szybki szacunek liczony modelem (Eurostat)",
+   "period": "2026-11-25",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "src": [
+    "eurostat-glossary-flash"
+   ],
+   "anchor": "normally calculated on the basis of a statistical or econometric model",
+   "kind": "measurement"
+  },
+  {
+   "id": "aff-gus-revised",
+   "node": "sun",
+   "field": "soon",
+   "indicator": "Dane wstępne mogą zostać zrewidowane",
+   "period": "2026-11-25",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "src": [
+    "analizy-pkb-iii-kwartal-2026"
+   ],
+   "anchor": "zrewidowane",
+   "kind": "measurement"
   }
  ],
  "groups": [
