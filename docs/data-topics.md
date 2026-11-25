@@ -39,7 +39,7 @@ Ocena: wartość dla celu „rozumieć gospodarkę” (★ do ★★★), wysił
 | N2 | **Ile pensji na metr?** | wskaźnik pochodny: cena m² ÷ przeciętne wynagrodzenie, z pełnym wzorem i dwoma źródłami | NBP, GUS | ★★★ | M | Wskaźnik pochodny, więc zasada D15 (wyraźna etykieta, wzór, bez nazywania „oficjalnym”). Uwaga na różnice w definicji „pensji” (brutto, przeciętne vs mediana). |
 | N3 | **Ziemia rolna** | cena hektara, różnice między województwami, kierunek r/r | GUS | ★★ | S–M | Dane półroczne. Powiązanie z jedzeniem tylko jako „spójrz też na” z datą, bez przyczynowości. |
 | N4 | **Woda w rzekach i opady** | bieżące stany wybranych rzek i opady vs wielolecie, ostrzeżenia | IMGW (API) | ★★ | M–L | Dane bieżące wymagają harmonogramu odświeżania (workflow) i oznaczenia aktualności. Sprawdzić CORS, regulamin i limity. To pierwszy temat o **danych odświeżanych automatycznie**, co dobrze pasuje do wizji „samorozwijającej się” aplikacji. |
-| N5 | **Woda na mieszkańca** | jak się mierzy, ile jest w Polsce na tle UE, co oznacza próg ONZ | GUS, Eurostat | ★★ | M | Wysokie ryzyko wrażenia alarmu. Musi mieć kontekst definicji, zakresu lat i niepewności. Bez słów „kryzys” lub „katastrofa” (zasada 5). |
+| N5 | **Woda na mieszkańca** | jak się mierzy, ile jest w Polsce na tle UE, co oznacza próg ONZ | GUS, Eurostat | ★★ | M | Pokazujemy liczbę wprost, z kontekstem definicji, zakresu lat i niepewności, tonem jak przy każdym innym temacie (zasada 5). Trudność liczby nie jest powodem pominięcia (D19). |
 | N6 | **Susza w skali roku** | suma opadów i miesiące poniżej normy, mapa lub krótka seria | IMGW | ★★ | M | Powiązanie z cenami żywności tylko jako obserwacja, nie przyczyna. |
 | N7 | **Jakość powietrza** | stan pyłów w regionie (opcjonalnie), roczne średnie | GIOŚ | ★★ | M | Powiązanie z gospodarką jest pośrednie (ogrzewanie, koszty zdrowia), więc ryzyko „naciągane”. Warto dopiero po N1–N4. |
 
@@ -67,15 +67,15 @@ Poniższe to **propozycje z własnej wiedzy, bez weryfikacji dostępności**. Ka
 1. **Zacząć od N1 + N2 (mieszkania)** jako nowa grupa „Dom i pieniądze”: bezpośrednio powiązana ze stopami i pensjami, wartość wysoka, dane z jednego wiarygodnego źródła (NBP). Jeden węzeł lub dwa, bez nowych komponentów.
 2. **N4 (IMGW) jako pilotaż automatycznych danych**, osobno od mapy łańcucha cen, w grupie „Woda i pogoda”. Wcześniej krótkie zadanie badawcze: regulamin, CORS, limity, struktura odpowiedzi.
 3. **N3 (ziemia)** dołączyć do grupy „Dom i pieniądze” po sprawdzeniu danych GUS.
-4. **N5, N6, N7** po N4, gdy będzie wiadomo, jak automatyczne dane sprawdzają się w praktyce.
+4. **N5, N6, N7** po N4 (kolejność wynika z dostępności i kosztu danych, nie z „delikatności” tematu).
 5. Z pkt 4 zacząć od **struktury wydatków gospodarstw domowych**, bo łączy się z planowanym kalkulatorem inflacji.
 
 ## 7. Do Twojej decyzji
 
-> **25.11.2026:** pytanie 1 rozstrzygnięte (nowe grupy w nawigacji, D19). Pytania 2 (woda i susza teraz czy później) i 3 (IMGW jako pilotaż) pozostają otwarte.
+> **25.11.2026:** pytania 1 (nowe grupy w nawigacji) i 2 (woda i susza wchodzą, ton bez zmian) rozstrzygnięte w D19. Otwarte pozostaje 3 (IMGW jako pilotaż).
 
 1. Czy wprowadzamy **nową grupę tematów poza łańcuchem cen** („Dom i pieniądze”, „Woda i pogoda”)? To wymaga decyzji o nawigacji, bo obecny model to jedna mapa z kategoriami cen. Rekomendacja: tak, jako osobne grupy w nawigacji.
-2. Czy temat **wody i suszy** ma być częścią strony, czy tylko „na później”? Ryzyko tonu alarmowego jest tu najwyższe, a korzyść edukacyjna realna (okres odniesienia, definicje).
+2. ~~Czy temat wody i suszy ma być częścią strony?~~ **Rozstrzygnięte (D19): tak, na równi z innymi, ton bez zmian.**
 3. Czy **dane automatyczne z IMGW** to dobry pilotaż dla „samorozwijającej się” aplikacji (kosztem większej złożoności i konserwacji)?
 
 ## 8. Do sprawdzenia, zanim zaczniemy

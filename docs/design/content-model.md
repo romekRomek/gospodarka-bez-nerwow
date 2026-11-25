@@ -195,6 +195,10 @@ Zakładka to lista sekcji, a sekcja to komponent z biblioteki plus źródło dan
 - Ropa Brent ma dwie wartości w danych: „ok. 90 USD” (`steps.json`) i 92,6 USD (ostatni punkt w `charts.json`). Do ujednolicenia albo oznaczenia jako różnica źródeł (wskaźnik pewności już ją pokazuje).
 - Etykieta źródła „Reuters” prowadzi do domeny `daily-sun.com`. Do zweryfikowania przy tworzeniu `sources.json`.
 
+## Metoda i dziennik korekt (`method.json`)
+
+Treść okna „Jak to sprawdzamy”. Pola: `intro`, `sections[]` (`t`, opcjonalnie `lead`, `items[]` z `t` i `d`: poziomy źródeł, kryteria pewności, warstwy sprawdzania), `corrections_intro` i `corrections[]` (od najnowszej): `date` (dd.mm.rrrr), `where` (gdzie na stronie), `was` (co było), `is` (co jest), `why` (dlaczego), `l` i `u` (nazwa i adres źródła, adres musi być w `sources.json`). **Błąd, który trafił na stronę, dopisujemy do `corrections` zawsze, także drobny** (reguła od 25.11.2026). Walidator pilnuje kolejności, pól i formatu daty. Opisy kryteriów pewności w `sections` muszą zgadzać się z `scripts/confidence.py` i tabelą w „Wskaźniku pewności”.
+
 ## Kalendarz wydarzeń (pomysł do fazy 0)
 
 Daty „co miesiąc” i najbliższe terminy publikacji mogą wynikać z pola `cadence` w `sources.json` (rytm publikacji źródła), a wydarzenia jednorazowe (decyzje, terminy programów) wpisuje agent z udokumentowanego źródła. Dzięki temu „Co może o tym zadecydować” nie wymaga ręcznego pilnowania dat.

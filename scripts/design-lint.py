@@ -101,7 +101,7 @@ def scales(tok):
 
 def defined_vars(tok):
     names = set('--' + k for k in tok['color']) | set('--' + k for k in tok['font'])
-    names |= {'--t-' + k for k in tok['type']} | {'--sp-' + k for k in tok['space']} | {'--r-' + k for k in tok['radius']}
+    names |= {'--t-' + k for k in tok['type']} | {'--lh-' + k for k in tok['leading']} | {'--sp-' + k for k in tok['space']} | {'--r-' + k for k in tok['radius']}
     return names
 
 

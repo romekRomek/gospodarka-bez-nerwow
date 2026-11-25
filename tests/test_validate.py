@@ -66,6 +66,20 @@ class ValidateTest(DataCase):
         self.edit('changelog', lambda c: c[0]['changes'][0].__setitem__('id', 'nie-ma-takiego'))
         self.assert_error(self.run_v(), 'nieistniejącego węzła')
 
+    def test_method_corrections_must_be_newest_first(self):
+        def swap(m):
+            m['corrections'][0]['date'], m['corrections'][-1]['date'] = m['corrections'][-1]['date'], m['corrections'][0]['date']
+        self.edit('method', swap)
+        self.assert_error(self.run_v(), 'od najnowszej')
+
+    def test_method_correction_needs_source(self):
+        self.edit('method', lambda m: m['corrections'][0].__delitem__('u'))
+        self.assert_error(self.run_v(), 'brak pola „u”')
+
+    def test_method_correction_bad_date(self):
+        self.edit('method', lambda m: m['corrections'][0].__setitem__('date', '2026-11-25'))
+        self.assert_error(self.run_v(), 'dd.mm.rrrr')
+
     def test_positive_headline_needs_honesty_hook(self):
         def drop(n):
             first = next(iter(n))

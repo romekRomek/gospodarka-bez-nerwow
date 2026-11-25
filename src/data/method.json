@@ -1,0 +1,64 @@
+{
+  "intro": "Każda liczba na tej stronie ma źródło, datę i wskaźnik pewności. Tu opisujemy, skąd je bierzemy, jak sprawdzamy i co poprawiliśmy, gdy się pomyliliśmy.",
+  "sections": [
+    {
+      "t": "Skąd bierzemy liczby",
+      "lead": "Liczbę bierzemy od tego, kto ją mierzy. Źródła mają trzy poziomy, a poziom jest widoczny w ocenie pewności.",
+      "items": [
+        {"t": "Poziom 1: źródło pierwotne", "d": "Instytucja, która sama publikuje dane, albo praca naukowa. Na przykład GUS, NBP, Eurostat czy giełda."},
+        {"t": "Poziom 2: agencja lub duża redakcja", "d": "Agencja prasowa, duża redakcja, instytut analityczny lub organizacja sprawdzająca fakty."},
+        {"t": "Poziom 3: serwis wtórny", "d": "Portal lub serwis, który cytuje inne źródła. Liczba z takiego źródła wymaga potwierdzenia na poziomie 1 lub 2."}
+      ]
+    },
+    {
+      "t": "Wskaźnik pewności",
+      "lead": "Liczy go program, według tych samych reguł dla każdej liczby. Nikt nie ocenia go „na oko”. Są cztery kryteria, a każde może wypaść dobrze, średnio lub słabo.",
+      "items": [
+        {"t": "Źródło", "d": "Dobrze: poziom 1. Średnio: poziom 2. Słabo: poziom 3 albo brak źródła."},
+        {"t": "Aktualność", "d": "Czy liczba jest świeża w rytmie, w jakim źródło publikuje dane. Dobrze: w ramach jednego rytmu publikacji. Średnio: do dwóch rytmów. Słabo: starsza."},
+        {"t": "Zgodność", "d": "Czy źródła podają tę samą wartość. Słabo: gdy się różnią. Średnio: gdy jest tylko jedno źródło albo różnice są małe."},
+        {"t": "Rodzaj", "d": "Pomiar urzędowy ma więcej pewności niż cena rynkowa lub wyliczenie, a to więcej niż szacunek lub prognoza."},
+        {"t": "Wynik", "d": "Wysoka: żadne kryterium nie wypada słabo i najwyżej jedno średnio. Średnia: jedno słabo albo co najmniej dwa średnio. Niska: co najmniej dwa słabo."}
+      ]
+    },
+    {
+      "t": "Jak sprawdzamy",
+      "lead": "Sprawdzamy w trzech warstwach. Człowiek rozstrzyga tylko to, czego reguła nie rozstrzygnie.",
+      "items": [
+        {"t": "1. Program", "d": "Każda liczba i twierdzenie ma wpis z kotwicą w stronie źródła. Program pobiera stronę i porównuje wartość. Gdy źródło blokuje programy, twierdzenie zostaje oznaczone jako niesprawdzone automatycznie."},
+        {"t": "2. Redaktor i weryfikator (agenci)", "d": "Oceniają teksty według jawnej listy kryteriów, między innymi czy powiązanie między liczbą a tematem da się uzasadnić jednym zdaniem. Ta warstwa jest w fazie wdrażania i kalibracji."},
+        {"t": "3. Człowiek", "d": "Decyduje o sprawach wartościowych i o tym, co jest niejasne. Dostaje zbiorczy raport z propozycją i dowodem."}
+      ]
+    }
+  ],
+  "corrections_intro": "Gdy błąd trafił na stronę, poprawiamy go i zapisujemy tutaj, także drobny. Najnowsze są na górze.",
+  "corrections": [
+    {
+      "date": "25.11.2026",
+      "where": "Ropa Brent, wykresy",
+      "was": "92,6 USD za baryłkę (23.11)",
+      "is": "91,0 USD za baryłkę (24.11)",
+      "why": "Wartość 92,6 była nieaktualna. Notowanie kontraktu z 24.11 wyniosło 90,99 USD.",
+      "l": "Trading Economics: ropa Brent",
+      "u": "https://pl.tradingeconomics.com/commodity/brent-crude-oil"
+    },
+    {
+      "date": "25.11.2026",
+      "where": "Inflacja, nagłówek i dziennik zmian",
+      "was": "„Niżej niż oczekiwano”, „rynek liczył na 3,7%”",
+      "is": "„Niżej niż we wrześniu” (we wrześniu było 4,1%)",
+      "why": "3,7% to średnia z trzech ostatnich odczytów, a nie oczekiwanie rynku.",
+      "l": "GUS: inflacja w październiku 2026",
+      "u": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html"
+    },
+    {
+      "date": "24.11.2026",
+      "where": "Wzrost gospodarczy (PKB)",
+      "was": "„Rynek oczekiwał +3,6% r/r”",
+      "is": "Po wyrównaniu sezonowym PKB był o 3,6% wyższy niż rok wcześniej, a bez wyrównania o 3,5%",
+      "why": "3,6% to wynik GUS po wyrównaniu sezonowym, a nie oczekiwanie rynku.",
+      "l": "GUS: szybki szacunek PKB za III kwartał 2026",
+      "u": "https://stat.gov.pl/obszary-tematyczne/rachunki-narodowe/kwartalne-rachunki-narodowe/szybki-szacunek-produktu-krajowego-brutto-za-3-kwartal-2026-r-,1,55.html"
+    }
+  ]
+}

@@ -21,7 +21,7 @@ FETCH = {'page', 'pdf', 'api'}
 DATE_RE = re.compile(r'^(\d{2})\.(\d{2})\.(\d{4})$')
 URL_RE = re.compile(r'https?://[^"\s\\<>]+')
 BANNED = re.compile(r'dobr(a|ą|e|ych|ej)\s+wiadomo|zł(a|ą|e|ych|ej)\s+wiadomo', re.I)
-REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'start', 'sources']
+REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'start', 'method', 'sources']
 
 # Pola węzła dla nowego designu (docs/design/content-model.md, decyzje D11 i D13).
 LIM_DECIDES, LIM_WATCH, LIM_QUESTION, LIM_EVENT = 80, 90, 70, 110
@@ -479,6 +479,40 @@ def check_changelog(D, r):
                     r.err(w, f'zmiana dotyczy nieistniejącego węzła „{c["id"]}”')
 
 
+def check_method(D, r):
+    m = D.get('method')
+    if not isinstance(m, dict):
+        return
+    for k in ('intro', 'corrections_intro'):
+        if not isinstance(m.get(k), str) or not m[k].strip():
+            r.err('method.json', f'brak niepustego pola „{k}”')
+    secs = m.get('sections')
+    if not isinstance(secs, list) or not secs:
+        r.err('method.json', '„sections” musi być niepustą listą')
+        secs = []
+    for i, s in enumerate(secs):
+        w = f'method.json sections[{i}]'
+        if need(r, w, s, ['t', 'items']) and (not isinstance(s['items'], list) or not s['items']):
+            r.err(w, '„items” musi być niepustą listą')
+        for x in (s.get('items') or []):
+            need(r, w + ' item', x, ['t', 'd'])
+    cs = m.get('corrections')
+    if not isinstance(cs, list):
+        r.err('method.json', '„corrections” musi być listą')
+        return
+    prev = None
+    for i, c in enumerate(cs):
+        w = f'method.json corrections[{i}]'
+        if not need(r, w, c, ['date', 'where', 'was', 'is', 'why', 'l', 'u']):
+            continue
+        d = parse_date(c['date'])
+        if d is None:
+            r.err(w, f'data „{c["date"]}” nie ma formatu dd.mm.rrrr')
+        elif prev is not None and d > prev:
+            r.err(w, 'korekty muszą być od najnowszej (data nowsza niż poprzedniej)')
+        prev = d or prev
+
+
 # ---------- rejestr źródeł ----------
 def check_sources(D, r):
     reg = D.get('sources')
@@ -625,6 +659,7 @@ def run(data_dir, template, links=False):
     check_v2(D, r)
     check_terms(D, r)
     check_changelog(D, r)
+    check_method(D, r)
     urls = check_sources(D, r)
     check_registry_coverage(D, urls, template, r)
     check_policy(D, r)

@@ -37,19 +37,19 @@ class TokensTest(unittest.TestCase):
         for k, c in self.tok['color'].items():
             self.assertEqual(light[k], c['light'], k)
             self.assertEqual(dark[k], c['dark'], k)
-        for group, prefix in (('font', ''), ('type', 't-'), ('space', 'sp-'), ('radius', 'r-')):
+        for group, prefix in (('font', ''), ('type', 't-'), ('leading', 'lh-'), ('space', 'sp-'), ('radius', 'r-')):
             for k, v in self.tok[group].items():
                 self.assertEqual(light[prefix + k], v['value'], prefix + k)
 
     def test_every_token_has_role(self):
-        for group in ('color', 'font', 'type', 'breakpoints'):
+        for group in ('color', 'font', 'type', 'leading', 'breakpoints'):
             for k, v in self.tok[group].items():
                 self.assertTrue(v.get('role'), f'{group}.{k} bez pola role')
 
     def test_styles_css_does_not_redefine_tokens(self):
         # wartości kolorów i skal istnieją tylko w tokens.json (lokalne --c, --c2 w .node są dozwolone)
         names = set(self.tok['color']) | set(self.tok['font']) | {'t-' + k for k in self.tok['type']} \
-            | {'sp-' + k for k in self.tok['space']} | {'r-' + k for k in self.tok['radius']}
+            | {'lh-' + k for k in self.tok['leading']} | {'sp-' + k for k in self.tok['space']} | {'r-' + k for k in self.tok['radius']}
         defined = set(re.findall(r'(?<![\w-])--([\w-]+)\s*:', STYLES_CSS))
         self.assertEqual(defined & names, set(), 'styles.css nie może definiować tokenów')
 

@@ -15,7 +15,7 @@
   <header class="v2">
     <div class="apptop"><h1 class="wm">Gospodarka<br>bez nerwów</h1>
       <div class="seg g-level" id="lvl" role="group" aria-label="Poziom szczegółów"><button type="button" data-level="1" aria-pressed="true">Podstawy</button><button type="button" data-level="2" aria-pressed="false">Więcej</button></div></div>
-    <div class="asof"><span class="eyebrow"><i></i>Dane z <span id="asof">24.11.2026</span></span><button class="chgb" id="chgb" type="button" aria-haspopup="dialog">Co się zmieniło<span class="n" id="chgn" aria-hidden="true"></span></button></div>
+    <div class="asof"><span class="eyebrow"><i></i>Dane z <span id="asof">24.11.2026</span></span><button class="chgb" id="chgb" type="button" aria-haspopup="dialog">Co się zmieniło<span class="n" id="chgn" aria-hidden="true"></span></button><button class="chgb mthb" id="mthb" type="button" aria-haspopup="dialog">Jak to sprawdzamy</button></div>
   </header>
 
   <div id="tab-start" class="v2" role="tabpanel" aria-label="Start" hidden></div>
@@ -273,6 +273,11 @@
 <dialog class="md cg" id="cg" aria-labelledby="cg-t">
   <div class="mh"><div class="tt"><span class="tag chain">Dziennik zmian</span><h2 id="cg-t">Co się zmieniło</h2><p class="quip">Strzałki pokazują kierunek zmiany liczby, nie ocenę, czy to dobrze, czy źle.</p></div><button class="mx" id="cgx" type="button" aria-label="Zamknij">✕</button></div>
   <div class="mb" id="cgbody"></div>
+</dialog>
+
+<dialog class="md cg" id="mth" aria-labelledby="mth-t">
+  <div class="mh"><div class="tt"><span class="tag chain">Metoda</span><h2 id="mth-t">Jak to sprawdzamy</h2><p class="quip">Skąd liczby, jak je oceniamy i co poprawiliśmy.</p></div><button class="mx" id="mthx" type="button" aria-label="Zamknij">✕</button></div>
+  <div class="mb" id="mthbody"></div>
 </dialog>
 
 <dialog class="md" id="md" aria-labelledby="mt-t">
