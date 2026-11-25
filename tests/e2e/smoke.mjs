@@ -160,12 +160,18 @@ async function runScenario(browser, base, width, theme, { functional }) {
       days: [...document.querySelectorAll('#tab-cal .calday h3')].map(e => e.textContent),
       noSrc: [...document.querySelectorAll('#tab-cal .calev')].filter(e => !e.querySelector('a[href^="http"]')).length,
       tiers: [...document.querySelectorAll('#tab-cal .calev .calmeta')].every(e => /źródło (pierwotne|wtórne)/.test(e.textContent)),
-      und: document.querySelectorAll('#tab-cal .calund dt').length,
+      und: document.querySelectorAll('#tab-cal .calund .calu').length,
+      kinds: document.querySelectorAll('#tab-cal .calund .calk').length,
+      aff: document.querySelectorAll('#tab-cal .calev .calaff').length,
+      affNoMech: [...document.querySelectorAll('#tab-cal .calev')].filter(e => e.querySelector('.calaff') && !/Mechanizm:/.test(e.textContent)).length,
+      china: [...document.querySelectorAll('#tab-cal .calu')].some(e => /handlu zagranicznym/.test(e.textContent) && /Chiny/.test(e.textContent)),
     }));
     check(cal.days.length >= 5, 'Kalendarz: są dni z datą w oknie 30 dni', 'jest: ' + cal.days.length);
     check(cal.days[0].includes('30 listopada') && cal.days.some(d => d.includes('16–17 grudnia')), 'Kalendarz: GUS 30.11 na początku, EBC 16–17.12 w oknie', cal.days.join(' | '));
     check(cal.noSrc === 0 && cal.tiers, 'Kalendarz: każde wydarzenie ma link do źródła i oznaczenie poziomu (pierwotne/wtórne)', 'bez linku: ' + cal.noSrc);
-    check(cal.und >= 1, 'Kalendarz: sekcja „Bez konkretnej daty”');
+    check(cal.und >= 12 && cal.kinds >= 3, 'Kalendarz: wpisy bez konkretnej daty w rodzajach (≥ 12 wpisów, ≥ 3 rodzaje)', 'wpisy: ' + cal.und + ', rodzaje: ' + cal.kinds);
+    check(cal.china, 'Kalendarz: wpis bez daty nie scala się z innym (dane o handlu zagranicznym dotyczą Chin)');
+    check(cal.aff >= 5 && cal.affNoMech === 0, 'Kalendarz: opis „Na co może wpłynąć” przy wydarzeniach, każdy ze źródłem mechanizmu', 'opisy: ' + cal.aff + ', bez źródła: ' + cal.affNoMech);
     await page.evaluate(() => window.calRender('2027-03-01'));
     check((await page.locator('#tab-cal .calempty').count()) === 1, 'Kalendarz: poza oknem danych pokazuje stan pusty z datą aktualizacji');
     await page.evaluate(() => window.calRender());

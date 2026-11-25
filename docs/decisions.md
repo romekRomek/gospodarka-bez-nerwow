@@ -20,6 +20,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D24 | **Newsy pokazują grupy kart po jednym wpisie naraz (FocusPager), nie klasyczną karuzelę.** Wybór po przeglądzie wytycznych: klasyczne karuzele z automatycznym przewijaniem są pomijane przez użytkowników i wymagają wstrzymania (WCAG 2.2.2), gest przeciągania wymaga przycisków jako alternatywy (WCAG 2.5.1), a dostęp „po kolei” jest nieefektywny przy ośmiu pozycjach ([NN/g](https://www.nngroup.com/articles/mobile-carousels/), [WebAIM](https://webaim.org/techniques/carousels/), [Smashing Magazine](https://www.smashingmagazine.com/2022/04/designing-better-carousel-ux)). Dlatego: bez automatu, z przyciskami i licznikiem, z przygaszonym skrajem następnej karty, z przełącznikiem „Pokaż wszystkie” (bezpośredni dostęp) i dużymi przyciskami „Następny” pod kartą (naturalne „kliknij dalej”). | Uwaga właściciela: czytelnik ma skupić się na jednym wpisie i kliknąć dalej, jeśli go to zainteresuje. Strona Newsy miała na telefonie 17 504 px; po zmianie ok. 6 600 px. | Zastosowane do 6 grup (8 par nagłówków, 4 koszty, 6 dobrych wiadomości, 8 sztuczek, 5 badań, 5 pytań). NN/g zaleca, by użytkownik dotarł do końca w 3–4 krokach, więc dla grup po 8 jest przełącznik „Pokaż wszystkie” i licznik pozycji. |
 
+## 25.11.2026: D23, kalendarz: „na co może wpłynąć” i wpisy bez daty w rodzajach
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D23 | **Wydarzenie w kalendarzu ma opis skutku** (`affects`, tryb przypuszczający, tylko skutek bezpośredni, bez prognoz) **ze źródłem mechanizmu** (`affects_src`); mechanizmy są potwierdzone cytatami ze stron EBC i Fed (wyższe stopy zniechęcają do kredytów, stopy mogą zmieniać ceny akcji i kurs waluty, stopa Fed określa koszt kredytu krótkoterminowego, zadaniem EBC jest stabilność cen) i sprawdzane kodem. **Wpisy bez konkretnej daty** są podzielone na 4 rodzaje i mają samowystarczalne teksty oraz „Dotyczy: …”. | Uwagi właściciela: brakowało informacji, na co wydarzenie może wpłynąć, a tabela „Bez konkretnej daty” była niezrozumiała bez kontekstu. | **Własny błąd:** pierwsza wersja scalała różne wpisy po 22 znakach tekstu (znikały m.in. dane o handlu zagranicznym Chin), a klasa `.foot` kolidowała z istniejącą; poprawione i objęte testem. Opisy skutków dla RPP odwołują się do mechanizmu opisanego przez EBC (ogólny dla banków centralnych), bo strona NBP nie dała się pobrać. |
+
 ## 25.11.2026: D22, mapa z zależnościami i rozbudowa o codzienne tematy (plan)
 
 | # | Decyzja | Powód | Skutek |

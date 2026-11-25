@@ -94,7 +94,7 @@ def check_claims(D, out):
             continue
         if c.get('field') == 'soon':        # termin wydarzenia: musi istnieć wydarzenie z tym źródłem w węźle
             evs = (n.get('soon') or {}).get('events', [])
-            if not any(set(c.get('src', [])) & set(e.get('src', [])) for e in evs):
+            if not any(set(c.get('src', [])) & (set(e.get('src', [])) | set(e.get('affects_src', []))) for e in evs):
                 out.append((w, f'węzeł {c["node"]} nie ma wydarzenia ze źródłem {c.get("src")} (soon.events[].src)'))
             if not c.get('src'):
                 out.append((w, 'termin bez źródła'))

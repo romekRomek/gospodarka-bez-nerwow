@@ -83,6 +83,20 @@ class ValidateTest(DataCase):
         r = self.run_v()
         self.assertFalse(any('„FOMC”' in w for w in r.warnings))
 
+    def test_event_affects_needs_source(self):
+        def bad(steps):
+            ev = next(e for s in steps for e in s['soon']['events'] if e.get('affects'))
+            ev.pop('affects_src')
+        self.edit('steps', bad)
+        self.assert_error(self.run_v(), 'wymaga „affects_src”')
+
+    def test_event_affects_source_must_exist(self):
+        def bad(steps):
+            ev = next(e for s in steps for e in s['soon']['events'] if e.get('affects'))
+            ev['affects_src'] = ['nie-ma-takiego-zrodla']
+        self.edit('steps', bad)
+        self.assert_error(self.run_v(), 'nie ma wpisu w sources.json')
+
     def test_event_src_must_exist_in_registry(self):
         def bad(steps):
             ev = steps[0]['soon']['events'][0]
