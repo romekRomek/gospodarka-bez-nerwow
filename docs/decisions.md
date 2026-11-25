@@ -14,6 +14,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D20 | **Nowa zakładka „Kalendarz”** („Najbliższe 30 dni”), zasilana z `soon.events` (bez nowego pola z datą). **Termin trafia do kalendarza z oznaczeniem poziomu źródła** (pierwotne/wtórne); konkretna data bez źródła daje ostrzeżenie. Daty sprawdzone 25.11: EBC 16–17.12 oraz inflacja HICP 1.12 (szybki szacunek) i 17.12 (pełne dane) z kalendarzy EBC (poziom 1), Fed 8–9.12 (rejestr), RPP 1–2.12 (harmonogram za NBP, wtórne), GUS 30.11 (analizy.pl, wtórne). | Pozycja #3 z `docs/expansion-ideas.md`: znane daty uspokajają i pokazują „co może o tym zadecydować”. D19 dopuszcza nowe pozycje w nawigacji. | **Korekta danych:** węzły `bank` i `west` miały „grudzień” dla EBC (jest 16–17.12), a `west` tylko 17.12 jako „inflacja za listopad” (1.12 to szybki szacunek, 17.12 pełne dane). Strony NBP i GUS nie dały dat maszynowo, więc RPP i GUS są wtórne. Pozostałe wydarzenia z datą bez źródła to ostrzeżenia walidatora (backlog). |
 
+## 25.11.2026: D22, mapa z zależnościami i rozbudowa o codzienne tematy (plan)
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D22 | **Mapa ma pokazywać zależności klikniętego węzła i rosnąć o codzienne tematy** (dom, jedzenie, usługi, auta, kredyty i pożyczki, praca). Wdrażaniem zarządza nowy agent **`product-owner-mapy`** (`.claude/agents/`), backlog w `docs/map-backlog.md`. **Zależności są danymi (`links.json`), zapisujemy tylko krawędzie bezpośrednie**, ścieżki wielokrokowe liczy kod. Proponowane (do potwierdzenia przez właściciela, pytania Q1-Q4): osobny widok „Codzienność”, kolejność fal M0 (zależności dla 13 węzłów), M1 (dom i kredyty), M2 (jedzenie), tematy wrażliwe z neutralnym tonem (D19), PO uruchamiany ręcznie. | Dziś zależności są tylko w grafice, więc nie da się ich podświetlić ani sprawdzić kodem. Research: GUS (CPI według grup, ceny detaliczne), NBP (MIR), MRiRW (ZSRIR) dają dane pierwotne dla większości tematów. Szczegóły: `docs/map-expansion.md`. | Nic nie jest jeszcze zbudowane. Pierwsza pozycja backlogu (M0-1) czeka na Q1-Q4. |
+
 ## 25.11.2026: D18 i D19, kierunek rozbudowy i nowe grupy tematów
 
 | # | Decyzja | Powód | Skutek |
