@@ -1336,6 +1336,40 @@
    "where": [
     "terms.json"
    ]
+  },
+  {
+   "id": "ecb-transmisja",
+   "name": "EBC: jak decyzje o stopach docierają do gospodarki",
+   "url": "https://www.ecb.europa.eu/mopo/intro/transmission/html/index.en.html",
+   "org": "Europejski Bank Centralny (EBC)",
+   "kind": "bank centralny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "cadence": "bez stałego rytmu (opis mechanizmu)"
+  },
+  {
+   "id": "fed-cele-polityki",
+   "name": "Fed: cele polityki pieniężnej i jak działa",
+   "url": "https://www.federalreserve.gov/monetarypolicy/monetary-policy-what-are-its-goals-how-does-it-work.htm",
+   "org": "Rezerwa Federalna (Fed)",
+   "kind": "bank centralny",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "checked": "2026-11-25",
+   "cites": null,
+   "where": [
+    "steps.json"
+   ],
+   "cadence": "bez stałego rytmu (opis mechanizmu)"
   }
  ]
 }

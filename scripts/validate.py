@@ -25,6 +25,7 @@ REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 
 
 # Pola węzła dla nowego designu (docs/design/content-model.md, decyzje D11 i D13).
 LIM_DECIDES, LIM_WATCH, LIM_QUESTION, LIM_EVENT = 80, 90, 70, 110
+LIM_AFFECTS = 190
 CONF_KINDS = {'measurement', 'calculation', 'market', 'estimate', 'forecast'}
 CONF_AGREE = {'agree', 'small', 'differ', 'single'}
 ASOF_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
@@ -246,6 +247,18 @@ def check_node_fields(D, r):
                         for sid in ev_src:
                             if sid not in src_ids:
                                 r.err(w, f'„soon.events[{k}].src”: źródło „{sid}” nie ma wpisu w sources.json')
+                aff = e.get('affects')
+                if aff is not None:
+                    if not is_str(aff) or len(aff) > LIM_AFFECTS:
+                        r.err(w, f'„soon.events[{k}].affects” musi być tekstem do {LIM_AFFECTS} znaków')
+                    asrc = e.get('affects_src')
+                    if not (isinstance(asrc, list) and asrc and all(is_str(x) for x in asrc)):
+                        r.err(w, f'„soon.events[{k}].affects” wymaga „affects_src” (niepusta lista id źródeł mechanizmu)')
+                    else:
+                        for sid in asrc:
+                            if sid not in src_ids:
+                                r.err(w, f'„soon.events[{k}].affects_src”: źródło „{sid}” nie ma wpisu w sources.json')
+                    texts.append((f'soon.events[{k}].affects', aff if is_str(aff) else ''))
                 key = parse_when(e['when'], year)
                 if key is not None and key[0] == 1 and re.search(r'\d\.\d', e['when']) and ev_src is None:
                     r.warn(w, f'„soon.events[{k}]” ({e["when"]}) ma konkretną datę bez „src” (zasada 8: termin do sprawdzenia w źródle)')

@@ -546,16 +546,25 @@ main{container:scr/inline-size}
 .v2 .calev .calmeta{font-size:var(--t-xs);color:var(--mut);line-height:var(--lh-label)}
 .v2 .calev .calmeta a{color:inherit}
 .v2 .calund{padding:var(--sp-4);display:grid;gap:var(--sp-3)}
-.v2 .calund dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--sp-2) var(--sp-4);font-size:var(--t-sm);line-height:var(--lh-label)}
-.v2 .calund dt{color:var(--mut);font-weight:600}
-.v2 .calund dd{margin:0}
 .v2 .calempty{padding:var(--sp-4);color:var(--mut)}
 
 /* stopka z odnośnikami (Footer) i okno „Słownik pojęć” (GlossaryDialog) */
-.foot{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--sp-1) var(--sp-5);padding:var(--sp-5) 0 var(--sp-4);border-top:1px solid var(--line)}
+.sitefoot{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--sp-1) var(--sp-5);padding:var(--sp-5) 0 var(--sp-4);border-top:1px solid var(--line)}
 .flnk{font:600 var(--t-sm)/var(--lh-label) var(--sans);color:var(--mut);background:none;border:0;min-height:44px;padding:0 var(--sp-2);text-decoration:underline;cursor:pointer}
 .flnk:hover{color:var(--ink)}
 .gsearch{width:100%;box-sizing:border-box;min-height:44px;padding:0 var(--sp-4);border:1px solid var(--line-strong);border-radius:var(--r-pill);background:var(--surface);color:var(--ink);font:var(--t-md)/var(--lh-label) var(--sans)}
 .mthl li.gt .gforms{font-size:var(--t-xs);color:var(--mut)}
 .mthl li.gt .glsm{font-size:var(--t-xs);color:var(--mut);line-height:var(--lh-label)}
 .mthl li.gt .glsm a{color:inherit}
+
+/* Kalendarz: opis skutków i wpisy bez daty w czterech rodzajach */
+.v2 .calev .calaff{font-size:var(--t-sm);line-height:var(--lh-body);color:var(--ink)}
+.v2 .calev .calaff b{color:var(--interp,var(--ink))}
+.v2 .calk{display:grid;gap:var(--sp-2)}
+.v2 .calk+.calk{border-top:1px dashed var(--line-strong);padding-top:var(--sp-3)}
+.v2 .calk h4{font:700 var(--t-md)/var(--lh-heading) var(--head)}
+.v2 .calul{list-style:none;padding:0;display:grid;gap:var(--sp-3)}
+.v2 .calu{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--sp-1) var(--sp-3);align-items:baseline}
+.v2 .calu .calw{font:600 var(--t-xs)/var(--lh-label) var(--sans);color:var(--mut);padding:var(--sp-1) var(--sp-2);border:1px solid var(--line-strong);border-radius:var(--r-pill);white-space:nowrap}
+.v2 .calu .calt{font-size:var(--t-sm);line-height:var(--lh-body)}
+.v2 .calu .calmeta{grid-column:2;font-size:var(--t-xs);color:var(--mut);line-height:var(--lh-label)}
