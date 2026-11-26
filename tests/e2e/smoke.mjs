@@ -272,6 +272,12 @@ async function runScenario(browser, base, width, theme, { functional }) {
       check((await page.evaluate(() => window.scrollY)) === 0, 'Zakładki: po przełączeniu strona jest przewinięta na górę', String(await page.evaluate(() => window.scrollY)));
       await page.evaluate(() => document.querySelector('[data-tab="map"]').click());
     }
+    // na wąskim ekranie (mapa szersza niż ekran) startuje przewinięta do prawej (Polska, ropa, Ormuz, Chiny widoczne od razu); na szerszym nie ma przewijania
+    if (width <= 1020) {
+      await page.evaluate(() => { document.querySelector('[data-tab="cal"]').click(); document.querySelector('[data-tab="map"]').click(); });
+      const sl = await page.evaluate(() => { const m = document.getElementById('map'); return { left: Math.round(m.scrollLeft), max: m.scrollWidth - m.clientWidth }; });
+      check(sl.max === 0 || Math.abs(sl.left - sl.max) <= 2, 'Mapa na małym ekranie: po wejściu w zakładkę jest przewinięta do prawej strony', JSON.stringify(sl));
+    }
     // obie warstwy muszą mieć dokładnie ten sam rozmiar i położenie, inaczej węzły i trasa rozjeżdżają się z mapą (błąd z iPhone'a: nakładka miała pół szerokości)
     const lay = await page.evaluate(() => { const r = (e) => { const b = e.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => Math.round(v * 10) / 10); }; return { base: r(document.querySelector('.mapstack > svg.base')), ov: r(document.getElementById('sv')) }; });
     check(lay.base.every((v, i) => Math.abs(v - lay.ov[i]) <= 1), 'Mapa: nakładka (węzły, trasa) ma ten sam rozmiar i położenie co podstawa', JSON.stringify(lay));

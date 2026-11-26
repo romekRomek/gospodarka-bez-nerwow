@@ -16,6 +16,7 @@ function tab(n){
   if(n==='pl')plCharts();
   if(md.open)md.close();
   closeTerm(false);sheet(false);
+  if(n==='map'){var mp=document.getElementById('map');mp.scrollLeft=mp.scrollWidth-mp.clientWidth;} /* na telefonie mapa jest szersza niż ekran: zaczynamy od prawej, gdzie są Polska, ropa, Ormuz i Chiny, a USA i Zachód zostają po lewej */
   window.scrollTo(0,0); /* nowa zakładka zawsze od góry, bez zapamiętywania miejsca */
 }
 document.querySelectorAll('#lvl button').forEach(function(b){b.addEventListener('click',function(){setLevel(+b.dataset.level);});});
