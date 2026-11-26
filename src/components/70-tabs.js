@@ -16,5 +16,6 @@ function tab(n){
   if(n==='pl')plCharts();
   if(md.open)md.close();
   closeTerm(false);sheet(false);
+  window.scrollTo(0,0); /* nowa zakładka zawsze od góry, bez zapamiętywania miejsca */
 }
 document.querySelectorAll('#lvl button').forEach(function(b){b.addEventListener('click',function(){setLevel(+b.dataset.level);});});

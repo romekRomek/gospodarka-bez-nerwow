@@ -263,6 +263,18 @@ async function runScenario(browser, base, width, theme, { functional }) {
         lite: !!ov && ov.classList.contains('lite'), filters: document.querySelectorAll('svg.map [filter]').length, running: infinite.length,
       };
     });
+    // przełączenie zakładki ładuje ją od góry strony
+    await page.evaluate(() => window.scrollTo(0, 400));
+    const nextTab = await page.evaluate(() => { const t = document.querySelector('nav [data-tab="cal"]'); return !!t; });
+    if (nextTab) {
+      await page.evaluate(() => document.querySelector('nav:not([hidden]) [data-tab="cal"], [data-tab="cal"]').click());
+      await page.waitForTimeout(200);
+      check((await page.evaluate(() => window.scrollY)) === 0, 'Zakładki: po przełączeniu strona jest przewinięta na górę', String(await page.evaluate(() => window.scrollY)));
+      await page.evaluate(() => document.querySelector('[data-tab="map"]').click());
+    }
+    // obie warstwy muszą mieć dokładnie ten sam rozmiar i położenie, inaczej węzły i trasa rozjeżdżają się z mapą (błąd z iPhone'a: nakładka miała pół szerokości)
+    const lay = await page.evaluate(() => { const r = (e) => { const b = e.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => Math.round(v * 10) / 10); }; return { base: r(document.querySelector('.mapstack > svg.base')), ov: r(document.getElementById('sv')) }; });
+    check(lay.base.every((v, i) => Math.abs(v - lay.ov[i]) <= 1), 'Mapa: nakładka (węzły, trasa) ma ten sam rozmiar i położenie co podstawa', JSON.stringify(lay));
     check(mp.layers === 2 && mp.baseAria === 'true' && mp.baseNodes === 0 && mp.overlayNodes === EXPECTED_NODES, 'Mapa: dwie warstwy (podstawa bez węzłów, ukryta dla czytników; nakładka z 13 węzłami)', JSON.stringify(mp));
     if (width <= 1020) {
       const cssFilters = await page.evaluate(() => [...document.querySelectorAll('svg.map *')].filter((e) => { const f = getComputedStyle(e).filter; return f && f !== 'none'; }).length);

@@ -811,6 +811,8 @@ svg.map.lite .node.on .tile{stroke:var(--accent);stroke-width:3.4}
 svg.map.lite .node.rel .tile{stroke:var(--accent);stroke-width:2.4}
 /* Tryb lekki: filtry nałożone przez CSS (nie atrybutem) też wyłączone. Cień (blur) i feTurbulence na 13 węzłach kosztowały ok. 600 ms przy pokazaniu zakładki Mapa w WebKit */
 svg.map.lite .node .pop,svg.map.lite .node .tile{filter:none}
+/* Na wąskich ekranach mapa jest szersza niż ekran i się przewija: kontener dwóch warstw ma tę samą minimalną szerokość co SVG, inaczej nakładka (width:100%) kurczy się do ekranu i rozjeżdża z podstawą */
+@media (max-width:1020px){.mapstack{min-width:720px}}
 </style>
 </head>
 <body>
@@ -1659,6 +1661,7 @@ function tab(n){
   if(n==='pl')plCharts();
   if(md.open)md.close();
   closeTerm(false);sheet(false);
+  window.scrollTo(0,0); /* nowa zakładka zawsze od góry, bez zapamiętywania miejsca */
 }
 document.querySelectorAll('#lvl button').forEach(function(b){b.addEventListener('click',function(){setLevel(+b.dataset.level);});});
 /* Komponent: Kalendarz „Najbliższe 30 dni” (CalendarList). Wydarzenia z soon.events (steps.json) z konkretną datą, w kolejności dat,

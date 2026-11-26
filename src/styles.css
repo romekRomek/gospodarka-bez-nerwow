@@ -637,3 +637,5 @@ svg.map.lite .node.on .tile{stroke:var(--accent);stroke-width:3.4}
 svg.map.lite .node.rel .tile{stroke:var(--accent);stroke-width:2.4}
 /* Tryb lekki: filtry nałożone przez CSS (nie atrybutem) też wyłączone. Cień (blur) i feTurbulence na 13 węzłach kosztowały ok. 600 ms przy pokazaniu zakładki Mapa w WebKit */
 svg.map.lite .node .pop,svg.map.lite .node .tile{filter:none}
+/* Na wąskich ekranach mapa jest szersza niż ekran i się przewija: kontener dwóch warstw ma tę samą minimalną szerokość co SVG, inaczej nakładka (width:100%) kurczy się do ekranu i rozjeżdża z podstawą */
+@media (max-width:1020px){.mapstack{min-width:720px}}
