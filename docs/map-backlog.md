@@ -1,6 +1,6 @@
 # Backlog rozbudowy mapy (prowadzi agent `product-owner-mapy`)
 
-Stan na 25.11.2026. Plan i uzasadnienia: `docs/map-expansion.md`. Statusy: **Pomysł** → **Gotowe** (spełnia Definition of Ready) → **W toku** → **Przegląd** (PR otwarty) → **Zrobione** (scalone i wdrożone). Decyzje właściciela: `docs/decisions.md`.
+Stan na 26.11.2026. Plan i uzasadnienia: `docs/map-expansion.md`. Statusy: **Pomysł** → **Gotowe** (spełnia Definition of Ready) → **W toku** → **Przegląd** (PR otwarty) → **Zrobione** (scalone i wdrożone). Decyzje właściciela: `docs/decisions.md`.
 
 ## Definition of Ready / Done
 
@@ -19,11 +19,11 @@ Pełne listy w `.claude/agents/product-owner-mapy.md`. Skrót: **Ready** = liczb
 
 | ID | Pozycja | Status | Zależność | Uwagi |
 |---|---|---|---|---|
-| M0-1 | Model `links.json`: schemat, walidacja (id, `why` ≤ 120, `src`, limit krawędzi), testy | Przegląd | Q1 nie blokuje | Schemat w `map-expansion.md` pkt 2 |
-| M0-2 | Zapis krawędzi dla 13 węzłów (tylko bezpośrednie) z testem sensu i źródłem | Przegląd | M0-1 | Strzałki łańcucha z grafiki przenieść do danych |
-| M0-3 | Komponent `LinkLayer` (podświetlenie krawędzi, wygaszanie węzłów) i `DepsBlock` (sekcja „Zależności” w panelu) | Przegląd | M0-1 | A2, A5, L6; telefon: dolny panel |
+| M0-1 | Model `links.json`: schemat, walidacja (id, `why` ≤ 120, `src`, limit krawędzi), testy | Zrobione (PR #12, wdrożone) | Q1 nie blokuje | Schemat w `map-expansion.md` pkt 2 |
+| M0-2 | Zapis krawędzi dla 13 węzłów (tylko bezpośrednie) z testem sensu i źródłem | Zrobione (PR #12, wdrożone) | M0-1 | Strzałki łańcucha z grafiki przenieść do danych |
+| M0-3 | Komponent `LinkLayer` (podświetlenie krawędzi, wygaszanie węzłów) i `DepsBlock` (sekcja „Zależności” w panelu) | Zrobione (PR #12, wdrożone) | M0-1 | A2, A5, L6; telefon: dolny panel |
 | M0-4 | Przełącznik „Pokaż 2 kroki” (ścieżki z grafu) | Pomysł | M0-3 | Oznaczone jako pośrednie |
-| M0-5 | Testy w przeglądarce (klik, klawiatura, Esc, brak przewijania, kontrast) i zrzuty | Przegląd | M0-3 | S4 |
+| M0-5 | Testy w przeglądarce (klik, klawiatura, Esc, brak przewijania, kontrast) i zrzuty | Zrobione (PR #12, wdrożone) | M0-3 | S4 |
 | M0-6 | Zewnętrzne źródła mechanizmów krawędzi (dziś oparcie to cytat z treści węzła, sprawdzany kodem) i twierdzenia w `claims.json` | Pomysł | M0-2 | Jak mechanizmy w kalendarzu (EBC, Fed) |
 | M0-7 | Zależności dla węzła „Dług publiczny” (dziś bez krawędzi) i uzupełnienie brakujących | Pomysł | M0-2 | Wymaga cytowalnego związku w treści |
 
@@ -67,4 +67,5 @@ Pełne listy w `.claude/agents/product-owner-mapy.md`. Skrót: **Ready** = liczb
 
 ## Dziennik PO
 
+- 26.11.2026: M0-1, M0-2, M0-3, M0-5 scalone i wdrożone (PR #12). Dalsze pozycje czekają na priorytety z `docs/roadmap.md`: najpierw jakość i aktualizacja danych (iteracje 1–3), potem M1.
 - 25.11.2026: założono backlog i definicję roli (research i plan: `docs/map-expansion.md`). Właściciel odpowiedział „tak” na Q1–Q4. M0-1, M0-2, M0-3 i M0-5 zrobione w PR (16 krawędzi, `LinkLayer`, `DepsBlock`, testy); decyzja D25 zmienia klik na komputerze (zaznacza zamiast otwierać modal). Następne: M0-4 („Pokaż 2 kroki”), M0-6, M0-7, potem M1-1 (badanie NBP).
