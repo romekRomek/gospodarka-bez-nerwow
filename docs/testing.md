@@ -108,3 +108,20 @@ Zrzuty dołącz do pull requesta (przeciągnij pliki do opisu PR; do repozytoriu
 ## Aktualizacja
 
 Zmiana liczby węzłów (13) lub identyfikatorów zakładek wymaga zmiany stałych na górze `smoke.mjs` (`EXPECTED_NODES`, `TABS`). Zaktualizuj też ten dokument, jeśli test zacznie sprawdzać coś nowego.
+
+## Wydajność w WebKit (Safari i iPhone)
+
+Test dymny używa **Chromium**, który radzi sobie z ciężką grafiką SVG, więc **nie wykrył** problemu z mapą na Safari (zawieszanie i błąd „wielokrotnie wystąpił problem” na iPhonie, ok. 1–4 klatek/s zamiast 30). Dlatego jest osobny pomiar w prawdziwym WebKit z emulacją iPhone'a (390 px, 3× DPR, dotyk):
+
+```bash
+# instalacja silnika w projekcie (raz, ok. 70 MB, katalog poza repozytorium)
+cd tests/e2e && PLAYWRIGHT_BROWSERS_PATH=.pw-browsers npx playwright-core install webkit
+# pomiar klatek na mapie: wszystkie warianty (A: stan wdrażany; B-E: bez filtrów, bez animacji itd.)
+PLAYWRIGHT_BROWSERS_PATH=.pw-browsers node perf-webkit.mjs
+# strażnik regresji: tylko stan wdrażany, poniżej progu kończy błędem; DEVICE=desktop dla Safari na Macu
+ONLY=A MIN_FPS=8 PLAYWRIGHT_BROWSERS_PATH=.pw-browsers node perf-webkit.mjs
+# koszt kliknięcia węzła (czas do drugiej klatki, kilka kliknięć) i izolacja przyczyn
+PLAYWRIGHT_BROWSERS_PATH=.pw-browsers node prof-click2.mjs
+```
+
+To pomiar **względny**: komputer jest szybszy niż telefon, więc liczy się porównanie wariantów, a nie wartość bezwzględna. Lekka zakładka Start daje w tym środowisku ok. 30 klatek/s (limit), a wdrażana mapa tyle samo. W CI działa krok `perf-webkit` (na razie nieblokujący). **Każda zmiana grafiki mapy, filtrów lub animacji wymaga tego pomiaru.**

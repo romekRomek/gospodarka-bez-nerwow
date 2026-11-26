@@ -45,3 +45,40 @@ jobs:
           path: ${{ runner.temp }}/zrzuty/po
           if-no-files-found: ignore
           retention-days: 14
+  perf-webkit:
+    # Pomiar płynności mapy w WebKit (silnik Safari): iPhone i komputer. Strażnik regresji: poniżej 8 klatek/s kończy błędem.
+    # Na razie NIEBLOKUJĄCY (continue-on-error), dopóki nie zobaczymy, jak stabilnie działa na serwerze CI.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tests/e2e/package-lock.json
+      - name: Budowa strony
+        run: python3 scripts/build.py
+      - name: Zależności testu (tylko tests/e2e)
+        working-directory: tests/e2e
+        run: npm ci
+      - name: Przeglądarka (WebKit)
+        working-directory: tests/e2e
+        run: npx playwright-core install --with-deps webkit
+      - name: Mapa na iPhonie (WebKit)
+        working-directory: tests/e2e
+        env:
+          ONLY: A
+          MIN_FPS: '8'
+        run: node perf-webkit.mjs
+      - name: Mapa na komputerze (WebKit)
+        working-directory: tests/e2e
+        env:
+          ONLY: A
+          MIN_FPS: '8'
+          DEVICE: desktop
+        run: node perf-webkit.mjs
