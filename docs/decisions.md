@@ -14,6 +14,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D20 | **Nowa zakładka „Kalendarz”** („Najbliższe 30 dni”), zasilana z `soon.events` (bez nowego pola z datą). **Termin trafia do kalendarza z oznaczeniem poziomu źródła** (pierwotne/wtórne); konkretna data bez źródła daje ostrzeżenie. Daty sprawdzone 25.11: EBC 16–17.12 oraz inflacja HICP 1.12 (szybki szacunek) i 17.12 (pełne dane) z kalendarzy EBC (poziom 1), Fed 8–9.12 (rejestr), RPP 1–2.12 (harmonogram za NBP, wtórne), GUS 30.11 (analizy.pl, wtórne). | Pozycja #3 z `docs/expansion-ideas.md`: znane daty uspokajają i pokazują „co może o tym zadecydować”. D19 dopuszcza nowe pozycje w nawigacji. | **Korekta danych:** węzły `bank` i `west` miały „grudzień” dla EBC (jest 16–17.12), a `west` tylko 17.12 jako „inflacja za listopad” (1.12 to szybki szacunek, 17.12 pełne dane). Strony NBP i GUS nie dały dat maszynowo, więc RPP i GUS są wtórne. Pozostałe wydarzenia z datą bez źródła to ostrzeżenia walidatora (backlog). |
 
+## 26.11.2026: D27, aktualizacja danych o ropie i dowody z archiwum dla zmiennych źródeł
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D27 | **Aktualizacja 26.11 (R1):** Brent ok. 95 USD (wcześniej ok. 90 z 24.11) z przeliczeniem wszystkich liczb pochodnych z jednego źródła (od 27.10: ok. −17%, od lutego: ok. +40%, różnice w USD: ok. 19 i ok. 27) w węźle, wykresach, newsach, ramce na Start i karcie w zakładce Polska; nowy wpis w dzienniku zmian (tylko ropa, pozostałe liczby mają przy sobie daty). **Twierdzenia o zmiennych źródłach (R3) sprawdzamy względem dowodu z archiwum** (`snapshot` w `claims.json` wskazuje plik w `docs/evidence/`), a nie strony na żywo, która zmienia się codziennie. | Weryfikator zgłosił rozbieżność: strona notowań pokazywała już ok. 95 USD, a aplikacja ok. 90. Dane starzały się bez regularnej aktualizacji (roadmap R1, R2). Liczba w aplikacji jest wciąż z serwisu notowań (poziom 3, D14), więc **nie spełnia jeszcze standardu zaufanych źródeł** z `topics-research.md` (EIA ma opóźnienie ok. 7 dni). | Po aktualizacji: 35 potwierdzonych, 0 rozbieżnych. Testy zależne od daty biorą ją teraz z najnowszego wpisu dziennika zmian. **Nie zrobione:** regularny cykl aktualizacji (R2) i inne dzienne liczby (WIG20 z 23.11 ma datę przy sobie). |
+
 ## 25.11.2026: D26, zakładka Newsy: ścieżka edukacyjna, humor na początku, skaner schowany
 
 | # | Decyzja | Powód | Skutek |

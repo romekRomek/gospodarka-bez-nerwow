@@ -2,15 +2,15 @@
  "derrick": {
   "pos": [
    {"h": "Porozumienie wokół Iranu mogłoby szybko obniżyć ceny ropy", "hk": "To scenariusz, nie prognoza. Eskalacja podbiłaby ceny w drugą stronę."},
-   {"h": "Brent potaniał o ok. 20% w miesiąc", "hk": "Z ok. 114 USD (27.10) do ok. 90 USD (23.11), ale to wciąż ok. 30% więcej niż w lutym i cena potrafi skoczyć po każdym ataku na tankowce."}
+   {"h": "Brent potaniał o ok. 17% w miesiąc", "hk": "Z ok. 114 USD (27.10) do ok. 95 USD (26.11), ale to wciąż ok. 40% więcej niż w lutym i cena potrafi skoczyć po każdym ataku na tankowce."}
   ],
   "neu": [
-   {"h": "Brent po ok. 90 USD za baryłkę, ok. 30% więcej niż w lutym"},
+   {"h": "Brent po ok. 95 USD za baryłkę, ok. 40% więcej niż w lutym"},
    {"h": "Ropa droższa niż średnio w 2022 r., gdy przekroczyła 100 USD"}
   ],
   "neg": [
-   {"h": "Baryłka ropy droższa niż mieszkanie! Naftowcy liczą na liczydłach, bo kalkulatorom zabrakło zer!", "f": "Brent kosztuje ok. 90 USD za baryłkę. Drogo, ale do ceny mieszkania sporo brakuje."},
-   {"h": "Ropa o 30% droższa niż w lutym! Baryłka zatrudniła ochroniarza i dopiero zastanawia się nad Instagramem!", "f": "Brent jest ok. 30% droższy niż w lutym (68 USD wobec ok. 90 USD). Konta baryłki nie znaleziono."}
+   {"h": "Baryłka ropy droższa niż mieszkanie! Naftowcy liczą na liczydłach, bo kalkulatorom zabrakło zer!", "f": "Brent kosztuje ok. 95 USD za baryłkę. Drogo, ale do ceny mieszkania sporo brakuje."},
+   {"h": "Ropa o 40% droższa niż w lutym! Baryłka zatrudniła ochroniarza i dopiero zastanawia się nad Instagramem!", "f": "Brent jest ok. 40% droższy niż w lutym (68 USD wobec ok. 95 USD). Konta baryłki nie znaleziono."}
   ]
  },
  "gate": {
