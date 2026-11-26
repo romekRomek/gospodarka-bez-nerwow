@@ -121,7 +121,7 @@ Iteracja to zestaw małych PR-ów, nie czas kalendarzowy.
 | D3 | Wykonać R1 (aktualizacja danych) **teraz**? | Tak, to P0 |
 | D4 | Kanał opinii (E2): jaki? (np. adres e-mail do kontaktu, formularz zewnętrzny, link do zgłoszeń w repozytorium). Nie wymyślam adresu | Zwykły link/e-mail wskazany przez Ciebie, bez zbierania danych |
 | D5 | Skaner (T1): na jakim urządzeniu i z jakim nagłówkiem nie działał? | Bez tego zostaje schowany |
-| D6 | Czy pytanie o język EN i analitykę zostaje „nie” (PLAN §7)? | Tak: PL, bez analityki (zgodnie z D18) |
+| D6 | Czy pytanie o język EN i analitykę zostaje „nie” (PLAN §7)? | **Rozstrzygnięte 26.11:** analityka wchodzi (prywatnościowa, D28), język EN zostaje „nie” |
 
 ## 6. Czego ten plan nie obejmuje
 
