@@ -252,6 +252,22 @@ async function runScenario(browser, base, width, theme, { functional }) {
 
     await checkNoHScroll(page, 'po załadowaniu strony');
 
+    // wydajność mapy (Safari/iPhone): dwie warstwy (statyczna podstawa + nakładka) oraz tryb lekki na małych ekranach, bez filtrów i bez nieskończonych animacji
+    const mp = await page.evaluate(() => {
+      const base = document.querySelector('.mapstack > svg.base'), ov = document.getElementById('sv');
+      const infinite = document.getAnimations().filter((a) => a.playState === 'running' && a.effect && a.effect.getComputedTiming().iterations === Infinity && a.effect.target && a.effect.target.closest && a.effect.target.closest('.mapstack'));
+      return {
+        layers: document.querySelectorAll('.mapstack > svg').length,
+        baseAria: base && base.getAttribute('aria-hidden'), baseNodes: base ? base.querySelectorAll('.node').length : -1,
+        overlayNodes: ov ? ov.querySelectorAll('#nodes g.node').length : -1,
+        lite: !!ov && ov.classList.contains('lite'), filters: document.querySelectorAll('svg.map [filter]').length, running: infinite.length,
+      };
+    });
+    check(mp.layers === 2 && mp.baseAria === 'true' && mp.baseNodes === 0 && mp.overlayNodes === EXPECTED_NODES, 'Mapa: dwie warstwy (podstawa bez węzłów, ukryta dla czytników; nakładka z 13 węzłami)', JSON.stringify(mp));
+    if (width <= 1020) {
+      check(mp.lite && mp.filters === 0 && mp.running === 0, 'Mapa na małym ekranie: tryb lekki (bez filtrów SVG i bez działających nieskończonych animacji)', JSON.stringify(mp));
+    }
+
     for (const t of TABS) {
       await activeTab(page, t);
       const lvlVisible = await page.locator('#lvl').isVisible();

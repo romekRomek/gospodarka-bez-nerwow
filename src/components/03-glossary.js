@@ -2,7 +2,7 @@
 var TERMS=DATA.terms||[],TSRC=DATA.termsrc||{},TMAP={},TFORMS=[];
 TERMS.forEach(function(t){t.forms.forEach(function(f){TMAP[f]=t;TFORMS.push(f);});});
 TFORMS.sort(function(a,b){return b.length-a.length;});
-var TRE=TFORMS.length?new RegExp('(?<![\\p{L}\\p{N}/])('+TFORMS.map(function(f){return f.replace(/[.*+?^${}()|[\]\\\/]/g,'\\$&');}).join('|')+')(?![\\p{L}\\p{N}/])','u'):null;
+var TRE=TFORMS.length?new RegExp('(^|[^\\p{L}\\p{N}/])('+TFORMS.map(function(f){return f.replace(/[.*+?^${}()|[\]\\\/]/g,'\\$&');}).join('|')+')(?![\\p{L}\\p{N}/])','u'):null;
 /* pomijane: nagłówki, etykiety, chipy, parodie nagłówków, liczby, linki i przyciski */
 var TSKIP='h1,h2,h3,h4,.lbl,.tl,.chip,.tag,button,a,b,dt,.hype,.parody,.fh,.ftone,.delta,.term,.tpop,.cl,.num,.when';
 var tOpen=null,tSeq=0;
@@ -12,9 +12,9 @@ function termify(root){
   nodes.forEach(function(n){
     if(!n.parentElement||n.parentElement.closest(TSKIP))return;
     var txt=n.nodeValue,re=new RegExp(TRE.source,'gu'),m,last=0,any=false,frag=document.createDocumentFragment();
-    while((m=re.exec(txt))){var t=TMAP[m[1]];if(seen[t.id])continue;seen[t.id]=1;any=true;
-      frag.appendChild(document.createTextNode(txt.slice(last,m.index)));
-      frag.appendChild(h('button','term',m[1],{type:'button','aria-expanded':'false','data-t':t.id}));last=m.index+m[1].length;}
+    while((m=re.exec(txt))){var form=m[2],st=m.index+m[1].length,t=TMAP[form];if(seen[t.id])continue;seen[t.id]=1;any=true;
+      frag.appendChild(document.createTextNode(txt.slice(last,st)));
+      frag.appendChild(h('button','term',form,{type:'button','aria-expanded':'false','data-t':t.id}));last=st+form.length;}
     if(any){frag.appendChild(document.createTextNode(txt.slice(last)));n.replaceWith(frag);}
   });
 }

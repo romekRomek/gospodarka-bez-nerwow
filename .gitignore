@@ -7,3 +7,5 @@ tests/e2e/node_modules/
 tests/e2e/shots-out/
 tests/e2e/.cache/
 test-results/
+
+tests/e2e/.pw-browsers/

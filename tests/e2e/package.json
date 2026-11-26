@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "node smoke.mjs",
-    "shots": "node shots.mjs"
+    "shots": "node shots.mjs",
+    "perf": "node perf-webkit.mjs"
   },
   "devDependencies": {
     "chart.js": "4.4.1",
