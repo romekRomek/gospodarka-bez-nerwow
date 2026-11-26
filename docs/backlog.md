@@ -1,6 +1,6 @@
 # Backlog ogólny (poza mapą)
 
-Pomysły i znane braki, które nie są częścią rozbudowy mapy (ta ma własny backlog: `docs/map-backlog.md`, prowadzi go agent `product-owner-mapy`). Stan na 25.11.2026. Kolejność nie jest priorytetem, o priorytetach decyduje właściciel.
+Pomysły i znane braki, które nie są częścią rozbudowy mapy (ta ma własny backlog: `docs/map-backlog.md`, prowadzi go agent `product-owner-mapy`). Stan na 26.11.2026. Pełny, priorytetyzowany plan: `docs/roadmap.md`. Kolejność nie jest priorytetem, o priorytetach decyduje właściciel.
 
 ## Do naprawy
 

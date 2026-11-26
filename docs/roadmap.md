@@ -1,19 +1,19 @@
 # Plan i priorytety (do decyzji właściciela)
 
-Stan na 26.11.2026. Zbiera w jednym miejscu wszystko, co jest otwarte: backlog ogólny (`docs/backlog.md`), backlog mapy (`docs/map-backlog.md`), pomysły rozbudowy (`docs/expansion-ideas.md`, `docs/data-topics.md`), otwarte punkty z `docs/PLAN.md` i z decyzji oraz wyniki bramek jakości. **Priorytety są moją rekomendacją**, kolejność i zakres rozstrzyga właściciel.
+Stan na 26.11.2026 (po scaleniu PR #12–#15 i wdrożeniu). Zbiera w jednym miejscu wszystko, co jest otwarte: backlog ogólny (`docs/backlog.md`), backlog mapy (`docs/map-backlog.md`), pomysły rozbudowy (`docs/expansion-ideas.md`, `docs/data-topics.md`), otwarte punkty z `docs/PLAN.md` i z decyzji oraz wyniki bramek jakości. **Priorytety są moją rekomendacją**, kolejność i zakres rozstrzyga właściciel.
 
 ## 1. Stan na dziś (liczby z bramek)
 
 | Miara | Wynik | Uwaga |
 |---|---|---|
-| Testy jednostkowe / test w przeglądarce | 165 / 914 asercji, bez błędów | |
+| Testy jednostkowe / test w przeglądarce | 167 / 914 asercji, bez błędów | |
 | Walidacja danych | 0 błędów, 62 ostrzeżenia | 18 skrótów bez hasła, 14 o rejestrze źródeł (m.in. 77 źródeł „roboczych”), 8 definicji z wieloma zdaniami, 6 o twierdzeniach |
-| Weryfikacja twierdzeń kodem | 34 potwierdzone, **1 rozbieżne**, 8 niedostępnych | rozbieżne: Brent (patrz R1) |
+| Weryfikacja twierdzeń kodem | 35 potwierdzonych, 0 rozbieżnych, 8 niedostępnych | Brent odświeżony i sprawdzany względem dowodu z archiwum (R1, R3) |
 | Kontrola spójności | 16 znalezisk (stan bazowy) | m.in. 6 twierdzeń bez źródła w treściach „mc” |
 | Definicje w słowniku | 7 z 19 potwierdzonych w źródle | 12 „roboczych” |
-| Zdalne gałęzie w repozytorium | 13 | do sprzątnięcia |
+| Zdalne gałęzie w repozytorium | 15 | scalone PR-y, do sprzątnięcia (T2) |
 
-**Najważniejszy fakt:** dane na stronie są „z 24.11”, a Brent notuje się dziś na ok. **95,04 USD** (strona: „ok. 90 USD”). Weryfikator to wyłapał (źródło zmienne, twierdzenie rozbieżne). Strona **nie ma jeszcze regularnego cyklu aktualizacji danych**, a to jej główna obietnica.
+**Najważniejszy fakt (po aktualizacji 26.11):** Brent odświeżony (ok. 95 USD, PR #15). **Strona nadal nie ma regularnego cyklu aktualizacji**, a przegląd dat pokazuje, że do 30.11 nie ma nowych publikacji oficjalnych (inflacja, płace, stopy, PKB), więc zmieniają się tylko notowania. Nowe dane przyjdą zgodnie z kalendarzem: **28–30.11** szybki szacunek inflacji GUS (data do potwierdzenia), **30.11** struktura PKB (GUS), **1.12** szybki szacunek inflacji strefy euro, **1–2.12** RPP, **8–9.12** Fed, **16–17.12** EBC.
 
 ## 2. Jak oceniam priorytet
 
@@ -30,9 +30,9 @@ Każdą pozycję oceniam w czterech wymiarach: **zaufanie** (czy usuwa ryzyko b�
 
 | ID | Pozycja | Priorytet | Koszt | Dlaczego i zależności |
 |---|---|---|---|---|
-| R1 | **Aktualizacja danych na dziś** (m.in. Brent ok. 95 USD, WIG20 i inne dzienne liczby) z wpisem w dzienniku zmian | **P0** | S–M | Strona pokazuje liczby sprzed dwóch dni. Zgodnie z regułami: nowy wpis w `changelog.json`, weryfikacja, PR. |
-| R2 | **Regularny cykl aktualizacji** (np. raz w tygodniu): agent przygotowuje PR z nowymi liczbami i dowodami, weryfikator sprawdza, człowiek scala | **P0** | M | Bez tego strona się starzeje. Wymaga decyzji o koszcie (patrz pkt 5, D1). Szczegóły: fala R2a (ręcznie na polecenie) lub R2b (harmonogram w chmurze). |
-| R3 | **Twierdzenia o zmiennych źródłach** weryfikować względem **zarchiwizowanego dowodu**, nie strony na żywo | **P1** | S | Dziś Brent daje fałszywą „rozbieżność”, bo strona Trading Economics się zmienia. Archiwum dowodów już mamy (`docs/evidence/`). |
+| R1 | **Aktualizacja danych na dziś** | **Zrobione 26.11** (PR #15) | S–M | Brent ok. 95 USD z liczbami pochodnymi i wpisem w dzienniku zmian. **WIG20 zostaje z datą 23.11**: nie znalazłem wiarygodnego, nowszego źródła (strona GPW blokuje pobranie), więc nie zgaduję. Pozostałe liczby czekają na publikacje z kalendarza. |
+| R2 | **Regularny cykl aktualizacji, sterowany kalendarzem wydarzeń**: po każdej publikacji z zakładki „Kalendarz” (np. 30.11, 1.12, 2.12) agent przygotowuje PR z nowymi liczbami, dowodami i wpisem w dzienniku zmian, weryfikator sprawdza, człowiek scala | **P0** | M | Wniosek z przeglądu 26.11: nowe dane pojawiają się w znanych terminach, więc cykl **nie musi być codzienny**, wystarczy reagować na wydarzenia (plus raz w tygodniu dla notowań). Kalendarz już zawiera te daty. Wymaga decyzji o koszcie (D1). |
+| R3 | **Twierdzenia o zmiennych źródłach** weryfikowane względem zarchiwizowanego dowodu | **Zrobione 26.11** (PR #15) | S | Pole `snapshot` w `claims.json`; nowy dowód zapisujemy przy każdej aktualizacji liczby. |
 | R4 | Przegląd 77 źródeł „roboczych” przez redaktora, naprawa etykiety „Reuters” (adres prowadzi do daily-sun.com) | **P1** | M | Dotyczy wiarygodności źródeł. Wymaga agenta `redaktor` (nieskalibrowany, patrz R6). |
 | R5 | Hasła glosariusza: 14 skrótów bez definicji (UE, CPN, WIG20, MFW, UKMTO, PIE, GW, VAT, FOMO, IEA, IRENA, KE, PMI, GPW) i 12 haseł roboczych do potwierdzenia | **P1** | M | Zasada 7. Część stron (MFW, UKMTO, GPW) blokuje pobranie, więc potrzebne inne źródła pierwotne. |
 | R6 | **Kalibracja agentów** `redaktor` i `weryfikator-faktow` na złotym zbiorze na żywo | **P1** | S–M | Agenci są napisani, ale nigdy nie przetestowani na żywo. Warunek rozsądnego użycia ich przy większej liczbie treści (mapa, M1+). |
@@ -102,7 +102,7 @@ Iteracja to zestaw małych PR-ów, nie czas kalendarzowy.
 
 | Iteracja | Zakres | Cel |
 |---|---|---|
-| **1: zaufanie teraz** | R1 (aktualizacja danych), R3 (dowody dla zmiennych źródeł), E3 (Twój test na telefonie), T2 (sprzątanie gałęzi) | Strona znów jest aktualna i uczciwie to pokazuje; wiemy, jak działa na prawdziwym urządzeniu |
+| **1: zaufanie teraz** | ~~R1 (aktualizacja danych)~~ **zrobione**, ~~R3 (dowody dla zmiennych źródeł)~~ **zrobione**, E3 (Twój test na telefonie), T2 (sprzątanie gałęzi, 15 zdalnych gałęzi) | Strona znów jest aktualna i uczciwie to pokazuje; wiemy, jak działa na prawdziwym urządzeniu |
 | **2: fundament jakości** | R2 (cykl aktualizacji, wariant wg decyzji D1), R6 (kalibracja agentów), E1 (tryb spokojny i dostępność), E2 (kanał opinii) | Strona utrzymuje się sama, mierzymy jakość, zamykamy falę A |
 | **3: rzetelność treści** | R4 (przegląd źródeł), R5 (hasła), R8 (źródła terminów) | Domknięte zaległości zasady 7 i 8 |
 | **4: Dom i kredyty** | M1-1 (badanie NBP), M1-0 (widok „Codzienność”), M1-2…6 (3–5 węzłów) | Pierwsza duża wartość nowych tematów |
