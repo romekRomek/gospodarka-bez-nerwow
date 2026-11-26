@@ -14,6 +14,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D20 | **Nowa zakładka „Kalendarz”** („Najbliższe 30 dni”), zasilana z `soon.events` (bez nowego pola z datą). **Termin trafia do kalendarza z oznaczeniem poziomu źródła** (pierwotne/wtórne); konkretna data bez źródła daje ostrzeżenie. Daty sprawdzone 25.11: EBC 16–17.12 oraz inflacja HICP 1.12 (szybki szacunek) i 17.12 (pełne dane) z kalendarzy EBC (poziom 1), Fed 8–9.12 (rejestr), RPP 1–2.12 (harmonogram za NBP, wtórne), GUS 30.11 (analizy.pl, wtórne). | Pozycja #3 z `docs/expansion-ideas.md`: znane daty uspokajają i pokazują „co może o tym zadecydować”. D19 dopuszcza nowe pozycje w nawigacji. | **Korekta danych:** węzły `bank` i `west` miały „grudzień” dla EBC (jest 16–17.12), a `west` tylko 17.12 jako „inflacja za listopad” (1.12 to szybki szacunek, 17.12 pełne dane). Strony NBP i GUS nie dały dat maszynowo, więc RPP i GUS są wtórne. Pozostałe wydarzenia z datą bez źródła to ostrzeżenia walidatora (backlog). |
 
+## 26.11.2026: D32, nakładka mapy ma rozmiar podstawy, zakładki od góry
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D32 | (1) **Kontener dwóch warstw mapy (`.mapstack`) ma na wąskich ekranach `min-width:720px`**, tak jak SVG. (2) **Przełączenie zakładki przewija stronę na górę** (`tab()` w `70-tabs.js`), bez zapamiętywania miejsca. (3) Test dymny sprawdza, że nakładka i podstawa mają ten sam rozmiar i położenie. | Zrzut od właściciela z iPhone'a: trasa ropy nie dochodziła do Polski, a węzły PKB, Giełda i Dług leżały obok małej Polski zamiast w powiększeniu. Przyczyna to **mój błąd z D29**: nakładka z `width:100%` kurczyła się do szerokości ekranu (359 px), a podstawa miała 720 px, więc nakładka była o połowę mniejsza. „Droga ropy niepoprawna” zgłaszana dwukrotnie wynikała z tego, a nie z geometrii trasy (ta też była zła i poprawiona w D31). Test i zrzuty „po” z D29 tego nie wykryły, bo oglądałem zrzuty bez porównania położenia warstw. | Warstwy się pokrywają (sprawdzone w WebKit, ciemny motyw, 393 px). Przełączanie zakładek nie zostawia czytelnika w środku strony. |
+
 ## 26.11.2026: D31, mapa: prawdziwa przyczyna wolnego startu, trasa wzdłuż wybrzeży, wygaszanie wraca
 
 | # | Decyzja | Powód | Skutek |
