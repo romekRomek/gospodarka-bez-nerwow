@@ -1,0 +1,840 @@
+{
+ "date": "2026-11-26",
+ "summary": {
+  "potwierdzone": 34,
+  "rozbieżne": 1,
+  "brak w tekście": 0,
+  "niedostępne": 8
+ },
+ "claims": [
+  {
+   "id": "derrick-m-1",
+   "node": "derrick",
+   "field": "m",
+   "value": 90,
+   "unit": "USD/bbl",
+   "period": "2026-11-23",
+   "result": "rozbieżne",
+   "evidence": [
+    {
+     "src": "tradingeconomics-brent",
+     "url": "https://pl.tradingeconomics.com/commodity/brent-crude-oil",
+     "result": "rozbieżne",
+     "fragment": " produkcyjnych. Brent oil - Statystyka 25 listopada 2026 r. cena ropy Brent wzrosła do 94,47 USD za baryłkę, o 3,36% w porównaniu z poprzednim dniem. W ciągu ostatniego miesiąca cena Brent spadła o 18",
+     "sha256": "6c93d42f2b4ca71629b9a62ebe4b6613a1f83378f15d5fa98d79381471daa0e5",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "derrick-mc-2",
+   "node": "derrick",
+   "field": "mc",
+   "value": 114,
+   "unit": "USD/bbl",
+   "period": "2026-10-27",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "nation-thailand-brent-27-10",
+     "url": "https://www.nationthailand.com/news/world/40072812",
+     "result": "potwierdzone",
+     "fragment": "e Nation Editorial Team สลับเป็นเสียงผู้ชาย Play Loading... Brent settled at US$113.88 a barrel as Middle East talks continued, but attacks near the Strait of Hormuz kept oil supply risks in focus. Br",
+     "sha256": "229b76e66ce0e625d8894ed58b2f177e00685a5e2e111b5bf2fb1985bde7fa06",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "derrick-mc-3",
+   "node": "derrick",
+   "field": "mc",
+   "value": -20,
+   "unit": "%",
+   "period": "2026-11-23",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "gate-m-1",
+   "node": "gate",
+   "field": "m",
+   "value": 35,
+   "unit": "%",
+   "period": "2026-W46",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "pump-m-1",
+   "node": "pump",
+   "field": "m",
+   "value": 21.7,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-cpi-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
+     "result": "brak w tekście",
+     "fragment": "",
+     "sha256": "096b6de77c577c0cc64ede3753d8c45a321d08c7c942ca46f9b67c0b48d40fd7",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    },
+    {
+     "src": "finwire-inflacja-cpi-pazdziernik",
+     "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
+     "result": "potwierdzone",
+     "fragment": "enchmark Metodologia → Sprostowanie Poprawiliśmy zmianę cen paliw do prywatnych środków transportu w październiku 2026 r.: było 21,8% r/r i -9,8% m/m, jest 21,7% r/r i -9,7% m/m (GUS, tablica wskaźników cen z 13 listopada 2026 r.). Sprostowanie z 21 listop",
+     "sha256": "0c5f420eded22dd2fcf723d085b8a39f4d37eca7e11c694c39c4f3d1725f520c",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "shop-m-1",
+   "node": "shop",
+   "field": "m",
+   "value": 3.5,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-cpi-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-w-pazdzierniku-2026-r-,2,180.html",
+     "result": "potwierdzone",
+     "fragment": "rów i usług konsumpcyjnych w październiku 2026 r. wzrosły o 3,5% w porównaniu z analogicznym miesiącem ub. roku (przy wzroście cen usług o 4,9% i towarów o 2,9%",
+     "sha256": "096b6de77c577c0cc64ede3753d8c45a321d08c7c942ca46f9b67c0b48d40fd7",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    },
+    {
+     "src": "finwire-inflacja-cpi-pazdziernik",
+     "url": "https://finwire.pl/artykuly/inflacja-pazdziernik-2026-odczyt-finalny-gus",
+     "result": "potwierdzone",
+     "fragment": "Inflacja w październiku 2026 spadła do 3,5% (dane finalne) Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa inwestycji C",
+     "sha256": "0c5f420eded22dd2fcf723d085b8a39f4d37eca7e11c694c39c4f3d1725f520c",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "shop-mc-2",
+   "node": "shop",
+   "field": "mc",
+   "value": 4.1,
+   "unit": "%",
+   "period": "2026-09",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "finwire-inflacja-cpi-wrzesien",
+     "url": "https://finwire.pl/artykuly/inflacja-wrzesien-2026-odczyt-finalny-gus",
+     "result": "potwierdzone",
+     "fragment": "Inflacja we wrześniu 2026: 4,1% r/r w odczycie finalnym GUS Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa",
+     "sha256": "9b7927f684fa85eb024bba99552a20537e7637230c75d20f0ecb8a8a64ad7bf3",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "bank-m-1",
+   "node": "bank",
+   "field": "m",
+   "value": 3.75,
+   "unit": "%",
+   "period": "2026-11-04",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "finwire-decyzja-rpp-4-11",
+     "url": "https://finwire.pl/artykuly/decyzja-rpp-4-listopad-2026-stopy-bez-zmian",
+     "result": "potwierdzone",
+     "fragment": "RPP w listopadzie 2026: stopy bez zmian, referencyjna 3,75% Przejdź do treści finwire .pl Mieszkania Najczęściej otwierane Mapa inwestycji Co się buduje: ",
+     "sha256": "d0df5b822a0c0d6143f18d237062d3166643137866fe15a63ec36ef778615e9e",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "bank-mc-2",
+   "node": "bank",
+   "field": "mc",
+   "value": 4.0,
+   "unit": "%",
+   "period": "2026-10-28",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "bank-mc-3",
+   "node": "bank",
+   "field": "mc",
+   "value": 2.5,
+   "unit": "%",
+   "period": "2026-10-29",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "worker-m-1",
+   "node": "worker",
+   "field": "m",
+   "value": 2.4,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-wynagrodzenia-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
+     "result": "brak w tekście",
+     "fragment": "",
+     "sha256": "1ffffb7fca862dc3ec07112e7c6fe94c0117e10e12b6865e8fbd113f32e452d8",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    },
+    {
+     "src": "finwire-wynagrodzenia-pazdziernik",
+     "url": "https://finwire.pl/artykuly/przecietne-wynagrodzenie-pazdziernik-2026-sektor-przedsiebiorstw-gus",
+     "result": "potwierdzone",
+     "fragment": "1% więcej niż przed rokiem. Po uwzględnieniu inflacji płace realnie wzrosły o 2,4% r/r. Skrajne przeciętne płace wśród 16 województw w październiku 2026 to 10770,95 zł w wojewódz",
+     "sha256": "2eea0200c0618dbdf833d0d469986e509be34e84abbe767a0fe5e815fa4456cb",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "worker-mc-2",
+   "node": "worker",
+   "field": "mc",
+   "value": 6.1,
+   "unit": "%",
+   "period": "2026-10",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-wynagrodzenia-2026-10",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rynek-pracy/pracujacy-zatrudnieni-wynagrodzenia-koszty-pracy/przecietne-zatrudnienie-i-wynagrodzenie-w-sektorze-przedsiebiorstw-w-pazdzierniku-2026-r-,3,179.html",
+     "result": "potwierdzone",
+     "fragment": "26 r. było nominalnie wyższe o 1,5% niż we wrześniu br. i o 6,1% wyższe w porównaniu z październikiem 2025 r. Przeciętne zatrudnienie po przeliczeniu wymiarów e",
+     "sha256": "1ffffb7fca862dc3ec07112e7c6fe94c0117e10e12b6865e8fbd113f32e452d8",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "debt-m-1",
+   "node": "debt",
+   "field": "m",
+   "value": 7.1,
+   "unit": "% PKB",
+   "period": "2026",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "xyz-pl-notyfikacje-edp-deficyt-i-dlug",
+     "url": "https://xyz.pl/?p=265113",
+     "result": "potwierdzone",
+     "fragment": "miast w 2026 r. prognozowany jest jego nieznaczny spadek do 7,1 proc. PKB. Wynik za 2025 jest nieco lepszy, niż prognozowano wcześniej (7,3 proc.). Jest to w du",
+     "sha256": "0238bbd572c72abbf05c9b0f371ec3004bd8e9eaae9a8dcf4e7ddec2e94ff200",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "tree-m-1",
+   "node": "tree",
+   "field": "m",
+   "value": 4171,
+   "unit": "pkt",
+   "period": "2026-11-23",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "wnp-wig20-zamkniecie-23-11",
+     "url": "https://www.wnp.pl/rynki/wig20-na-zamknieciu-wyniosl-4170-92-pkt-3-85,1122800.html",
+     "result": "potwierdzone",
+     "fragment": "WIG20 na zamknięciu wyniósł 4170,92 pkt (3,85%) Partnerzy portalu Pokaż wyszukiwarkę Wyszukaj Zamknij wyszukiwarkę Logowanie Zamknij panel logowania Login: Hasło: Przyp",
+     "sha256": "842cc8bf6fbf3c70c0069df1a0a15d4f5fa3397cc73d51c33855d31e4d5d8dee",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "tree-mc-2",
+   "node": "tree",
+   "field": "mc",
+   "value": 4320,
+   "unit": "pkt",
+   "period": "2026-11-13",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "wnp-rekord-wig20-z-13-11-i-sesja-z-20-11",
+     "url": "https://www.wnp.pl/rynki/koszmarny-koniec-tygodnia-na-gpw-najgorsza-sesja-od-marca,1122059.html",
+     "result": "potwierdzone",
+     "fragment": "przed tygodniem, 13 listopada, poprawił historyczny rekord (4320 pkt.) . W ujęciu od początku roku stopy zwrotu (do dnia 20 listopada włącznie) stopniały i prez",
+     "sha256": "f298f79fe5d4f36f42614b19dbd9c4f53b570e2aaa7b23c18beed99bda706164",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "tree-mc-3",
+   "node": "tree",
+   "field": "mc",
+   "value": 31,
+   "unit": "%",
+   "period": "2026-11-23",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "sun-m-1",
+   "node": "sun",
+   "field": "m",
+   "value": 3.5,
+   "unit": "%",
+   "period": "2026-Q3",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "gus-pkb-szybki-szacunek-2026-q3",
+     "url": "https://stat.gov.pl/obszary-tematyczne/rachunki-narodowe/kwartalne-rachunki-narodowe/szybki-szacunek-produktu-krajowego-brutto-za-3-kwartal-2026-r-,1,55.html",
+     "result": "potwierdzone",
+     "fragment": "wnany sezonowo w 3 kwartale 2026 r. zwiększył się realnie o 3,5% rok do roku (wobec wzrostu o 4,0% w analogicznym okresie 2025 r.). W 3 kwartale 2026 r. realny ",
+     "sha256": "3e3e2a0c7545fdd360746406b1c3fc18b35b808eb0013b927252f2e66369a33e",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    },
+    {
+     "src": "finwire-pkb-iii-kwartal-szybki-szacunek",
+     "url": "https://finwire.pl/artykuly/pkb-szybki-szacunek-3-kwartal-2026-gus",
+     "result": "potwierdzone",
+     "fragment": "PKB wzrósł o 3,5% r/r w 3 kwartale 2026 (szybki szacunek) Przejdź do treści finwire .pl Mieszkania Najczęściej ot",
+     "sha256": "e58e47f21e9a9701847ec9c9b04bd402e6db16a4c1ad48590279cfaac9fe1eb4",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "sun-mc-2",
+   "node": "sun",
+   "field": "mc",
+   "value": 4.1,
+   "unit": "%",
+   "period": "2026-Q2",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "result": "niedostępne",
+     "detail": "twierdzenie bez źródła (src puste)"
+    }
+   ]
+  },
+  {
+   "id": "west-m-1",
+   "node": "west",
+   "field": "m",
+   "value": 1.1,
+   "unit": "%",
+   "period": "2026",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "potwierdzone",
+     "fragment": "ie szybciej niż największe gospodarki unijne, w tym Niemcy (1,1 proc.), Francja (0,7 proc.), Włochy (0,6 proc.) i Hiszpania (1,8 proc.). Wykres interaktywny Peł",
+     "sha256": "61a1d7f462060579f65d772fec5df593582eaac8a33ba2dfbfe2bc0943530bf7",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "west-mc-2",
+   "node": "west",
+   "field": "mc",
+   "value": 1.3,
+   "unit": "%",
+   "period": "2026",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "potwierdzone",
+     "fragment": "znacznie szybciej niż największe gospodarki unijne: Niemcy (1,3 proc.), Hiszpania (2,5 proc.), Włochy (0,8 proc.) i Francja (0,4 proc.). Na drugim końcu zestawi",
+     "sha256": "61a1d7f462060579f65d772fec5df593582eaac8a33ba2dfbfe2bc0943530bf7",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "west-mc-3",
+   "node": "west",
+   "field": "mc",
+   "value": 0.4,
+   "unit": "%",
+   "period": "2026",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "xyz-pl-prognozy-mfw-dla-polski",
+     "url": "https://xyz.pl/?p=261350",
+     "result": "potwierdzone",
+     "fragment": "roc.), Hiszpania (2,5 proc.), Włochy (0,8 proc.) i Francja (0,4 proc.). Na drugim końcu zestawienia znajdują się Irlandia i Rumunia, dla których MFW przewiduje ",
+     "sha256": "61a1d7f462060579f65d772fec5df593582eaac8a33ba2dfbfe2bc0943530bf7",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "ukraine-m-1",
+   "node": "ukraine",
+   "field": "m",
+   "value": 4.8,
+   "unit": "% PKB",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "fundacja-pulaskiego-wydatki-obronne-2026",
+     "url": "https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf",
+     "result": "niedostępne",
+     "detail": "PDF/XLSX bez parsera"
+    }
+   ]
+  },
+  {
+   "id": "ukraine-mc-2",
+   "node": "ukraine",
+   "field": "mc",
+   "value": 201,
+   "unit": "mld zł",
+   "period": "2026",
+   "result": "niedostępne",
+   "evidence": [
+    {
+     "src": "fundacja-pulaskiego-wydatki-obronne-2026",
+     "url": "https://pulaski.pl/wp-content/uploads/2026/07/KPBN_Monitor-Informacyjny-2-Lipiec2026_v2.pdf",
+     "result": "niedostępne",
+     "detail": "PDF/XLSX bez parsera"
+    }
+   ]
+  },
+  {
+   "id": "usa-m-1",
+   "node": "usa",
+   "field": "m",
+   "value": 10,
+   "unit": "%",
+   "period": "2026-07-24",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "bank-pl-nowe-cla-usa",
+     "url": "https://bank.pl/?p=554635",
+     "result": "potwierdzone",
+     "fragment": "czna Szkoła Polskiego Sektora Bankowości Spółdzielczej 2027 10-11 marca 2027 r. Pozostało: 103 dni 11 godzin 49 minut Aktualności Konferencje Multimedia Bankowo",
+     "sha256": "2c762b237a6ba40b224c51b702a7f8870fb0a5ce1aaadafced6151e9698413e4",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    },
+    {
+     "src": "xyz-pl-cla-usa-a-polscy-eksporterzy-pie",
+     "url": "https://xyz.pl/dzieje-sie/amerykanskie-cla-kontra-polscy-eksporterzy-skutki-sa-zroznicowane-3648",
+     "result": "potwierdzone",
+     "fragment": "redniego wpływu doświadczyło 14 proc. firm, a pośredniego – 10 proc . Z kolei 27 proc. odczuło osłabienie koniunktury na rynku unijnym wywołane wzrostem ameryka",
+     "sha256": "12f177ed63ccb2ddfc16a5c165b31ad43108562ee845ee8033c113d44efcbdc5",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "china-m-1",
+   "node": "china",
+   "field": "m",
+   "value": "nr 1",
+   "unit": "miejsce",
+   "period": "2026-07",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "wiadomosci-handlowe-chiny-dostawca-nr-1",
+     "url": "https://www.wiadomoscihandlowe.pl/gospodarka-i-finanse/chiny-najwiekszym-dostawca-towarow-do-polski-deficyt-rosnie-2537961",
+     "result": "potwierdzone",
+     "fragment": "Chiny największym dostawcą towarów do Polski. Deficyt w handlu rośnie wiadomoscihandlowe.pl WSPÓŁPRACA NEWSLETTER Zaloguj się ",
+     "sha256": "cad5b06fd7e43f31410f1a7d3a6b04f7ac94a9db7521c36d726897095cad51c9",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "ecb-posiedzenie-17-12",
+   "node": "bank",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-12-17",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-kalendarz-posiedzen",
+     "url": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html",
+     "result": "potwierdzone",
+     "fragment": "il of the ECB: monetary policy meeting in Frankfurt (Day 1) 17/12/2026 Governing Council of the ECB: monetary policy meeting in Frankfurt (Day 2), followed by press conference 03/0",
+     "sha256": "545fa97ae9a3e577dee7ffbf767c5d4b51f4cf029d08675af464e9141b3a97bd",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "hicp-flash-1-12",
+   "node": "west",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-12-01",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-kalendarz-hicp",
+     "url": "https://www.ecb.europa.eu/press/calendars/statscal/ges/html/sthicp.en.html",
+     "result": "potwierdzone",
+     "fragment": "ly adjusted HICP (Dataset: HICP) Reference period: Oct-2026 01/12/2026 15:00 Euro area seasonally adjusted HICP flash estimate (Dataset: HICP) Reference period: Nov-2026 17/12/2026",
+     "sha256": "a5b5f66f4c1c71d04288a7851ef880953bff5f5889dea4f3d46e152d0ea46410",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "hicp-final-17-12",
+   "node": "west",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-12-17",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-kalendarz-hicp",
+     "url": "https://www.ecb.europa.eu/press/calendars/statscal/ges/html/sthicp.en.html",
+     "result": "potwierdzone",
+     "fragment": "P flash estimate (Dataset: HICP) Reference period: Nov-2026 17/12/2026 12:00 Euro area seasonally adjusted HICP (Dataset: HICP) Reference period: Nov-2026 06/01/2027 15:00 Euro are",
+     "sha256": "a5b5f66f4c1c71d04288a7851ef880953bff5f5889dea4f3d46e152d0ea46410",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "rpp-posiedzenie-1-2-12",
+   "node": "bank",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-12-02",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "infor-harmonogram-rpp-2026",
+     "url": "https://ksiegowosc.infor.pl/obrot-gospodarczy/finanse-i-inwestycje/7451398,harmonogram-posiedzen-rady-polityki-pienieznej-w-2026-roku.html",
+     "result": "potwierdzone",
+     "fragment": " październik 6-7 (wtorek-środa) listopad 3-4 (wtorek-środa) grudzień 1-2 (wtorek-środa) * posiedzenie jednodniowe niedecyzyjne Harmonogram publikacji opisów dyskusji z posiedzeń de",
+     "sha256": "36c3c9e8d780193c7a74a0efa612df298e1c569320c498c9e7f25ce898177840",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "gus-pkb-30-11",
+   "node": "sun",
+   "field": "soon",
+   "value": "termin",
+   "unit": "data",
+   "period": "2026-11-30",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "analizy-pkb-iii-kwartal-2026",
+     "url": "https://www.analizy.pl/puls-rynku/41173/pkb-polski-iii-kwartal-2026-dane-wstepne",
+     "result": "potwierdzone",
+     "fragment": "a publikację pierwszego regularnego szacunku za III kwartał na 30 listopada. Dzisiejsze dane mają charakter wstępny i mogą zostać zrewidowane. Makroekonomia Puls rynku 13.11.2026 F",
+     "sha256": "160046414f202d5dda65c8134d6b841f87dc02955f987abc9b4f458d32d09a3a",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "def-pkb",
+   "node": "pkb",
+   "field": "def",
+   "value": "definicja",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "eurostat-glossary-gdp",
+     "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Gross_domestic_product_(GDP)",
+     "result": "potwierdzone",
+     "fragment": "s page pdf Gross domestic product , abbreviated as GDP , is a basic measure of the overall size of a country's economy. As an aggregate measure of production, GDP is equal to the s",
+     "sha256": "50d136feb003ec80c75be9c8bc68d6a5b892d100391d87bd7fa3c653497f24e8",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "def-flash",
+   "node": "flash",
+   "field": "def",
+   "value": "definicja",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "eurostat-glossary-flash",
+     "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Flash_estimate",
+     "result": "potwierdzone",
+     "fragment": "lash estimate Glossary : Flash estimate Print this page pdf A flash estimate is an early estimate for an economic variable of interest over the most recent reference period and is ",
+     "sha256": "badbe334d78acc253c4a07f2a273a82ad74bc17424a14898e1198d2e932fcd65",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "def-fed",
+   "node": "fed",
+   "field": "def",
+   "value": "definicja",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "fed-o-fedzie",
+     "url": "https://www.federalreserve.gov/aboutthefed.htm",
+     "result": "potwierdzone",
+     "fragment": "overnors of the Federal Reserve System The Federal Reserve, the central bank of the United States, provides the nation with a safe, flexible, and stable monetary and financial syst",
+     "sha256": "0dfc77b4653fa8a0c0b9322ada605fa3b1b59c76164511b37490ca20d352a768",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "def-fomc",
+   "node": "fomc",
+   "field": "def",
+   "value": "definicja",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "fed-o-fomc",
+     "url": "https://www.federalreserve.gov/monetarypolicy/fomc.htm",
+     "result": "potwierdzone",
+     "fragment": "e Committee's assessment of the economy and policy options. The FOMC holds eight regularly scheduled meetings per year. At these meetings, the Committee reviews economic and financ",
+     "sha256": "34ce8db765c527fd78731ab649ef3a4a5dc47c68360545517abe823c7dc76488",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "def-ebc",
+   "node": "ebc",
+   "field": "def",
+   "value": "definicja",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-o-ebc",
+     "url": "https://www.ecb.europa.eu/ecb/html/index.en.html",
+     "result": "potwierdzone",
+     "fragment": "rrow money with confidence. We keep inflation under control The ECB is the central bank of the euro area, which comprises European Union countries that have the euro as their curre",
+     "sha256": "3a43e172c5330a28c3fe97c5b8b1ed94b7eadc9d604638dd2717555ea83eb323",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "def-edp",
+   "node": "edp",
+   "field": "def",
+   "value": "definicja",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "eurostat-glossary-edp",
+     "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Excessive_deficit_procedure_(EDP)",
+     "result": "potwierdzone",
+     "fragment": "d as EDP , is an action launched by the European Commission against any European Union (EU) Member State that exceeds the budgetary deficit ceiling imposed by the EU's Stability an",
+     "sha256": "5018bf559a250f900f55c4be3794f762c77e6633f83824220a3d920e35d21273",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "def-safe",
+   "node": "safe",
+   "field": "def",
+   "value": "definicja",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ec-safe",
+     "url": "https://defence-industry-space.ec.europa.eu/eu-defence-industry/safe-security-action-europe_en",
+     "result": "potwierdzone",
+     "fragment": "AFE) is the EU financial instrument providing long-maturity loans to Member States to support urgent and strategic investments in defence. SAFE helps Member States strengthen defen",
+     "sha256": "970fffde39ef8272f46c3011a1e81221f863c713197e1ba74f0e3cd3b67cb4f5",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "aff-ecb-loans",
+   "node": "bank",
+   "field": "soon",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-transmisja",
+     "url": "https://www.ecb.europa.eu/mopo/intro/transmission/html/index.en.html",
+     "result": "potwierdzone",
+     "fragment": "eholds and firms. For example, everything else being equal, higher interest rates make it less attractive to take out loans for financing consumption or investment. In addition, co",
+     "sha256": "fb2bc12619ab455cf7f1b95ffd3179b98cf4c257145f163a1237ac66eddb34ef",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "aff-ecb-assets",
+   "node": "bank",
+   "field": "soon",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-transmisja",
+     "url": "https://www.ecb.europa.eu/mopo/intro/transmission/html/index.en.html",
+     "result": "potwierdzone",
+     "fragment": "on market expectations triggered by monetary policy actions may lead to adjustments in asset prices (e.g. stock market prices) and the exchange rate. Changes in the exchange rate c",
+     "sha256": "fb2bc12619ab455cf7f1b95ffd3179b98cf4c257145f163a1237ac66eddb34ef",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "aff-fed-credit",
+   "node": "bank",
+   "field": "soon",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "fed-cele-polityki",
+     "url": "https://www.federalreserve.gov/monetarypolicy/monetary-policy-what-are-its-goals-how-does-it-work.htm",
+     "result": "potwierdzone",
+     "fragment": "st necessary to describe the federal funds rate and explain how it helps determine the cost of short-term credit. On average, each day, U.S. consumers and businesses make noncash p",
+     "sha256": "56dbd4d0896cec1a218cbae8ee13725796d56db33d6cdc002e5d54cc3270e174",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "aff-ecb-prices",
+   "node": "west",
+   "field": "soon",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "ecb-o-ebc",
+     "url": "https://www.ecb.europa.eu/ecb/html/index.en.html",
+     "result": "potwierdzone",
+     "fragment": "opean Union countries that have the euro as their currency. Our main task is to maintain price stability. So, whether you’re shopping, travelling or investing in your future, you c",
+     "sha256": "3a43e172c5330a28c3fe97c5b8b1ed94b7eadc9d604638dd2717555ea83eb323",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "aff-flash-model",
+   "node": "west",
+   "field": "soon",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "eurostat-glossary-flash",
+     "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Flash_estimate",
+     "result": "potwierdzone",
+     "fragment": "le of interest over the most recent reference period and is normally calculated on the basis of a statistical or econometric model. The flash estimate should have a release date ap",
+     "sha256": "badbe334d78acc253c4a07f2a273a82ad74bc17424a14898e1198d2e932fcd65",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  },
+  {
+   "id": "aff-gus-revised",
+   "node": "sun",
+   "field": "soon",
+   "value": "mechanizm",
+   "unit": "tekst",
+   "period": "2026-11-25",
+   "result": "potwierdzone",
+   "evidence": [
+    {
+     "src": "analizy-pkb-iii-kwartal-2026",
+     "url": "https://www.analizy.pl/puls-rynku/41173/pkb-polski-iii-kwartal-2026-dane-wstepne",
+     "result": "potwierdzone",
+     "fragment": "opada. Dzisiejsze dane mają charakter wstępny i mogą zostać zrewidowane. Makroekonomia Puls rynku 13.11.2026 Facebook LinkedIn Źródło: Czerep rubaszny / Shutterstock.com analizy.pl",
+     "sha256": "160046414f202d5dda65c8134d6b841f87dc02955f987abc9b4f458d32d09a3a",
+     "fetched": "2026-11-26T11:14:27+00:00"
+    }
+   ]
+  }
+ ]
+}

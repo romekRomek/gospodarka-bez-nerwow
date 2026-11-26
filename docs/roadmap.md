@@ -81,6 +81,8 @@ Każdą pozycję oceniam w czterech wymiarach: **zaufanie** (czy usuwa ryzyko b�
 | S1 | **Uważaj na oszustwa finansowe** (fałszywe inwestycje, phishing; linki do list ostrzeżeń CERT i KNF) | **P1** | S–M | Najwyższy wpływ na jakość życia, ryzyko polityczne zerowe, dane i źródła dostępne |
 | S2 | **„Szkoła liczb”**: realnie vs nominalnie, „inflacja spadła ≠ ceny spadły”, procenty vs punkty procentowe, średnia vs mediana, RRSO | **P1** | M | Karty na istniejących komponentach; ta sama liczba daje różne wrażenie zależnie od miary |
 | S3 | Rachunek za prąd i kredyt (składniki, RRSO) | **P1** | M | Łączy się z M1 i kalendarzem; dane URE i NBP |
+| S0 | **Standard zaufanych źródeł**: liczba tylko ze źródła poziomu 1, walidator wymusza dla nowych kart; przegląd istniejących liczb pod tym kątem (łączy się z R4) | **P0/P1** | S–M | Uwaga właściciela: najważniejsze są najbardziej zaufane źródła. Dziś strona tego standardu nie spełnia w całości (np. Brent z poziomu 3) |
+| S6 | **Panorama „co się dzieje”**: ciekawostki z danych (handel zagraniczny, długość życia, powietrze, produkcja, później zdrowie i demografia), każda z źródłem pierwotnym | P2 | M | Pokazuje, że takie zjawiska istnieją, bez sensacji. Start od P1 (handel), P2 (długość życia), P4 (powietrze), które mają źródło pierwotne pod ręką |
 | S4 | Tematy polaryzujące (dług i deficyt, emerytury, fundusze UE, podatki i klin) z **protokołem neutralności** i testem lustrzanym | P2 | L | Wymaga akceptacji zasad neutralności (D1 w topics-research) |
 | S5 | Migracja a ZUS i budżet; euro | P3 | L | Najwyższe ryzyko polityczne, dopiero po przećwiczeniu protokołu |
 

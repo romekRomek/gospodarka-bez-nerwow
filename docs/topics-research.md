@@ -120,12 +120,57 @@ Każdy temat przechodzi **Definition of Done** z `map-backlog.md`: źródło pie
 - **Niepewne liczby z mediów.** Tabele tego dokumentu pokazują, że ta sama liczba bywa podawana różnie (składka UE 7,6 vs 8,4 mld euro; średnia emerytura 4,4 vs 4,5 tys. zł); do strony trafia tylko liczba z pierwotnego dokumentu.
 - **Granica z poradą.** Tematy C4, C5, C2 opisują mechanizm, nie rekomendują produktów ani decyzji (zasada 6).
 
+## 10. Standard zaufanych źródeł (obowiązuje dla każdej liczby, w tym ciekawostek)
+
+Uwaga właściciela: **najważniejsze, żeby dane opierały się na jak najbardziej zaufanych źródłach.** Proponuję to jako twardą regułę, a nie dobre chęci.
+
+| Poziom | Kto | Do czego wolno |
+|---|---|---|
+| **1: pierwotne** | instytucje, które same mierzą lub zbierają dane: GUS, NBP, Ministerstwo Finansów, ZUS, NFZ, NIZP-PZH (Narodowy Instytut Zdrowia Publicznego), Krajowy Rejestr Nowotworów, URE, KNF, UOKiK, CERT Polska; Eurostat, OECD, WHO, EBC, Fed, Komisja Europejska, ONZ; recenzowane publikacje naukowe | **jedyny poziom, z którego bierzemy liczbę główną ciekawostki, definicji i statystyki** |
+| 2: pośrednie | agencje prasowe, duże redakcje, organizacje fact-checkingowe | wskazówka, tło, przykład twierdzenia do sprawdzenia. **Nie jako źródło liczby** |
+| 3: wtórne | portale, agregatory, branżowe serwisy | tylko wskazówka, gdzie szukać; **nigdy źródło liczby** |
+
+Reguły:
+
+1. **Liczba ciekawostki ma źródło poziomu 1 z okresem, definicją i datą pobrania** oraz twierdzenie w `claims.json` sprawdzane kodem (`verify_claims.py`) z dowodem w `docs/evidence/`. Brak źródła pierwotnego = temat nie wchodzi.
+2. **Gdy dwa źródła podają różne liczby**, pokazujemy tylko pierwotną i wyjaśniamy różnicę definicji (np. długość życia: GUS 75,4 / 82,5 lat dla mężczyzn i kobiet wg tablic, a OECD podaje 78,4 jako średnią obu płci, to **inne miary i okresy**). Jeśli różnicy nie umiemy wyjaśnić, nie publikujemy.
+3. **Liczby, które brzmią nieprawdopodobnie, wymagają podwójnej kontroli.** W wynikach wyszukiwania pojawiło się np. twierdzenie, że Polska ma „dwie trzecie unijnej produkcji lodów”. Nie publikujemy go, dopóki nie sprawdzimy tabeli Eurostatu.
+4. **Liczba zawsze z datą, okresem i oznaczeniem pewności** (jak w węzłach) i informacją, kiedy będzie następna publikacja.
+5. **Fakt oddzielony od interpretacji** (kolor `--interp`), bez nagłówków emocjonalnych i bez „dobrych i złych wiadomości” (zasady 1 i 5).
+6. **Walidator wymusza regułę** (do zrobienia): karta typu „ciekawostka” bez `src` poziomu 1 i `reviewed: true` jest błędem, nie ostrzeżeniem.
+
+**Uczciwie o stanie obecnym:** strona **nie spełnia** tego standardu w całości. Część liczb głównych ma dziś źródła poziomu 2–3 (np. Brent ze strony notowań, patrz D14; 77 źródeł jest „roboczych”). To jest zaległość R4 z `roadmap.md`. Standard obowiązuje od teraz dla **nowych** treści, a istniejące doprowadzamy do niego w przeglądzie źródeł.
+
+## 11. Panorama „co się dzieje”: ciekawostki z danych
+
+Cel: pokazać odbiorcom, **że takie zjawiska istnieją i co się z nimi dzieje** (handel, zdrowie, demografia, środowisko), bez sensacji. Format: krótka karta „Co się dzieje” (jedna liczba, kierunek i skala, jedno zdanie kontekstu, czego liczba nie mówi, źródło i data), np. w rotacji na Start lub jako ścieżka w Newsy.
+
+Poniżej **kandydaci**. Liczby pochodzą z wyników wyszukiwania (media i opracowania) i **są do potwierdzenia w źródle pierwotnym** wskazanym w ostatniej kolumnie; do aplikacji nie wchodzi żadna, dopóki tego nie zrobimy.
+
+| # | Obszar | Co dane pokazują (wstępnie, do potwierdzenia) | Źródło pierwotne do pobrania | Uwagi |
+|---|---|---|---|---|
+| P1 | **Handel zagraniczny** | W 2025 r. eksport ok. 366 mld euro, import ok. 374 mld euro, deficyt towarowy ok. 7,7 mld euro; eksport +3,7%, import +6,1% r/r. Największy dostawca: Niemcy (ok. 19% importu), potem Chiny (ok. 15,5%) (wg [PAP](https://www.pap.pl/aktualnosci/polski-handel-zagraniczny-gus-podal-dane-za-2025-rok)) | GUS: „Handel zagraniczny” (komunikat roczny) | Łączy się z istniejącymi węzłami Chiny i Zachód Europy; „import rośnie szybciej niż eksport” to opis, nie ocena |
+| P2 | **Długość życia** | W 2025 r. noworodek: mężczyźni 75,37, kobiety 82,48 lat (wzrost o 0,4 i 0,2 r.); najdłużej w Warszawie, najkrócej w Łodzi, różnica regionalna ok. 3 lat (wg [Rzeczpospolitej](https://www.rp.pl/gospodarka/art44896891-polacy-zyja-najdluzej-w-historii-ale-warszawe-i-lodz-dziela-ponad-4-lata)) | GUS: „Trwanie życia” (tablice) | Wiąże się z emeryturami (A5) i starzeniem się. OECD podaje inną liczbę (78,4, średnia obu płci), więc potrzebne wyjaśnienie definicji (reguła 2) |
+| P3 | **Przyczyny zgonów (choroby cywilizacyjne)** | Choroby układu krążenia ok. 36–37% zgonów, nowotwory ok. 24% (dane za 2022), razem z chorobami układu oddechowego ok. 71% zgonów w 2023 (wg [Medycyny Praktycznej](https://www.mp.pl/pacjent/aktualnosci/353871,umieralnosc-w-polsce)); w odróżnieniu od chorób układu krążenia, zgonów z powodu nowotworów przybywa rok do roku | GUS „Zgony według przyczyn”; NIZP-PZH; Krajowy Rejestr Nowotworów ([publikacja 2025](https://onkologia.org.pl/sites/default/files/publications/2026-01/0.nowotwory-krn-2025-book-20260123.pdf)) | **Temat wrażliwy:** neutralny ton, bez straszenia (D19). Definicja „choroby cywilizacyjne” (niezakaźne, związane ze stylem życia i środowiskiem) wymaga źródła WHO |
+| P4 | **Powietrze** | Średnie narażenie na pył PM2,5 w Polsce ok. 17,8 µg/m³ wobec ok. 11,2 średnio w OECD (OECD, [profil zdrowotny Polski 2025](https://www.oecd.org/en/publications/health-at-a-glance-2025_15a55280-en/poland_c3917772-en.html)) | OECD Health at a Glance 2025 (profil kraju); GIOŚ | Ma bezpośrednią linię do zdrowia i kosztów ogrzewania; pierwotne źródło mamy od razu (OECD) |
+| P5 | **Pozycja gospodarcza** | W 2025 r. Polska szóstą gospodarką UE: PKB ok. 922,9 mld euro, 4,9% PKB UE (wg [Forsal](https://forsal.pl/gospodarka/aktualnosci/artykuly/11285261,polska-liderem-regionu-i-szosta-gospodarka-ue-sa-dane-eurostatu.html)) | Eurostat: PKB w cenach bieżących | Pasuje do tematu A8 (rankingi): ta sama kolejność nominalnie i w PPP bywa inna |
+| P6 | **Co Polska produkuje najwięcej w UE** | Największy producent dyni w UE od 2020 r. (35% zbiorów, 436 tys. t w 2025) i jabłek (3,39 mln t, 29%) (wg [xyz.pl](https://xyz.pl/?p=254482)) | Eurostat: statystyki rolne | Lekka ciekawostka, łączy się z węzłem „Owoce i warzywa” (M2) |
+| P7 | **Transport i handel w liczbach** | 20,2% unijnego transportu drogowego towarów; ok. 20% unijnego eksportu akumulatorów litowo-jonowych (wg [trade.gov.pl](https://www.trade.gov.pl/en/?p=231441)) | Eurostat; baza handlu (Comext/ONZ Comtrade) | Pokazuje, jak wygląda polska gospodarka „od środka” |
+| P8 | **Demografia** | liczba urodzeń, struktura wieku, saldo migracji | GUS „Sytuacja demograficzna”; Eurostat | Dane do zebrania; temat wrażliwy (A2) |
+| P9 | **Otyłość, cukrzyca, używki** | czynniki ryzyka i ich trend | WHO, OECD, NIZP-PZH, NFZ | Dane do zebrania; bez porad, sam opis |
+
+**Czego tu świadomie nie ma:** liczby samobójstw ani danych o chorobach opisywanych w sposób, który mógłby szkodzić odbiorcom; takie tematy tylko z poradnikiem źródeł pomocy i po decyzji właściciela.
+
+**Dlaczego to ma sens dla jakości życia:** ciekawostka z danych daje punkt zaczepienia („zobacz, jak to wygląda naprawdę”), a ścieżka prowadzi do praktyki (P3 i P4 do zdrowia i kosztów życia, P2 do emerytur, P1 do cen i płac).
+
 ## 8. Decyzje właściciela
 
 1. **Czy zasady neutralności z pkt 2** (w tym test lustrzany jako nowa rubryka `redaktora`) przyjmujemy jako obowiązujące dla klasy A?
 2. **Kolejność:** P1 jak w pkt 5 (oszustwa i „czytanie liczb” pierwsze)? Czy wolisz zacząć od któregoś tematu polaryzującego?
 3. **Temat migracji (A2):** zostaje P3 po wypracowaniu protokołu, czy ma być wcześniej?
 4. **Forma:** B jako „Szkoła liczb” (karty) i C3 jako wyróżniona karta „Uważaj na oszustwa”: akceptujesz?
+5. **Standard zaufanych źródeł (pkt 10):** liczby tylko ze źródeł poziomu 1, bez wyjątków dla ciekawostek, walidator wymusza regułę? To zaostrza dzisiejszy stan strony (zaległość R4).
+6. **Panorama „co się dzieje” (pkt 11):** w jakiej formie? Karta „Co się dzieje” w rotacji na Start (rekomendacja), osobny krok w Newsy czy oba? Które obszary na początek (rekomendacja: P1 handel, P2 długość życia, P4 powietrze, bo mają pierwotne źródło pod ręką)?
 
 ## 9. Do sprawdzenia przed startem
 
