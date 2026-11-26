@@ -1,0 +1,5 @@
+{
+ "provider": "goatcounter",
+ "site": "",
+ "note": "Pusty „site” = pomiary wyłączone. Kod witryny (subdomena konta GoatCounter) wpisujemy po założeniu konta; instrukcja w docs/analytics.md."
+}

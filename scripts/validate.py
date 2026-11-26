@@ -21,7 +21,7 @@ FETCH = {'page', 'pdf', 'api'}
 DATE_RE = re.compile(r'^(\d{2})\.(\d{2})\.(\d{4})$')
 URL_RE = re.compile(r'https?://[^"\s\\<>]+')
 BANNED = re.compile(r'dobr(a|ą|e|ych|ej)\s+wiadomo|zł(a|ą|e|ych|ej)\s+wiadomo', re.I)
-REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'start', 'method', 'links', 'sources']
+REQUIRED_FILES = ['nodes', 'steps', 'charts', 'news', 'changelog', 'headlines', 'techniques', 'good', 'cost', 'problems', 'terms', 'start', 'method', 'links', 'analytics', 'sources']
 
 # Pola węzła dla nowego designu (docs/design/content-model.md, decyzje D11 i D13).
 LIM_DECIDES, LIM_WATCH, LIM_QUESTION, LIM_EVENT = 80, 90, 70, 110
@@ -600,6 +600,20 @@ def check_deps(D, r):
         r.warn('links.json', f'węzły bez żadnej zależności: {", ".join(isolated)}')
 
 
+def check_analytics(D, r):
+    """Pomiary: dostawca z listy, kod witryny pusty (wyłączone) albo poprawna subdomena; żadnych adresów w danych (rejestr źródeł)."""
+    a = D.get('analytics')
+    if not isinstance(a, dict):
+        return
+    if a.get('provider') != 'goatcounter':
+        r.err('analytics.json', 'dostawca musi być „goatcounter” (obsługiwany w 99-analytics.js)')
+    site = a.get('site')
+    if not isinstance(site, str) or not re.fullmatch(r'[a-z0-9-]{0,40}', site):
+        r.err('analytics.json', '„site” musi być pusty albo kodem konta (małe litery, cyfry, myślniki, do 40 znaków), bez adresu URL')
+    elif not site:
+        r.info.append('analytics.json: pomiary wyłączone (pusty „site”)')
+
+
 def check_method(D, r):
     m = D.get('method')
     if not isinstance(m, dict):
@@ -781,6 +795,7 @@ def run(data_dir, template, links=False):
     check_terms(D, r)
     check_changelog(D, r)
     check_method(D, r)
+    check_analytics(D, r)
     check_deps(D, r)
     check_abbreviations(D, r)
     urls = check_sources(D, r)

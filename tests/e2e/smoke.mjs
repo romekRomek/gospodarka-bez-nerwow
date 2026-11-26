@@ -235,6 +235,19 @@ async function runScenario(browser, base, width, theme, { functional }) {
     await page.keyboard.press('Escape');
     check(!(await page.evaluate(() => document.getElementById('gls').open)), 'Słownik: Escape zamyka okno');
 
+    // pomiary: bez kodu witryny nie ładują zewnętrznego skryptu, ale zdarzenia (tylko nazwy) trafiają do kolejki; źródła jako sama nazwa domeny
+    const an = await page.evaluate(() => {
+      const a = document.createElement('a');
+      a.href = 'https://stat.gov.pl/obszary-tematyczne/x'; a.textContent = 'x';
+      a.addEventListener('click', e => e.preventDefault());
+      document.body.appendChild(a); a.click(); a.remove();
+      return { hasScript: !!document.querySelector('script[src*="zgo.at"]'), fn: typeof window.gbTrack, q: window.__gbq.slice() };
+    });
+    check(!an.hasScript && an.fn === 'function', 'Pomiary: bez kodu witryny nie ładują zewnętrznego skryptu, funkcja zdarzeń istnieje');
+    check(an.q.includes('zakladka/emo') && an.q.includes('okno/slownik'), 'Pomiary: kliknięcia zakładek i okien trafiają do kolejki zdarzeń', an.q.slice(0, 8).join(','));
+    check(an.q.includes('zrodlo/stat.gov.pl') && an.q.every(x => !/https?:|\?|=/.test(x)), 'Pomiary: kliknięcie w źródło zapisuje tylko nazwę domeny, bez adresu i parametrów');
+    check((await page.locator('#privb').count()) === 1, 'Prywatność: stopka ma odnośnik „Prywatność”');
+
     // okno „Jak to sprawdzamy”: otwiera się, ma dziennik korekt ze źródłami, zamyka się Escape
     await page.click('#mthb');
     check(await page.evaluate(() => document.getElementById('mth').open), 'Jak to sprawdzamy: okno się otwiera');
@@ -355,6 +368,15 @@ async function runScenario(browser, base, width, theme, { functional }) {
       const d3 = await deps();
       check(d3.on === 0 && d3.dim === 0 && /nie mamy jeszcze/.test(d3.note), 'Zależności: węzeł bez zapisanych zależności nie wygasza mapy i mówi o braku wprost', JSON.stringify(d3));
       await checkNoHScroll(page, 'mapa z podświetlonymi zależnościami');
+
+      // wyłączenie pomiarów przez #nietrack: po przeładowaniu kolejka zdarzeń pozostaje pusta, a ustawienie jest zapamiętane
+      await page.goto(page.url().split('#')[0] + '#nietrack');
+      await page.reload();
+      await page.waitForTimeout(300);
+      await page.click(TABS[1].btn);
+      const off = await page.evaluate(() => ({ q: window.__gbq.length, flag: localStorage.getItem('gbn-notrack') }));
+      check(off.q === 0 && off.flag === '1', 'Pomiary: „#nietrack” wyłącza zbieranie zdarzeń i jest zapamiętane', JSON.stringify(off));
+      await page.evaluate(() => localStorage.removeItem('gbn-notrack'));
     }
 
     // konsola i wyjątki przez cały scenariusz

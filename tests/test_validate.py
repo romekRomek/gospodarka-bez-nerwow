@@ -129,6 +129,18 @@ class ValidateTest(DataCase):
                     ls.append({**base, 'id': n + '-shop', 'from': n})
         self.assert_error(self._links(bad), 'limit 6')
 
+    def test_analytics_site_must_not_be_url(self):
+        self.edit('analytics', lambda d: d.__setitem__('site', 'https://x.goatcounter.com'))
+        self.assert_error(self.run_v(), 'bez adresu URL')
+
+    def test_analytics_unknown_provider(self):
+        self.edit('analytics', lambda d: d.__setitem__('provider', 'inny'))
+        self.assert_error(self.run_v(), 'dostawca musi być')
+
+    def test_analytics_disabled_by_default(self):
+        r = self.run_v()
+        self.assertTrue(any('pomiary wyłączone' in i for i in r.info), r.info[:3])
+
     def test_event_src_must_exist_in_registry(self):
         def bad(steps):
             ev = steps[0]['soon']['events'][0]
