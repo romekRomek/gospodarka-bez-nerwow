@@ -371,6 +371,31 @@ async function runScenario(browser, base, width, theme, { functional }) {
       const d3 = await deps();
       check(d3.on === 0 && d3.dim === 0 && /nie mamy jeszcze/.test(d3.note), 'Zależności: węzeł bez zapisanych zależności nie wygasza mapy i mówi o braku wprost', JSON.stringify(d3));
       await checkNoHScroll(page, 'mapa z podświetlonymi zależnościami');
+
+      // odznaczanie: klik w puste miejsce mapy wraca do stanu początkowego (bez zaznaczenia, bez zależności, panel startowy)
+      await page.locator('#n-derrick').click();
+      check((await deps()).on === 4, 'Odznaczanie: przed kliknięciem w puste miejsce węzeł jest zaznaczony');
+      await page.locator('#map').click({ position: { x: 50, y: 30 } });
+      const u1 = await page.evaluate(() => ({
+        on: document.querySelectorAll('.node.on,.step.on').length, dep: document.querySelectorAll('#deps .dep.on').length,
+        dim: document.querySelectorAll('#nodes .node.dim,#nodes .node.rel').length, pressed: document.querySelectorAll('#nodes [aria-pressed]').length,
+        title: document.getElementById('bt').textContent.trim(), tag: document.getElementById('tag').textContent.trim(), sheet: document.body.classList.contains('sheet-open'),
+        v2: document.getElementById('pv2').children.length,
+      }));
+      check(u1.on === 0 && u1.dep === 0 && u1.dim === 0 && u1.pressed === 0 && u1.title === 'Zacznij od ropy' && u1.tag === 'Start' && !u1.sheet && u1.v2 === 0, 'Odznaczanie: klik w puste miejsce mapy przywraca stan początkowy (bez zaznaczenia i zależności, panel startowy, zamknięty panel)', JSON.stringify(u1));
+      await page.locator('#n-derrick').click();
+      await page.locator('#n-derrick').click();
+      check((await deps()).on === 4, 'Odznaczanie: ponowny wybór węzła po odznaczeniu znów podświetla zależności');
+      if (!phone) {
+        await page.keyboard.press('Escape');
+        const u2 = await deps();
+        check(u2.on === 0 && u2.dim === 0 && u2.title === 'Zacznij od ropy', 'Odznaczanie: Esc (bez otwartego okna) też wraca do stanu początkowego', JSON.stringify(u2));
+      }
+      // okno szczegółów zamyka się dotknięciem poza nim (także na telefonie, gdzie margines jest wąski)
+      await page.click('#more');
+      check(await modalIsOpen(page), 'Okno: otwarte przed próbą zamknięcia poza nim');
+      await page.mouse.click(3, 3);
+      check(!(await modalIsOpen(page)), 'Okno szczegółów: kliknięcie poza oknem (w tło) zamyka je');
     }
 
     // konsola i wyjątki przez cały scenariusz

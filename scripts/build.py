@@ -64,12 +64,16 @@ def tangent(sg):
     return (Pp[0] + L*math.cos(ang), Pp[1] + L*math.sin(ang))
 t1, t2 = tangent(1), tangent(-1)
 conn = f'M{Pp[0]} {Pp[1]} L{t1[0]:.1f} {t1[1]:.1f} L{t2[0]:.1f} {t2[1]:.1f} Z'
+# koniec trasy ropy: port (Gdańsk) i krótki odcinek do pierścienia Polski, żeby droga kończyła się czytelnie, a nie urywała na brzegu morza
+RE = g['route'][-1]
+ex, ey = Pp[0]-RE[0], Pp[1]-RE[1]; el = math.hypot(ex, ey)
+rlink = f'M{RE[0]} {RE[1]} L{Pp[0]-ex/el*16:.1f} {Pp[1]-ey/el*16:.1f}'
 
 out = (tpl.replace('/*__STYLE__*/', '<style>\n' + css + '\n</style>')
           .replace('/*__CDN__*/', CDN)
           .replace('/*__SCRIPT__*/', '<script>\n' + js + '\n</script>')
           .replace('__MAIN__', main).replace('__INSET__', ins).replace('__ROUTE__', route)
-          .replace('__CONN__', conn).replace('__PX__', str(Pp[0])).replace('__PY__', str(Pp[1])))
+          .replace('__CONN__', conn).replace('__RLINK__', rlink).replace('__REX__', str(RE[0])).replace('__REY__', str(RE[1])).replace('__PX__', str(Pp[0])).replace('__PY__', str(Pp[1])))
 DIST.mkdir(exist_ok=True)
 (DIST / 'index.html').write_text(out, encoding='utf-8')
 print('dist/index.html', len(out), 'znaków')

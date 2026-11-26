@@ -28,6 +28,26 @@ function depsRender(i){
     n.classList.toggle('dim',any&&!rel[k]);n.classList.toggle('rel',any&&!!rel[k]&&k!==id);n.setAttribute('aria-pressed',String(k===id));});
 }
 function selectNode(i){stop();show(i);if(isPhone())sheet(true);}
+/* Powrót do stanu początkowego mapy i panelu (bez zaznaczenia i bez podświetlonych zależności). Migawkę robimy tuż przed pierwszym wyborem węzła. */
+var HOME_IDS=['tag','bt','qp','mn','mc','fl','bp'];
+function homeSnap(){HOME={};HOME_IDS.forEach(function(id){var e=document.getElementById(id);HOME[id]={h:e.innerHTML,c:e.className};});}
+function deselect(){
+  if(cur<0&&!document.querySelector('.node.on'))return;
+  stop();
+  if(HOME)HOME_IDS.forEach(function(id){var e=document.getElementById(id);e.innerHTML=HOME[id].h;e.className=HOME[id].c;});
+  var mtp=document.querySelector('#mt .prev');if(mtp)mtp.remove();
+  ['pv2','pv3'].forEach(function(id){var e=document.getElementById(id);if(e)e.innerHTML='';});
+  closeTerm(false);pLocal=false;syncPanelLevel();
+  document.querySelectorAll('.node.on,.step.on').forEach(function(n){n.classList.remove('on');});
+  depsClear();cur=-1;sheet(false);
+}
+/* klik w puste miejsce mapy (nie w węzeł) odznacza; Esc działa tak samo, gdy nie ma otwartego okna */
+document.getElementById('map').addEventListener('click',function(e){if(!e.target.closest('.node'))deselect();});
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape'||e.defaultPrevented)return;
+  if(document.querySelector('dialog[open]'))return;
+  if(cur>=0)deselect();
+});
 function depsEl(s){
   var d=depsOf(s.id);
   function item(l,dir){var oid=dir==='out'?l.to:l.from,o=STEPS[byId[oid]];

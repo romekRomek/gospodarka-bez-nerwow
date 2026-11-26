@@ -37,6 +37,6 @@
   fill();
   document.getElementById('chgb').addEventListener('click',function(){cg.showModal();body.scrollTop=0;});
   document.getElementById('cgx').addEventListener('click',function(){cg.close();});
-  cg.addEventListener('click',function(e){if(e.target===cg)cg.close();});
+  closeOnOutside(cg);
   cg.addEventListener('keydown',function(e){e.stopPropagation();});
 })();

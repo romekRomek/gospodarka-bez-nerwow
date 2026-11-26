@@ -20,7 +20,7 @@
   function open(){dlg.showModal();body.scrollTop=0;}
   document.getElementById('glsb').addEventListener('click',open);
   document.getElementById('glsx').addEventListener('click',function(){dlg.close();});
-  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
+  closeOnOutside(dlg);
   dlg.addEventListener('keydown',function(e){e.stopPropagation();});
   var mb=document.getElementById('mthb2');if(mb)mb.addEventListener('click',function(){document.getElementById('mthb').click();});
 })();
