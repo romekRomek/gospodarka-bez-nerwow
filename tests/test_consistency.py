@@ -112,7 +112,10 @@ class Evaluate(unittest.TestCase):
 
     def test_niedostepne_nie_jest_werdyktem(self):
         rows = verify_claims.verify(DATA, fetcher=lambda u: (403, None, 'HTTP 403'))
-        self.assertTrue(rows and all(r['result'] == 'niedostępne' for r in rows))
+        import json
+        snap = {c['id'] for c in json.loads((DATA / 'claims.json').read_text(encoding='utf-8'))['claims'] if c.get('snapshot')}
+        live = [r for r in rows if r['id'] not in snap]
+        self.assertTrue(live and all(r['result'] == 'niedostępne' for r in live))
         self.assertTrue(any(e.get('detail') == 'HTTP 403' for r in rows for e in r['evidence']))
 
     def test_potwierdzone_przez_podstawiony_fetch(self):
@@ -148,6 +151,33 @@ class VerifyClaimsRoundingTest(unittest.TestCase):
         r, _ = verify_claims.evaluate({'value': 'nr 1', 'anchor': 'największym dostawcą'}, 'Chiny największym dostawcą towarów do Polski')
         self.assertEqual(r, 'potwierdzone')
 
+
+
+class VerifyClaimsSnapshotTest(unittest.TestCase):
+    """Twierdzenia o zmiennych źródłach sprawdzamy względem dowodu z archiwum, nie strony na żywo."""
+
+    def _run(self, value):
+        import json, pathlib, tempfile
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        snap = tmp / 'dowod.json'
+        snap.write_text(json.dumps({'url': 'https://example.org/x', 'fetched': '2026-11-26T10:00:00Z', 'sha256_page_text': 'abc',
+                                    'fragment': 'Obecny 94.943 Dzienna Zmiana 0.33 0.35%'}), encoding='utf-8')
+        claim = {'id': 'c1', 'node': 'n', 'field': 'm', 'value': value, 'unit': 'USD', 'period': '2026-11-26', 'src': ['s'],
+                 'anchor': 'Obecny', 'kind': 'market', 'tol': 1.5, 'snapshot': str(snap)}
+        (tmp / 'claims.json').write_text(json.dumps({'claims': [claim]}), encoding='utf-8')
+        (tmp / 'sources.json').write_text(json.dumps({'sources': [{'id': 's', 'url': 'https://example.org/x'}]}), encoding='utf-8')
+
+        def boom(url):
+            raise AssertionError('nie wolno pobierać strony, gdy jest dowód z archiwum')
+        return verify_claims.verify(tmp, fetcher=boom)
+
+    def test_snapshot_confirms_without_fetching(self):
+        rows = self._run(95)
+        self.assertEqual(rows[0]['result'], 'potwierdzone')
+        self.assertIn('archiwum', rows[0]['evidence'][0]['detail'])
+
+    def test_snapshot_wrong_value_is_divergent(self):
+        self.assertEqual(self._run(90)[0]['result'], 'rozbieżne')
 
 
 if __name__ == '__main__':

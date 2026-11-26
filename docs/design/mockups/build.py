@@ -159,10 +159,10 @@ def tile(label, who_html, num, cap, dlt, plain, viz, more, note='', conf_html=''
             f'<p class="plain">{plain}</p>{who_html}{watch_html}<div class="ctx">{viz}<p class="ctxl">{note}</p>{conf_html}</div>'
             f'<p class="more lv2">{more}</p>{soon_html}{extra_html}</article>')
 
-brent = tile('Ropa Brent', who('rynek światowy, negocjacje USA–Iran', 'kierowców, firm zależnych od paliw'), 'ok. 90 <small>USD</small>', 'za baryłkę, 23–24.11',
+brent = tile('Ropa Brent', who('rynek światowy, negocjacje USA–Iran', 'kierowców, firm zależnych od paliw'), 'ok. 95 <small>USD</small>', 'za baryłkę, 23–24.11',
              delta('down', 'ok. 20% od 27.10 (114 USD)'),
              'Taniej niż miesiąc temu, ale drożej niż w lutym (68 USD).',
-             spark([70.9, 100.9, 82.5, 80.5, 91.0], ['2021', '2022', '2023', '2024', 'dziś']),
+             spark([70.9, 100.9, 82.5, 80.5, 95.0], ['2021', '2022', '2023', '2024', 'dziś']),
              'Cena nadal zawiera premię za ryzyko wokół Iranu. Porozumienie mogłoby ją obniżyć, a kolejne ataki na tankowce podbić.',
              'Średnie roczne 2021–2024: cena spot (EIA). Ostatnia wartość: kontrakt ICE z jednego dnia.',
              conf('mid', 'Kontrakt giełdowy z mediów, cena zmienna', [
@@ -254,9 +254,9 @@ EX = [
          b=('Inflacja wciąż powyżej celu NBP, ceny dalej rosną', 'poziom ponad celem 2,5%', 'niepokój'),
          calm='Ceny rosną wolniej niż miesiąc wcześniej, ale nadal rosną. Ani powód do ulgi, ani do alarmu.',
          conf=conf('hi', 'GUS, odczyt finalny z 13.11', [('Źródło', 'ok', 'GUS, dane pierwotne'), ('Aktualność', 'ok', 'Odczyt finalny za październik'), ('Zgodność źródeł', 'ok', 'Zgodne'), ('Rodzaj danych', 'ok', 'Pomiar, nie szacunek')])),
-    dict(topic='Ropa Brent', fact='ok. 90 USD: ok. 24 USD mniej niż 27.10 (114 USD) i ok. 22 USD więcej niż w lutym (68 USD).',
-         a=('Ropa tanieje o ok. 24 USD w niecały miesiąc!', 'spadek od 27.10', 'ulgę'),
-         b=('Ropa wciąż o ok. 22 USD droższa niż w lutym', 'wzrost od lutego', 'niepokój'),
+    dict(topic='Ropa Brent', fact='ok. 95 USD: ok. 19 USD mniej niż 27.10 (114 USD) i ok. 27 USD więcej niż w lutym (68 USD).',
+         a=('Ropa tanieje o ok. 19 USD w niecały miesiąc!', 'spadek od 27.10', 'ulgę'),
+         b=('Ropa wciąż o ok. 27 USD droższa niż w lutym', 'wzrost od lutego', 'niepokój'),
          calm='Cena spadła od końca października, ale jest wyraźnie wyższa niż w lutym. Wniosek zależy od tego, od kiedy patrzysz.',
          conf=conf('mid', 'Kontrakt giełdowy z mediów, cena zmienna', [('Źródło', 'mid', 'Agencje i serwisy rynkowe'), ('Aktualność', 'ok', 'Cena z 23–24.11'), ('Zgodność źródeł', 'mid', 'Dwie miary (kontrakt ICE i spot EIA), w listopadzie zbliżone, w kryzysie różnice do 26 USD'), ('Rodzaj danych', 'mid', 'Cena rynkowa, zmienia się codziennie')])),
 ]
@@ -380,7 +380,7 @@ def sheet():
             f'<button class="btn ghost" type="button">Źródła i metodologia ▾</button></div></section>')
 
 def strip():
-    items = [('Ropa', 'ok. 90 USD', 'down'), ('CPI', '3,5%', 'down'), ('Płace realnie', '+2,4%', 'up')]
+    items = [('Ropa', 'ok. 95 USD', 'down'), ('CPI', '3,5%', 'down'), ('Płace realnie', '+2,4%', 'up')]
     pills = ''.join(f'<span class="sp"><small>{n}</small><b>{v}</b><i aria-hidden="true">{ARW[d]}</i></span>' for n, v, d in items)
     return (f'<div class="strip" aria-label="Dziś"><span class="stl">Dziś</span>{pills}'
             f'<span class="sp tq"><small>Technika dnia</small><b>Luka ciekawości</b></span></div>')

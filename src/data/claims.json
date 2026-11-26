@@ -7,16 +7,17 @@
    "node": "derrick",
    "field": "m",
    "indicator": "Brent (kontrakt ICE), cena",
-   "period": "2026-11-23",
-   "value": 90,
+   "period": "2026-11-26",
+   "value": 95,
    "unit": "USD/bbl",
    "src": [
     "tradingeconomics-brent"
    ],
-   "anchor": "Cena ropy Brent",
+   "anchor": "Obecny",
    "kind": "market",
    "approx": true,
-   "tol": 1.5
+   "tol": 1.5,
+   "snapshot": "docs/evidence/2026-11-26-brent-tradingeconomics.json"
   },
   {
    "id": "derrick-mc-2",
@@ -37,15 +38,15 @@
    "node": "derrick",
    "field": "mc",
    "indicator": "Brent, zmiana względem 27.10",
-   "period": "2026-11-23",
-   "value": -20,
+   "period": "2026-11-26",
+   "value": -17,
    "unit": "%",
    "src": [],
    "anchor": "",
    "kind": "calculation",
    "approx": true,
    "formula": {
-    "a": 90,
+    "a": 95,
     "b": 114,
     "tol": 2.0
    }

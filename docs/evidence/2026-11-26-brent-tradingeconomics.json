@@ -1,0 +1,8 @@
+{
+ "claim": "Brent (kontrakt ICE), 26.11.2026 w ciągu dnia: 94.943 USD; zmiana miesięczna wg strony; opis rynku z dnia",
+ "url": "https://pl.tradingeconomics.com/commodity/brent-crude-oil",
+ "fetched": "2026-11-26T11:52:50Z",
+ "fragment": "Obecny 94.943 Dzienna Zmiana 0.33 0.35% Miesięcznie -13.22% Rocznie 51.81% Q4 Prognozy TE 94.446 Brent oil - streszczenie W czwartek ropa Brent wzrosła powyżej 95 USD za baryłkę, przedłużając wzrosty na trzecią sesję z rzędu, gdy nasilające się ataki na Bliskim Wschodzie zwiększyły obawy o możliwe zakłócenia dostaw. Wspierani przez Iran bojownicy Huti nadal atakowali Arabię Saudyjską, w tym jej kluczowy terminal eksportowy ropy w Ras Tanura. Iran poinformował również, że kilka statków przepływających przez Cieśninę Ormuz natrafiło na miny. Mimo ostatniego odbicia ceny ropy pozostają w tym miesiącu niższe o prawie 20%, ponieważ dostawy ropy z Zatoki Perskiej odbudowują się, a Międzynarodowa A",
+ "sha256_page_text": "b5502f14fe9b1c254a509ff15a521c5c1b3f3ed6caae6be0947b54f93be5ac67",
+ "note": "Strona zmienia się codziennie; ten plik jest dowodem stanu z chwili pobrania. Twierdzenia o zmiennych źródłach sprawdzamy względem takiego dowodu (pole snapshot w claims.json)."
+}

@@ -147,7 +147,16 @@ def verify(data_dir, fetcher=fetch, only=None, now=None):
         if c.get('kind') == 'attribution' or (only and c['node'] != only):
             continue
         tries = []
-        for sid in c.get('src', []):
+        if c.get('snapshot'):
+            # źródło zmienne (np. notowania): sprawdzamy względem dowodu zapisanego w archiwum, a nie strony na żywo
+            try:
+                j = json.loads((ROOT / c['snapshot']).read_text(encoding='utf-8'))
+                res, frag = evaluate(c, j['fragment'])
+                tries.append({'src': 'archiwum', 'url': j.get('url'), 'result': res, 'fragment': frag, 'sha256': j.get('sha256_page_text'),
+                              'fetched': j.get('fetched'), 'detail': 'dowód z archiwum (źródło zmienne), nie strona na żywo'})
+            except (OSError, ValueError, KeyError) as e:
+                tries.append({'src': 'archiwum', 'result': 'niedostępne', 'detail': f'brak dowodu {c["snapshot"]}: {e}'})
+        for sid in ([] if c.get('snapshot') else c.get('src', [])):
             s = reg.get(sid)
             if not s:
                 tries.append({'src': sid, 'result': 'niedostępne', 'detail': 'źródło spoza rejestru'})

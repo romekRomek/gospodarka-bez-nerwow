@@ -346,7 +346,10 @@ class NodeFieldsTest(DataCase):
         self.assert_error(self.run_v(), 'rrrr-mm-dd')
 
     def test_conf_asof_not_after_last_update(self):
-        self.step(lambda s: s['conf'].__setitem__('asof', '2026-11-25'))
+        import datetime
+        d, m, y = json.loads((self.data / 'changelog.json').read_text(encoding='utf-8'))[0]['label'].split('.')
+        nxt = (datetime.date(int(y), int(m), int(d)) + datetime.timedelta(days=1)).isoformat()
+        self.step(lambda s: s['conf'].__setitem__('asof', nxt))
         self.assert_error(self.run_v(), 'późniejsze niż ostatnia aktualizacja')
 
     def test_good_bad_news_phrase_in_new_fields(self):

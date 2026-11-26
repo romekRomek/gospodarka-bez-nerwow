@@ -34,14 +34,14 @@
   {
    "topic": "Ropa Brent",
    "node": "derrick",
-   "fact": "ok. 90 USD: ok. 24 USD mniej niż 27.10 (114 USD) i ok. 22 USD więcej niż w lutym (68 USD).",
+   "fact": "ok. 95 USD: ok. 19 USD mniej niż 27.10 (114 USD) i ok. 27 USD więcej niż w lutym (68 USD).",
    "a": {
-    "h": "Ropa tanieje o ok. 24 USD w niecały miesiąc!",
+    "h": "Ropa tanieje o ok. 19 USD w niecały miesiąc!",
     "accent": "spadek od 27.10",
     "emotion": "ulgę"
    },
    "b": {
-    "h": "Ropa wciąż o ok. 22 USD droższa niż w lutym",
+    "h": "Ropa wciąż o ok. 27 USD droższa niż w lutym",
     "accent": "wzrost od lutego",
     "emotion": "niepokój"
    },

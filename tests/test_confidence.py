@@ -9,7 +9,13 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'scripts'))
 import confidence as C  # noqa: E402
 
-TODAY = datetime.date(2026, 11, 24)
+def _last_update():
+    import json
+    d, m, y = json.loads((pathlib.Path(__file__).resolve().parent.parent / 'src' / 'data' / 'changelog.json').read_text(encoding='utf-8'))[0]['label'].split('.')
+    return datetime.date(int(y), int(m), int(d))
+
+
+TODAY = _last_update()
 
 
 def iso(days_ago):
@@ -311,12 +317,12 @@ class RealData(unittest.TestCase):
     def test_cli_json_and_table(self):
         script = str(ROOT / 'scripts' / 'confidence.py')
         for extra in ([], ['--json']):
-            p = subprocess.run([sys.executable, script, '--today', '2026-11-24'] + extra,
+            p = subprocess.run([sys.executable, script, '--today', TODAY.isoformat()] + extra,
                                capture_output=True, text=True, encoding='utf-8')
             self.assertEqual(p.returncode, 0, p.stderr)
             self.assertTrue(p.stdout.strip())
         doc = json.loads(p.stdout)
-        self.assertEqual(doc['computed'], '2026-11-24')
+        self.assertEqual(doc['computed'], TODAY.isoformat())
         self.assertIn('derrick', doc['nodes'])
 
     def test_cli_write_to_other_dir(self):
@@ -324,11 +330,11 @@ class RealData(unittest.TestCase):
         tmp = pathlib.Path(tempfile.mkdtemp())
         try:
             shutil.copytree(C.DATA, tmp / 'data')
-            p = subprocess.run([sys.executable, str(ROOT / 'scripts' / 'confidence.py'), '--today', '2026-11-24',
+            p = subprocess.run([sys.executable, str(ROOT / 'scripts' / 'confidence.py'), '--today', TODAY.isoformat(),
                                 '--data', str(tmp / 'data'), '--write'], capture_output=True, text=True, encoding='utf-8')
             self.assertEqual(p.returncode, 0, p.stderr)
             doc = json.loads((tmp / 'data' / 'confidence.json').read_text(encoding='utf-8'))
-            self.assertEqual(doc['computed'], '2026-11-24')
+            self.assertEqual(doc['computed'], TODAY.isoformat())
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
