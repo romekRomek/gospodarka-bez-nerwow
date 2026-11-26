@@ -28,3 +28,13 @@ var Q=['Wszystko zaczyna się od baryłki.','Jedne wąskie drzwi i mnóstwo tank
 var NS='http://www.w3.org/2000/svg';
 function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
 var byId={};STEPS.forEach(function(s,i){byId[s.id]=i;});
+/* Zamykanie okna dialogowego dotknięciem poza nim. Nie polegamy na e.target===dialog: iOS Safari bywa niewiarygodny przy kliknięciu w ::backdrop,
+   więc sprawdzamy położenie punktu względem prostokąta okna (rozpoczęcie i zakończenie dotknięcia poza oknem, żeby nie zamykać przy przeciąganiu zaznaczenia). */
+function closeOnOutside(dlg){
+  var down=false;
+  function out(e){var r=dlg.getBoundingClientRect();return e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom;}
+  dlg.addEventListener('pointerdown',function(e){down=out(e);});
+  dlg.addEventListener('pointerup',function(e){if(down&&out(e)&&dlg.open)dlg.close();down=false;});
+  dlg.addEventListener('click',function(e){if(e.target===dlg&&out(e)&&dlg.open)dlg.close();});
+  dlg.setAttribute('closedby','any');
+}

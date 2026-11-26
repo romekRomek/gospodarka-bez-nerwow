@@ -1,7 +1,8 @@
 /* Komponent: Panel węzła na stronie: show(), nawigacja, odtwarzanie */
 /* panel */
-var cur=-1;
+var cur=-1,HOME=null;
 function show(i,scroll){
+  if(!HOME)homeSnap();
   cur=i;var s=STEPS[i];
   var tg=document.getElementById('tag');tg.textContent=s.tag;tg.className='tag '+s.cat;
   document.getElementById('bt').textContent=s.t;document.getElementById('qp').textContent=Q[i];

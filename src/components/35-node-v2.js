@@ -17,4 +17,4 @@ function renderPanelV2(i){
   syncPanelLevel();termify(document.getElementById('panel'));
 }
 document.getElementById('pclose').addEventListener('click',function(){sheet(false);});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isPhone()&&document.getElementById('side').classList.contains('open')&&!md.open&&!document.getElementById('cg').open)sheet(false);});
+

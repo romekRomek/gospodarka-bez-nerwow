@@ -274,6 +274,8 @@ details a{color:var(--accent)}
 .link{fill:none;stroke:var(--chain);stroke-width:2.4;stroke-linecap:round;marker-end:url(#arr)}
 .div{stroke:var(--line-strong);stroke-width:2;stroke-dasharray:5 6}
 .shade{fill:var(--surface);opacity:.35}
+.rtlink{fill:none;stroke:var(--oil);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1 6;opacity:.9}
+.rtend{fill:var(--oil);stroke:var(--surface);stroke-width:2}
 .ringp{fill:none;stroke:var(--land-pl-line);stroke-width:2.5}
 .conn{fill:var(--surface);fill-opacity:.4;stroke:var(--line-strong);stroke-width:1.5;stroke-dasharray:5 6}
 .insring{fill:none;stroke:var(--line-strong);stroke-width:2.5}
@@ -803,6 +805,11 @@ svg.map.lite .ship{display:none}
 /* Mapa w dwóch warstwach (10-map.js): statyczna podstawa wyznacza rozmiar, nakładka z węzłami leży na niej i jako jedyna jest przemalowywana */
 .mapstack{position:relative}
 .mapstack #sv{position:absolute;left:0;top:0;width:100%;height:100%;min-width:0}
+
+/* Tryb lekki: bez wygaszania pozostałych węzłów (opacity grupy w SVG kosztowało ok. połowy czasu reakcji w WebKit); zaznaczenie i powiązania pokazuje obrys w kolorze akcentu */
+svg.map.lite .node.dim{opacity:1}
+svg.map.lite .node.on .tile{stroke:var(--accent);stroke-width:3.4}
+svg.map.lite .node.rel .tile{stroke:var(--accent);stroke-width:2.4}
 </style>
 </head>
 <body>
@@ -868,6 +875,8 @@ svg.map.lite .ship{display:none}
 
         <!-- powiększenie Polski -->
         <path class="conn" d="M451.5 319.2 L732.2 401.7 L624.9 83.5 Z" filter="url(#rough)"/>
+        <path class="rtlink" d="M449.5 286 L450.5 303.2"/>
+        <circle class="rtend" cx="449.5" cy="286" r="5.5"/>
         <circle class="ringp" cx="451.5" cy="319.2" r="13"/>
         <g clip-path="url(#insclip)"><g filter="url(#rough2)"><rect class="sea" x="585" y="0" width="410" height="410"/><g class="ins" transform="translate(790 205)"><path class="land oth" d="M215,208.3L208.5,209.9L201.1,210.9L192,215L176.7,215L176.7,215L174.1,212.7L171.8,209.9L168.6,209.1L165.2,209.6L161.8,210.9L158.4,211.2L154.6,209.2L154.1,209.5L152.6,209.7L142.9,207.4L142,207L141.5,206.9L140.2,206.7L133,207L126.1,202.3L124,202.2L122.4,204.1L121.3,206.2L116.5,208.3L115.3,209.1L114.6,208.5L114.3,206.6L114.7,205.1L114,203.5L112.2,201.8L111.7,201.1L109.4,201.2L108.8,201.4L108.6,201.4L105.5,199.8L103.5,196.3L100.2,194.4L97.9,193.8L96.8,192.3L96.1,190.2L95.2,188.7L95.1,188.6L94.6,186.3L93.9,186L93.8,185.9L90.6,186.3L90.9,178.2L96.1,172.3L97.3,169.3L99.2,162.8L100.6,159.8L102.3,157.3L103.6,154.9L104.1,152.8L105.5,152.6L109.4,154.5L113,155.5L114.1,154.5L114.4,153.3L114.3,152.4L111.5,149.6L109.7,147.8L109.6,146.7L110.1,144.3L110.5,141.5L110.1,138.5L108.1,131.9L107.8,129.1L109.7,125.6L115.8,117.4L117.8,114.4L120.5,110.6L128.2,101.7L133,96.4L136.2,93.5L140.9,88.5L143,85.8L151.7,84.1L152.6,81.7L154.3,79.1L155.5,77.9L155.6,73.4L154.1,67.8L152.8,65.9L151.8,64.5L152.4,63.3L153.4,62.9L154.6,62.7L156,61.4L155.8,60L152.1,56.4L150.5,53.7L148,46.6L143,39.3L141.4,36.9L141.2,34.6L141.9,32.4L141.2,29.5L139.4,25.8L139.8,25.4L139.5,20.9L140.8,19.9L142.9,19.2L145.6,19.5L148,20.2L151,22.3L151.8,21.9L156.7,18L161.8,12.1L163.3,8.7L164.6,7.1L169,6.3L172.8,5.9L175.2,6L181.3,5.5L184.9,4.8L187.9,3.8L194.6,3.3L204.9,4.1L211.7,4.1L215,4.5L215,208.3Z"/><path class="land oth" d="M-172,-215L-172.3,-209.9L-169.9,-204.4L-167.8,-198.1L-173.3,-190.4L-176.4,-190.2L-185.4,-192.2L-201.6,-187.4L-215,-191L-215,-193.6L-215,-193.6L-214.2,-195.3L-214.2,-198.4L-213.5,-203L-213,-207.8L-213.1,-211L-214.2,-214.4L-214.7,-215L-172,-215Z"/><path class="land oth" d="M-59.7,215L-63.7,212.1L-69,207L-69.6,206.8L-70.4,206.3L-73.8,205.9L-74.7,206.2L-76.7,204.6L-77.3,202.4L-80.5,196.7L-84.1,187.3L-84.1,184.5L-82.8,181.5L-81.5,179L-81.3,177.2L-81.1,176.7L-80,172.8L-77.5,167.5L-75.1,164.5L-73.3,163.5L-69.8,164.4L-63.6,165.2L-58.9,164.5L-54.5,162.1L-52.1,160.1L-49.9,157.9L-49.3,156.5L-48.4,155.9L-44.7,154.7L-43.6,153.2L-43.1,150.4L-42.8,147.4L-42.1,145.1L-41.1,143.4L-34.3,139.4L-33.7,138L-32.6,136.6L-30.6,135.1L-28.7,132.9L-26.7,131.6L-24,131.6L-21.5,131.4L-19.6,130.6L-18.8,130.5L-15.3,131.2L-14.7,133.7L-14.4,136.3L-8.3,136.2L-4.9,130.5L-3.3,129.8L-0.4,127.8L1.4,126L2.6,127.2L4.5,130.8L6.4,133.8L7.5,134.9L7.6,135.8L8.8,136.3L10.9,136.7L12.4,137.6L12.9,140.3L12.9,142.8L12.1,144.5L11.8,146.1L13.3,146.7L15.6,146.1L17.2,145.2L21.8,147.3L23.5,142.8L25.3,140.4L27.8,139.3L29.9,137.9L32,137L33.3,137L33.9,136.6L35.7,136.7L37.6,137.1L40.3,136.6L44,137.7L46.4,139.8L48.7,140.5L51.3,140.4L53.1,139.2L55.7,135.3L57.6,135.3L60.5,134.7L64.7,134.7L74.2,135.5L76.7,137.1L82.6,139.1L85.2,141.3L86.3,144L86.9,145.9L93,148.7L101.9,152.4L104.1,152.8L104.1,152.8L103.6,154.9L102.3,157.3L100.6,159.8L99.2,162.8L97.3,169.3L96.1,172.3L90.9,178.2L90.6,186.3L89.9,186.9L78.5,189.7L77,189.3L75.4,187.7L74.6,186.5L74,185.7L73,183.5L71.7,181.8L69.8,180.5L68,179L65.7,179L59.5,181.1L55.2,181.3L52.5,180.6L48.7,179.3L41.3,179.1L36.1,180.3L35.7,181.8L31,191.8L24.2,195.5L18.2,199.2L16.6,200L13.6,198.8L10.2,196.6L7.5,195.4L5.5,195.9L3.2,198.5L2.2,201L-4.5,202.9L-16.2,204L-20.2,206.5L-21.5,209.6L-21.6,211.8L-20.6,213.8L-21.3,215L-59.7,215Z"/><path class="land oth" d="M51.7,-183.5L48.4,-177.9L39.6,-166.3L42.3,-164.8L45.6,-164.3L49.4,-162.1L53,-161.8L59.3,-163.6L60.5,-173.6L60.8,-182.7L62.9,-182.7L66,-183.3L67.9,-181L71.5,-178.6L75.6,-176.6L82.1,-173.2L88.7,-171L90.8,-170.8L97.7,-171.1L105,-170.8L107,-165.7L110.6,-163.3L113.6,-159.9L113.7,-158.1L109.8,-146.2L109,-142.2L108.7,-138.3L110.3,-133.2L111.6,-130.4L110.5,-130L91.8,-130.6L74.1,-131.5L57.7,-132.4L42,-133.3L26.8,-134.1L17.4,-134.9L8.1,-135.6L6.8,-136.3L11.9,-141.1L15.2,-146.3L18,-153L18.3,-157.6L19.1,-162.8L23.5,-164.9L33,-164.6L37.2,-167.1L42.5,-173.3L48,-180.8L49.7,-184Z"/><path class="land oth" d="M110.1,215L114.4,210.3L115.3,209.1L116.5,208.3L121.3,206.2L122.4,204.1L124,202.2L126.1,202.3L133,207L140.2,206.7L141.5,206.9L142,207L142.9,207.4L152.6,209.7L154.1,209.5L154.6,209.2L158.4,211.2L161.8,210.9L165.2,209.6L168.6,209.1L171.8,209.9L174.1,212.7L176.7,215L110.1,215ZM192,215L201.1,210.9L208.5,209.9L215,208.3L215,215Z"/><path class="land pl" d="M139.4,25.8L141.2,29.5L141.9,32.4L141.2,34.6L141.4,36.9L143,39.3L148,46.6L150.5,53.7L152.1,56.4L155.8,60L156,61.4L154.6,62.7L153.4,62.9L152.4,63.3L151.8,64.5L152.8,65.9L154.1,67.8L155.6,73.4L155.5,77.9L154.3,79.1L152.6,81.7L151.7,84.1L143,85.8L140.9,88.5L136.2,93.5L133,96.4L128.2,101.7L120.5,110.6L117.8,114.4L115.8,117.4L109.7,125.6L107.8,129.1L108.1,131.9L110.1,138.5L110.5,141.5L110.1,144.3L109.6,146.7L109.7,147.8L111.5,149.6L114.3,152.4L114.4,153.3L114.1,154.5L113,155.5L109.4,154.5L105.5,152.6L104.1,152.8L101.9,152.4L93,148.7L86.9,145.9L86.3,144L85.2,141.3L82.6,139.1L76.7,137.1L74.2,135.5L64.7,134.7L60.5,134.7L57.6,135.3L55.7,135.3L53.1,139.2L51.3,140.4L48.7,140.5L46.4,139.8L44,137.7L40.3,136.6L37.6,137.1L35.7,136.7L33.9,136.6L33.3,137L32,137L29.9,137.9L27.8,139.3L25.3,140.4L23.5,142.8L21.8,147.3L17.2,145.2L15.6,146.1L13.3,146.7L11.8,146.1L12.1,144.5L12.9,142.8L12.9,140.3L12.4,137.6L10.9,136.7L8.8,136.3L7.6,135.8L7.5,134.9L6.4,133.8L4.5,130.8L2.6,127.2L1.4,126L-0.4,127.8L-3.3,129.8L-4.9,130.5L-8.3,136.2L-14.4,136.3L-14.7,133.7L-15.3,131.2L-18.8,130.5L-18.9,129L-19.6,125.3L-26.7,117.9L-27.6,114.7L-27.3,113.6L-27.7,111.6L-29.3,110.5L-34.9,109L-36.3,109.8L-37.6,109L-39.7,107.2L-43.1,105.8L-43.5,105L-44.8,103.7L-45.5,103.6L-45.9,104.4L-47,105.4L-50.5,106.9L-52,106.3L-53.3,105.1L-54.8,102.5L-57,100.2L-58.8,99.4L-59.9,98.2L-60.1,97.3L-56,95.4L-55.2,93.5L-55.7,90L-56.3,89.5L-57.8,90.7L-61.2,91.7L-64.3,92.2L-65.8,92.2L-74.5,85.8L-80.3,83.9L-83.6,83.3L-84,83.9L-82.4,87.6L-79.8,92L-79.9,93.1L-83,94.9L-84.8,95.8L-86.9,97.3L-88.7,99.4L-90.2,100.3L-91.6,100.2L-92.9,99.1L-96.6,92.5L-101.2,87.6L-101.6,86.4L-103.1,86.1L-105.1,85L-105.8,83.4L-104.7,81.9L-103.4,80.3L-100.9,79.4L-100.2,78.6L-99.7,77.3L-98.9,75.6L-99.1,75.1L-100.8,73.2L-103.4,71.4L-110.6,72.7L-112.5,73.6L-113.6,72.4L-114.4,70.5L-116.3,70.3L-118.7,68.5L-121.7,66.9L-124.6,66.5L-130.5,64.1L-132.8,64L-134.1,63.2L-135.5,61.4L-136.7,59.4L-137.3,55.4L-141.7,53.7L-146.2,52.5L-146.4,53.1L-146.3,57.1L-146.5,59.3L-149.4,60.5L-152.3,60.7L-152,60L-148.7,52.9L-147.1,48.3L-145.3,39.9L-147.5,33.3L-148.1,30.2L-149,28.8L-155,25.5L-155.5,24.4L-154.5,20L-155,18.1L-156.4,16.2L-158.3,12.4L-159.2,9L-156.7,5.1L-156.1,2.3L-155,-1.6L-154.3,-3.8L-154.2,-4.4L-155.7,-5.9L-156.1,-8.1L-155.7,-11.2L-156.5,-13.6L-158.7,-15L-160,-16.9L-160.7,-19.5L-160.1,-23.3L-158.6,-28.6L-162,-35L-170.6,-42.5L-174.8,-47.7L-174.5,-50.8L-172.7,-53.5L-169.3,-56L-166.8,-60.3L-165.5,-65.5L-165.4,-66.4L-165.3,-70.2L-169.2,-85.3L-169.8,-89.1L-170.3,-93.8L-170.5,-95L-162.9,-91.8L-159.8,-90L-160.1,-92L-160.7,-93.8L-160.4,-96.4L-160.6,-100.3L-167.4,-102.3L-171.9,-102.9L-172.5,-105.7L-172.1,-107.4L-170.8,-106.4L-166.3,-106L-155.4,-111.3L-136.4,-118.1L-116.1,-124.6L-111.3,-125.3L-106.5,-126.7L-104.9,-129.1L-103.1,-130.7L-100.3,-135L-94.2,-141.7L-83.4,-144.1L-79.3,-147.3L-71,-151.8L-51.6,-156.8L-43.6,-157.9L-35.7,-158L-28.7,-154.1L-21.3,-149.2L-19.9,-146.2L-23.9,-148.1L-29.8,-152.5L-31.9,-152.7L-26.9,-139.3L-24.3,-134.7L-18.7,-131.1L-14,-130L0.2,-132.1L5.3,-134.9L6.8,-136.3L8.1,-135.6L17.4,-134.9L26.8,-134.1L42,-133.3L57.7,-132.4L74.1,-131.5L91.8,-130.6L110.5,-130L111.6,-130.4L113.5,-132.7L115.9,-132.4L118.6,-131L119.9,-129.9L120.4,-128.8L120.8,-127.5L122.3,-127.2L125.1,-126.2L128.8,-123.8L131.6,-121.6L134.4,-118.3L135.3,-114.7L135.3,-110.6L135.2,-107.9L135.5,-106.8L139.3,-87.8L145.6,-69.5L147.9,-60.7L148.8,-56L149.5,-49.3L149.8,-44.5L149.8,-41.8L149.3,-38.2L147.4,-36L135.3,-29.9L133,-28L129.5,-23.2L126.1,-18.3L125.4,-16.6L125.2,-15.5L125.9,-13.8L130.2,-11.3L134.6,-9.1L136.1,-7.5L139.2,-5.6L140.4,-3.8L141.1,-2.2L140.9,1.4L139.5,6.5L140.1,10.2L138.7,12.7L137.5,15.5L137.2,20.4Z"/><path class="land oth" d="M51.7,-183.5L49.7,-184L53.6,-190.7L55,-195L56,-201.2L56.9,-203.3L56.9,-200.4L56.5,-195.8L54.2,-187.6ZM215,-163L214.3,-162.7L211.6,-157.8L209.7,-151.1L209.7,-146.4L210,-143.8L209.7,-142.3L208.4,-140.6L206.3,-136.4L204.6,-131.6L203.9,-129.1L204.2,-127.9L206.1,-127.8L209,-126.8L210.5,-124.9L211,-122.7L211,-120.4L210.5,-119.1L208.3,-118.1L204.7,-118.1L202.7,-119.3L202.2,-120.2L203.1,-122.3L202.4,-125.2L201,-126.8L198,-124.4L195.1,-124.4L191.7,-122.3L189.4,-119L187.3,-117.7L181.4,-118.4L179.9,-116.9L178.7,-110.2L178,-108.8L173.2,-109.1L168.4,-106.4L163,-104.2L160.4,-105.7L158.9,-107.4L156,-107.1L152.8,-106.4L150.7,-106.7L148.4,-106.7L143.7,-105.3L138,-105.7L135.5,-106.8L135.2,-107.9L135.3,-110.6L135.3,-114.7L134.4,-118.3L131.6,-121.6L128.8,-123.8L125.1,-126.2L122.3,-127.2L120.8,-127.5L120.4,-128.8L119.9,-129.9L118.6,-131L115.9,-132.4L113.5,-132.7L111.6,-130.4L111.6,-130.4L110.3,-133.2L108.7,-138.3L109,-142.2L109.8,-146.2L113.7,-158.1L113.6,-159.9L110.6,-163.3L107,-165.7L105,-170.8L97.7,-171.1L90.8,-170.8L88.7,-171L82.1,-173.2L75.6,-176.6L71.5,-178.6L67.9,-181L66,-183.3L62.9,-182.7L60.8,-182.7L60.8,-183.1L59.8,-187.3L61,-193.8L58.7,-203.3L55.1,-214.8L55.1,-215L215,-215Z"/><path class="land oth" d="M-78.5,215L-78.6,214.5L-78.2,212.8L-77,211.4L-76.7,208.4L-74.7,206.2L-73.8,205.9L-70.4,206.3L-69.6,206.8L-69,207L-63.7,212.1L-59.7,215L-78.5,215ZM-21.3,215L-20.6,213.8L-21.6,211.8L-21.5,209.6L-20.2,206.5L-16.2,204L-4.5,202.9L2.2,201L3.2,198.5L5.5,195.9L7.5,195.4L10.2,196.6L13.6,198.8L16.6,200L18.2,199.2L24.2,195.5L31,191.8L35.7,181.8L36.1,180.3L41.3,179.1L48.7,179.3L52.5,180.6L55.2,181.3L59.5,181.1L65.7,179L68,179L69.8,180.5L71.7,181.8L73,183.5L74,185.7L74.6,186.5L75.4,187.7L77,189.3L78.5,189.7L89.9,186.9L90.6,186.3L90.6,186.3L93.8,185.9L93.9,186L94.6,186.3L95.1,188.6L95.2,188.7L96.1,190.2L96.8,192.3L97.9,193.8L100.2,194.4L103.5,196.3L105.5,199.8L108.6,201.4L108.8,201.4L109.4,201.2L111.7,201.1L112.2,201.8L114,203.5L114.7,205.1L114.3,206.6L114.6,208.5L115.3,209.1L114.4,210.3L110.1,215L-21.3,215Z"/><path class="land oth" d="M-215,-134.1L-211.2,-133.5L-207.3,-126.2L-197.4,-118.2L-188.2,-118.9L-185,-111.3L-183.5,-102L-180.7,-99L-178.3,-97.2L-170.8,-95.1L-170.5,-95L-170.3,-93.8L-169.8,-89.1L-169.2,-85.3L-165.3,-70.2L-165.4,-66.4L-165.5,-65.5L-166.8,-60.3L-169.3,-56L-172.7,-53.5L-174.5,-50.8L-174.8,-47.7L-170.6,-42.5L-162,-35L-158.6,-28.6L-160.1,-23.3L-160.7,-19.5L-160,-16.9L-158.7,-15L-156.5,-13.6L-155.7,-11.2L-156.1,-8.1L-155.7,-5.9L-154.2,-4.4L-154.3,-3.8L-155,-1.6L-156.1,2.3L-156.7,5.1L-159.2,9L-158.3,12.4L-156.4,16.2L-155,18.1L-154.5,20L-155.5,24.4L-155,25.5L-149,28.8L-148.1,30.2L-147.5,33.3L-145.3,39.9L-147.1,48.3L-148.7,52.9L-152,60L-152.3,60.7L-152.6,61.5L-153.7,62.8L-155.1,63L-157.3,62.1L-158.7,60.9L-158.3,57.8L-159.3,57.5L-160.5,55.7L-161,53.6L-162.3,52.8L-166.9,51.9L-168.5,51.3L-169.7,51.8L-170.6,53.1L-170,54.5L-169.1,55.8L-166.6,57.8L-166.8,58.6L-172.4,60.5L-175.9,62.6L-179.1,63.7L-182.5,65.8L-189,68.2L-193.8,68.8L-194.8,69.4L-196.5,73.4L-197.7,74.2L-198.9,73.8L-199.8,73.1L-201,73.6L-202,75L-203.3,75.5L-204.3,75.4L-206.2,79L-211.7,80L-212.3,81.8L-213.4,83.9L-214.1,84.3L-215,84L-215,-134.1ZM-215,139.7L-211.5,143.3L-207.5,148.4L-204.7,150.8L-202.6,151.5L-201,153.4L-199.5,156.1L-198.9,157.6L-197.6,158.7L-194,158.5L-189.5,162.7L-186.8,165.8L-185.2,168.2L-185.6,169.2L-185.8,172.3L-185.8,175.6L-186.2,177.2L-188.2,179.5L-189.3,180L-189.9,180.4L-196.1,177.5L-196.5,178L-197,178.3L-198.7,186.9L-199.8,188.5L-201.6,190.1L-205.1,191.5L-207.5,192.1L-209.6,192.8L-215,196L-215,139.7ZM-215,210.2L-213.7,212L-213.7,215L-215,215ZM-188.7,-131.9L-187.8,-128.1L-188.8,-126.2L-192.5,-129.4L-196.3,-129.4L-198.5,-124.3L-200.1,-124.1L-206,-128.7L-206.8,-130.9L-207,-132.7L-206.2,-139.1L-206.3,-141.1L-204.5,-143.3L-204.3,-146.5L-201.1,-149.9L-198.2,-150L-197.3,-147.2L-195.9,-145.2L-191.2,-143L-190.5,-142L-190,-140.6L-192.2,-138L-193,-136.6L-192.2,-134.3ZM-172.1,-107.4L-172.5,-105.7L-171.9,-102.9L-173.4,-103.1L-177.4,-102.5L-181.5,-103.4L-182.3,-106.7L-181.6,-110.1L-183.3,-112.2L-184.8,-113.6L-185.1,-115.5L-184.8,-117.4L-177.8,-112.1Z"/><path class="land oth" d="M-143.1,-168.6L-144.3,-167.6L-149.7,-169.3L-156.4,-173.3L-155.4,-181.2L-153.7,-184.6L-141.5,-175.7L-141.4,-172.4Z"/><path class="land oth" d="M-215,84L-214.1,84.3L-213.4,83.9L-212.3,81.8L-211.7,80L-206.2,79L-204.3,75.4L-203.3,75.5L-202,75L-201,73.6L-199.8,73.1L-198.9,73.8L-197.7,74.2L-196.5,73.4L-194.8,69.4L-193.8,68.8L-189,68.2L-182.5,65.8L-179.1,63.7L-175.9,62.6L-172.4,60.5L-166.8,58.6L-166.6,57.8L-169.1,55.8L-170,54.5L-170.6,53.1L-169.7,51.8L-168.5,51.3L-166.9,51.9L-162.3,52.8L-161,53.6L-160.5,55.7L-159.3,57.5L-158.3,57.8L-158.7,60.9L-157.3,62.1L-155.1,63L-153.7,62.8L-152.6,61.5L-152.3,60.7L-149.4,60.5L-146.5,59.3L-146.3,57.1L-146.4,53.1L-146.2,52.5L-141.7,53.7L-137.3,55.4L-136.7,59.4L-135.5,61.4L-134.1,63.2L-132.8,64L-130.5,64.1L-124.6,66.5L-121.7,66.9L-118.7,68.5L-116.3,70.3L-114.4,70.5L-113.6,72.4L-112.5,73.6L-110.6,72.7L-103.4,71.4L-100.8,73.2L-99.1,75.1L-98.9,75.6L-99.7,77.3L-100.2,78.6L-100.9,79.4L-103.4,80.3L-104.7,81.9L-105.8,83.4L-105.1,85L-103.1,86.1L-101.6,86.4L-101.2,87.6L-96.6,92.5L-92.9,99.1L-91.6,100.2L-90.2,100.3L-88.7,99.4L-86.9,97.3L-84.8,95.8L-83,94.9L-79.9,93.1L-79.8,92L-82.4,87.6L-84,83.9L-83.6,83.3L-80.3,83.9L-74.5,85.8L-65.8,92.2L-64.3,92.2L-61.2,91.7L-57.8,90.7L-56.3,89.5L-55.7,90L-55.2,93.5L-56,95.4L-60.1,97.3L-59.9,98.2L-58.8,99.4L-57,100.2L-54.8,102.5L-53.3,105.1L-52,106.3L-50.5,106.9L-47,105.4L-45.9,104.4L-45.5,103.6L-44.8,103.7L-43.5,105L-43.1,105.8L-39.7,107.2L-37.6,109L-36.3,109.8L-34.9,109L-29.3,110.5L-27.7,111.6L-27.3,113.6L-27.6,114.7L-26.7,117.9L-19.6,125.3L-18.9,129L-18.8,130.5L-18.8,130.5L-19.6,130.6L-21.5,131.4L-24,131.6L-26.7,131.6L-28.7,132.9L-30.6,135.1L-32.6,136.6L-33.7,138L-34.3,139.4L-41.1,143.4L-42.1,145.1L-42.8,147.4L-43.1,150.4L-43.6,153.2L-44.7,154.7L-48.4,155.9L-49.3,156.5L-49.9,157.9L-52.1,160.1L-54.5,162.1L-58.9,164.5L-63.6,165.2L-69.8,164.4L-73.3,163.5L-75.1,164.5L-77.5,167.5L-80,172.8L-81.1,176.7L-81.9,175.6L-83.5,171.4L-85.2,170.9L-87.4,170.5L-89.1,169.9L-92.8,167.5L-94.7,166.8L-96.9,166.6L-99,168L-100.6,169.6L-105.5,169.6L-110.8,168.8L-118.6,163.3L-120.5,163.3L-122.6,163.5L-126,162.2L-132.6,158.6L-135.7,157.8L-137.6,158.3L-139.2,159L-140.6,159.2L-141.3,158L-143.7,156.6L-146.2,156.4L-146.9,157.3L-147.6,165.2L-148.4,168L-151.8,167.9L-153,169.2L-155.6,173L-156.2,176.6L-160.7,175.9L-162.9,175.3L-164.8,175.8L-166.9,177.8L-172.8,177.7L-177.4,176.5L-179.5,172L-181.6,170.2L-184.2,168.6L-185.2,168.2L-186.8,165.8L-189.5,162.7L-194,158.5L-197.6,158.7L-198.9,157.6L-199.5,156.1L-201,153.4L-202.6,151.5L-204.7,150.8L-207.5,148.4L-211.5,143.3L-215,139.7L-215,84Z"/><path class="land oth" d="M215,4.5L211.7,4.1L204.9,4.1L194.6,3.3L187.9,3.8L184.9,4.8L181.3,5.5L175.2,6L172.8,5.9L169,6.3L164.6,7.1L163.3,8.7L161.8,12.1L156.7,18L151.8,21.9L151,22.3L148,20.2L145.6,19.5L142.9,19.2L140.8,19.9L139.5,20.9L139.8,25.4L139.4,25.8L137.2,20.4L137.5,15.5L138.7,12.7L140.1,10.2L139.5,6.5L140.9,1.4L141.1,-2.2L140.4,-3.8L139.2,-5.6L136.1,-7.5L134.6,-9.1L130.2,-11.3L125.9,-13.8L125.2,-15.5L125.4,-16.6L126.1,-18.3L129.5,-23.2L133,-28L135.3,-29.9L147.4,-36L149.3,-38.2L149.8,-41.8L149.8,-44.5L149.5,-49.3L148.8,-56L147.9,-60.7L145.6,-69.5L139.3,-87.8L135.5,-106.8L138,-105.7L143.7,-105.3L148.4,-106.7L150.7,-106.7L152.8,-106.4L156,-107.1L158.9,-107.4L160.4,-105.7L163,-104.2L168.4,-106.4L173.2,-109.1L178,-108.8L178.7,-110.2L179.9,-116.9L181.4,-118.4L187.3,-117.7L189.4,-119L191.7,-122.3L195.1,-124.4L198,-124.4L201,-126.8L202.4,-125.2L203.1,-122.3L202.2,-120.2L202.7,-119.3L204.7,-118.1L208.3,-118.1L210.5,-119.1L211,-120.4L211,-122.7L210.5,-124.9L209,-126.8L206.1,-127.8L204.2,-127.9L203.9,-129.1L204.6,-131.6L206.3,-136.4L208.4,-140.6L209.7,-142.3L210,-143.8L209.7,-146.4L209.7,-151.1L211.6,-157.8L214.3,-162.7L215,-163L215,4.5Z"/><path class="land oth" d="M-213.7,215L-213.7,212L-215,210.2L-215,196L-215,196L-209.6,192.8L-207.5,192.1L-205.1,191.5L-201.6,190.1L-199.8,188.5L-198.7,186.9L-197,178.3L-196.5,178L-196.1,177.5L-189.9,180.4L-189.3,180L-188.2,179.5L-186.2,177.2L-185.8,175.6L-185.8,172.3L-185.6,169.2L-185.2,168.2L-184.2,168.6L-181.6,170.2L-179.5,172L-177.4,176.5L-172.8,177.7L-166.9,177.8L-164.8,175.8L-162.9,175.3L-160.7,175.9L-156.2,176.6L-155.6,173L-153,169.2L-151.8,167.9L-148.4,168L-147.6,165.2L-146.9,157.3L-146.2,156.4L-143.7,156.6L-141.3,158L-140.6,159.2L-139.2,159L-137.6,158.3L-135.7,157.8L-132.6,158.6L-126,162.2L-122.6,163.5L-120.5,163.3L-118.6,163.3L-110.8,168.8L-105.5,169.6L-100.6,169.6L-99,168L-96.9,166.6L-94.7,166.8L-92.8,167.5L-89.1,169.9L-87.4,170.5L-85.2,170.9L-83.5,171.4L-81.9,175.6L-81.1,176.7L-81.3,177.2L-81.5,179L-82.8,181.5L-84.1,184.5L-84.1,187.3L-80.5,196.7L-77.3,202.4L-76.7,204.6L-74.7,206.2L-76.7,208.4L-77,211.4L-78.2,212.8L-78.6,214.5L-78.5,215L-213.7,215Z"/></g></g><rect class="shade" x="835" y="0" width="160" height="410"/><line class="div" x1="835" y1="0" x2="835" y2="410"/></g>
         <circle class="insring" cx="790" cy="205" r="205" filter="url(#rough)"/>
@@ -1146,6 +1155,16 @@ var Q=['Wszystko zaczyna się od baryłki.','Jedne wąskie drzwi i mnóstwo tank
 var NS='http://www.w3.org/2000/svg';
 function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
 var byId={};STEPS.forEach(function(s,i){byId[s.id]=i;});
+/* Zamykanie okna dialogowego dotknięciem poza nim. Nie polegamy na e.target===dialog: iOS Safari bywa niewiarygodny przy kliknięciu w ::backdrop,
+   więc sprawdzamy położenie punktu względem prostokąta okna (rozpoczęcie i zakończenie dotknięcia poza oknem, żeby nie zamykać przy przeciąganiu zaznaczenia). */
+function closeOnOutside(dlg){
+  var down=false;
+  function out(e){var r=dlg.getBoundingClientRect();return e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom;}
+  dlg.addEventListener('pointerdown',function(e){down=out(e);});
+  dlg.addEventListener('pointerup',function(e){if(down&&out(e)&&dlg.open)dlg.close();down=false;});
+  dlg.addEventListener('click',function(e){if(e.target===dlg&&out(e)&&dlg.open)dlg.close();});
+  dlg.setAttribute('closedby','any');
+}
 /* Komponent: Pomocniki interfejsu v2: budowanie DOM, poziom treści (Podstawy/Więcej), bloki z biblioteki komponentów */
 function h(tag,cls,kids,attrs){var e=document.createElement(tag);if(cls)e.className=cls;[].concat(kids==null?[]:kids).forEach(function(k){if(k==null||k===false)return;e.appendChild(typeof k==='object'?k:document.createTextNode(k));});if(attrs)for(var a in attrs)e.setAttribute(a,attrs[a]);return e;}
 var CONF=(DATA.confidence||{}).nodes||{};
@@ -1349,8 +1368,9 @@ groups.forEach(function(gr){
 });
 /* Komponent: Panel węzła na stronie: show(), nawigacja, odtwarzanie */
 /* panel */
-var cur=-1;
+var cur=-1,HOME=null;
 function show(i,scroll){
+  if(!HOME)homeSnap();
   cur=i;var s=STEPS[i];
   var tg=document.getElementById('tag');tg.textContent=s.tag;tg.className='tag '+s.cat;
   document.getElementById('bt').textContent=s.t;document.getElementById('qp').textContent=Q[i];
@@ -1409,6 +1429,26 @@ function depsRender(i){
     n.classList.toggle('dim',any&&!rel[k]);n.classList.toggle('rel',any&&!!rel[k]&&k!==id);n.setAttribute('aria-pressed',String(k===id));});
 }
 function selectNode(i){stop();show(i);if(isPhone())sheet(true);}
+/* Powrót do stanu początkowego mapy i panelu (bez zaznaczenia i bez podświetlonych zależności). Migawkę robimy tuż przed pierwszym wyborem węzła. */
+var HOME_IDS=['tag','bt','qp','mn','mc','fl','bp'];
+function homeSnap(){HOME={};HOME_IDS.forEach(function(id){var e=document.getElementById(id);HOME[id]={h:e.innerHTML,c:e.className};});}
+function deselect(){
+  if(cur<0&&!document.querySelector('.node.on'))return;
+  stop();
+  if(HOME)HOME_IDS.forEach(function(id){var e=document.getElementById(id);e.innerHTML=HOME[id].h;e.className=HOME[id].c;});
+  var mtp=document.querySelector('#mt .prev');if(mtp)mtp.remove();
+  ['pv2','pv3'].forEach(function(id){var e=document.getElementById(id);if(e)e.innerHTML='';});
+  closeTerm(false);pLocal=false;syncPanelLevel();
+  document.querySelectorAll('.node.on,.step.on').forEach(function(n){n.classList.remove('on');});
+  depsClear();cur=-1;sheet(false);
+}
+/* klik w puste miejsce mapy (nie w węzeł) odznacza; Esc działa tak samo, gdy nie ma otwartego okna */
+document.getElementById('map').addEventListener('click',function(e){if(!e.target.closest('.node'))deselect();});
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape'||e.defaultPrevented)return;
+  if(document.querySelector('dialog[open]'))return;
+  if(cur>=0)deselect();
+});
 function depsEl(s){
   var d=depsOf(s.id);
   function item(l,dir){var oid=dir==='out'?l.to:l.from,o=STEPS[byId[oid]];
@@ -1444,7 +1484,6 @@ function renderPanelV2(i){
   syncPanelLevel();termify(document.getElementById('panel'));
 }
 document.getElementById('pclose').addEventListener('click',function(){sheet(false);});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isPhone()&&document.getElementById('side').classList.contains('open')&&!md.open&&!document.getElementById('cg').open)sheet(false);});
 /* Komponent: Wykresy (Chart.js): wtyczka etykiet, mdChart, tabela danych wykresu */
 /* wykresy w oknie szczegółów; ds[i].c: 1 = kolor kategorii, 2 = złoty */
 var MS=[1,32,60,91,121,152,182,213,244,274,305,335],MN=['sty','lut','mar','kwi','maj','cze','lip','sie','wrz','paź','lis','gru'];
@@ -1529,7 +1568,7 @@ function mdNav(d){openModal((mi+d+STEPS.length)%STEPS.length);}
 document.getElementById('mx').addEventListener('click',function(){md.close();});
 document.getElementById('mprev').addEventListener('click',function(){mdNav(-1);});
 document.getElementById('mnext').addEventListener('click',function(){mdNav(1);});
-md.addEventListener('click',function(e){if(e.target===md)md.close();});
+closeOnOutside(md);
 md.addEventListener('close',function(){charts.forEach(function(c){c.destroy();});charts=[];});
 md.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='ArrowRight'){mdNav(1);}else if(e.key==='ArrowLeft'){mdNav(-1);}});
 document.getElementById('more').addEventListener('click',function(){openModal(cur<0?0:cur);});
@@ -1572,7 +1611,7 @@ document.getElementById('more').addEventListener('click',function(){openModal(cu
   fill();
   document.getElementById('chgb').addEventListener('click',function(){cg.showModal();body.scrollTop=0;});
   document.getElementById('cgx').addEventListener('click',function(){cg.close();});
-  cg.addEventListener('click',function(e){if(e.target===cg)cg.close();});
+  closeOnOutside(cg);
   cg.addEventListener('keydown',function(e){e.stopPropagation();});
 })();
 /* Komponent: „Jak to sprawdzamy”: okno z opisem metody i dziennikiem korekt (ten sam wzorzec okna co dziennik zmian). Treść z method.json */
@@ -1598,7 +1637,7 @@ document.getElementById('more').addEventListener('click',function(){openModal(cu
   termify(body);
   document.getElementById('mthb').addEventListener('click',function(){dlg.showModal();body.scrollTop=0;});
   document.getElementById('mthx').addEventListener('click',function(){dlg.close();});
-  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
+  closeOnOutside(dlg);
   dlg.addEventListener('keydown',function(e){e.stopPropagation();});
 })();
 /* Komponent: Nawigacja Start · Mapa · Newsy · Polska (dolny pasek na telefonie, górny na komputerze; próg 760 px kontenera) */
@@ -1722,7 +1761,7 @@ document.querySelectorAll('#lvl button').forEach(function(b){b.addEventListener(
   function open(){dlg.showModal();body.scrollTop=0;}
   document.getElementById('glsb').addEventListener('click',open);
   document.getElementById('glsx').addEventListener('click',function(){dlg.close();});
-  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
+  closeOnOutside(dlg);
   dlg.addEventListener('keydown',function(e){e.stopPropagation();});
   var mb=document.getElementById('mthb2');if(mb)mb.addEventListener('click',function(){document.getElementById('mthb').click();});
 })();

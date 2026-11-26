@@ -21,6 +21,6 @@
   termify(body);
   document.getElementById('mthb').addEventListener('click',function(){dlg.showModal();body.scrollTop=0;});
   document.getElementById('mthx').addEventListener('click',function(){dlg.close();});
-  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
+  closeOnOutside(dlg);
   dlg.addEventListener('keydown',function(e){e.stopPropagation();});
 })();

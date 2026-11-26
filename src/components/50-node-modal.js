@@ -48,7 +48,7 @@ function mdNav(d){openModal((mi+d+STEPS.length)%STEPS.length);}
 document.getElementById('mx').addEventListener('click',function(){md.close();});
 document.getElementById('mprev').addEventListener('click',function(){mdNav(-1);});
 document.getElementById('mnext').addEventListener('click',function(){mdNav(1);});
-md.addEventListener('click',function(e){if(e.target===md)md.close();});
+closeOnOutside(md);
 md.addEventListener('close',function(){charts.forEach(function(c){c.destroy();});charts=[];});
 md.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='ArrowRight'){mdNav(1);}else if(e.key==='ArrowLeft'){mdNav(-1);}});
 document.getElementById('more').addEventListener('click',function(){openModal(cur<0?0:cur);});

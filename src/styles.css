@@ -100,6 +100,8 @@ details a{color:var(--accent)}
 .link{fill:none;stroke:var(--chain);stroke-width:2.4;stroke-linecap:round;marker-end:url(#arr)}
 .div{stroke:var(--line-strong);stroke-width:2;stroke-dasharray:5 6}
 .shade{fill:var(--surface);opacity:.35}
+.rtlink{fill:none;stroke:var(--oil);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1 6;opacity:.9}
+.rtend{fill:var(--oil);stroke:var(--surface);stroke-width:2}
 .ringp{fill:none;stroke:var(--land-pl-line);stroke-width:2.5}
 .conn{fill:var(--surface);fill-opacity:.4;stroke:var(--line-strong);stroke-width:1.5;stroke-dasharray:5 6}
 .insring{fill:none;stroke:var(--line-strong);stroke-width:2.5}
@@ -629,3 +631,8 @@ svg.map.lite .ship{display:none}
 /* Mapa w dwóch warstwach (10-map.js): statyczna podstawa wyznacza rozmiar, nakładka z węzłami leży na niej i jako jedyna jest przemalowywana */
 .mapstack{position:relative}
 .mapstack #sv{position:absolute;left:0;top:0;width:100%;height:100%;min-width:0}
+
+/* Tryb lekki: bez wygaszania pozostałych węzłów (opacity grupy w SVG kosztowało ok. połowy czasu reakcji w WebKit); zaznaczenie i powiązania pokazuje obrys w kolorze akcentu */
+svg.map.lite .node.dim{opacity:1}
+svg.map.lite .node.on .tile{stroke:var(--accent);stroke-width:3.4}
+svg.map.lite .node.rel .tile{stroke:var(--accent);stroke-width:2.4}
