@@ -2,12 +2,14 @@
 // Użycie: PLAYWRIGHT_BROWSERS_PATH=tests/e2e/.pw-browsers node tests/e2e/perf-webkit.mjs
 // Instalacja silnika (raz): PLAYWRIGHT_BROWSERS_PATH=tests/e2e/.pw-browsers npx playwright-core install webkit
 // To pomiar względny (komputer jest szybszy niż telefon): porównujemy warianty między sobą, nie z limitem.
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadPlaywright, serveDist, requireDist } from './lib.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-process.env.PLAYWRIGHT_BROWSERS_PATH = process.env.PLAYWRIGHT_BROWSERS_PATH || path.join(HERE, '.pw-browsers');
+// lokalny katalog przeglądarek tylko gdy istnieje (w CI WebKit jest w domyślnej lokalizacji)
+if (!process.env.PLAYWRIGHT_BROWSERS_PATH && fs.existsSync(path.join(HERE, '.pw-browsers'))) process.env.PLAYWRIGHT_BROWSERS_PATH = path.join(HERE, '.pw-browsers');
 requireDist();
 const pw = await loadPlaywright();
 const DESKTOP = process.env.DEVICE === 'desktop';

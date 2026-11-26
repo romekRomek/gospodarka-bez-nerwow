@@ -1,10 +1,12 @@
 // Izolacja kosztu kliknięcia węzła w WebKit (iPhone): które elementy malowania są drogie.
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadPlaywright, serveDist, requireDist } from './lib.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-process.env.PLAYWRIGHT_BROWSERS_PATH = process.env.PLAYWRIGHT_BROWSERS_PATH || path.join(HERE, '.pw-browsers');
+// lokalny katalog przeglądarek tylko gdy istnieje (w CI WebKit jest w domyślnej lokalizacji)
+if (!process.env.PLAYWRIGHT_BROWSERS_PATH && fs.existsSync(path.join(HERE, '.pw-browsers'))) process.env.PLAYWRIGHT_BROWSERS_PATH = path.join(HERE, '.pw-browsers');
 requireDist();
 const pw = await loadPlaywright();
 const server = await serveDist();
