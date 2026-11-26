@@ -34,6 +34,15 @@
   "corrections_intro": "Gdy błąd trafił na stronę, poprawiamy go i zapisujemy tutaj, także drobny. Najnowsze są na górze.",
   "corrections": [
     {
+      "date": "26.11.2026",
+      "where": "Mapa, trasa ropy",
+      "was": "Linia trasy z Zatoki Perskiej do Gdańska przecinała ląd (m.in. półwysep Arabski w okolicy Omanu i Jemenu, Cieśnina Bab el-Mandeb, Dania) i urywała się na brzegu Bałtyku.",
+      "is": "Trasa prowadzi wzdłuż wybrzeży: Ormuz, Morze Arabskie, Zatoka Adeńska, Morze Czerwone, Kanał Sueski, Morze Śródziemne, Gibraltar, Atlantyk, Morze Północne, Bałtyk, i kończy się w porcie Gdańsk.",
+      "why": "Punkty pośrednie były zbyt zgrubne, a trasa jest rysunkiem poglądowym, nie pomiarem żeglugi. Poprawione punkty sprawdzono automatycznie względem linii brzegowej (Natural Earth); zostały tylko wąskie cieśniny i Kanał Sueski, mniejsze niż rozdzielczość mapy.",
+      "l": "EIA: World Oil Transit Chokepoints",
+      "u": "https://www.eia.gov/international/analysis/special-topics/World_Oil_Transit_Chokepoints"
+    },
+    {
       "date": "25.11.2026",
       "where": "Ropa Brent, wykresy",
       "was": "92,6 USD za baryłkę (23.11)",

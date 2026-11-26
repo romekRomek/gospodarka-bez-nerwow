@@ -265,6 +265,8 @@ async function runScenario(browser, base, width, theme, { functional }) {
     });
     check(mp.layers === 2 && mp.baseAria === 'true' && mp.baseNodes === 0 && mp.overlayNodes === EXPECTED_NODES, 'Mapa: dwie warstwy (podstawa bez węzłów, ukryta dla czytników; nakładka z 13 węzłami)', JSON.stringify(mp));
     if (width <= 1020) {
+      const cssFilters = await page.evaluate(() => [...document.querySelectorAll('svg.map *')].filter((e) => { const f = getComputedStyle(e).filter; return f && f !== 'none'; }).length);
+      check(cssFilters === 0, 'Mapa na małym ekranie: żaden element nie ma filtra CSS (drop-shadow, url(#rough)) poza trybem lekkim', String(cssFilters));
       check(mp.lite && mp.filters === 0 && mp.running === 0, 'Mapa na małym ekranie: tryb lekki (bez filtrów SVG i bez działających nieskończonych animacji)', JSON.stringify(mp));
     }
 

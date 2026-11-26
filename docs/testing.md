@@ -125,3 +125,5 @@ PLAYWRIGHT_BROWSERS_PATH=.pw-browsers node prof-click2.mjs
 ```
 
 To pomiar **względny**: komputer jest szybszy niż telefon, więc liczy się porównanie wariantów, a nie wartość bezwzględna. Lekka zakładka Start daje w tym środowisku ok. 30 klatek/s (limit), a wdrażana mapa tyle samo. W CI działa krok `perf-webkit` (na razie nieblokujący). **Każda zmiana grafiki mapy, filtrów lub animacji wymaga tego pomiaru.**
+
+Pokazanie zakładki Mapa (od kliknięcia do trzeciej klatki, iPhone w WebKit): `MAX_MS=400 PLAYWRIGHT_BROWSERS_PATH=.pw-browsers node perf-tab.mjs`. Krok CI w `perf-webkit`. Test dymny sprawdza też, że na małym ekranie żaden element mapy nie ma filtra CSS.

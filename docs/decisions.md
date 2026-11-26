@@ -14,6 +14,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D20 | **Nowa zakładka „Kalendarz”** („Najbliższe 30 dni”), zasilana z `soon.events` (bez nowego pola z datą). **Termin trafia do kalendarza z oznaczeniem poziomu źródła** (pierwotne/wtórne); konkretna data bez źródła daje ostrzeżenie. Daty sprawdzone 25.11: EBC 16–17.12 oraz inflacja HICP 1.12 (szybki szacunek) i 17.12 (pełne dane) z kalendarzy EBC (poziom 1), Fed 8–9.12 (rejestr), RPP 1–2.12 (harmonogram za NBP, wtórne), GUS 30.11 (analizy.pl, wtórne). | Pozycja #3 z `docs/expansion-ideas.md`: znane daty uspokajają i pokazują „co może o tym zadecydować”. D19 dopuszcza nowe pozycje w nawigacji. | **Korekta danych:** węzły `bank` i `west` miały „grudzień” dla EBC (jest 16–17.12), a `west` tylko 17.12 jako „inflacja za listopad” (1.12 to szybki szacunek, 17.12 pełne dane). Strony NBP i GUS nie dały dat maszynowo, więc RPP i GUS są wtórne. Pozostałe wydarzenia z datą bez źródła to ostrzeżenia walidatora (backlog). |
 
+## 26.11.2026: D31, mapa: prawdziwa przyczyna wolnego startu, trasa wzdłuż wybrzeży, wygaszanie wraca
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D31 | (1) **Tryb lekki wyłącza też filtry nałożone przez CSS** (`drop-shadow` na kafelkach i `url(#rough)` na `.pop`); wcześniej wyłączał tylko atrybut `filter`. (2) **Wygaszanie pozostałych węzłów po zaznaczeniu wraca** także na telefonie (cofnięcie części D30; właściciel je lubi, a po (1) nie jest już kosztowne). (3) **Trasa ropy przeliczona**: punkty pośrednie prowadzą wzdłuż wybrzeży (Morze Arabskie, Bab el-Mandeb, Morze Czerwone, Suez, Gibraltar, cieśniny duńskie), koniec w porcie Gdańsk. Sprawdzenie automatyczne względem linii lądu (Natural Earth, d3-geo): zostają wąskie cieśniny i kanał. Wpis w dzienniku korekt. (4) Nowy pomiar `tests/e2e/perf-tab.mjs` (pokazanie zakładki Mapa w WebKit, próg 400 ms, krok CI). | Zgłoszenie właściciela po D30: „ponad 1 sekunda na włączenie” i trasa nadal niepoprawna. Pomiar pokazał, że zakładka Mapa pokazywała się ok. 680 ms (emulacja na Macu, na telefonie więcej), a 13 węzłów z blur i feTurbulence odpowiadało za ok. 600 ms z tego. Poprzedni pomiar kliknięcia węzła nie obejmował pokazania zakładki, więc D30 mierzył nie to, co trzeba. | Pokazanie zakładki Mapa ok. 80 ms (było ok. 680), kliknięcie węzła ok. 40 ms (było ok. 300). **Nadal nie sprawdzone na prawdziwym iPhonie.** |
+
 ## 26.11.2026: D30, odznaczanie węzła, zamykanie okien poza nimi, koniec trasy ropy, lżejsza mapa
 
 | # | Decyzja | Powód | Skutek |

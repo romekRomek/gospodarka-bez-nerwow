@@ -1370,6 +1370,23 @@
     "steps.json"
    ],
    "cadence": "bez stałego rytmu (opis mechanizmu)"
+  },
+  {
+   "id": "eia-chokepoints",
+   "name": "EIA: World Oil Transit Chokepoints (cieśniny Ormuz, Bab el-Mandeb, Kanał Sueski)",
+   "url": "https://www.eia.gov/international/analysis/special-topics/World_Oil_Transit_Chokepoints",
+   "org": "EIA",
+   "kind": "urząd statystyczny / energetyka",
+   "tier": 1,
+   "tier_basis": "draft",
+   "reviewed": false,
+   "fetch": "page",
+   "cadence": null,
+   "checked": null,
+   "cites": null,
+   "where": [
+    "method"
+   ]
   }
  ]
 }
