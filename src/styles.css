@@ -632,7 +632,8 @@ svg.map.lite .ship{display:none}
 .mapstack{position:relative}
 .mapstack #sv{position:absolute;left:0;top:0;width:100%;height:100%;min-width:0}
 
-/* Tryb lekki: bez wygaszania pozostałych węzłów (opacity grupy w SVG kosztowało ok. połowy czasu reakcji w WebKit); zaznaczenie i powiązania pokazuje obrys w kolorze akcentu */
-svg.map.lite .node.dim{opacity:1}
+/* Tryb lekki: wygaszanie pozostałych węzłów zostaje (właściciel je lubi), ale bez przejścia; obrys akcentu dodatkowo wzmacnia zaznaczenie */
 svg.map.lite .node.on .tile{stroke:var(--accent);stroke-width:3.4}
 svg.map.lite .node.rel .tile{stroke:var(--accent);stroke-width:2.4}
+/* Tryb lekki: filtry nałożone przez CSS (nie atrybutem) też wyłączone. Cień (blur) i feTurbulence na 13 węzłach kosztowały ok. 600 ms przy pokazaniu zakładki Mapa w WebKit */
+svg.map.lite .node .pop,svg.map.lite .node .tile{filter:none}

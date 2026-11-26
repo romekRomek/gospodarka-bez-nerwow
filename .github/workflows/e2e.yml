@@ -82,3 +82,8 @@ jobs:
           MIN_FPS: '8'
           DEVICE: desktop
         run: node perf-webkit.mjs
+      - name: Pokazanie zakładki Mapa (WebKit, iPhone)
+        working-directory: tests/e2e
+        env:
+          MAX_MS: '800'   # serwer CI jest wolniejszy niż Mac (ok. 480 ms po poprawce; przed poprawką wielokrotnie więcej)
+        run: node perf-tab.mjs
