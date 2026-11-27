@@ -14,6 +14,12 @@ Najnowsze na górze. Agent czyta ten plik przed propozycją zmiany i nie wraca d
 |---|---|---|---|
 | D20 | **Nowa zakładka „Kalendarz”** („Najbliższe 30 dni”), zasilana z `soon.events` (bez nowego pola z datą). **Termin trafia do kalendarza z oznaczeniem poziomu źródła** (pierwotne/wtórne); konkretna data bez źródła daje ostrzeżenie. Daty sprawdzone 25.11: EBC 16–17.12 oraz inflacja HICP 1.12 (szybki szacunek) i 17.12 (pełne dane) z kalendarzy EBC (poziom 1), Fed 8–9.12 (rejestr), RPP 1–2.12 (harmonogram za NBP, wtórne), GUS 30.11 (analizy.pl, wtórne). | Pozycja #3 z `docs/expansion-ideas.md`: znane daty uspokajają i pokazują „co może o tym zadecydować”. D19 dopuszcza nowe pozycje w nawigacji. | **Korekta danych:** węzły `bank` i `west` miały „grudzień” dla EBC (jest 16–17.12), a `west` tylko 17.12 jako „inflacja za listopad” (1.12 to szybki szacunek, 17.12 pełne dane). Strony NBP i GUS nie dały dat maszynowo, więc RPP i GUS są wtórne. Pozostałe wydarzenia z datą bez źródła to ostrzeżenia walidatora (backlog). |
 
+## 26.11.2026: D33, mapa na telefonie startuje od prawej
+
+| # | Decyzja | Powód | Skutek |
+|---|---|---|---|
+| D33 | Po wejściu w zakładkę Mapa na wąskim ekranie (mapa szersza niż ekran) mapa jest przewinięta do prawej krawędzi (`tab()` w `70-tabs.js`). | Właściciel po sprawdzeniu na telefonie: najważniejsze elementy (powiększenie Polski, ropa, Ormuz, Ukraina, Chiny) mają być widoczne najpierw, a USA i Zachód Europy zostają po lewej. | Od razu widać łańcuch cen w Polsce i szlak ropy; USA i Zachód Europy po przesunięciu w lewo. Test dymny sprawdza położenie przewinięcia. |
+
 ## 26.11.2026: D32, nakładka mapy ma rozmiar podstawy, zakładki od góry
 
 | # | Decyzja | Powód | Skutek |
